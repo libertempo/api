@@ -52,11 +52,11 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
 /* Middleware 4 : connexion DB */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
     try {
-        require_once CONFIG_PATH . 'dbconnect.php';
+        $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
         $dbh = new \PDO(
-            'mysql:host=localhost;dbname=' . $mysql_database,
-            $mysql_user,
-            $mysql_pass
+            'mysql:host=' . $configuration->db->serveur . ';dbname=' . $configuration->db->base,
+            $configuration->db->utilisateur,
+            $configuration->db->mot_de_passe
         );
         // MYSQL_ATTR_FOUND_ROWS
         $dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

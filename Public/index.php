@@ -7,8 +7,6 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
 define('ROOT_PATH', dirname(__DIR__) . '/');
-define('CONFIG_PATH', ROOT_PATH . 'cfg/');
-
 define('ROUTE_PATH', ROOT_PATH . 'Route/');
 
 require_once ROOT_PATH . 'Vendor/autoload.php';
