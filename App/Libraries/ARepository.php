@@ -1,7 +1,7 @@
 <?php
 namespace App\Libraries;
 
-use Api\App\Exceptions\MissingArgumentException;
+use App\Exceptions\MissingArgumentException;
 
 /**
  * Garant de la cohérence métier du modèle en relation.

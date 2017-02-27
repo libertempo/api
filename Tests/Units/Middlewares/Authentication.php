@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Units\Middlewares;
 
-use Api\Middlewares\Authentication as _Authentication;
+use Middlewares\Authentication as _Authentication;
 
 /**
  * Test de l'authentification

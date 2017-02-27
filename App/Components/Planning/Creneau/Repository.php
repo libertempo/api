@@ -1,8 +1,8 @@
 <?php
 namespace App\Components\Planning\Creneau;
 
-use Api\App\Exceptions\MissingArgumentException;
-use Api\App\Libraries\AModel;
+use App\Exceptions\MissingArgumentException;
+use App\Libraries\AModel;
 
 /**
  * {@inheritDoc}

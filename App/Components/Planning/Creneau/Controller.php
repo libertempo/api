@@ -1,7 +1,7 @@
 <?php
 namespace App\Components\Planning\Creneau;
 
-use Api\App\Exceptions\MissingArgumentException;
+use App\Exceptions\MissingArgumentException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
