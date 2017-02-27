@@ -1,7 +1,7 @@
 <?php
-namespace Api\Tests\Units\App\Components\Planning;
+namespace Tests\Units\App\Components\Planning;
 
-use \Api\App\Components\Planning\Repository as _Repository;
+use \App\Components\Planning\Repository as _Repository;
 
 /**
  * Classe de test du repository de planning
@@ -14,12 +14,12 @@ use \Api\App\Components\Planning\Repository as _Repository;
 final class Repository extends \Atoum
 {
     /**
-     * @var \mock\Api\App\Components\Planning\Dao Mock du DAO du planning
+     * @var \mock\App\Components\Planning\Dao Mock du DAO du planning
      */
     private $dao;
 
     /**
-     * @var \mock\Api\App\Components\Planning\Model Mock du Modèle de planning
+     * @var \mock\App\Components\Planning\Model Mock du Modèle de planning
      */
     private $model;
 
@@ -27,9 +27,9 @@ final class Repository extends \Atoum
     {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->dao = new \mock\Api\App\Components\Planning\Dao();
+        $this->dao = new \mock\App\Components\Planning\Dao();
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\Api\App\Components\Planning\Model();
+        $this->model = new \mock\App\Components\Planning\Model();
         $this->model->getMockController()->getId = 42;
         $this->model->getMockController()->getName = 12;
         $this->model->getMockController()->getStatus = 12;
@@ -66,7 +66,7 @@ final class Repository extends \Atoum
 
         $model = $repository->getOne(42);
 
-        $this->object($model)->isInstanceOf('\Api\App\Libraries\AModel');
+        $this->object($model)->isInstanceOf('\App\Libraries\AModel');
         $this->integer($model->getId())->isIdenticalTo(42);
     }
 
@@ -98,7 +98,7 @@ final class Repository extends \Atoum
         $models = $repository->getList([]);
 
         $this->array($models)->hasKey(42);
-        $this->object($models[42])->isInstanceOf('\Api\App\Libraries\AModel');
+        $this->object($models[42])->isInstanceOf('\App\Libraries\AModel');
     }
 
     /*************************************************
@@ -113,8 +113,8 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->postOne(['name' => 'bob'], new \mock\Api\App\Components\Planning\Model([]));
-        })->isInstanceOf('\Api\App\Exceptions\MissingArgumentException');
+            $repository->postOne(['name' => 'bob'], new \mock\App\Components\Planning\Model([]));
+        })->isInstanceOf('\App\Exceptions\MissingArgumentException');
     }
 
     /**
@@ -123,7 +123,7 @@ final class Repository extends \Atoum
     public function testPostOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Model([]);
+        $model = new \mock\App\Components\Planning\Model([]);
         $model->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -139,7 +139,7 @@ final class Repository extends \Atoum
     public function testPostOneOk()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Model([]);
+        $model = new \mock\App\Components\Planning\Model([]);
         $model->getMockController()->populate = '';
         $model->getMockController()->getName = 'name';
         $model->getMockController()->getStatus = 'status';
@@ -162,8 +162,8 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->putOne(['name' => 'bob'], new \mock\Api\App\Components\Planning\Model([]));
-        })->isInstanceOf('\Api\App\Exceptions\MissingArgumentException');
+            $repository->putOne(['name' => 'bob'], new \mock\App\Components\Planning\Model([]));
+        })->isInstanceOf('\App\Exceptions\MissingArgumentException');
     }
 
     /**
@@ -172,7 +172,7 @@ final class Repository extends \Atoum
     public function testPutOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Model([]);
+        $model = new \mock\App\Components\Planning\Model([]);
         $model->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -209,7 +209,7 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->deleteOne(new \mock\Api\App\Components\Planning\Model([]));
+            $repository->deleteOne(new \mock\App\Components\Planning\Model([]));
         })->isInstanceOf('\LogicException');
 
     }
@@ -221,7 +221,7 @@ final class Repository extends \Atoum
     {
         $this->dao->getMockController()->delete = 4;
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Model([]);
+        $model = new \mock\App\Components\Planning\Model([]);
 
         $this->variable($repository->deleteOne($model))->isNull();
     }

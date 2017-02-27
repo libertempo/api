@@ -1,5 +1,5 @@
 <?php
-namespace Api\Tests\Units\App\Libraries;
+namespace Tests\Units\App\Libraries;
 
 /**
  * Classe commune de test du DAO

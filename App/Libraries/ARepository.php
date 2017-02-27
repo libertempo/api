@@ -1,5 +1,5 @@
 <?php
-namespace Api\App\Libraries;
+namespace App\Libraries;
 
 use Api\App\Exceptions\MissingArgumentException;
 
@@ -19,11 +19,11 @@ use Api\App\Exceptions\MissingArgumentException;
 abstract class ARepository
 {
     /**
-     * @var \Api\App\Libraries\ADao $dao Data Access Object
+     * @var \App\Libraries\ADao $dao Data Access Object
      */
     protected $dao;
 
-    public function __construct(\Api\App\Libraries\ADao $dao)
+    public function __construct(\App\Libraries\ADao $dao)
     {
         $this->dao = $dao;
     }
@@ -37,7 +37,7 @@ abstract class ARepository
      *
      * @param int $id Id potentiel de ressource
      *
-     * @return \Api\App\Libraries\AModel
+     * @return \App\Libraries\AModel
      * @throws \DomainException Si $id n'est pas dans le domaine de définition
      */
     abstract public function getOne($id);

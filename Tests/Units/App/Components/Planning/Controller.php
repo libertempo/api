@@ -1,7 +1,7 @@
 <?php
-namespace Api\Tests\Units\App\Components\Planning;
+namespace Tests\Units\App\Components\Planning;
 
-use \Api\App\Components\Planning\Controller as _Controller;
+use \App\Components\Planning\Controller as _Controller;
 
 /**
  * Classe de test du contrôleur de planning
@@ -11,15 +11,15 @@ use \Api\App\Components\Planning\Controller as _Controller;
  *
  * @since 0.1
  */
-final class Controller extends \Api\Tests\Units\App\Libraries\AController
+final class Controller extends \Tests\Units\App\Libraries\AController
 {
     /**
-     * @var \mock\Api\App\Components\Planning\Repository Mock du repository associé
+     * @var \mock\App\Components\Planning\Repository Mock du repository associé
      */
     private $repository;
 
     /**
-     * @var \mock\Api\App\Components\Planning\Creneau\Model Mock du modèle associé
+     * @var \mock\App\Components\Planning\Creneau\Model Mock du modèle associé
      */
     private $model;
 
@@ -31,9 +31,9 @@ final class Controller extends \Api\Tests\Units\App\Libraries\AController
         parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\Api\App\Components\Planning\Repository();
+        $this->repository = new \mock\App\Components\Planning\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\Api\App\Components\Planning\Model();
+        $this->model = new \mock\App\Components\Planning\Model();
         $this->model->getMockController()->getId = 42;
         $this->model->getMockController()->getName = 12;
         $this->model->getMockController()->getStatus = 12;
@@ -175,7 +175,7 @@ final class Controller extends \Api\Tests\Units\App\Libraries\AController
     {
         $this->request->getMockController()->getParsedBody = [];
         $this->repository->getMockController()->postOne = function () {
-            throw new \Api\App\Exceptions\MissingArgumentException('');
+            throw new \App\Exceptions\MissingArgumentException('');
         };
         $controller = new _Controller($this->repository, $this->router);
 
@@ -297,7 +297,7 @@ final class Controller extends \Api\Tests\Units\App\Libraries\AController
         $this->repository->getMockController()->getOne = $this->model;
 
         $this->repository->getMockController()->putOne = function () {
-            throw new \Api\App\Exceptions\MissingArgumentException('');
+            throw new \App\Exceptions\MissingArgumentException('');
         };
         $controller = new _Controller($this->repository, $this->router);
 

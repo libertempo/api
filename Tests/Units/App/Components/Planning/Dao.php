@@ -1,7 +1,7 @@
 <?php
-namespace Api\Tests\Units\App\Components\Planning;
+namespace Tests\Units\App\Components\Planning;
 
-use \Api\App\Components\Planning\Dao as _Dao;
+use \App\Components\Planning\Dao as _Dao;
 
 /**
  * Classe de test du DAO de planning
@@ -11,7 +11,7 @@ use \Api\App\Components\Planning\Dao as _Dao;
  *
  * @since 0.1
  */
-final class Dao extends \Api\Tests\Units\App\Libraries\ADao
+final class Dao extends \Tests\Units\App\Libraries\ADao
 {
     /*************************************************
      * GET

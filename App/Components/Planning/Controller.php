@@ -1,5 +1,5 @@
 <?php
-namespace Api\App\Components\Planning;
+namespace App\Components\Planning;
 
 use Api\App\Exceptions\MissingArgumentException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
@@ -12,12 +12,12 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Api\Tests\Units\App\Components\Planning\Controller
+ * @see \Tests\Units\App\Components\Planning\Controller
  *
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le Planning\Repository
  */
-final class Controller extends \Api\App\Libraries\AController
+final class Controller extends \App\Libraries\AController
 {
     /*************************************************
      * GET

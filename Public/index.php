@@ -6,15 +6,15 @@
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
-define('ROOT_PATH', dirname(dirname(__DIR__)) . '/');
+define('ROOT_PATH', dirname(__DIR__) . '/');
 define('CONFIG_PATH', ROOT_PATH . 'cfg/');
-define('API_PATH', ROOT_PATH . 'Api/');
+define('API_PATH', ROOT_PATH . '/');
 
 define('ROUTE_PATH', API_PATH . 'Route/');
 
 /* Virer cette cochonnerie dès que possible */
 define('_PHP_CONGES', 1);
-require_once ROOT_PATH . 'vendor/autoload.php';
+require_once ROOT_PATH . 'Vendor/autoload.php';
 $container = [];
 require_once API_PATH . 'Handlers.php';
 

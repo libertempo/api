@@ -1,5 +1,5 @@
 <?php
-namespace Api\Tests\Units\App\Libraries;
+namespace Tests\Units\App\Libraries;
 
 use Psr\Http\Message\ResponseInterface as IResponse;
 

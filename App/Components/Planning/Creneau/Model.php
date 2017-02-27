@@ -1,5 +1,5 @@
 <?php
-namespace Api\App\Components\Planning\Creneau;
+namespace App\Components\Planning\Creneau;
 
 /**
  * {@inheritDoc}
@@ -8,12 +8,12 @@ namespace Api\App\Components\Planning\Creneau;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Api\Tests\Units\App\Components\Planning\Creneau\Model
+ * @see \Tests\Units\App\Components\Planning\Creneau\Model
  *
  * Ne devrait être contacté que par le Planning\Creneau\Repository
  * Ne devrait contacter personne
  */
-class Model extends \Api\App\Libraries\AModel
+class Model extends \App\Libraries\AModel
 {
     /**
      * Retourne la donnée la plus à jour du champ planning id

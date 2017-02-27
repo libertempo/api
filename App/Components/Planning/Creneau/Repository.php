@@ -1,5 +1,5 @@
 <?php
-namespace Api\App\Components\Planning\Creneau;
+namespace App\Components\Planning\Creneau;
 
 use Api\App\Exceptions\MissingArgumentException;
 use Api\App\Libraries\AModel;
@@ -11,12 +11,12 @@ use Api\App\Libraries\AModel;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Api\Tests\Units\App\Components\Planning\Repository
+ * @see \Tests\Units\App\Components\Planning\Repository
  *
  * Ne devrait être contacté que par le Planning\Creneau\Controller, Planning\Repository
  * Ne devrait contacter que le Planning\Creneau\Model, Planning\Creneau\Dao
  */
-class Repository extends \Api\App\Libraries\ARepository
+class Repository extends \App\Libraries\ARepository
 {
     /*************************************************
      * GET

@@ -1,7 +1,7 @@
 <?php
-namespace Api\App\Libraries;
+namespace App\Libraries;
 
-use \Api\App\Libraries\ARepository;
+use \App\Libraries\ARepository;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use Psr\Http\Message\ResponseInterface as IResponse;
 

@@ -1,11 +1,11 @@
 <?php
-namespace Api\App\Helpers;
+namespace App\Helpers;
 
 /**
  * Formatage de petits utilitaires
  *
  * @since 0.1
- * @see \Api\Tests\Units\App\Helpers\Formatter
+ * @see \Tests\Units\App\Helpers\Formatter
  */
 class Formatter
 {

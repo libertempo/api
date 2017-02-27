@@ -1,10 +1,10 @@
 <?php
-namespace Api\App\Utilisateur;
+namespace App\Utilisateur;
 
 /**
  *
  */
-class Dao extends \Api\App\Libraries\ADao
+class Dao extends \App\Libraries\ADao
 {
     /**
      *

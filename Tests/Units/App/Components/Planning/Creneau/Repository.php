@@ -1,7 +1,7 @@
 <?php
-namespace Api\Tests\Units\App\Components\Planning\Creneau;
+namespace Tests\Units\App\Components\Planning\Creneau;
 
-use \Api\App\Components\Planning\Creneau\Repository as _Repository;
+use \App\Components\Planning\Creneau\Repository as _Repository;
 
 /**
  * Classe de test du repository de créneau de planning
@@ -14,12 +14,12 @@ use \Api\App\Components\Planning\Creneau\Repository as _Repository;
 final class Repository extends \Atoum
 {
     /**
-     * @var \mock\Api\App\Components\Planning\Creneau\Dao Mock du DAO du créneau
+     * @var \mock\App\Components\Planning\Creneau\Dao Mock du DAO du créneau
      */
     private $dao;
 
     /**
-     * @var \mock\Api\App\Components\Planning\Creneau\Model Mock du Modèle de créneau
+     * @var \mock\App\Components\Planning\Creneau\Model Mock du Modèle de créneau
      */
     private $model;
 
@@ -27,9 +27,9 @@ final class Repository extends \Atoum
     {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->dao = new \mock\Api\App\Components\Planning\Creneau\Dao();
+        $this->dao = new \mock\App\Components\Planning\Creneau\Dao();
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\Api\App\Components\Planning\Creneau\Model();
+        $this->model = new \mock\App\Components\Planning\Creneau\Model();
         $this->model->getMockController()->getId = 42;
     }
 
@@ -68,7 +68,7 @@ final class Repository extends \Atoum
 
         $model = $repository->getOne(42, 23);
 
-        $this->object($model)->isInstanceOf('\Api\App\Libraries\AModel');
+        $this->object($model)->isInstanceOf('\App\Libraries\AModel');
         $this->integer($model->getId())->isIdenticalTo(42);
     }
 
@@ -104,7 +104,7 @@ final class Repository extends \Atoum
         $models = $repository->getList(['planningId' => 53]);
 
         $this->array($models)->hasKey(42);
-        $this->object($models[42])->isInstanceOf('\Api\App\Libraries\AModel');
+        $this->object($models[42])->isInstanceOf('\App\Libraries\AModel');
     }
 
     /*************************************************
@@ -117,7 +117,7 @@ final class Repository extends \Atoum
     public function testPostListException()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Creneau\Model([]);
+        $model = new \mock\App\Components\Planning\Creneau\Model([]);
         $model->getMockController()->populate = function () {
             throw new \LogicException('');
         };
@@ -141,7 +141,7 @@ final class Repository extends \Atoum
     public function testPostListOk()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Creneau\Model([]);
+        $model = new \mock\App\Components\Planning\Creneau\Model([]);
         $model->getMockController()->populate = '';
         $model->getMockController()->getPlanningId = 3;
         $model->getMockController()->getJourId = 4;
@@ -176,11 +176,11 @@ final class Repository extends \Atoum
     public function testPostOneMissingArgument()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Creneau\Model([]);
+        $model = new \mock\App\Components\Planning\Creneau\Model([]);
 
         $this->exception(function () use ($repository, $model) {
             $repository->postOne([], $model);
-        })->isInstanceOf('\Api\App\Exceptions\MissingArgumentException');
+        })->isInstanceOf('\App\Exceptions\MissingArgumentException');
     }
 
     /**
@@ -189,7 +189,7 @@ final class Repository extends \Atoum
     public function testPostOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Creneau\Model([]);
+        $model = new \mock\App\Components\Planning\Creneau\Model([]);
         $model->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -213,7 +213,7 @@ final class Repository extends \Atoum
     public function testPostOneOk()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Creneau\Model([]);
+        $model = new \mock\App\Components\Planning\Creneau\Model([]);
         $model->getMockController()->populate = '';
         $model->getMockController()->getPlanningId = 3;
         $model->getMockController()->getJourId = 4;
@@ -248,8 +248,8 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->putOne(['planningId' => 4], new \mock\Api\App\Components\Planning\Creneau\Model([]));
-        })->isInstanceOf('\Api\App\Exceptions\MissingArgumentException');
+            $repository->putOne(['planningId' => 4], new \mock\App\Components\Planning\Creneau\Model([]));
+        })->isInstanceOf('\App\Exceptions\MissingArgumentException');
     }
 
     /**
@@ -258,7 +258,7 @@ final class Repository extends \Atoum
     public function testPutOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\Api\App\Components\Planning\Creneau\Model([]);
+        $model = new \mock\App\Components\Planning\Creneau\Model([]);
         $model->getMockController()->populate = function () {
             throw new \DomainException('');
         };

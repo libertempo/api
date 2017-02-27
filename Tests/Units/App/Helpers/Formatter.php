@@ -1,7 +1,7 @@
 <?php
-namespace Api\Tests\Units\App\Helpers;
+namespace Tests\Units\App\Helpers;
 
-use \Api\App\Helpers\Formatter as _Formatter;
+use \App\Helpers\Formatter as _Formatter;
 
 /**
  * Test des petits utilitaires de l'application

@@ -1,7 +1,7 @@
 <?php
-namespace Api\Tests\Units\App\Libraries;
+namespace Tests\Units\App\Libraries;
 
-use \Api\App\Libraries\AModel as _AModel;
+use \App\Libraries\AModel as _AModel;
 
 /**
  * Classe commune de test sur les modèles

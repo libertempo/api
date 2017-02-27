@@ -1,7 +1,7 @@
 <?php
-namespace Api\Tests\Units\App\Components\Planning;
+namespace Tests\Units\App\Components\Planning;
 
-use \Api\App\Components\Planning\Model as _Model;
+use \App\Components\Planning\Model as _Model;
 
 /**
  * Classe de test du modèle de planning
@@ -11,7 +11,7 @@ use \Api\App\Components\Planning\Model as _Model;
  *
  * @since 0.1
  */
-final class Model extends \Api\Tests\Units\App\Libraries\AModel
+final class Model extends \Tests\Units\App\Libraries\AModel
 {
     /**
      * @inheritDoc

@@ -1,5 +1,5 @@
 <?php
-namespace Api\Tests\Units\Middlewares;
+namespace Tests\Units\Middlewares;
 
 use Api\Middlewares\Authentication as _Authentication;
 

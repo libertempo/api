@@ -1,5 +1,5 @@
 <?php
-namespace Api\App\Exceptions;
+namespace App\Exceptions;
 
 /**
  * Expection déclenchée en cas de valeur manquante

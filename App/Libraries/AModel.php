@@ -1,5 +1,5 @@
 <?php
-namespace Api\App\Libraries;
+namespace App\Libraries;
 
 /**
  * Domain Model. Par essence, ne peut pas être immuable.

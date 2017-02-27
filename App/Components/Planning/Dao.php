@@ -1,5 +1,5 @@
 <?php
-namespace Api\App\Components\Planning;
+namespace App\Components\Planning;
 
 /**
  * {@inheritDoc}
@@ -12,7 +12,7 @@ namespace Api\App\Components\Planning;
  * Ne devrait être contacté que par Planning\Repository
  * Ne devrait contacter personne
  */
-class Dao extends \Api\App\Libraries\ADao
+class Dao extends \App\Libraries\ADao
 {
     /*************************************************
      * GET

@@ -10,9 +10,9 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 /* Middleware 6 : construction du contrôleur pour le Dependencies Injection Container */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $ressourcePath = str_replace('|', '\\', $request->getAttribute('nomRessources'));
-    $controllerClass = '\Api\App\Components\\' . $ressourcePath . '\Controller';
-    $daoClass = '\Api\App\Components\\' . $ressourcePath . '\Dao';
-    $repoClass = '\Api\App\Components\\' . $ressourcePath . '\Repository';
+    $controllerClass = '\App\Components\\' . $ressourcePath . '\Controller';
+    $daoClass = '\App\Components\\' . $ressourcePath . '\Dao';
+    $repoClass = '\App\Components\\' . $ressourcePath . '\Repository';
 
     if (class_exists($controllerClass, true)) {
         $this[$controllerClass] = new $controllerClass(
@@ -39,8 +39,8 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $ressources = [];
     foreach ($paths as $value) {
         if (!is_numeric($value)) {
-            $ressources[] = \Api\App\Helpers\Formatter::getSingularTerm(
-                \Api\App\Helpers\Formatter::getStudlyCapsFromSnake($value)
+            $ressources[] = \App\Helpers\Formatter::getSingularTerm(
+                \App\Helpers\Formatter::getStudlyCapsFromSnake($value)
             );
         }
     }
@@ -114,7 +114,7 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     /**
     * TODO
     */
-    if ((new \Api\Middlewares\Authentication($request))->isTokenApiOk()) {
+    if ((new \Middlewares\Authentication($request))->isTokenApiOk()) {
         return $next($request, $response);
     } else {
         return call_user_func(

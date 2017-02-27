@@ -1,5 +1,5 @@
 <?php
-namespace Api\App\Libraries;
+namespace App\Libraries;
 
 /**
  * Classe de base des DAO

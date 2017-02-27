@@ -1,5 +1,5 @@
 <?php
-namespace Api\Middlewares;
+namespace Middlewares;
 
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 
