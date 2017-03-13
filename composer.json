@@ -23,7 +23,7 @@
     },
     "license": "AGPL-3.0",
     "config": {
-        "vendor-dir": "Vendor"
+        "vendor-dir": "vendor"
     },
     "require": {
         "raveren/kint": "^1.0",

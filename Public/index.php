@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 define('ROOT_PATH', dirname(__DIR__) . '/');
 define('ROUTE_PATH', ROOT_PATH . 'Route/');
 
-require_once ROOT_PATH . 'Vendor/autoload.php';
+require_once ROOT_PATH . 'vendor/autoload.php';
 $container = [];
 require_once ROOT_PATH . 'Handlers.php';
 
