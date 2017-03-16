@@ -15,7 +15,7 @@ class Authentication extends \Atoum
      */
     private $request;
 
-    public function beforeTestMethod($testMethod)
+    public function beforeTestMethod($method)
     {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
