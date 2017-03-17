@@ -1,17 +1,17 @@
 <?php
-namespace App\Components\Upgrade;
+namespace App\Components\Instance\ResetToken;
 
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
 /**
- * Contrôleur des upgrades (au sens large, installation comprise)
+ * Contrôleur de la redéfinition du token d'instance
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \Tests\Units\App\Components\Upgrade\Controller
+ * @see \Tests\Units\App\Components\Instance\ResetToken\Controller
  *
  * Ne devrait être contacté que par le routeur
  */
@@ -35,8 +35,8 @@ final class Controller
         $data = [
             'code' => $code,
             'status' => 'success',
-            'message' => hash('sha256', time()),
-            'data' => '',
+            'message' => '',
+            'data' => hash('sha256', time()),
         ];
 
         return $response->withJson($data, $code);

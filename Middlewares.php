@@ -9,7 +9,11 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 
 /* Middleware 6 : construction du contrôleur pour le Dependencies Injection Container */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
+    $reserved = ['HelloWorld'];
     $ressourcePath = str_replace('|', '\\', $request->getAttribute('nomRessources'));
+    if (in_array($ressourcePath, $reserved, true)) {
+        return $next($request, $response);
+    }
     $controllerClass = '\App\Components\\' . $ressourcePath . '\Controller';
     $daoClass = '\App\Components\\' . $ressourcePath . '\Dao';
     $repoClass = '\App\Components\\' . $ressourcePath . '\Repository';
@@ -114,7 +118,11 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     /**
     * TODO
     */
-    if ((new \Middlewares\Authentication($request))->isTokenApiOk()) {
+    $reserved = ['Instance|ResetToken'];
+    $ressourcePath = str_replace('|', '\\', $request->getAttribute('nomRessources'));
+    if (in_array($ressourcePath, $reserved, true)) {
+        return $next($request, $response);
+    } elseif ((new \Middlewares\Authentication($request))->isTokenApiOk()) {
         return $next($request, $response);
     } else {
         return call_user_func(
