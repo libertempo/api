@@ -118,13 +118,13 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     }
 });
 
-/* Middleware 1 : sécurité via authentification */
+/* Middleware 1 : sécurité via identification */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
     /**
     * TODO
     */
-    $reserved = ['Instance|ResetToken'];
-    $ressourcePath = str_replace('|', '\\', $request->getAttribute('nomRessources'));
+    $reserved = ['Authentification'];
+    $ressourcePath = $request->getAttribute('nomRessources');
     if (in_array($ressourcePath, $reserved, true)) {
         return $next($request, $response);
     } elseif ((new \Middlewares\Identification($request))->isTokenApiOk()) {

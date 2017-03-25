@@ -22,7 +22,7 @@ $app->get('/hello_world', function(IRequest $request, IResponse $response) {
 });
 
 require_once ROUTE_PATH . 'Plannings.php';
-require_once ROUTE_PATH . 'Instance.php';
+require_once ROUTE_PATH . 'Authentification.php';
 
 /* Jump in ! */
 $app->run();
