@@ -39,6 +39,11 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
 /* Middleware 5 : découverte et mise en forme des noms de ressources */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $path = trim(trim($request->getUri()->getPath()), '/');
+    if (0 === stripos($path, 'api')) {
+        $uriUpdated = $request->getUri()->withPath(substr($path, 4));
+        $request = $request->withUri($uriUpdated);
+        $path = trim(trim($request->getUri()->getPath()), '/');
+    }
     $paths = explode('/', $path);
     $ressources = [];
     foreach ($paths as $value) {
@@ -122,7 +127,7 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $ressourcePath = str_replace('|', '\\', $request->getAttribute('nomRessources'));
     if (in_array($ressourcePath, $reserved, true)) {
         return $next($request, $response);
-    } elseif ((new \Middlewares\Authentication($request))->isTokenApiOk()) {
+    } elseif ((new \Middlewares\Identification($request))->isTokenApiOk()) {
         return $next($request, $response);
     } else {
         return call_user_func(
