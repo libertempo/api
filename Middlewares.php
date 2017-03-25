@@ -14,6 +14,11 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     if (in_array($ressourcePath, $reserved, true)) {
         return $next($request, $response);
     }
+    /*
+     * @TODO: Authentification est particulier dans le sens où, si le
+     * contrôleur est bien « authentification », le repo, la dao, et le model
+     * tapent sur l'utilisateur. Représenter ça.
+     */
     $controllerClass = '\App\Components\\' . $ressourcePath . '\Controller';
     $daoClass = '\App\Components\\' . $ressourcePath . '\Dao';
     $repoClass = '\App\Components\\' . $ressourcePath . '\Repository';
