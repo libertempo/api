@@ -14,12 +14,12 @@ use \App\Components\Authentification\Controller as _Controller;
 final class Controller extends \Tests\Units\App\Libraries\AController
 {
     /**
-     * @var \mock\App\Components\Authentification\Repository Mock du repository associé
+     * @var \mock\App\Components\Utilisateur\Repository Mock du repository associé
      */
     private $repository;
 
     /**
-     * @var \mock\App\Components\Authentification\Model Mock du modèle associé
+     * @var \mock\App\Components\Utilisateur\Model Mock du modèle associé
      */
     private $model;
 
@@ -31,9 +31,9 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\App\Components\Authentification\Repository();
+        $this->repository = new \mock\App\Components\Utilisateur\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\App\Components\Authentification\Model();
+        $this->model = new \mock\App\Components\Utilisateur\Model();
     }
 
     /*************************************************
