@@ -50,7 +50,8 @@ class Repository extends \App\Libraries\ARepository
      */
     public function find(array $parametres)
     {
-        return reset($this->getList($parametres));
+        $list = $this->getList($parametres);
+        return reset($list);
     }
 
     /**
