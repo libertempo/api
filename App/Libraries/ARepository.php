@@ -75,6 +75,15 @@ abstract class ARepository
      */
     abstract protected function getParamsConsumer2Dao(array $paramsConsumer);
 
+    /**
+     * Effectue le mapping des éléments venant du modèle pour qu'ils soient compréhensibles pour la DAO
+     *
+     * @param AModel $model
+     *
+     * @return array
+     */
+    abstract protected function getModel2DataDao(AModel $model);
+
     /*************************************************
      * POST
      *************************************************/

@@ -150,13 +150,9 @@ class Repository extends \App\Libraries\ARepository
     }
 
     /**
-     * Effectue le mapping des éléments venant du modèle pour qu'ils soient compréhensibles pour la DAO
-     *
-     * @param Model $model
-     *
-     * @return array
+     * @inheritDoc
      */
-    private function getModel2DataDao(AModel $model)
+    final protected function getModel2DataDao(AModel $model)
     {
         return [
             'planning_id' => $model->getPlanningId(),

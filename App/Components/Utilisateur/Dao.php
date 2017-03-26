@@ -26,7 +26,10 @@ class Dao extends \App\Libraries\ADao
     {
     }
 
-    public function put(array $a, $id)
+    /**
+     * @inheritDoc
+     */
+    public function put(array $data, $id)
     {
     }
 
