@@ -1,5 +1,5 @@
 <?php
-namespace Middlewares;
+namespace App\Libraries;
 
 use \Slim\Interfaces\RouterInterface as IRouter;
 
@@ -14,7 +14,7 @@ use \Slim\Interfaces\RouterInterface as IRouter;
  * Ne devrait être contacté que par \Middlewares
  * Peut contacter tous les contrôleurs
  */
-abstract class ControllerFactory
+abstract class AControllerFactory
 {
     /**
      * Créé le bon contrôleur avec les bonnes dépendances en fonction de la requête
