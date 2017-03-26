@@ -78,9 +78,10 @@ final class Controller extends \Tests\Units\App\Libraries\AController
      */
     public function testGetFound()
     {
+        $token = 'abcde';
+        $this->model->getMockController()->getToken = $token;
         $this->repository->getMockController()->find = $this->model;
         $this->repository->getMockController()->regenerateToken = $this->model;
-        $this->model->getMockController()->getToken = 'abcde';
         $this->request->getMockController()->getHeader = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
         $controller = new _Controller($this->repository, $this->router);
 
@@ -92,7 +93,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
             ->integer['code']->isIdenticalTo(200)
             ->string['status']->isIdenticalTo('success')
             ->string['message']->isIdenticalTo('')
-            ->array['data']->isNotEmpty()
+            ->string['data']->isIdenticalTo($token)
         ;
     }
 }

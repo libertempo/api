@@ -4,9 +4,9 @@
  *
  * /!\ Les Middlewares sont executés en mode PILE : le premier de la liste est lancé en dernier
  */
+use App\Libraries\AControllerFactory;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
-use Middlewares\ControllerFactory;
 
 /* Middleware 6 : construction du contrôleur pour le Dependencies Injection Container */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
@@ -14,12 +14,12 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $ressourcePath = str_replace('|', '\\', $request->getAttribute('nomRessources'));
     if (!in_array($ressourcePath, $reserved, true)) {
         try {
-            $controller = ControllerFactory::createController(
+            $controller = AControllerFactory::createController(
                 $ressourcePath,
                 $this['storageConnector'],
                 $this->router
             );
-            $this[ControllerFactory::getControllerClassname($ressourcePath)] = $controller;
+            $this[AControllerFactory::getControllerClassname($ressourcePath)] = $controller;
 
         } catch (\DomainException $e) {
             return call_user_func(

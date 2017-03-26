@@ -32,13 +32,13 @@ final class Controller extends \App\Libraries\AController
      */
     public function get(IRequest $request, IResponse $response)
     {
-        $authentificationContent = $request->getHeader('Authorization');
-        if (0 !== stripos($authentificationContent, 'Basic')) {
-            return $this->getResponseBadRequest($response, 'Body request is not a json content');
+        $authentification = $request->getHeader('Authorization');
+        if (0 !== stripos($authentification, 'Basic')) {
+            return $this->getResponseBadRequest($response, 'Authorization mechanism is not set to « Basic »');
         }
 
-        $authentificationContent = substr($authentificationContent, strlen('Basic') + 1);
-        list($login, $password) = explode(':', base64_decode($authentificationContent));
+        $authentification = substr($authentification, strlen('Basic') + 1);
+        list($login, $password) = explode(':', base64_decode($authentification));
 
         try {
             $utilisateur = $this->repository->find([
@@ -52,7 +52,7 @@ final class Controller extends \App\Libraries\AController
                 'code' => $code,
                 'status' => 'success',
                 'message' => '',
-                'data' => '', //$utilisateurUpdate->getToken(),
+                'data' => $utilisateurUpdate->getToken(),
             ];
 
             return $response->withJson($data, $code);

@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\Middlewares;
+namespace Tests\Units\App\Libraries;
 
-use Middlewares\ControllerFactory as _ControllerFactory;
+use Middlewares\AControllerFactory as _AControllerFactory;
 use App\Libraries\AController;
 
 /**
@@ -9,7 +9,7 @@ use App\Libraries\AController;
  *
  * @since 0.2
  */
-final class ControllerFactory extends \Atoum
+final class AControllerFactory extends \Atoum
 {
     /**
      * @var \mock\PDO Connecteur BD
@@ -37,7 +37,7 @@ final class ControllerFactory extends \Atoum
     public function testCreateControllerNotFound()
     {
         $this->exception(function () {
-            _ControllerFactory::createController('notFoundNs', $this->storageConnector, $this->router);
+            _AControllerFactory::createController('notFoundNs', $this->storageConnector, $this->router);
         })->isInstanceOf('\DomainException');
     }
 
@@ -46,7 +46,7 @@ final class ControllerFactory extends \Atoum
      */
     public function testCreateControllerAuthentification()
     {
-        $controller = _ControllerFactory::createController('Authentification', $this->storageConnector, $this->router);
+        $controller = _AControllerFactory::createController('Authentification', $this->storageConnector, $this->router);
 
         $this->object($controller)->isInstanceOf(\App\Components\Authentification\Controller::class);
     }
@@ -56,7 +56,7 @@ final class ControllerFactory extends \Atoum
      */
     public function testCreateControllerDefault()
     {
-        $controller = _ControllerFactory::createController('Planning', $this->storageConnector, $this->router);
+        $controller = _AControllerFactory::createController('Planning', $this->storageConnector, $this->router);
 
         $this->object($controller)->isInstanceOf(AController::class);
     }
@@ -68,7 +68,7 @@ final class ControllerFactory extends \Atoum
     {
         $ressource = 'Planning\Creneau';
 
-        $this->string(_ControllerFactory::getControllerClassname($ressource))
+        $this->string(_AControllerFactory::getControllerClassname($ressource))
             ->isIdenticalTo('\App\Components\Planning\Creneau\Controller')
         ;
     }
