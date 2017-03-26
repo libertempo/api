@@ -32,7 +32,7 @@ final class Controller extends \App\Libraries\AController
      */
     public function get(IRequest $request, IResponse $response)
     {
-        $authentification = $request->getHeader('Authorization');
+        $authentification = $request->getHeaderLine('Authorization');
         if (0 !== stripos($authentification, 'Basic')) {
             return $this->getResponseBadRequest($response, 'Authorization mechanism is not set to « Basic »');
         }

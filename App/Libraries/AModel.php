@@ -46,8 +46,7 @@ abstract class AModel
     public function __construct(array $data)
     {
         if (isset($data['id'])) {
-            $id = $data['id'];
-            $this->id = (int) $id;
+            $this->setId($data['id']);
             unset($data['id']);
             $this->data = $data;
         }
@@ -72,6 +71,16 @@ abstract class AModel
      * @example ['nomChamp' => [listeErreurs]]
      */
     abstract public function populate(array $data);
+
+    /**
+     * Insère l'identifiant unique de l'objet
+     *
+     * @return int
+     */
+    protected function setId($id)
+    {
+        $this->id = (int) $id;
+    }
 
     /**
      * Ajoute une erreur au champ
