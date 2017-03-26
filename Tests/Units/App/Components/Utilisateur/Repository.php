@@ -99,13 +99,41 @@ final class Repository extends \Atoum
         $this->dao->getMockController()->getList = [
             [
                 'id' => 'Aladdin',
-                'login' => 'Aladdin',
-                'password' => 'OpenSesame',
+                'u_login' => 'Aladdin',
+                'u_passwd' => 'OpenSesame',
+                'u_nom' => 'Aladdin',
+                'u_prenom' => 'Aladdin',
+                'u_is_resp' => 'Y',
+                'u_is_admin' => 'N',
+                'u_is_hr' => 'N',
+                'u_is_active' => 'N',
+                'u_see_all' => 'N',
+                'u_quotite' => 1000,
+                'u_email' => 'aladdin@tapisvolant.net',
+                'u_num_exercice' => 98,
+                'planning_id' => 12,
+                'u_heure_solde' => 983,
+                'date_inscription' => 2,
+                'token' => '',
             ],
             [
                 'id' => 'Sinbad',
-                'login' => 'Sinbad',
-                'password' => 'Bassorah',
+                'u_login' => 'Sinbad',
+                'u_nom' => 'Sinbad',
+                'u_prenom' => 'Sinbad',
+                'u_is_resp' => 'N',
+                'u_is_admin' => 'N',
+                'u_is_hr' => 'N',
+                'u_is_active' => 'N',
+                'u_see_all' => 'N',
+                'u_passwd' => 'Bassorah',
+                'u_quotite' => 1000,
+                'u_email' => 'sinbad@sea.com',
+                'u_num_exercice' => 5,
+                'planning_id' => 12,
+                'u_heure_solde' => 1218,
+                'date_inscription' => 2,
+                'token' => '',
             ],
         ];
         $repository = new _Repository($this->dao);
@@ -135,8 +163,22 @@ final class Repository extends \Atoum
     {
         $this->dao->getMockController()->getList = [[
             'id' => 'Aladdin',
-            'login' => 'Aladdin',
-            'password' => 'OpenSesame',
+            'u_login' => 'Aladdin',
+            'u_passwd' => 'OpenSesame',
+            'u_nom' => 'Aladdin',
+            'u_prenom' => 'Aladdin',
+            'u_is_resp' => 'Y',
+            'u_is_admin' => 'N',
+            'u_is_hr' => 'N',
+            'u_is_active' => 'N',
+            'u_see_all' => 'N',
+            'u_quotite' => 1000,
+            'u_email' => 'aladdin@tapisvolant.net',
+            'u_num_exercice' => 98,
+            'planning_id' => 12,
+            'u_heure_solde' => 983,
+            'date_inscription' => 2,
+            'token' => '',
         ]];
         $repository = new _Repository($this->dao);
 
@@ -202,6 +244,7 @@ final class Repository extends \Atoum
         $this->application->getMockController()->getTokenInstance = 'vi veri veniversum vivus vici';
         $repository->setApplication($this->application);
         $this->model->getMockController()->populateToken = '';
+        $this->model->getMockController()->getToken = 'Pedro l\'asticot';
         $this->dao->getMockController()->put = '';
 
         $model = $repository->regenerateToken($this->model);
