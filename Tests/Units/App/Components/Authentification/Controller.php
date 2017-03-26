@@ -41,12 +41,12 @@ final class Controller extends \Tests\Units\App\Libraries\AController
      *************************************************/
 
     /**
-     * Teste la méthode post d'un json mal formé
+     * Teste la méthode avec un mauvais header
      */
-    public function testGetBadFormat()
+    public function testGetBadAuthentificationMechanism()
     {
         // Le framework fait du traitement, un mauvais json est simplement null
-        $this->request->getMockController()->getParsedBody = null;
+        $this->request->getMockController()->getHeader = 'NotBasic';
         $controller = new _Controller($this->repository, $this->router);
 
         $response = $controller->get($this->request, $this->response);
@@ -62,7 +62,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         $this->repository->getMockController()->find = function () {
             throw new \UnexpectedValueException('');
         };
-        $this->request->getMockController()->getParsedBody = ['data'];
+        $this->request->getMockController()->getHeader = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
         $controller = new _Controller($this->repository, $this->router);
 
         $response = $controller->get(
@@ -81,7 +81,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         $this->repository->getMockController()->find = $this->model;
         $this->repository->getMockController()->regenerateToken = $this->model;
         $this->model->getMockController()->getToken = 'abcde';
-        $this->request->getMockController()->getParsedBody = ['data'];
+        $this->request->getMockController()->getHeader = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
         $controller = new _Controller($this->repository, $this->router);
 
         $response = $controller->get($this->request, $this->response);

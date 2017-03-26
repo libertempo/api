@@ -1,8 +1,6 @@
 <?php
 namespace Middlewares;
 
-use App\Libraries\AController;
-use Psr\Http\Message\ServerRequestInterface as IRequest;
 use \Slim\Interfaces\RouterInterface as IRouter;
 
 /**
@@ -25,7 +23,7 @@ abstract class ControllerFactory
      * @param \PDO $storageConnector Connecteur à la BDD
      * @param IRouter $router Routeur de l'application
      *
-     * @return AController
+     * @return \App\Libraries\AController
      * @throws \DomainException Si la ressource est inconnue
      */
     final static function createController($ressourcePath, \PDO $storageConnector, IRouter $router)

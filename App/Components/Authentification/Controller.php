@@ -32,13 +32,19 @@ final class Controller extends \App\Libraries\AController
      */
     public function get(IRequest $request, IResponse $response)
     {
-        $body = $request->getParsedBody();
-        if (null === $body) {
-            return $this->getResponseBadRequest($response);
+        $authentificationContent = $request->getHeader('Authorization');
+        if (0 !== stripos($authentificationContent, 'Basic')) {
+            return $this->getResponseBadRequest($response, 'Body request is not a json content');
         }
 
+        $authentificationContent = substr($authentificationContent, strlen('Basic') + 1);
+        list($login, $password) = explode(':', base64_decode($authentificationContent));
+
         try {
-            $utilisateur = $this->repository->find([]);
+            $utilisateur = $this->repository->find([
+                'login' => $login,
+                'password' => $password,
+            ]);
             $utilisateurUpdate = $this->repository->regenerateToken($utilisateur);
 
             $code = 200;
@@ -46,7 +52,7 @@ final class Controller extends \App\Libraries\AController
                 'code' => $code,
                 'status' => 'success',
                 'message' => '',
-                'data' => $utilisateurUpdate->getToken(),
+                'data' => '', //$utilisateurUpdate->getToken(),
             ];
 
             return $response->withJson($data, $code);
