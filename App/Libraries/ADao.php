@@ -97,7 +97,7 @@ abstract class ADao
      *
      * @return bool
      */
-    final public function beginTransaction()
+    public function beginTransaction()
     {
         return $this->storageConnector->beginTransaction();
     }
@@ -107,7 +107,7 @@ abstract class ADao
      *
      * @return bool
      */
-    final public function commit()
+    public function commit()
     {
         return $this->storageConnector->commit();
     }
@@ -117,7 +117,7 @@ abstract class ADao
      *
      * @return bool
      */
-    final public function rollback()
+    public function rollback()
     {
         return $this->storageConnector->rollBack();
     }

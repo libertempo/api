@@ -17,6 +17,11 @@ final class AControllerFactory extends \Atoum
     private $storageConnector;
 
     /**
+     * @var \mock\PDOStatement Mock du curseur de résultat PDO
+     */
+    private $statement;
+
+    /**
      * @var \mock\Slim\Slim\Router Mock du routeur
      */
     private $router;
@@ -27,7 +32,14 @@ final class AControllerFactory extends \Atoum
     public function beforeTestMethod($method)
     {
         $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->statement = new \mock\PDOStatement();
+        $this->statement->getMockController()->fetchAll = [];
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->mockGenerator->orphanize('__construct');
         $this->storageConnector = new \mock\PDO();
+        $this->storageConnector->getMockController()->query = $this->statement;
         $this->router = new \mock\Slim\Router();
     }
 
