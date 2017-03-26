@@ -6,39 +6,31 @@
  */
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use Middlewares\ControllerFactory;
 
 /* Middleware 6 : construction du contrôleur pour le Dependencies Injection Container */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $reserved = ['HelloWorld'];
     $ressourcePath = str_replace('|', '\\', $request->getAttribute('nomRessources'));
-    if (in_array($ressourcePath, $reserved, true)) {
-        return $next($request, $response);
-    }
-    /*
-     * @TODO: Authentification est particulier dans le sens où, si le
-     * contrôleur est bien « authentification », le repo, la dao, et le model
-     * tapent sur l'utilisateur. Représenter ça.
-     */
-    $controllerClass = '\App\Components\\' . $ressourcePath . '\Controller';
-    $daoClass = '\App\Components\\' . $ressourcePath . '\Dao';
-    $repoClass = '\App\Components\\' . $ressourcePath . '\Repository';
+    if (!in_array($ressourcePath, $reserved, true)) {
+        try {
+            $controller = ControllerFactory::createController(
+                $ressourcePath,
+                $this['storageConnector'],
+                $this->router
+            );
+            $this[ControllerFactory::getControllerClassname($ressourcePath)] = $controller;
 
-    if (class_exists($controllerClass, true)) {
-        $this[$controllerClass] = new $controllerClass(
-            new $repoClass(
-                new $daoClass($this['storageConnector'])
-            ),
-            $this->router
-        );
-
-        return $next($request, $response);
-    } else {
-        return call_user_func(
-            $this->notFoundHandler,
-            $request,
-            $response
-        );
+        } catch (\DomainException $e) {
+            return call_user_func(
+                $this->notFoundHandler,
+                $request,
+                $response
+            );
+        }
     }
+
+    return $next($request, $response);
 });
 
 /* Middleware 5 : découverte et mise en forme des noms de ressources */

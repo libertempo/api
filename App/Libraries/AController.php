@@ -43,7 +43,7 @@ abstract class AController
      */
     protected function getResponseBadRequest(IResponse $response)
     {
-        return $this->getResponseError($response, 'Bad Request', 'Body request is not a json', 400);
+        return $this->getResponseError($response, 'Bad Request', 'Body request is not a json content', 400);
     }
 
     /**
