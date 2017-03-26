@@ -2,6 +2,7 @@
 namespace App\Libraries;
 
 use \Slim\Interfaces\RouterInterface as IRouter;
+use App\Libraries\Application;
 
 /**
  * Fabrique des contrôleurs, basé sur les dépendances
@@ -37,19 +38,25 @@ abstract class AControllerFactory
             case 'Authentification':
                 $daoClass = '\App\Components\Utilisateur\Dao';
                 $repoClass = '\App\Components\Utilisateur\Repository';
-                break;
+
+                $repo = new $repoClass(
+                    new $daoClass($storageConnector)
+                );
+                $repo->setApplication(new Application($storageConnector));
+
+                return new $controllerClass($repo, $router);
 
             default:
                 $daoClass = '\App\Components\\' . $ressourcePath . '\Dao';
                 $repoClass = '\App\Components\\' . $ressourcePath . '\Repository';
-        }
 
-        return new $controllerClass(
-            new $repoClass(
-                new $daoClass($storageConnector)
-            ),
-            $router
-        );
+                return new $controllerClass(
+                    new $repoClass(
+                        new $daoClass($storageConnector)
+                    ),
+                    $router
+                );
+        }
     }
 
     /**
