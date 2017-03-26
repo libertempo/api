@@ -1,8 +1,8 @@
 <?php
 namespace Tests\Units\App\Libraries;
 
-use Middlewares\AControllerFactory as _AControllerFactory;
-use App\Libraries\AController;
+use App\Libraries\AControllerFactory as _AControllerFactory;
+use App\Libraries\AController as _AController;
 
 /**
  * Test de la fabrication de contrôleurs
@@ -58,7 +58,7 @@ final class AControllerFactory extends \Atoum
     {
         $controller = _AControllerFactory::createController('Planning', $this->storageConnector, $this->router);
 
-        $this->object($controller)->isInstanceOf(AController::class);
+        $this->object($controller)->isInstanceOf(_AController::class);
     }
 
     /**
