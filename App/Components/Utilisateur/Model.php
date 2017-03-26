@@ -17,6 +17,7 @@ class Model extends \App\Libraries\AModel
 {
     public function getToken()
     {
+        return $this->getFreshData('token');
     }
 
     public function getLogin()
@@ -31,7 +32,7 @@ class Model extends \App\Libraries\AModel
     }
 
     /**
-     *
+     * @todo
      */
     public function populateToken($token)
     {

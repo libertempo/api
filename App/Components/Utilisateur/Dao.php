@@ -18,9 +18,53 @@ class Dao extends \App\Libraries\ADao
     {
     }
 
-    public function getList(array $a)
+    /**
+     * @inheritDoc
+     * @todo
+     */
+    public function getList(array $parametres)
     {
+        $req = 'SELECT *, u_login AS id FROM ' . $this->getTableName();
+        $filters = $this->getFilters($parametres);
+        $req .= $filters['where'];
+        $res = $this->storageConnector->prepare($req);
+        $res->execute($filters['bind']);
+
+        return $res->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Retourne le tableau des filtres à appliquer à la requête
+     *
+     * @param array $parametres
+     * @example [filter => [], lt => 23, limit => 4]
+     *
+     * @return array ['where' => clause complète, 'bind' => variables[]]
+     */
+    private function getFilters(array $parametres)
+    {
+        $where = [];
+        $bind = [];
+        if (!empty($parametres['u_login'])) {
+            $where[] = 'u_login = :u_login';
+            $bind[':u_login'] = $parametres['u_login'];
+        }
+        if (!empty($parametres['u_passwd'])) {
+            $where[] = 'u_passwd = :u_passwd';
+            $bind[':u_passwd'] = $parametres['u_passwd'];
+        }
+
+        return [
+            'where' => !empty($where)
+                ? ' WHERE ' . implode(' AND ', $where)
+                : '',
+            'bind' => $bind,
+        ];
+    }
+
+    /*************************************************
+     * POST
+     *************************************************/
 
     public function post(array $a)
     {
@@ -28,6 +72,7 @@ class Dao extends \App\Libraries\ADao
 
     /**
      * @inheritDoc
+     * @todo
      */
     public function put(array $data, $id)
     {
@@ -37,7 +82,11 @@ class Dao extends \App\Libraries\ADao
     {
     }
 
-    public function getTableName()
+    /**
+     * @inheritDoc
+     */
+    final protected function getTableName()
     {
+        return 'conges_users';
     }
 }

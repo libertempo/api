@@ -78,7 +78,25 @@ class Repository extends \App\Libraries\ARepository
      */
     final protected function getDataDao2Model(array $dataDao)
     {
-        return $dataDao;
+        return [
+            'id' => $dataDao['id'],
+            'login' => $dataDao['u_login'],
+            'nom' => $dataDao['u_nom'],
+            'prenom' => $dataDao['u_prenom'],
+            'isResp' => $dataDao['u_is_resp'],
+            'isAdmin' => $dataDao['u_is_admin'],
+            'isHr' => $dataDao['u_is_hr'],
+            'isActive' => $dataDao['u_is_active'],
+            'seeAll' => $dataDao['u_see_all'],
+            'password' => $dataDao['u_passwd'],
+            'quotite' => $dataDao['u_quotite'],
+            'email' => $dataDao['u_email'],
+            'numeroExercice' => $dataDao['u_num_exercice'],
+            'planningId' => $dataDao['planning_id'],
+            'heureSolde' => $dataDao['u_heure_solde'],
+            'dateInscription' => $dataDao['date_inscription'],
+            'token' => $dataDao['token'],
+        ];
     }
 
     /**
@@ -86,8 +104,14 @@ class Repository extends \App\Libraries\ARepository
      */
     final protected function getParamsConsumer2Dao(array $paramsConsumer)
     {
-        // mise en hash du mdp pour verifier les schema dans consumer2Dao
-        return $paramsConsumer;
+        $results = [];
+        if (!empty($paramsConsumer['login'])) {
+            $results['u_login'] = (string) $paramsConsumer['login'];
+        }
+        if (!empty($paramsConsumer['password'])) {
+            $results['u_passwd'] = md5($paramsConsumer['password']);
+        }
+        return $results;
     }
 
     /*************************************************
