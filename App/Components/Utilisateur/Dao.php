@@ -1,32 +1,40 @@
 <?php
-namespace App\Utilisateur;
+namespace App\Components\Utilisateur;
 
 /**
+ * {@inheritDoc}
  *
+ * @author Prytoegrian <prytoegrian@protonmail.com>
+ * @author Wouldsmina
+ *
+ * @since 0.2
+ *
+ * Ne devrait être contacté que par Utilisateur\Repository
+ * Ne devrait contacter personne
  */
 class Dao extends \App\Libraries\ADao
 {
-    /**
-     *
-     */
-    final protected function getTableName()
-    {
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getById($id)
     {
-        return [];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getList(array $parametres)
+    public function getList(array $a)
     {
-        return [];
+    }
+
+    public function post(array $a)
+    {
+    }
+
+    public function put(array $a, $id)
+    {
+    }
+
+    public function delete($id)
+    {
+    }
+
+    public function getTableName()
+    {
     }
 }

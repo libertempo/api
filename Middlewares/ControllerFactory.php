@@ -35,22 +35,23 @@ abstract class ControllerFactory
             throw new \DomainException('Unknown component');
         }
 
-        switch ($controllerClass) {
-            case 'value':
-                # code...
+        switch ($ressourcePath) {
+            case 'Authentification':
+                $daoClass = '\App\Components\Utilisateur\Dao';
+                $repoClass = '\App\Components\Utilisateur\Repository';
                 break;
 
             default:
                 $daoClass = '\App\Components\\' . $ressourcePath . '\Dao';
                 $repoClass = '\App\Components\\' . $ressourcePath . '\Repository';
-
-                return new $controllerClass(
-                    new $repoClass(
-                        new $daoClass($storageConnector)
-                    ),
-                    $router
-                );
         }
+
+        return new $controllerClass(
+            new $repoClass(
+                new $daoClass($storageConnector)
+            ),
+            $router
+        );
     }
 
     /**

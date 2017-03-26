@@ -42,6 +42,16 @@ final class ControllerFactory extends \Atoum
     }
 
     /**
+     * Test de la création de contrôleur pour l'authentification
+     */
+    public function testCreateControllerAuthentification()
+    {
+        $controller = _ControllerFactory::createController('Authentification', $this->storageConnector, $this->router);
+
+        $this->object($controller)->isInstanceOf(\App\Components\Authentification\Controller::class);
+    }
+
+    /**
      * Test de la création de contrôleur pour la plupart des ressources connues
      */
     public function testCreateControllerDefault()
