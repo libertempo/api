@@ -32,10 +32,38 @@ class Model extends \App\Libraries\AModel
     }
 
     /**
-     * @todo
+     * Insère le token dans le modèle
+     *
+     * @param string $token Nouveau token d'indentification utilisateur
+     *
+     * @throws \DomainException Si la donnée n'entre pas dans le domaine de définition, où les erreurs sont jsonEncodée dans le message
+     * @example ['nomChamp' => [listeErreurs]]
      */
     public function populateToken($token)
     {
+        $this->setToken($token);
+
+        $erreurs = $this->getErreurs();
+        if (!empty($erreurs)) {
+            throw new \DomainException(json_encode($erreurs));
+        }
+    }
+
+    /**
+     * Tente l'insertion d'une donnée en tant que champ « token »
+     *
+     * Stocke une erreur si la donnée ne colle pas au domaine
+     *
+     * @param string $token
+     */
+    private function setToken($token)
+    {
+        if (empty($token)) {
+            $this->setErreur('token', 'Le champ est vide');
+            return;
+        }
+
+        $this->dataUpdated['token'] = $token;
     }
 
     /**

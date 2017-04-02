@@ -3,7 +3,6 @@ namespace App\Components\Utilisateur;
 
 use App\Libraries\AModel;
 use App\Libraries\Application;
-use App\Libraries\ARepository;
 
 /**
  * {@inheritDoc}

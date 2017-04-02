@@ -88,7 +88,7 @@ abstract class AModel
      * @param string $champ Champ
      * @param string $message Message d'erreur
      */
-    protected function setErreur($champ, $message)
+    final protected function setErreur($champ, $message)
     {
         $this->erreurs[$champ][] = $message;
     }
@@ -98,7 +98,7 @@ abstract class AModel
      *
      * @return array
      */
-    protected function getErreurs()
+    final protected function getErreurs()
     {
         return $this->erreurs;
     }
@@ -120,7 +120,7 @@ abstract class AModel
      *
      * @return string
      */
-    protected function getFreshData($data)
+    final protected function getFreshData($data)
     {
         if (isset($this->dataUpdated[$data])) {
             return $this->dataUpdated[$data];
