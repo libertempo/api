@@ -182,10 +182,16 @@ class Repository extends \App\Libraries\ARepository
     /**
      * Génère le token
      * @example factory method (/ strategy) pour la génération et aider à la reconnaissance du pattern de l'autre côté ?
+     *
+     * @return string
      */
     private function buildToken($instanceToken, AModel $model)
     {
-        // tokenUser = tokenInstance ^ (nomEmploye . ']#[ ' . dateInscriptionUtilisateur . ']#[' . idUtilisateur . ']#[' . dateJour)
+        // assertion sur la vacuite de nom, dateInscriptionUtilisateur, dateJour et id
+        $dateJour = date('c');
+        $preHash = $model->getNom() . ']#[' . $model->getDateInscription() . ']#[' . $model->getId() . ']#[' . $dateJour;
+
+        return $instanceToken ^ $preHash;
     }
 
     /*************************************************

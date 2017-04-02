@@ -24,6 +24,16 @@ class Model extends \App\Libraries\AModel
     {
     }
 
+    public function getNom()
+    {
+        return $this->getFreshData('nom');
+    }
+
+    public function getDateInscription()
+    {
+        return $this->getFreshData('dateInscription');
+    }
+
     /**
      * @inheritDoc
      */
