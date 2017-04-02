@@ -58,6 +58,7 @@ class Model extends \App\Libraries\AModel
      */
     private function setToken($token)
     {
+        // domaine de token ?
         if (empty($token)) {
             $this->setErreur('token', 'Le champ est vide');
             return;

@@ -17,6 +17,12 @@ final class Dao extends \Tests\Units\App\Libraries\ADao
      * GET
      *************************************************/
 
+    public function testGetById()
+    {
+        $dao = new _Dao($this->connector);
+        $this->variable($dao->getById(''))->isNull();
+    }
+
     /**
      * Teste la méthode getList avec des critères non pertinents
      */
@@ -41,5 +47,43 @@ final class Dao extends \Tests\Units\App\Libraries\ADao
         $get = $dao->getList([]);
 
         $this->array($get[0])->isNotEmpty();
+    }
+
+    /*************************************************
+     * POST
+     *************************************************/
+
+    public function testPost()
+    {
+        $dao = new _Dao($this->connector);
+        $this->variable($dao->post([]))->isNull();
+    }
+
+    /*************************************************
+     * PUT
+     *************************************************/
+
+    /**
+     * Teste la méthode put quand tout est ok
+     */
+    public function testPutOk()
+    {
+        $dao = new _Dao($this->connector);
+
+        $put = $dao->put([
+            'token' => 'token',
+        ], 'Aladdin');
+
+        $this->variable($put)->isNull();
+    }
+
+    /*************************************************
+     * DELETE
+     *************************************************/
+
+    public function testDelete()
+    {
+        $dao = new _Dao($this->connector);
+        $this->variable($dao->delete([]))->isNull();
     }
 }

@@ -32,12 +32,13 @@ final class Controller extends \App\Libraries\AController
      */
     public function get(IRequest $request, IResponse $response)
     {
+        $authentificationType = 'Basic';
         $authentification = $request->getHeaderLine('Authorization');
-        if (0 !== stripos($authentification, 'Basic')) {
-            return $this->getResponseBadRequest($response, 'Authorization mechanism is not set to « Basic »');
+        if (0 !== stripos($authentification, $authentificationType)) {
+            return $this->getResponseBadRequest($response, 'Authorization mechanism is not set to « ' . $authentificationType . ' »');
         }
 
-        $authentification = substr($authentification, strlen('Basic') + 1);
+        $authentification = substr($authentification, strlen($authentificationType) + 1);
         list($login, $password) = explode(':', base64_decode($authentification));
 
         try {
@@ -45,14 +46,14 @@ final class Controller extends \App\Libraries\AController
                 'login' => $login,
                 'password' => $password,
             ]);
-            $utilisateurUpdate = $this->repository->regenerateToken($utilisateur);
+            $utilisateurUpdated = $this->repository->regenerateToken($utilisateur);
 
             $code = 200;
             $data = [
                 'code' => $code,
                 'status' => 'success',
                 'message' => '',
-                'data' => $utilisateurUpdate->getToken(),
+                'data' => $utilisateurUpdated->getToken(),
             ];
 
             return $response->withJson($data, $code);

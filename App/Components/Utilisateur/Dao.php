@@ -71,12 +71,26 @@ class Dao extends \App\Libraries\ADao
     }
 
     /**
-     * @inheritDoc
-     * @todo
+     * Met à jour une ressource
+     *
+     * @param array $data Données à mettre à jour
+     * @param string $id Identifiant de l'élément (passer en int)
      */
     public function put(array $data, $id)
     {
+        $req = 'UPDATE ' . $this->getTableName() . '
+            SET token = :token
+            WHERE u_login = :id';
+        $res = $this->storageConnector->prepare($req);
+        $res->execute([
+            'token' => $data['token'],
+            'id' => $id,
+        ]);
     }
+
+    /*************************************************
+     * DELETE
+     *************************************************/
 
     public function delete($id)
     {

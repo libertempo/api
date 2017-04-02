@@ -160,7 +160,7 @@ class Repository extends \App\Libraries\ARepository
     final protected function getModel2DataDao(AModel $model)
     {
         return [
-            'u_login' => $model->getLogin(),
+            //'u_login' => $model->getLogin(), // PK ne doit pas être vu par la DAO
             /*'u_nom' => $model->getJourId(),
             'u_prenom' => $model->getTypeSemaine(),
             'u_is_resp' => $model->getTypePeriode(),
@@ -176,12 +176,12 @@ class Repository extends \App\Libraries\ARepository
             'u_heure_solde' => $model->getFin(),
             'date_inscription' => $model->getFin(),*/
             'token' => $model->getToken(),
-
         ];
     }
 
     /**
-     *
+     * Génère le token
+     * @example factory method (/ strategy) pour la génération et aider à la reconnaissance du pattern de l'autre côté ?
      */
     private function buildToken($instanceToken, AModel $model)
     {
