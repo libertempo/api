@@ -188,8 +188,8 @@ class Repository extends \App\Libraries\ARepository
     private function buildToken($instanceToken, AModel $model)
     {
         // assertion sur la vacuite de nom, dateInscriptionUtilisateur, dateJour et id
-        $dateJour = date('c');
-        $preHash = $model->getNom() . ']#[' . $model->getDateInscription() . ']#[' . $model->getId() . ']#[' . $dateJour;
+        $dateJour = date('Y-m-d');
+        $preHash = $dateJour . ']#[' . $model->getNom() . ']#[' . $model->getDateInscription() . ']#[' . $model->getId() . ']#[' . $dateJour;
 
         return $instanceToken ^ $preHash;
     }

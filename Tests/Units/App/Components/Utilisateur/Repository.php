@@ -55,6 +55,8 @@ final class Repository extends \Atoum
         $this->application = new \mock\App\Libraries\Application($this->connector);
         $this->mockGenerator->orphanize('__construct');
         $this->model = new \mock\App\Components\Utilisateur\Model();
+        $this->model->getMockController()->getNom = 'Aladdin';
+        $this->model->getMockController()->getDateInscription = '222';
     }
 
     /**
