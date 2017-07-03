@@ -86,6 +86,19 @@ abstract class AController
     }
 
     /**
+     * Retourne une réponse normalisée d'élément sans contenu
+     *
+     * @param IResponse $response Réponse Http
+     * @param string $messageData Message data d'un json bien formé
+     *
+     * @return IResponse
+     */
+    protected function getResponseNoContent(IResponse $response, $messageData)
+    {
+        return $this->getResponseError($response, 'No Content', $messageData, 204);
+    }
+
+    /**
      * Retourne une réponse d'erreur normalisée
      *
      * @param IResponse $response Réponse Http
