@@ -118,6 +118,14 @@ abstract class AController
         return $this->getResponse($response, $message, $data);
     }
 
+    /**
+     * Retourne une réponse normalisée en cas de succès
+     *
+     * @param IResponse $response Réponse Http
+     * @param string $messageData Message data d'un json bien formé
+     *
+     * @return IResponse
+     */
     private function getResponseOk(IResponse $response, $message, array $data, $code)
     {
         $data += [
@@ -128,6 +136,14 @@ abstract class AController
         return $this->getResponse($response, $message, $data);
 }
 
+    /**
+     * Retourne une réponse normalisée
+     *
+     * @param IResponse $response Réponse Http
+     * @param string $messageData Message data d'un json bien formé
+     *
+     * @return IResponse
+     */
     private function getResponse(IResponse $response, $message, array $data)
     {
         $data += [

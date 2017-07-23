@@ -70,4 +70,23 @@ abstract class AController extends \Atoum
             ->array['data']->isNotEmpty()
         ;
     }
+
+    /**
+     * Lance un pool d'assertion vide
+     *
+     * @param IResponse $response Réponse Http
+     * @param int $code Code Http attendu
+     */
+    protected function assertSuccessEmpty(IResponse $response, $code)
+    {
+        $data = $this->getJsonDecoded($response->getBody());
+
+        $this->integer($response->getStatusCode())->isIdenticalTo($code);
+        $this->array($data)
+            ->integer['code']->isIdenticalTo($code)
+            ->string['status']->isIdenticalTo('success')
+            ->string['message']->isEqualTo('No Content')
+        ;
+    }
+    
 }

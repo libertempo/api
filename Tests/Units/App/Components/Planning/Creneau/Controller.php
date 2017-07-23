@@ -131,7 +131,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
 
         $response = $controller->get($this->request, $this->response, ['planningId' => 45]);
 
-        $this->assertError($response, 204);
+        $this->assertSuccessEmpty($response, 204);
     }
 
     /**
