@@ -44,7 +44,7 @@ abstract class AController
      */
     protected function getResponseBadRequest(IResponse $response, $message)
     {
-        return $this->getResponseError($response, 'Bad Request', $message, 400);
+        return $this->getResponseError($response, 'Bad Request', ['data' => $message], 400);
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class AController
      */
     protected function getResponseMissingArgument(IResponse $response)
     {
-        return $this->getResponseError($response, 'Precondition Failed', 'Missing required argument', 412);
+        return $this->getResponseError($response, 'Precondition Failed', ['data' => 'Missing required argument'], 412);
     }
 
     /**
@@ -69,7 +69,7 @@ abstract class AController
      */
     protected function getResponseBadDomainArgument(IResponse $response, \Exception $e)
     {
-        return $this->getResponseError($response, 'Precondition Failed', json_decode($e->getMessage(), true), 412);
+        return $this->getResponseError($response, 'Precondition Failed', ['data' => json_decode($e->getMessage(), true)], 412);
     }
 
     /**
@@ -82,7 +82,7 @@ abstract class AController
      */
     protected function getResponseNotFound(IResponse $response, $messageData)
     {
-        return $this->getResponseError($response, 'Not Found', $messageData, 404);
+        return $this->getResponseError($response, 'Not Found', ['data' => $messageData], 404);
     }
 
     /**
@@ -93,9 +93,9 @@ abstract class AController
      *
      * @return IResponse
      */
-    protected function getResponseNoContent(IResponse $response, $messageData)
+    protected function getResponseNoContent(IResponse $response)
     {
-        return $this->getResponseError($response, 'No Content', $messageData, 204);
+        return $this->getResponseOk($response, 'No Content', [], 204);
     }
 
     /**
@@ -108,15 +108,32 @@ abstract class AController
      *
      * @return IResponse
      */
-    private function getResponseError(IResponse $response, $message, $messageData, $code)
+    private function getResponseError(IResponse $response, $message, array $data, $code)
     {
-        $data = [
+        $data += [
             'code' => $code,
-            'status' => 'error',
-            'message' => $message,
-            'data' => $messageData,
+            'status' => 'error'
         ];
 
-        return $response->withJson($data, $code);
+        return $this->getResponse($response, $message, $data);
+    }
+
+    private function getResponseOk(IResponse $response, $message, array $data, $code)
+    {
+        $data += [
+            'code' => $code,
+            'status' => 'success'
+        ];
+
+        return $this->getResponse($response, $message, $data);
+}
+
+    private function getResponse(IResponse $response, $message, array $data)
+    {
+        $data += [
+            'message' => $message
+            ];
+
+        return $response->withJson($data, $data['code']);
     }
 }

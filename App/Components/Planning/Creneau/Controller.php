@@ -110,7 +110,7 @@ final class Controller extends \App\Libraries\AController
 
             return $response->withJson($data, $code);
         } catch (\UnexpectedValueException $e) {
-            return $this->getResponseNoContent($response, 'No content');
+            return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
             throw $e;
         }
