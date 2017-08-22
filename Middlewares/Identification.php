@@ -1,6 +1,7 @@
 <?php
 namespace Middlewares;
 
+use App\Libraries\AModel;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 
 /**
@@ -11,13 +12,23 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 final class Identification
 {
     /**
-     * @var IRequest
+     * @var \App\Libraries\AModel
      */
-    private $request;
+    private $utilisateur;
 
-    public function __construct(IRequest $request)
+    public function __construct(IRequest $request, \App\Libraries\ARepository $repository)
     {
-        $this->request = $request;
+        $token = $request->getHeaderLine('Token');
+        if ('' === $token) {
+            return;
+        }
+        try {
+            $this->utilisateur = $repository->find([
+                'token' => $token,
+            ]);
+        } catch (\UnexpectedValueException $e) {
+            return;
+        }
     }
 
     /**
@@ -25,8 +36,13 @@ final class Identification
      *
      * @return bool
      */
-    public function isTokenApiOk()
+    public function isTokenOk()
     {
-        return true;
+        return $this->getUtilisateur() instanceof AModel;
+    }
+
+    public function getUtilisateur()
+    {
+        return $this->utilisateur;
     }
 }

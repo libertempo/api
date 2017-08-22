@@ -17,6 +17,7 @@ final class Identification extends \Atoum
 
     public function beforeTestMethod($method)
     {
+        parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->request = new \mock\Slim\Http\Request();

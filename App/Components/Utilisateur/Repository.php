@@ -95,6 +95,7 @@ class Repository extends \App\Libraries\ARepository
             'heureSolde' => $dataDao['u_heure_solde'],
             'dateInscription' => $dataDao['date_inscription'],
             'token' => $dataDao['token'],
+            'dateLastAccess' => $dataDao['date_last_access'],
         ];
     }
 
@@ -109,6 +110,9 @@ class Repository extends \App\Libraries\ARepository
         }
         if (!empty($paramsConsumer['password'])) {
             $results['u_passwd'] = md5($paramsConsumer['password']);
+        }
+        if (!empty($paramsConsumer['token'])) {
+            $results['token'] = (string) $paramsConsumer['token'];
         }
         return $results;
     }
@@ -144,7 +148,8 @@ class Repository extends \App\Libraries\ARepository
         }
 
         try {
-            $model->populateToken($this->buildToken($instanceToken, $model));
+            $model->populateToken($this->buildToken($instanceToken));
+            $model->updateLastAccess();
             $dataDao = $this->getModel2DataDao($model);
             $this->dao->put($dataDao, $model->getId());
 
@@ -176,22 +181,20 @@ class Repository extends \App\Libraries\ARepository
             'u_heure_solde' => $model->getFin(),
             'date_inscription' => $model->getFin(),*/
             'token' => $model->getToken(),
+            'date_last_access' => $model->getDateLastAccess(),
         ];
     }
 
     /**
      * Génère le token
-     * @example factory method (/ strategy) pour la génération et aider à la reconnaissance du pattern de l'autre côté ?
+     *
+     * @param string $instanceToken Clé API de l'instance
      *
      * @return string
      */
-    private function buildToken($instanceToken, AModel $model)
+    private function buildToken($instanceToken)
     {
-        // assertion sur la vacuite de nom, dateInscriptionUtilisateur, dateJour et id
-        $dateJour = date('Y-m-d');
-        $preHash = $dateJour . ']#[' . $model->getNom() . ']#[' . $model->getDateInscription() . ']#[' . $model->getId() . ']#[' . $dateJour;
-
-        return $instanceToken ^ $preHash;
+        return password_hash($instanceToken, \PASSWORD_BCRYPT);
     }
 
     /*************************************************

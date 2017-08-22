@@ -34,6 +34,11 @@ class Model extends \App\Libraries\AModel
         return $this->getFreshData('dateInscription');
     }
 
+    public function getDateLastAccess()
+    {
+        return $this->getFreshData('dateLastAccess');
+    }
+
     /**
      * @inheritDoc
      */
@@ -75,6 +80,11 @@ class Model extends \App\Libraries\AModel
         }
 
         $this->dataUpdated['token'] = $token;
+    }
+
+    public function updateLastAccess()
+    {
+        $this->dataUpdated['dateLastAccess'] = date('Y-m-d H:i:s', time() + 6000);
     }
 
     /**

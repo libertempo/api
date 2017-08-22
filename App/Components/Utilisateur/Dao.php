@@ -53,6 +53,10 @@ class Dao extends \App\Libraries\ADao
             $where[] = 'u_passwd = :u_passwd';
             $bind[':u_passwd'] = $parametres['u_passwd'];
         }
+        if (!empty($parametres['token'])) {
+            $where[] = 'token = :token';
+            $bind[':token'] = $parametres['token'];
+        }
 
         return [
             'where' => !empty($where)
@@ -79,11 +83,12 @@ class Dao extends \App\Libraries\ADao
     public function put(array $data, $id)
     {
         $req = 'UPDATE ' . $this->getTableName() . '
-            SET token = :token
+            SET token = :token, date_last_access = :date_last_access
             WHERE u_login = :id';
         $res = $this->storageConnector->prepare($req);
         $res->execute([
             'token' => $data['token'],
+            'date_last_access' => $data['date_last_access'],
             'id' => $id,
         ]);
     }

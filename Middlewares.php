@@ -59,11 +59,13 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $repoUtilisateur = new \App\Components\Utilisateur\Repository(
         new \App\Components\Utilisateur\Dao($this['storageConnector'])
     );
+    $identification = new \Middlewares\Identification($request, $repoUtilisateur);
     $reserved = ['Authentification'];
     $ressourcePath = $request->getAttribute('nomRessources');
     if (in_array($ressourcePath, $reserved, true)) {
         return $next($request, $response);
-    } elseif ((new \Middlewares\Identification($request))->isTokenApiOk()) {
+    } elseif ($identification->isTokenOk()) {
+        $this['currentUser'] = $identification->getUtilisateur();
         return $next($request, $response);
     } else {
         return call_user_func(
