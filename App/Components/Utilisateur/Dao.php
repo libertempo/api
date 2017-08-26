@@ -57,6 +57,10 @@ class Dao extends \App\Libraries\ADao
             $where[] = 'token = :token';
             $bind[':token'] = $parametres['token'];
         }
+        if (!empty($parametres['gt_date_last_access'])) {
+            $where[] = 'date_last_access >= :gt_date_last_access';
+            $bind[':gt_date_last_access'] = $parametres['gt_date_last_access'];
+        }
 
         return [
             'where' => !empty($where)

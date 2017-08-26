@@ -25,10 +25,21 @@ final class Identification
         try {
             $this->utilisateur = $repository->find([
                 'token' => $token,
+                'gt_date_last_access' => $this->getDateLastAccessAuthorized()
             ]);
         } catch (\UnexpectedValueException $e) {
             return;
         }
+    }
+
+    /**
+     * Retourne la date limite de dernier accès pour être considéré en ligne
+     *
+     * @return string
+     */
+    private function getDateLastAccessAuthorized()
+    {
+        return date('Y-m-d H:i', time() - 15 * 60);
     }
 
     /**

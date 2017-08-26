@@ -84,7 +84,7 @@ class Model extends \App\Libraries\AModel
 
     public function updateLastAccess()
     {
-        $this->dataUpdated['dateLastAccess'] = date('Y-m-d H:i:s', time() + 6000);
+        $this->dataUpdated['dateLastAccess'] = date('Y-m-d H:i:s');
     }
 
     /**

@@ -51,7 +51,7 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     }
 });
 
-/* Middleware 4 : sécurité via identification */
+/* Middleware 4 : sécurité via identification (+ « ping » last access) */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
     /**
     * TODO
@@ -65,6 +65,7 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     if (in_array($ressourcePath, $reserved, true)) {
         return $next($request, $response);
     } elseif ($identification->isTokenOk()) {
+        // ping
         $this['currentUser'] = $identification->getUtilisateur();
         return $next($request, $response);
     } else {

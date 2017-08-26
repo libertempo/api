@@ -114,6 +114,9 @@ class Repository extends \App\Libraries\ARepository
         if (!empty($paramsConsumer['token'])) {
             $results['token'] = (string) $paramsConsumer['token'];
         }
+        if (!empty($paramsConsumer['gt_date_last_access'])) {
+            $results['gt_date_last_access'] = (string) $paramsConsumer['gt_date_last_access'];
+        }
         return $results;
     }
 
