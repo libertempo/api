@@ -117,6 +117,7 @@ final class Repository extends \Atoum
                 'u_heure_solde' => 983,
                 'date_inscription' => 2,
                 'token' => '',
+                'date_last_access' => 3,
             ],
             [
                 'id' => 'Sinbad',
@@ -136,6 +137,7 @@ final class Repository extends \Atoum
                 'u_heure_solde' => 1218,
                 'date_inscription' => 2,
                 'token' => '',
+                'date_last_access' => 134,
             ],
         ];
         $repository = new _Repository($this->dao);
@@ -181,6 +183,7 @@ final class Repository extends \Atoum
             'u_heure_solde' => 983,
             'date_inscription' => 2,
             'token' => '',
+            'date_last_access' => 98,
         ]];
         $repository = new _Repository($this->dao);
 

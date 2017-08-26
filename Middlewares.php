@@ -53,9 +53,6 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
 
 /* Middleware 4 : sécurité via identification (+ « ping » last access) */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
-    /**
-    * TODO
-    */
     $repoUtilisateur = new \App\Components\Utilisateur\Repository(
         new \App\Components\Utilisateur\Dao($this['storageConnector'])
     );
@@ -65,8 +62,11 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     if (in_array($ressourcePath, $reserved, true)) {
         return $next($request, $response);
     } elseif ($identification->isTokenOk()) {
-        // ping
-        $this['currentUser'] = $identification->getUtilisateur();
+        $utilisateur = $identification->getUtilisateur();
+        // Ping de last_access
+        $repoUtilisateur->updateDateLastAccess($utilisateur);
+
+        $this['currentUser'] = $utilisateur;
         return $next($request, $response);
     } else {
         return call_user_func(

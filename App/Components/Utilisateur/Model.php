@@ -82,9 +82,9 @@ class Model extends \App\Libraries\AModel
         $this->dataUpdated['token'] = $token;
     }
 
-    public function updateLastAccess()
+    public function updateDateLastAccess()
     {
-        $this->dataUpdated['dateLastAccess'] = date('Y-m-d H:i:s');
+        $this->dataUpdated['dateLastAccess'] = date('Y-m-d H:i');
     }
 
     /**

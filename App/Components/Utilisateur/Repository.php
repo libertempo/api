@@ -13,7 +13,7 @@ use App\Libraries\Application;
  * @since 0.2
  * @see \Tests\Units\App\Components\Utilisateur\Repository
  *
- * Ne devrait être contacté que par le Authentification\Controller
+ * Ne devrait être contacté que par le Authentification\Controller et \Middlewares\Identification
  * Ne devrait contacter que le Utilisateur\Model, Utilisateur\Dao
  */
 class Repository extends \App\Libraries\ARepository
@@ -137,6 +137,18 @@ class Repository extends \App\Libraries\ARepository
     }
 
     /**
+     * « Ping » la date de dernier accès de l'utilisateur
+     *
+     * @param Model $model Modèle utilisateur
+     */
+    public function updateDateLastAccess(Model $model)
+    {
+        $model->updateDateLastAccess();
+        $dataDao = $this->getModel2DataDao($model);
+        $this->dao->put($dataDao, $model->getId());
+    }
+
+    /**
      * Regénère le token de l'utilisateur pour une nouvelle session
      *
      * @param AModel $model Modèle utilisateur
@@ -146,13 +158,13 @@ class Repository extends \App\Libraries\ARepository
     public function regenerateToken(AModel $model)
     {
         $instanceToken = $this->application->getTokenInstance();
-        if ('' === $instanceToken) {
+        if (empty($instanceToken)) {
             throw new \RuntimeException('Instance token is not set');
         }
 
         try {
             $model->populateToken($this->buildToken($instanceToken));
-            $model->updateLastAccess();
+            $model->updateDateLastAccess();
             $dataDao = $this->getModel2DataDao($model);
             $this->dao->put($dataDao, $model->getId());
 

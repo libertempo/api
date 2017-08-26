@@ -19,7 +19,7 @@ final class Identification
     public function __construct(IRequest $request, \App\Libraries\ARepository $repository)
     {
         $token = $request->getHeaderLine('Token');
-        if ('' === $token) {
+        if (empty($token)) {
             return;
         }
         try {
@@ -39,7 +39,7 @@ final class Identification
      */
     private function getDateLastAccessAuthorized()
     {
-        return date('Y-m-d H:i', time() - 15 * 60);
+        return date('Y-m-d H:i', time() - 5 * 60);
     }
 
     /**

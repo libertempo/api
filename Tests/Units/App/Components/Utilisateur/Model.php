@@ -71,4 +71,15 @@ final class Model extends \Tests\Units\App\Libraries\AModel
 
         $this->string($model->getToken())->isIdenticalTo($token);
     }
+
+    public function testUpdateDateLastAccess()
+    {
+        $model = new _Model(['id' => 3, 'dateLastAccess' => "0"]);
+
+        $this->string($model->getDateLastAccess())->isIdenticalTo("0");
+
+        $model->updateDateLastAccess();
+
+        $this->string($model->getDateLastAccess())->isIdenticalTo(date('Y-m-d H:i'));
+    }
 }
