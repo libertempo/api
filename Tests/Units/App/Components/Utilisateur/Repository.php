@@ -212,6 +212,18 @@ final class Repository extends \Atoum
         $this->variable((new _Repository($this->dao))->putOne([], $this->model))->isNull();
     }
 
+    public function testUpdateDateLastAccess()
+    {
+        $repo = new _Repository($this->dao);
+        $this->model->getMockController()->getToken = 'Tartuffe';
+
+        $repo->updateDateLastAccess($this->model);
+
+        $this->mock($this->model)->call('updateDateLastAccess')->once();
+        $this->mock($this->dao)->call('put')->once();
+
+    }
+
     /**
      * Teste la méthode generateToken avec un token d'instance vide
      */

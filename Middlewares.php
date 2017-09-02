@@ -36,10 +36,11 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
 /* Middleware 5 : sécurité via droits d'accès sur la ressource */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
     /**
-    * TODO
-    *
-    * qu'est ce que ça veut dire qu'une ressource est accessible, et où le mettre ? dépend du rôle ?
-    */
+     * TODO
+     *
+     * qu'est ce que ça veut dire qu'une ressource est accessible, et où le mettre ? dépend du rôle ?
+     * On peut désormais s'appuyer sur le DIC : $this['currentUser']
+     */
     if (true) {
         return $next($request, $response);
     } else {

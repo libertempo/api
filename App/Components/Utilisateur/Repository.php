@@ -23,6 +23,11 @@ class Repository extends \App\Libraries\ARepository
      */
     private $application;
 
+    /**
+     * Ajoute la bibliothèque d'accès aux données, pour la génération du token
+     *
+     * @param Application $application
+     */
     public function setApplication(Application $application)
     {
         if ($this->application instanceof Application) {
@@ -140,6 +145,8 @@ class Repository extends \App\Libraries\ARepository
      * « Ping » la date de dernier accès de l'utilisateur
      *
      * @param Model $model Modèle utilisateur
+     *
+     * @since 0.3
      */
     public function updateDateLastAccess(Model $model)
     {
@@ -154,6 +161,7 @@ class Repository extends \App\Libraries\ARepository
      * @param AModel $model Modèle utilisateur
      *
      * @return AModel Le modèle hydraté du nouveau token
+     * @throws \RuntimeException Si le token instance n'est pas posé
      */
     public function regenerateToken(AModel $model)
     {

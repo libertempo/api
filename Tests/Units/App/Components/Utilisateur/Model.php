@@ -36,6 +36,16 @@ final class Model extends \Tests\Units\App\Libraries\AModel
     }
 
     /**
+     * @since 0.3
+     */
+    public function testGetLogin()
+    {
+        $model = new _Model(['token' => 'token', 'login' => 'login']);
+
+        $this->variable($model->getLogin())->isNull();
+    }
+
+    /**
      * @inheritDoc
      */
     public function testReset()

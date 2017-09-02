@@ -1,6 +1,8 @@
 <?php
 namespace App\Components\Utilisateur;
 
+use App\Helpers\Formatter;
+
 /**
  * @inheritDoc
  *
@@ -82,9 +84,12 @@ class Model extends \App\Libraries\AModel
         $this->dataUpdated['token'] = $token;
     }
 
+    /**
+     * @since 0.3
+     */
     public function updateDateLastAccess()
     {
-        $this->dataUpdated['dateLastAccess'] = date('Y-m-d H:i');
+        $this->dataUpdated['dateLastAccess'] = Formatter::timeToSQLDatetime(time());
     }
 
     /**
