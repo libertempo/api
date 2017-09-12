@@ -19,7 +19,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     private $repository;
 
     /**
-     * @var \mock\App\Components\Planning\Creneau\Model Mock du modèle associé
+     * @var \mock\App\Components\Planning\Creneau\Entite Mock du modèle associé
      */
     private $entite;
 
@@ -32,7 +32,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\App\Components\Planning\Creneau\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\App\Components\Planning\Creneau\Model();
+        $this->entite = new \mock\App\Components\Planning\Creneau\Entite();
         $this->entite->getMockController()->getId = 42;
         $this->entite->getMockController()->getPlanningId = 12;
         $this->entite->getMockController()->getJourId = 12;

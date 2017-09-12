@@ -19,7 +19,7 @@ final class Repository extends \Atoum
     private $dao;
 
     /**
-     * @var \mock\App\Components\Planning\Model Mock du Modèle de planning
+     * @var \mock\App\Components\Planning\Entite Mock du Modèle de planning
      */
     private $entite;
 
@@ -29,7 +29,7 @@ final class Repository extends \Atoum
         $this->mockGenerator->shuntParentClassCalls();
         $this->dao = new \mock\App\Components\Planning\Dao();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\App\Components\Planning\Model();
+        $this->entite = new \mock\App\Components\Planning\Entite();
         $this->entite->getMockController()->getId = 42;
         $this->entite->getMockController()->getName = 12;
         $this->entite->getMockController()->getStatus = 12;
@@ -66,7 +66,7 @@ final class Repository extends \Atoum
 
         $entite = $repository->getOne(42);
 
-        $this->object($entite)->isInstanceOf('\App\Libraries\AModel');
+        $this->object($entite)->isInstanceOf('\App\Libraries\AEntite');
         $this->integer($entite->getId())->isIdenticalTo(42);
     }
 
@@ -98,7 +98,7 @@ final class Repository extends \Atoum
         $entites = $repository->getList([]);
 
         $this->array($entites)->hasKey(42);
-        $this->object($entites[42])->isInstanceOf('\App\Libraries\AModel');
+        $this->object($entites[42])->isInstanceOf('\App\Libraries\AEntite');
     }
 
     /*************************************************
@@ -113,7 +113,7 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->postOne(['name' => 'bob'], new \mock\App\Components\Planning\Model([]));
+            $repository->postOne(['name' => 'bob'], new \mock\App\Components\Planning\Entite([]));
         })->isInstanceOf('\App\Exceptions\MissingArgumentException');
     }
 
@@ -123,7 +123,7 @@ final class Repository extends \Atoum
     public function testPostOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\App\Components\Planning\Model([]);
+        $entite = new \mock\App\Components\Planning\Entite([]);
         $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -139,7 +139,7 @@ final class Repository extends \Atoum
     public function testPostOneOk()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\App\Components\Planning\Model([]);
+        $entite = new \mock\App\Components\Planning\Entite([]);
         $entite->getMockController()->populate = '';
         $entite->getMockController()->getName = 'name';
         $entite->getMockController()->getStatus = 'status';
@@ -162,7 +162,7 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->putOne(['name' => 'bob'], new \mock\App\Components\Planning\Model([]));
+            $repository->putOne(['name' => 'bob'], new \mock\App\Components\Planning\Entite([]));
         })->isInstanceOf('\App\Exceptions\MissingArgumentException');
     }
 
@@ -172,7 +172,7 @@ final class Repository extends \Atoum
     public function testPutOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\App\Components\Planning\Model([]);
+        $entite = new \mock\App\Components\Planning\Entite([]);
         $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -209,7 +209,7 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->deleteOne(new \mock\App\Components\Planning\Model([]));
+            $repository->deleteOne(new \mock\App\Components\Planning\Entite([]));
         })->isInstanceOf('\LogicException');
 
     }
@@ -221,7 +221,7 @@ final class Repository extends \Atoum
     {
         $this->dao->getMockController()->delete = 4;
         $repository = new _Repository($this->dao);
-        $entite = new \mock\App\Components\Planning\Model([]);
+        $entite = new \mock\App\Components\Planning\Entite([]);
 
         $this->variable($repository->deleteOne($entite))->isNull();
     }

@@ -2,7 +2,7 @@
 namespace App\Components\Planning\Creneau;
 
 use App\Exceptions\MissingArgumentException;
-use App\Libraries\AModel;
+use App\Libraries\AEntite;
 
 /**
  * {@inheritDoc}
@@ -14,7 +14,7 @@ use App\Libraries\AModel;
  * @see \Tests\Units\App\Components\Planning\Repository
  *
  * Ne devrait être contacté que par le Planning\Creneau\Controller, Planning\Repository
- * Ne devrait contacter que le Planning\Creneau\Model, Planning\Creneau\Dao
+ * Ne devrait contacter que le Planning\Creneau\Entite, Planning\Creneau\Dao
  */
 class Repository extends \App\Libraries\ARepository
 {
@@ -35,7 +35,7 @@ class Repository extends \App\Libraries\ARepository
             throw new \DomainException('Creneau#' . $id . ' is not a valid resource');
         }
 
-        return new Model($this->getDataDao2Model($data));
+        return new Entite($this->getDataDao2Entite($data));
     }
 
     /**
@@ -51,7 +51,7 @@ class Repository extends \App\Libraries\ARepository
 
         $entites = [];
         foreach ($data as $value) {
-            $entite = new Model($this->getDataDao2Model($value));
+            $entite = new Entite($this->getDataDao2Entite($value));
             $entites[$entite->getId()] = $entite;
         }
 
@@ -61,7 +61,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getDataDao2Model(array $dataDao)
+    final protected function getDataDao2Entite(array $dataDao)
     {
         return [
             'id' => $dataDao['creneau_id'],
@@ -102,13 +102,13 @@ class Repository extends \App\Libraries\ARepository
      * Poste une liste de ressource
      *
      * @param array $data Tableau de données à poster
-     * @param AModel $entite [Vide par définition]
+     * @param AEntite $entite [Vide par définition]
      *
      * @return array Tableau d'id des créneaux nouvellement créés
      * @throws MissingArgumentException Si un élément requis n'est pas présent
      * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
      */
-    public function postList(array $data, AModel $entite)
+    public function postList(array $data, AEntite $entite)
     {
         $postIds = [];
         $this->dao->beginTransaction();
@@ -133,7 +133,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function postOne(array $data, AModel $entite)
+    public function postOne(array $data, AEntite $entite)
     {
         if (!$this->hasAllRequired($data)) {
             throw new MissingArgumentException('');
@@ -141,7 +141,7 @@ class Repository extends \App\Libraries\ARepository
 
         try {
             $entite->populate($data);
-            $dataDao = $this->getModel2DataDao($entite);
+            $dataDao = $this->getEntite2DataDao($entite);
 
             return $this->dao->post($dataDao);
         } catch (\Exception $e) {
@@ -152,7 +152,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getModel2DataDao(AModel $entite)
+    final protected function getEntite2DataDao(AEntite $entite)
     {
         return [
             'planning_id' => $entite->getPlanningId(),
@@ -199,7 +199,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function putOne(array $data, AModel $entite)
+    public function putOne(array $data, AEntite $entite)
     {
         if (!$this->hasAllRequired($data)) {
             throw new MissingArgumentException('');
@@ -207,7 +207,7 @@ class Repository extends \App\Libraries\ARepository
 
         try {
             $entite->populate($data);
-            $dataDao = $this->getModel2DataDao($entite);
+            $dataDao = $this->getEntite2DataDao($entite);
 
             return $this->dao->put($dataDao, $entite->getId());
         } catch (\Exception $e) {
@@ -222,7 +222,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function deleteOne(AModel $entite)
+    public function deleteOne(AEntite $entite)
     {
     }
 }

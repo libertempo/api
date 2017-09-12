@@ -2,7 +2,7 @@
 namespace App\Components\Planning;
 
 use App\Exceptions\MissingArgumentException;
-use App\Libraries\AModel;
+use App\Libraries\AEntite;
 
 /**
  * {@inheritDoc}
@@ -14,7 +14,7 @@ use App\Libraries\AModel;
  * @see \Tests\Units\App\Components\Planning\Repository
  *
  * Ne devrait être contacté que par le Planning\Controller
- * Ne devrait contacter que le Planning\Model, Planning\Dao
+ * Ne devrait contacter que le Planning\Entite, Planning\Dao
  */
 class Repository extends \App\Libraries\ARepository
 {
@@ -33,7 +33,7 @@ class Repository extends \App\Libraries\ARepository
             throw new \DomainException('Planning#' . $id . ' is not a valid resource');
         }
 
-        return new Model($this->getDataDao2Model($data));
+        return new Entite($this->getDataDao2Entite($data));
     }
 
     /**
@@ -55,7 +55,7 @@ class Repository extends \App\Libraries\ARepository
 
         $entites = [];
         foreach ($data as $value) {
-            $entite = new Model($this->getDataDao2Model($value));
+            $entite = new Entite($this->getDataDao2Entite($value));
             $entites[$entite->getId()] = $entite;
         }
 
@@ -65,7 +65,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getDataDao2Model(array $dataDao)
+    final protected function getDataDao2Entite(array $dataDao)
     {
         return [
             'id' => $dataDao['planning_id'],
@@ -107,7 +107,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function postOne(array $data, AModel $entite)
+    public function postOne(array $data, AEntite $entite)
     {
         if (!$this->hasAllRequired($data)) {
             throw new MissingArgumentException('');
@@ -115,7 +115,7 @@ class Repository extends \App\Libraries\ARepository
 
         try {
             $entite->populate($data);
-            $dataDao = $this->getModel2DataDao($entite);
+            $dataDao = $this->getEntite2DataDao($entite);
 
             return $this->dao->post($dataDao);
         } catch (\Exception $e) {
@@ -126,7 +126,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getModel2DataDao(AModel $entite)
+    final protected function getEntite2DataDao(AEntite $entite)
     {
         return [
             'name' => $entite->getName(),
@@ -169,7 +169,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function putOne(array $data, AModel $entite)
+    public function putOne(array $data, AEntite $entite)
     {
         if (!$this->hasAllRequired($data)) {
             throw new MissingArgumentException('');
@@ -177,7 +177,7 @@ class Repository extends \App\Libraries\ARepository
 
         try {
             $entite->populate($data);
-            $dataDao = $this->getModel2DataDao($entite);
+            $dataDao = $this->getEntite2DataDao($entite);
 
             return $this->dao->put($dataDao, $entite->getId());
         } catch (\Exception $e) {
@@ -192,7 +192,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function deleteOne(AModel $entite)
+    public function deleteOne(AEntite $entite)
     {
         try {
             $entite->reset();

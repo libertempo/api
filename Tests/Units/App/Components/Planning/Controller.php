@@ -1,4 +1,4 @@
-entite<?php
+<?php
 namespace Tests\Units\App\Components\Planning;
 
 use \App\Components\Planning\Controller as _Controller;
@@ -19,7 +19,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     private $repository;
 
     /**
-     * @var \mock\App\Components\Planning\Model Mock du modèle associé
+     * @var \mock\App\Components\Planning\Entite Mock du modèle associé
      */
     private $entite;
 
@@ -33,7 +33,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\App\Components\Planning\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\App\Components\Planning\Model();
+        $this->entite = new \mock\App\Components\Planning\Entite();
         $this->entite->getMockController()->getId = 42;
         $this->entite->getMockController()->getName = 12;
         $this->entite->getMockController()->getStatus = 12;

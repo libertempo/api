@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Units\App\Libraries;
 
-use \App\Libraries\AModel as _AModel;
+use \App\Libraries\AEntite as _AEntite;
 
 /**
  * Classe commune de test sur les modèles
@@ -11,10 +11,10 @@ use \App\Libraries\AModel as _AModel;
  *
  * @since 0.1
  */
-abstract class AModel extends \Atoum
+abstract class AEntite extends \Atoum
 {
     /**
-     * @var \App\Libraries\AModel $entite Modèle en cours de test
+     * @var \App\Libraries\AEntite $entite Modèle en cours de test
      */
     protected $entite;
 
@@ -31,10 +31,10 @@ abstract class AModel extends \Atoum
     /**
      * Asserters commun sur la construction avec id
      *
-     * @param _AModel $entite
+     * @param _AEntite $entite
      * @param int $id Id de l'objet
      */
-    final protected function assertConstructWithId(_AModel $entite, $id)
+    final protected function assertConstructWithId(_AEntite $entite, $id)
     {
         $this->integer($entite->getId())->isIdenticalTo($id);
     }
@@ -47,7 +47,7 @@ abstract class AModel extends \Atoum
     /**
      * Asserteurs communs sur le reset
      */
-    final protected function assertReset(_AModel $entite)
+    final protected function assertReset(_AEntite $entite)
     {
         $entite->reset();
 

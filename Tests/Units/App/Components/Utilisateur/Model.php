@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Units\App\Components\Utilisateur;
 
-use \App\Components\Utilisateur\Model as _Model;
+use \App\Components\Utilisateur\Entite as _Entite;
 
 /**
  * Classe de test du modèle de l'utilisateur
@@ -11,7 +11,7 @@ use \App\Components\Utilisateur\Model as _Model;
  *
  * @since 0.2
  */
-final class Model extends \Tests\Units\App\Libraries\AModel
+final class Entite extends \Tests\Units\App\Libraries\AEntite
 {
     /**
      * @inheritDoc
@@ -20,7 +20,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
     {
         $id = 'Balin';
 
-        $entite = new _Model(['id' => $id]);
+        $entite = new _Entite(['id' => $id]);
 
         $this->string($entite->getId())->isIdenticalTo($id);
     }
@@ -30,7 +30,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testConstructWithoutId()
     {
-        $entite = new _Model(['token' => 'token']);
+        $entite = new _Entite(['token' => 'token']);
 
         $this->variable($entite->getId())->isNull();
     }
@@ -50,7 +50,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testReset()
     {
-        $entite = new _Model(['id' => 'Balin', 'token' => 'token']);
+        $entite = new _Entite(['id' => 'Balin', 'token' => 'token']);
 
         $this->assertReset($entite);
     }
@@ -60,7 +60,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateTokenBadDomain()
     {
-        $entite = new _Model([]);
+        $entite = new _Entite([]);
         $token = '';
 
         $this->exception(function () use ($entite, $token) {
@@ -74,7 +74,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateTokenOk()
     {
-        $entite = new _Model([]);
+        $entite = new _Entite([]);
         $token = 'AZP3401GJE9#';
 
         $entite->populateToken($token);

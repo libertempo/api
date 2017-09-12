@@ -109,11 +109,11 @@ final class Controller extends \App\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param Model $entite Planning
+     * @param Entite $entite Planning
      *
      * @return array
      */
-    private function buildData(Model $entite)
+    private function buildData(Entite $entite)
     {
         return [
             'id' => $entite->getId(),
@@ -143,7 +143,7 @@ final class Controller extends \App\Libraries\AController
         }
 
         try {
-            $planningId = $this->repository->postOne($body, new Model([]));
+            $planningId = $this->repository->postOne($body, new Entite([]));
             $code = 201;
             $data = [
                 'code' => $code,

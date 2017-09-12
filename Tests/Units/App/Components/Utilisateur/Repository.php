@@ -1,8 +1,8 @@
-entite<?php
+<?php
 namespace Tests\Units\App\Components\Utilisateur;
 
 use \App\Components\Utilisateur\Repository as _Repository;
-use App\Libraries\AModel;
+use App\Libraries\AEntite;
 
 /**
  * Classe de test du repository de l'utilisateur
@@ -35,7 +35,7 @@ final class Repository extends \Atoum
     private $statement;
 
     /**
-     * @var \mock\App\Components\Utilisateur\Model Mock du Modèle de l'utilisateur
+     * @var \mock\App\Components\Utilisateur\Entite Mock du Modèle de l'utilisateur
      */
     private $entite;
 
@@ -54,7 +54,7 @@ final class Repository extends \Atoum
         $this->connector->getMockController()->query = $this->statement;
         $this->application = new \mock\App\Libraries\Application($this->connector);
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\App\Components\Utilisateur\Model();
+        $this->entite = new \mock\App\Components\Utilisateur\Entite();
         $this->entite->getMockController()->getNom = 'Aladdin';
         $this->entite->getMockController()->getDateInscription = '222';
     }
@@ -144,7 +144,7 @@ final class Repository extends \Atoum
 
         $entite = $repository->find([]);
 
-        $this->object($entite)->isInstanceOf('\App\Libraries\AModel');
+        $this->object($entite)->isInstanceOf('\App\Libraries\AEntite');
     }
 
     /**
@@ -190,7 +190,7 @@ final class Repository extends \Atoum
         $entites = $repository->getList([]);
 
         $this->array($entites)->hasKey('Aladdin');
-        $this->object($entites['Aladdin'])->isInstanceOf('\App\Libraries\AModel');
+        $this->object($entites['Aladdin'])->isInstanceOf('\App\Libraries\AEntite');
     }
 
     /*************************************************
@@ -266,7 +266,7 @@ final class Repository extends \Atoum
 
         $entite = $repository->regenerateToken($this->entite);
 
-        $this->object($entite)->isInstanceOf(AModel::class);
+        $this->object($entite)->isInstanceOf(AEntite::class);
     }
 
     /*************************************************

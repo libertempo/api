@@ -13,7 +13,7 @@ namespace App\Libraries;
  * Ne devrait être contacté par personne
  * Ne devrait contacter personne
  */
-abstract class AModel
+abstract class AEntite
 {
     /**
      * @var int $id Identifiant unique de l'élément dans la liste

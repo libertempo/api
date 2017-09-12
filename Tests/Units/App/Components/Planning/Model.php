@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Units\App\Components\Planning;
 
-use \App\Components\Planning\Model as _Model;
+use \App\Components\Planning\Entite as _Entite;
 
 /**
  * Classe de test du modèle de planning
@@ -11,7 +11,7 @@ use \App\Components\Planning\Model as _Model;
  *
  * @since 0.1
  */
-final class Model extends \Tests\Units\App\Libraries\AModel
+final class Entite extends \Tests\Units\App\Libraries\AEntite
 {
     /**
      * @inheritDoc
@@ -22,7 +22,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
         $name = 'name';
         $status = 4;
 
-        $entite = new _Model(['id' => $id, 'name' => 'name', 'status' => $status]);
+        $entite = new _Entite(['id' => $id, 'name' => 'name', 'status' => $status]);
 
         $this->assertConstructWithId($entite, $id);
         $this->string($entite->getName())->isIdenticalTo($name);
@@ -34,7 +34,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testConstructWithoutId()
     {
-        $entite = new _Model(['name' => 'name', 'status' => 'status']);
+        $entite = new _Entite(['name' => 'name', 'status' => 'status']);
 
         $this->variable($entite->getId())->isNull();
     }
@@ -44,7 +44,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateBadDomain()
     {
-        $entite = new _Model([]);
+        $entite = new _Entite([]);
         $data = ['name' => '', 'status' => 45];
 
         $this->exception(function () use ($entite, $data) {
@@ -57,7 +57,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateOk()
     {
-        $entite = new _Model([]);
+        $entite = new _Entite([]);
         $data = ['name' => 'test', 'status' => 48];
 
         $entite->populate($data);
@@ -71,7 +71,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testReset()
     {
-        $entite = new _Model(['id' => 3, 'name' => 'name', 'status' => 'status']);
+        $entite = new _Entite(['id' => 3, 'name' => 'name', 'status' => 'status']);
 
         $this->assertReset($entite);
     }

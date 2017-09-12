@@ -10,12 +10,12 @@ use App\Helpers\Formatter;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \Tests\Units\App\Components\Utilisateur\Model
+ * @see \Tests\Units\App\Components\Utilisateur\Entite
  *
  * Ne devrait être contacté que par le Utilisateur\Repository
  * Ne devrait contacter personne
  */
-class Model extends \App\Libraries\AModel
+class Entite extends \App\Libraries\AEntite
 {
     public function getToken()
     {

@@ -119,11 +119,11 @@ final class Controller extends \App\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param Model $entite Créneau de planning
+     * @param Entite $entite Créneau de planning
      *
      * @return array
      */
-    private function buildData(Model $entite)
+    private function buildData(Entite $entite)
     {
         return [
             'id' => $entite->getId(),
@@ -157,7 +157,7 @@ final class Controller extends \App\Libraries\AController
         }
 
         try {
-            $creneauxIds = $this->repository->postList($body, new Model([]));
+            $creneauxIds = $this->repository->postList($body, new Entite([]));
             $dataMessage = [];
             foreach ($creneauxIds as $id) {
                 $dataMessage[] = $this->router->pathFor('getPlanningCreneauDetail', [

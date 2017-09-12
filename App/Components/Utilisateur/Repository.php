@@ -1,7 +1,7 @@
 <?php
 namespace App\Components\Utilisateur;
 
-use App\Libraries\AModel;
+use App\Libraries\AEntite;
 use App\Libraries\Application;
 
 /**
@@ -13,8 +13,8 @@ use App\Libraries\Application;
  * @since 0.2
  * @see \Tests\Units\App\Components\Utilisateur\Repository
  *
- * Ne devrait être contacté que par le Authentification\Controller et \Middlewares\Identification
- * Ne devrait contacter que le Utilisateur\Model, Utilisateur\Dao
+ * Ne devrait être contacté que par le Authentification\Controller
+ * Ne devrait contacter que le Utilisateur\Entite, Utilisateur\Dao
  */
 class Repository extends \App\Libraries\ARepository
 {
@@ -50,7 +50,7 @@ class Repository extends \App\Libraries\ARepository
      * @param array $parametres
      * @example [offset => 4, start-after => 23, filter => 'name::chapo|status::1,3']
      *
-     * @return AModel
+     * @return AEntite
      */
     public function find(array $parametres)
     {
@@ -70,7 +70,7 @@ class Repository extends \App\Libraries\ARepository
 
         $entites = [];
         foreach ($data as $value) {
-            $entite = new Model($this->getDataDao2Model($value));
+            $entite = new Entite($this->getDataDao2Entite($value));
             $entites[$entite->getId()] = $entite;
         }
 
@@ -80,7 +80,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getDataDao2Model(array $dataDao)
+    final protected function getDataDao2Entite(array $dataDao)
     {
         return [
             'id' => $dataDao['id'],
@@ -129,7 +129,7 @@ class Repository extends \App\Libraries\ARepository
      * POST
      *************************************************/
 
-    public function postOne(array $data, AModel $entite)
+    public function postOne(array $data, AEntite $entite)
     {
     }
 
@@ -137,33 +137,33 @@ class Repository extends \App\Libraries\ARepository
      * PUT
      *************************************************/
 
-    public function putOne(array $data, AModel $entite)
+    public function putOne(array $data, AEntite $entite)
     {
     }
 
     /**
      * « Ping » la date de dernier accès de l'utilisateur
      *
-     * @param Model $model Modèle utilisateur
+     * @param AEntite $entite Entité utilisateur
      *
      * @since 0.3
      */
-    public function updateDateLastAccess(AModel $model)
+    public function updateDateLastAccess(AEntite $entite)
     {
-        $model->updateDateLastAccess();
-        $dataDao = $this->getModel2DataDao($model);
-        $this->dao->put($dataDao, $model->getId());
+        $entite->updateDateLastAccess();
+        $dataDao = $this->getModel2DataDao($entite);
+        $this->dao->put($dataDao, $entite->getId());
     }
 
     /**
      * Regénère le token de l'utilisateur pour une nouvelle session
      *
-     * @param AModel $entite Modèle utilisateur
+     * @param AEntite $entite Entité utilisateur
      *
-     * @return AModel Le modèle hydraté du nouveau token
+     * @return AEntite L'entité hydratée du nouveau token
      * @throws \RuntimeException Si le token instance n'est pas posé
      */
-    public function regenerateToken(AModel $entite)
+    public function regenerateToken(AEntite $entite)
     {
         $instanceToken = $this->application->getTokenInstance();
         if (empty($instanceToken)) {
@@ -173,7 +173,7 @@ class Repository extends \App\Libraries\ARepository
         try {
             $entite->populateToken($this->buildToken($instanceToken));
             $entite->updateDateLastAccess();
-            $dataDao = $this->getModel2DataDao($entite);
+            $dataDao = $this->getEntite2DataDao($entite);
             $this->dao->put($dataDao, $entite->getId());
 
             return $entite;
@@ -185,7 +185,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getModel2DataDao(AModel $entite)
+    final protected function getEntite2DataDao(AEntite $entite)
     {
         return [
             //'u_login' => $entite->getLogin(), // PK ne doit pas être vu par la DAO
@@ -224,7 +224,7 @@ class Repository extends \App\Libraries\ARepository
      * DELETE
      *************************************************/
 
-    public function deleteOne(AModel $entite)
+    public function deleteOne(AEntite $entite)
     {
     }
 }
