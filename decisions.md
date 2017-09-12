@@ -1,3 +1,9 @@
+## 2017-09-12
+
+* Je renomme les modèles du design MVC en *entités*. Dans un contexte métier, la couche métier ne se résume pas à une seule classe et je ne veux pas perdre le lecteur en créant la confusion dans sa tête si une classe porte ce nom.
+
+~ Prytoegrian
+
 
 ## 2016-10-29
 

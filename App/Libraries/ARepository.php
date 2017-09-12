@@ -78,11 +78,11 @@ abstract class ARepository
     /**
      * Effectue le mapping des éléments venant du modèle pour qu'ils soient compréhensibles pour la DAO
      *
-     * @param AModel $model
+     * @param AModel $entite
      *
      * @return array
      */
-    abstract protected function getModel2DataDao(AModel $model);
+    abstract protected function getModel2DataDao(AModel $entite);
 
     /*************************************************
      * POST
@@ -92,13 +92,13 @@ abstract class ARepository
      * Poste une ressource unique
      *
      * @param array $data Données à poster
-     * @param AModel $model [Vide par définition]
+     * @param AModel $entite [Vide par définition]
      *
      * @return int Id de la ressource nouvellement insérée
      * @throws MissingArgumentException Si un élément requis n'est pas présent
      * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
      */
-    abstract public function postOne(array $data, AModel $model);
+    abstract public function postOne(array $data, AModel $entite);
 
     /*************************************************
      * PUT
@@ -108,12 +108,12 @@ abstract class ARepository
      * Met à jour une ressource unique
      *
      * @param array $data Données à mettre à jour
-     * @param AModel $model
+     * @param AModel $entite
      *
      * @throws MissingArgumentException Si un élément requis n'est pas présent
      * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
      */
-    abstract public function putOne(array $data, AModel $model);
+    abstract public function putOne(array $data, AModel $entite);
 
     /*************************************************
      * DELETE
@@ -122,7 +122,7 @@ abstract class ARepository
     /**
      * Détruit une ressource unique
      *
-     * @param AModel $model
+     * @param AModel $entite
      */
-    abstract public function deleteOne(AModel $model);
+    abstract public function deleteOne(AModel $entite);
 }

@@ -22,11 +22,11 @@ final class Model extends \Tests\Units\App\Libraries\AModel
         $name = 'name';
         $status = 4;
 
-        $model = new _Model(['id' => $id, 'name' => 'name', 'status' => $status]);
+        $entite = new _Model(['id' => $id, 'name' => 'name', 'status' => $status]);
 
-        $this->assertConstructWithId($model, $id);
-        $this->string($model->getName())->isIdenticalTo($name);
-        $this->integer($model->getStatus())->isIdenticalTo($status);
+        $this->assertConstructWithId($entite, $id);
+        $this->string($entite->getName())->isIdenticalTo($name);
+        $this->integer($entite->getStatus())->isIdenticalTo($status);
     }
 
     /**
@@ -34,9 +34,9 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testConstructWithoutId()
     {
-        $model = new _Model(['name' => 'name', 'status' => 'status']);
+        $entite = new _Model(['name' => 'name', 'status' => 'status']);
 
-        $this->variable($model->getId())->isNull();
+        $this->variable($entite->getId())->isNull();
     }
 
     /**
@@ -44,11 +44,11 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateBadDomain()
     {
-        $model = new _Model([]);
+        $entite = new _Model([]);
         $data = ['name' => '', 'status' => 45];
 
-        $this->exception(function () use ($model, $data) {
-            $model->populate($data);
+        $this->exception(function () use ($entite, $data) {
+            $entite->populate($data);
         })->isInstanceOf('\DomainException');
     }
 
@@ -57,13 +57,13 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateOk()
     {
-        $model = new _Model([]);
+        $entite = new _Model([]);
         $data = ['name' => 'test', 'status' => 48];
 
-        $model->populate($data);
+        $entite->populate($data);
 
-        $this->string($model->getName())->isIdenticalTo($data['name']);
-        $this->integer($model->getStatus())->isIdenticalTo($data['status']);
+        $this->string($entite->getName())->isIdenticalTo($data['name']);
+        $this->integer($entite->getStatus())->isIdenticalTo($data['status']);
     }
 
     /**
@@ -71,8 +71,8 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testReset()
     {
-        $model = new _Model(['id' => 3, 'name' => 'name', 'status' => 'status']);
+        $entite = new _Model(['id' => 3, 'name' => 'name', 'status' => 'status']);
 
-        $this->assertReset($model);
+        $this->assertReset($entite);
     }
 }

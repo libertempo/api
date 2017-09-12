@@ -49,13 +49,13 @@ class Repository extends \App\Libraries\ARepository
             throw new \UnexpectedValueException('No resource match with these parameters');
         }
 
-        $models = [];
+        $entites = [];
         foreach ($data as $value) {
-            $model = new Model($this->getDataDao2Model($value));
-            $models[$model->getId()] = $model;
+            $entite = new Model($this->getDataDao2Model($value));
+            $entites[$entite->getId()] = $entite;
         }
 
-        return $models;
+        return $entites;
     }
 
     /**
@@ -102,24 +102,24 @@ class Repository extends \App\Libraries\ARepository
      * Poste une liste de ressource
      *
      * @param array $data Tableau de données à poster
-     * @param AModel $model [Vide par définition]
+     * @param AModel $entite [Vide par définition]
      *
      * @return array Tableau d'id des créneaux nouvellement créés
      * @throws MissingArgumentException Si un élément requis n'est pas présent
      * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
      */
-    public function postList(array $data, AModel $model)
+    public function postList(array $data, AModel $entite)
     {
         $postIds = [];
         $this->dao->beginTransaction();
         foreach ($data as $creneau) {
             try {
-                $postIds[] = $this->postOne($creneau, $model);
+                $postIds[] = $this->postOne($creneau, $entite);
                 /*
                  * Le plus cool aurait été de cloner l'objet de base,
                  * mais le clonage de mock est nul, donc on reset pour la boucle
                  */
-                $model->reset();
+                $entite->reset();
             } catch (\Exception $e) {
                 $this->dao->rollback();
                 throw $e;
@@ -133,15 +133,15 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function postOne(array $data, AModel $model)
+    public function postOne(array $data, AModel $entite)
     {
         if (!$this->hasAllRequired($data)) {
             throw new MissingArgumentException('');
         }
 
         try {
-            $model->populate($data);
-            $dataDao = $this->getModel2DataDao($model);
+            $entite->populate($data);
+            $dataDao = $this->getModel2DataDao($entite);
 
             return $this->dao->post($dataDao);
         } catch (\Exception $e) {
@@ -152,15 +152,15 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getModel2DataDao(AModel $model)
+    final protected function getModel2DataDao(AModel $entite)
     {
         return [
-            'planning_id' => $model->getPlanningId(),
-            'jour_id' => $model->getJourId(),
-            'type_semaine' => $model->getTypeSemaine(),
-            'type_periode' => $model->getTypePeriode(),
-            'debut' => $model->getDebut(),
-            'fin' => $model->getFin(),
+            'planning_id' => $entite->getPlanningId(),
+            'jour_id' => $entite->getJourId(),
+            'type_semaine' => $entite->getTypeSemaine(),
+            'type_periode' => $entite->getTypePeriode(),
+            'debut' => $entite->getDebut(),
+            'fin' => $entite->getFin(),
         ];
     }
 
@@ -199,17 +199,17 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function putOne(array $data, AModel $model)
+    public function putOne(array $data, AModel $entite)
     {
         if (!$this->hasAllRequired($data)) {
             throw new MissingArgumentException('');
         }
 
         try {
-            $model->populate($data);
-            $dataDao = $this->getModel2DataDao($model);
+            $entite->populate($data);
+            $dataDao = $this->getModel2DataDao($entite);
 
-            return $this->dao->put($dataDao, $model->getId());
+            return $this->dao->put($dataDao, $entite->getId());
         } catch (\Exception $e) {
             throw $e;
         }
@@ -222,7 +222,7 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function deleteOne(AModel $model)
+    public function deleteOne(AModel $entite)
     {
     }
 }

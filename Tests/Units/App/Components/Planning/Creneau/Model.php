@@ -21,10 +21,10 @@ final class Model extends \Tests\Units\App\Libraries\AModel
         $id = 3;
         $planning = 12;
 
-        $model = new _Model(['id' => $id, 'planningId' => $planning]);
+        $entite = new _Model(['id' => $id, 'planningId' => $planning]);
 
-        $this->assertConstructWithId($model, $id);
-        $this->integer($model->getPlanningId())->isIdenticalTo($planning);
+        $this->assertConstructWithId($entite, $id);
+        $this->integer($entite->getPlanningId())->isIdenticalTo($planning);
     }
 
     /**
@@ -32,9 +32,9 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testConstructWithoutId()
     {
-        $model = new _Model(['planningId' => 34]);
+        $entite = new _Model(['planningId' => 34]);
 
-        $this->variable($model->getId())->isNull();
+        $this->variable($entite->getId())->isNull();
     }
 
     /**
@@ -42,7 +42,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateBadDomain()
     {
-        $model = new _Model([]);
+        $entite = new _Model([]);
         $data = [
             'planningId' => '',
             'typeSemaine' => '',
@@ -52,8 +52,8 @@ final class Model extends \Tests\Units\App\Libraries\AModel
             'fin' => ''
         ];
 
-        $this->exception(function () use ($model, $data) {
-            $model->populate($data);
+        $this->exception(function () use ($entite, $data) {
+            $entite->populate($data);
         })->isInstanceOf('\DomainException');
     }
 
@@ -62,7 +62,7 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateOk()
     {
-        $model = new _Model([]);
+        $entite = new _Model([]);
         $data = [
             'planningId' => 12,
             'typeSemaine' => 23,
@@ -72,14 +72,14 @@ final class Model extends \Tests\Units\App\Libraries\AModel
             'fin' => 67,
         ];
 
-        $model->populate($data);
+        $entite->populate($data);
 
-        $this->integer($model->getPlanningId())->isIdenticalTo($data['planningId']);
-        $this->integer($model->getTypeSemaine())->isIdenticalTo($data['typeSemaine']);
-        $this->integer($model->getTypePeriode())->isIdenticalTo($data['typePeriode']);
-        $this->integer($model->getJourId())->isIdenticalTo($data['jourId']);
-        $this->integer($model->getDebut())->isIdenticalTo($data['debut']);
-        $this->integer($model->getFin())->isIdenticalTo($data['fin']);
+        $this->integer($entite->getPlanningId())->isIdenticalTo($data['planningId']);
+        $this->integer($entite->getTypeSemaine())->isIdenticalTo($data['typeSemaine']);
+        $this->integer($entite->getTypePeriode())->isIdenticalTo($data['typePeriode']);
+        $this->integer($entite->getJourId())->isIdenticalTo($data['jourId']);
+        $this->integer($entite->getDebut())->isIdenticalTo($data['debut']);
+        $this->integer($entite->getFin())->isIdenticalTo($data['fin']);
     }
 
     /**
@@ -87,9 +87,9 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testReset()
     {
-        $model = new _Model(['id' => 39, 'planningId' => 'test']);
+        $entite = new _Model(['id' => 39, 'planningId' => 'test']);
 
-        $this->assertReset($model);
+        $this->assertReset($entite);
     }
 
 }

@@ -21,7 +21,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     /**
      * @var \mock\App\Components\Utilisateur\Model Mock du modèle associé
      */
-    private $model;
+    private $entite;
 
     /**
      * Init des tests
@@ -33,7 +33,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\App\Components\Utilisateur\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\App\Components\Utilisateur\Model();
+        $this->entite = new \mock\App\Components\Utilisateur\Model();
     }
 
     /*************************************************
@@ -79,9 +79,9 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     public function testGetFound()
     {
         $token = 'abcde';
-        $this->model->getMockController()->getToken = $token;
-        $this->repository->getMockController()->find = $this->model;
-        $this->repository->getMockController()->regenerateToken = $this->model;
+        $this->entite->getMockController()->getToken = $token;
+        $this->repository->getMockController()->find = $this->entite;
+        $this->repository->getMockController()->regenerateToken = $this->entite;
         $this->request->getMockController()->getHeaderLine = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
         $controller = new _Controller($this->repository, $this->router);
 

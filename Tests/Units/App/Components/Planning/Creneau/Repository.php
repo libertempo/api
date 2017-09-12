@@ -21,7 +21,7 @@ final class Repository extends \Atoum
     /**
      * @var \mock\App\Components\Planning\Creneau\Model Mock du Modèle de créneau
      */
-    private $model;
+    private $entite;
 
     public function beforeTestMethod($method)
     {
@@ -29,8 +29,8 @@ final class Repository extends \Atoum
         $this->mockGenerator->shuntParentClassCalls();
         $this->dao = new \mock\App\Components\Planning\Creneau\Dao();
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\App\Components\Planning\Creneau\Model();
-        $this->model->getMockController()->getId = 42;
+        $this->entite = new \mock\App\Components\Planning\Creneau\Model();
+        $this->entite->getMockController()->getId = 42;
     }
 
     /*************************************************
@@ -66,10 +66,10 @@ final class Repository extends \Atoum
         ];
         $repository = new _Repository($this->dao);
 
-        $model = $repository->getOne(42, 23);
+        $entite = $repository->getOne(42, 23);
 
-        $this->object($model)->isInstanceOf('\App\Libraries\AModel');
-        $this->integer($model->getId())->isIdenticalTo(42);
+        $this->object($entite)->isInstanceOf('\App\Libraries\AModel');
+        $this->integer($entite->getId())->isIdenticalTo(42);
     }
 
     /**
@@ -101,10 +101,10 @@ final class Repository extends \Atoum
         ]];
         $repository = new _Repository($this->dao);
 
-        $models = $repository->getList(['planningId' => 53]);
+        $entites = $repository->getList(['planningId' => 53]);
 
-        $this->array($models)->hasKey(42);
-        $this->object($models[42])->isInstanceOf('\App\Libraries\AModel');
+        $this->array($entites)->hasKey(42);
+        $this->object($entites[42])->isInstanceOf('\App\Libraries\AModel');
     }
 
     /*************************************************
@@ -117,8 +117,8 @@ final class Repository extends \Atoum
     public function testPostListException()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Creneau\Model([]);
-        $model->getMockController()->populate = function () {
+        $entite = new \mock\App\Components\Planning\Creneau\Model([]);
+        $entite->getMockController()->populate = function () {
             throw new \LogicException('');
         };
         $data = [
@@ -130,8 +130,8 @@ final class Repository extends \Atoum
             'fin' => 92,
         ];
 
-        $this->exception(function () use ($repository, $data, $model) {
-            $repository->postList([$data], $model);
+        $this->exception(function () use ($repository, $data, $entite) {
+            $repository->postList([$data], $entite);
         })->isInstanceOf('\LogicException');
     }
 
@@ -141,14 +141,14 @@ final class Repository extends \Atoum
     public function testPostListOk()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Creneau\Model([]);
-        $model->getMockController()->populate = '';
-        $model->getMockController()->getPlanningId = 3;
-        $model->getMockController()->getJourId = 4;
-        $model->getMockController()->getTypeSemaine = 5;
-        $model->getMockController()->getTypePeriode = 6;
-        $model->getMockController()->getDebut = 7;
-        $model->getMockController()->getFin = 8;
+        $entite = new \mock\App\Components\Planning\Creneau\Model([]);
+        $entite->getMockController()->populate = '';
+        $entite->getMockController()->getPlanningId = 3;
+        $entite->getMockController()->getJourId = 4;
+        $entite->getMockController()->getTypeSemaine = 5;
+        $entite->getMockController()->getTypePeriode = 6;
+        $entite->getMockController()->getDebut = 7;
+        $entite->getMockController()->getFin = 8;
         $data = [
             [
                 'planningId' => 34,
@@ -163,7 +163,7 @@ final class Repository extends \Atoum
         $this->dao->getMockController()->post[2] = 9;
 
 
-        $post = $repository->postList($data, $model);
+        $post = $repository->postList($data, $entite);
 
         foreach ($post as $postId) {
             $this->integer($postId);
@@ -176,10 +176,10 @@ final class Repository extends \Atoum
     public function testPostOneMissingArgument()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Creneau\Model([]);
+        $entite = new \mock\App\Components\Planning\Creneau\Model([]);
 
-        $this->exception(function () use ($repository, $model) {
-            $repository->postOne([], $model);
+        $this->exception(function () use ($repository, $entite) {
+            $repository->postOne([], $entite);
         })->isInstanceOf('\App\Exceptions\MissingArgumentException');
     }
 
@@ -189,8 +189,8 @@ final class Repository extends \Atoum
     public function testPostOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Creneau\Model([]);
-        $model->getMockController()->populate = function () {
+        $entite = new \mock\App\Components\Planning\Creneau\Model([]);
+        $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
         $data = [
@@ -202,8 +202,8 @@ final class Repository extends \Atoum
             'fin' => 92,
         ];
 
-        $this->exception(function () use ($repository, $data, $model) {
-            $repository->postOne($data, $model);
+        $this->exception(function () use ($repository, $data, $entite) {
+            $repository->postOne($data, $entite);
         })->isInstanceOf('\DomainException');
     }
 
@@ -213,14 +213,14 @@ final class Repository extends \Atoum
     public function testPostOneOk()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Creneau\Model([]);
-        $model->getMockController()->populate = '';
-        $model->getMockController()->getPlanningId = 3;
-        $model->getMockController()->getJourId = 4;
-        $model->getMockController()->getTypeSemaine = 5;
-        $model->getMockController()->getTypePeriode = 6;
-        $model->getMockController()->getDebut = 7;
-        $model->getMockController()->getFin = 8;
+        $entite = new \mock\App\Components\Planning\Creneau\Model([]);
+        $entite->getMockController()->populate = '';
+        $entite->getMockController()->getPlanningId = 3;
+        $entite->getMockController()->getJourId = 4;
+        $entite->getMockController()->getTypeSemaine = 5;
+        $entite->getMockController()->getTypePeriode = 6;
+        $entite->getMockController()->getDebut = 7;
+        $entite->getMockController()->getFin = 8;
         $data = [
             'planningId' => 34,
             'jourId' => 2,
@@ -231,7 +231,7 @@ final class Repository extends \Atoum
         ];
         $this->dao->getMockController()->post = 3;
 
-        $post = $repository->postOne($data, $model);
+        $post = $repository->postOne($data, $entite);
 
         $this->integer($post);
     }
@@ -258,12 +258,12 @@ final class Repository extends \Atoum
     public function testPutOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Creneau\Model([]);
-        $model->getMockController()->populate = function () {
+        $entite = new \mock\App\Components\Planning\Creneau\Model([]);
+        $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
 
-        $this->exception(function () use ($repository, $model) {
+        $this->exception(function () use ($repository, $entite) {
             $repository->putOne(
                 [
                     'planningId' => 4,
@@ -273,7 +273,7 @@ final class Repository extends \Atoum
                     'debut' => 3,
                     'fin' => 129,
                 ],
-                $model);
+                $entite);
         })->isInstanceOf('\DomainException');
     }
 
@@ -293,7 +293,7 @@ final class Repository extends \Atoum
                 'debut' => 37,
                 'fin' => 129,
             ],
-            $this->model);
+            $this->entite);
 
         $this->variable($result)->isNull();
     }

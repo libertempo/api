@@ -14,9 +14,9 @@ use \App\Libraries\AModel as _AModel;
 abstract class AModel extends \Atoum
 {
     /**
-     * @var \App\Libraries\AModel $model Modèle en cours de test
+     * @var \App\Libraries\AModel $entite Modèle en cours de test
      */
-    protected $model;
+    protected $entite;
 
     /**
     * Teste la méthode __construct avec un Id (typiquement lors d'un get())
@@ -31,12 +31,12 @@ abstract class AModel extends \Atoum
     /**
      * Asserters commun sur la construction avec id
      *
-     * @param _AModel $model
+     * @param _AModel $entite
      * @param int $id Id de l'objet
      */
-    final protected function assertConstructWithId(_AModel $model, $id)
+    final protected function assertConstructWithId(_AModel $entite, $id)
     {
-        $this->integer($model->getId())->isIdenticalTo($id);
+        $this->integer($entite->getId())->isIdenticalTo($id);
     }
 
     /**
@@ -47,10 +47,10 @@ abstract class AModel extends \Atoum
     /**
      * Asserteurs communs sur le reset
      */
-    final protected function assertReset(_AModel $model)
+    final protected function assertReset(_AModel $entite)
     {
-        $model->reset();
+        $entite->reset();
 
-        $this->variable($model->getId())->isNull();
+        $this->variable($entite->getId())->isNull();
     }
 }

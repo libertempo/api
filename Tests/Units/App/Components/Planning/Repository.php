@@ -21,7 +21,7 @@ final class Repository extends \Atoum
     /**
      * @var \mock\App\Components\Planning\Model Mock du Modèle de planning
      */
-    private $model;
+    private $entite;
 
     public function beforeTestMethod($method)
     {
@@ -29,10 +29,10 @@ final class Repository extends \Atoum
         $this->mockGenerator->shuntParentClassCalls();
         $this->dao = new \mock\App\Components\Planning\Dao();
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\App\Components\Planning\Model();
-        $this->model->getMockController()->getId = 42;
-        $this->model->getMockController()->getName = 12;
-        $this->model->getMockController()->getStatus = 12;
+        $this->entite = new \mock\App\Components\Planning\Model();
+        $this->entite->getMockController()->getId = 42;
+        $this->entite->getMockController()->getName = 12;
+        $this->entite->getMockController()->getStatus = 12;
     }
 
     /*************************************************
@@ -64,10 +64,10 @@ final class Repository extends \Atoum
         ];
         $repository = new _Repository($this->dao);
 
-        $model = $repository->getOne(42);
+        $entite = $repository->getOne(42);
 
-        $this->object($model)->isInstanceOf('\App\Libraries\AModel');
-        $this->integer($model->getId())->isIdenticalTo(42);
+        $this->object($entite)->isInstanceOf('\App\Libraries\AModel');
+        $this->integer($entite->getId())->isIdenticalTo(42);
     }
 
     /**
@@ -95,10 +95,10 @@ final class Repository extends \Atoum
         ]];
         $repository = new _Repository($this->dao);
 
-        $models = $repository->getList([]);
+        $entites = $repository->getList([]);
 
-        $this->array($models)->hasKey(42);
-        $this->object($models[42])->isInstanceOf('\App\Libraries\AModel');
+        $this->array($entites)->hasKey(42);
+        $this->object($entites[42])->isInstanceOf('\App\Libraries\AModel');
     }
 
     /*************************************************
@@ -123,13 +123,13 @@ final class Repository extends \Atoum
     public function testPostOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Model([]);
-        $model->getMockController()->populate = function () {
+        $entite = new \mock\App\Components\Planning\Model([]);
+        $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
 
-        $this->exception(function () use ($repository, $model) {
-            $repository->postOne(['name' => 'bob', 'status' => 'bab'], $model);
+        $this->exception(function () use ($repository, $entite) {
+            $repository->postOne(['name' => 'bob', 'status' => 'bab'], $entite);
         })->isInstanceOf('\DomainException');
     }
 
@@ -139,13 +139,13 @@ final class Repository extends \Atoum
     public function testPostOneOk()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Model([]);
-        $model->getMockController()->populate = '';
-        $model->getMockController()->getName = 'name';
-        $model->getMockController()->getStatus = 'status';
+        $entite = new \mock\App\Components\Planning\Model([]);
+        $entite->getMockController()->populate = '';
+        $entite->getMockController()->getName = 'name';
+        $entite->getMockController()->getStatus = 'status';
         $this->dao->getMockController()->post = 3;
 
-        $post = $repository->postOne(['name' => 'bob', 'status' => 'pop'], $model);
+        $post = $repository->postOne(['name' => 'bob', 'status' => 'pop'], $entite);
 
         $this->integer($post);
     }
@@ -172,13 +172,13 @@ final class Repository extends \Atoum
     public function testPutOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Model([]);
-        $model->getMockController()->populate = function () {
+        $entite = new \mock\App\Components\Planning\Model([]);
+        $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
 
-        $this->exception(function () use ($repository, $model) {
-            $repository->putOne(['name' => 'bob', 'status' => 'bab'], $model);
+        $this->exception(function () use ($repository, $entite) {
+            $repository->putOne(['name' => 'bob', 'status' => 'bab'], $entite);
         })->isInstanceOf('\DomainException');
     }
 
@@ -189,7 +189,7 @@ final class Repository extends \Atoum
     {
         $repository = new _Repository($this->dao);
 
-        $result = $repository->putOne(['name' => 'baba', 'status' => 4], $this->model);
+        $result = $repository->putOne(['name' => 'baba', 'status' => 4], $this->entite);
 
         $this->variable($result)->isNull();
     }
@@ -221,8 +221,8 @@ final class Repository extends \Atoum
     {
         $this->dao->getMockController()->delete = 4;
         $repository = new _Repository($this->dao);
-        $model = new \mock\App\Components\Planning\Model([]);
+        $entite = new \mock\App\Components\Planning\Model([]);
 
-        $this->variable($repository->deleteOne($model))->isNull();
+        $this->variable($repository->deleteOne($entite))->isNull();
     }
 }

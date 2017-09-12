@@ -1,4 +1,4 @@
-<?php
+entite<?php
 namespace Tests\Units\App\Components\Utilisateur;
 
 use \App\Components\Utilisateur\Repository as _Repository;
@@ -37,7 +37,7 @@ final class Repository extends \Atoum
     /**
      * @var \mock\App\Components\Utilisateur\Model Mock du Modèle de l'utilisateur
      */
-    private $model;
+    private $entite;
 
     public function beforeTestMethod($method)
     {
@@ -54,9 +54,9 @@ final class Repository extends \Atoum
         $this->connector->getMockController()->query = $this->statement;
         $this->application = new \mock\App\Libraries\Application($this->connector);
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\App\Components\Utilisateur\Model();
-        $this->model->getMockController()->getNom = 'Aladdin';
-        $this->model->getMockController()->getDateInscription = '222';
+        $this->entite = new \mock\App\Components\Utilisateur\Model();
+        $this->entite->getMockController()->getNom = 'Aladdin';
+        $this->entite->getMockController()->getDateInscription = '222';
     }
 
     /**
@@ -142,9 +142,9 @@ final class Repository extends \Atoum
         ];
         $repository = new _Repository($this->dao);
 
-        $model = $repository->find([]);
+        $entite = $repository->find([]);
 
-        $this->object($model)->isInstanceOf('\App\Libraries\AModel');
+        $this->object($entite)->isInstanceOf('\App\Libraries\AModel');
     }
 
     /**
@@ -187,10 +187,10 @@ final class Repository extends \Atoum
         ]];
         $repository = new _Repository($this->dao);
 
-        $models = $repository->getList([]);
+        $entites = $repository->getList([]);
 
-        $this->array($models)->hasKey('Aladdin');
-        $this->object($models['Aladdin'])->isInstanceOf('\App\Libraries\AModel');
+        $this->array($entites)->hasKey('Aladdin');
+        $this->object($entites['Aladdin'])->isInstanceOf('\App\Libraries\AModel');
     }
 
     /*************************************************
@@ -200,7 +200,7 @@ final class Repository extends \Atoum
 
     public function testPostOne()
     {
-        $this->variable((new _Repository($this->dao))->postOne([], $this->model))->isNull();
+        $this->variable((new _Repository($this->dao))->postOne([], $this->entite))->isNull();
     }
 
     /*************************************************
@@ -209,7 +209,7 @@ final class Repository extends \Atoum
 
     public function testPutOne()
     {
-        $this->variable((new _Repository($this->dao))->putOne([], $this->model))->isNull();
+        $this->variable((new _Repository($this->dao))->putOne([], $this->entite))->isNull();
     }
 
     public function testUpdateDateLastAccess()
@@ -234,7 +234,7 @@ final class Repository extends \Atoum
         $repository->setApplication($this->application);
 
         $this->exception(function () use ($repository) {
-            $repository->regenerateToken($this->model);
+            $repository->regenerateToken($this->entite);
         })->isInstanceOf('\RuntimeException');
     }
 
@@ -246,12 +246,12 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
         $this->application->getMockController()->getTokenInstance = 'vi veri veniversum vivus vici';
         $repository->setApplication($this->application);
-        $this->model->getMockController()->populateToken = function () {
+        $this->entite->getMockController()->populateToken = function () {
             throw new \DomainException('');
         };
 
         $this->exception(function () use ($repository) {
-            $repository->regenerateToken($this->model);
+            $repository->regenerateToken($this->entite);
         })->isInstanceOf('\DomainException');
     }
 
@@ -260,13 +260,13 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
         $this->application->getMockController()->getTokenInstance = 'vi veri veniversum vivus vici';
         $repository->setApplication($this->application);
-        $this->model->getMockController()->populateToken = '';
-        $this->model->getMockController()->getToken = 'Pedro l\'asticot';
+        $this->entite->getMockController()->populateToken = '';
+        $this->entite->getMockController()->getToken = 'Pedro l\'asticot';
         $this->dao->getMockController()->put = '';
 
-        $model = $repository->regenerateToken($this->model);
+        $entite = $repository->regenerateToken($this->entite);
 
-        $this->object($model)->isInstanceOf(AModel::class);
+        $this->object($entite)->isInstanceOf(AModel::class);
     }
 
     /*************************************************
@@ -275,6 +275,6 @@ final class Repository extends \Atoum
 
     public function testDeleteOne()
     {
-        $this->variable((new _Repository($this->dao))->deleteOne($this->model))->isNull();
+        $this->variable((new _Repository($this->dao))->deleteOne($this->entite))->isNull();
     }
 }

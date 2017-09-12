@@ -20,9 +20,9 @@ final class Model extends \Tests\Units\App\Libraries\AModel
     {
         $id = 'Balin';
 
-        $model = new _Model(['id' => $id]);
+        $entite = new _Model(['id' => $id]);
 
-        $this->string($model->getId())->isIdenticalTo($id);
+        $this->string($entite->getId())->isIdenticalTo($id);
     }
 
     /**
@@ -30,9 +30,9 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testConstructWithoutId()
     {
-        $model = new _Model(['token' => 'token']);
+        $entite = new _Model(['token' => 'token']);
 
-        $this->variable($model->getId())->isNull();
+        $this->variable($entite->getId())->isNull();
     }
 
     /**
@@ -50,9 +50,9 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testReset()
     {
-        $model = new _Model(['id' => 'Balin', 'token' => 'token']);
+        $entite = new _Model(['id' => 'Balin', 'token' => 'token']);
 
-        $this->assertReset($model);
+        $this->assertReset($entite);
     }
 
     /**
@@ -60,11 +60,11 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateTokenBadDomain()
     {
-        $model = new _Model([]);
+        $entite = new _Model([]);
         $token = '';
 
-        $this->exception(function () use ($model, $token) {
-            $model->populateToken($token);
+        $this->exception(function () use ($entite, $token) {
+            $entite->populateToken($token);
         })->isInstanceOf('\DomainException');
     }
 
@@ -74,12 +74,12 @@ final class Model extends \Tests\Units\App\Libraries\AModel
      */
     public function testPopulateTokenOk()
     {
-        $model = new _Model([]);
+        $entite = new _Model([]);
         $token = 'AZP3401GJE9#';
 
-        $model->populateToken($token);
+        $entite->populateToken($token);
 
-        $this->string($model->getToken())->isIdenticalTo($token);
+        $this->string($entite->getToken())->isIdenticalTo($token);
     }
 
     public function testUpdateDateLastAccess()
