@@ -4,7 +4,7 @@ namespace Tests\Units\App\Components\Planning;
 use \App\Components\Planning\Entite as _Entite;
 
 /**
- * Classe de test du modèle de planning
+ * Classe de test de l'entité de planning
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina

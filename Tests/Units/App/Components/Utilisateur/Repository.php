@@ -35,7 +35,7 @@ final class Repository extends \Atoum
     private $statement;
 
     /**
-     * @var \mock\App\Components\Utilisateur\Entite Mock du Modèle de l'utilisateur
+     * @var \mock\App\Components\Utilisateur\Entite Mock de l'Entité de l'utilisateur
      */
     private $entite;
 

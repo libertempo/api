@@ -19,7 +19,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     private $repository;
 
     /**
-     * @var \mock\App\Components\Planning\Entite Mock du modèle associé
+     * @var \mock\App\Components\Planning\Entite Mock de l'entité associée
      */
     private $entite;
 

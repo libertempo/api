@@ -19,7 +19,7 @@ final class Repository extends \Atoum
     private $dao;
 
     /**
-     * @var \mock\App\Components\Planning\Entite Mock du Modèle de planning
+     * @var \mock\App\Components\Planning\Entite Mock de l'Entité de planning
      */
     private $entite;
 

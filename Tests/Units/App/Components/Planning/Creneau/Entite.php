@@ -4,7 +4,7 @@ namespace Tests\Units\App\Components\Planning\Creneau;
 use \App\Components\Planning\Creneau\Entite as _Entite;
 
 /**
- * Classe de test du modèle de créneau
+ * Classe de test de l'entité de créneau
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina

@@ -4,7 +4,7 @@ namespace App\Libraries;
 use App\Exceptions\MissingArgumentException;
 
 /**
- * Garant de la cohérence métier du modèle en relation.
+ * Garant de la cohérence métier de l'entité en relation.
  * Autrement dit, c'est lui qui va chercher les données (dépendances comprises),
  * pour construire un Domain model bien formé
  *
@@ -54,7 +54,7 @@ abstract class ARepository
     abstract public function getList(array $parametres);
 
     /**
-     * Effectue le mapping des éléments venant de la DAO pour qu'ils soient compréhensibles pour le Modèle
+     * Effectue le mapping des éléments venant de la DAO pour qu'ils soient compréhensibles pour l'Entité
      *
      * @param array $dataDao
      *
@@ -76,7 +76,7 @@ abstract class ARepository
     abstract protected function getParamsConsumer2Dao(array $paramsConsumer);
 
     /**
-     * Effectue le mapping des éléments venant du modèle pour qu'ils soient compréhensibles pour la DAO
+     * Effectue le mapping des éléments venant de l'entité pour qu'ils soient compréhensibles pour la DAO
      *
      * @param AEntite $entite
      *

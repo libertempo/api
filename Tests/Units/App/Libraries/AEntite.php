@@ -4,7 +4,7 @@ namespace Tests\Units\App\Libraries;
 use \App\Libraries\AEntite as _AEntite;
 
 /**
- * Classe commune de test sur les modèles
+ * Classe commune de test sur les entités
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
@@ -14,7 +14,7 @@ use \App\Libraries\AEntite as _AEntite;
 abstract class AEntite extends \Atoum
 {
     /**
-     * @var \App\Libraries\AEntite $entite Modèle en cours de test
+     * @var \App\Libraries\AEntite $entite Entité en cours de test
      */
     protected $entite;
 

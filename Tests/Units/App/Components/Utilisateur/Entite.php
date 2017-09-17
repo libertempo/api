@@ -4,7 +4,7 @@ namespace Tests\Units\App\Components\Utilisateur;
 use \App\Components\Utilisateur\Entite as _Entite;
 
 /**
- * Classe de test du modèle de l'utilisateur
+ * Classe de test de l'entité de l'utilisateur
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina

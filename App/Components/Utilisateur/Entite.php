@@ -49,7 +49,7 @@ class Entite extends \App\Libraries\AEntite
     }
 
     /**
-     * Insère le token dans le modèle
+     * Insère le token dans l'entité
      *
      * @param string $token Nouveau token d'indentification utilisateur
      *
@@ -94,7 +94,7 @@ class Entite extends \App\Libraries\AEntite
 
     /**
      * @inheritDoc
-     * @TODO Le modèle utilisateur n'a pas de clé primaire en int, donc on surcharge le parent. Mettre une PK en int !
+     * @TODO L'entité utilisateur n'a pas de clé primaire en int, donc on surcharge le parent. Mettre une PK en int !
      */
     final protected function setId($id)
     {

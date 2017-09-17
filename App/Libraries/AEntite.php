@@ -63,7 +63,7 @@ abstract class AEntite
     }
 
     /**
-     * Insère massivement des nouvelles données dans le modèle
+     * Insère massivement des nouvelles données dans l'entité
      *
      * @param array $data Données à insérer / mettre à jour
      *

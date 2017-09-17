@@ -19,7 +19,7 @@ final class Repository extends \Atoum
     private $dao;
 
     /**
-     * @var \mock\App\Components\Planning\Creneau\Entite Mock du Modèle de créneau
+     * @var \mock\App\Components\Planning\Creneau\Entite Mock de l'Entité de créneau
      */
     private $entite;
 

@@ -19,7 +19,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     private $repository;
 
     /**
-     * @var \mock\App\Components\Utilisateur\Model Mock du modèle associé
+     * @var \mock\App\Components\Utilisateur\Entite Mock de l'entité associée
      */
     private $entite;
 
@@ -33,7 +33,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\App\Components\Utilisateur\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\App\Components\Utilisateur\Model();
+        $this->entite = new \mock\App\Components\Utilisateur\Entite();
     }
 
     /*************************************************
