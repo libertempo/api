@@ -12,27 +12,43 @@ namespace LibertAPI\Tests\Units\Tools\Libraries;
 abstract class ADao extends \Atoum
 {
     /**
-     * @var \PDO Mock du connecteur
+     * Init des tests
+     *
+     * @param $method Méthode en cours de test
+     */
+    public function beforeTestMethod($method)
+    {
+        parent::beforeTestMethod($method);
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->result = new \mock\Doctrine\DBAL\Statement();
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->queryBuilder = new \mock\Doctrine\DBAL\Query\QueryBuilder();
+        $this->calling($this->queryBuilder)->from = '';
+        $this->calling($this->queryBuilder)->select = '';
+        $this->calling($this->queryBuilder)->where = '';
+        $this->calling($this->queryBuilder)->setParameter = '';
+        $this->calling($this->queryBuilder)->execute = $this->result;
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->connector = new \mock\Doctrine\DBAL\Connection();
+        $this->calling($this->connector)->createQueryBuilder = $this->queryBuilder;
+    }
+
+    /**
+     * @var \Doctrine\DBAL\Connection Mock du connecteur
      */
     protected $connector;
 
     /**
-     * @var \PDOStatement Mock du curseur de résultat PDO
+     * @var \Doctrine\DBAL\Query\QueryBuilder Mock du queryBuilder
      */
-    protected $statement;
+    protected $queryBuilder;
 
     /**
-     * Init des tests
+     * @var \Doctrine\DBAL\Statement Curseur de résultats
      */
-    public function beforeTestMethod($method)
-    {
-        $this->mockGenerator->orphanize('__construct');
-        $this->mockGenerator->shuntParentClassCalls();
-        $this->statement = new \mock\PDOStatement();
-        $this->statement->getMockController()->execute = '';
-        $this->mockGenerator->orphanize('__construct');
-        $this->mockGenerator->shuntParentClassCalls();
-        $this->connector = new \mock\PDO();
-        $this->connector->getMockController()->prepare = $this->statement;
-    }
+    protected $result;
+
 }

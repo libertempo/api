@@ -1,6 +1,7 @@
 <?php
 namespace LibertAPI\Tools\Libraries;
 
+use Doctrine\DBAL\Query;
 use Doctrine\DBAL\Driver;
 
 /**
@@ -16,15 +17,22 @@ use Doctrine\DBAL\Driver;
  */
 abstract class ADao
 {
-    /**
-     * @var Driver\Connection Connecteur à la BDD
-     */
-    protected $storageConnector;
-
     public function __construct(Driver\Connection $storageConnector)
     {
         $this->storageConnector = $storageConnector;
+        $this->queryBuilder = $storageConnector->createQueryBuilder();
+        $this->queryBuilder->from($this->getTableName());
     }
+
+    /**
+    * @var Driver\Connection Connecteur à la BDD
+    */
+    protected $storageConnector;
+
+    /**
+    * @var Query\QueryBuilder
+    */
+    protected $queryBuilder;
 
     /*************************************************
      * GET
