@@ -14,7 +14,7 @@ abstract class ADao extends \Atoum
     /**
      * Init des tests
      *
-     * @param $method Méthode en cours de test
+     * @param string $method Méthode en cours de test
      */
     public function beforeTestMethod($method)
     {
@@ -25,10 +25,6 @@ abstract class ADao extends \Atoum
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->queryBuilder = new \mock\Doctrine\DBAL\Query\QueryBuilder();
-        $this->calling($this->queryBuilder)->from = '';
-        $this->calling($this->queryBuilder)->select = '';
-        $this->calling($this->queryBuilder)->where = '';
-        $this->calling($this->queryBuilder)->setParameter = '';
         $this->calling($this->queryBuilder)->execute = $this->result;
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();

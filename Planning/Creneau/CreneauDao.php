@@ -23,13 +23,11 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      *
      * @param int $planningId Contrainte de recherche sur le planning
      */
-    public function getById($id, $planningId = -1)
+    public function getById($id, $planningId = null)
     {
-        $req = 'SELECT * FROM ' . $this->getTableName();
-        $filters = $this->getFilters(['id' => $id, 'planningId' => $planningId]);
-        $req .= $filters['where'];
-        $res = $this->storageConnector->prepare($req);
-        $res->execute($filters['bind']);
+        $this->queryBuilder->select('*');
+        $this->setWhere(['id' => $id, 'planning_id' => $planningId]);
+        $res = $this->queryBuilder->execute();
 
         return $res->fetch(\PDO::FETCH_ASSOC);
     }
@@ -39,41 +37,11 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function getList(array $parametres)
     {
-        $req = 'SELECT * FROM ' . $this->getTableName();
-        $filters = $this->getFilters($parametres);
-        $req .= $filters['where'];
-        $res = $this->storageConnector->prepare($req);
-        $res->execute($filters['bind']);
+        $this->queryBuilder->select('*');
+        $this->setWhere($parametres);
+        $res = $this->queryBuilder->execute();
 
         return $res->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Retourne le tableau des filtres à appliquer à la requête
-     *
-     * @param array $parametres
-     *
-     * @return array ['where' => clause complète, 'bind' => variables[]]
-     */
-    private function getFilters(array $parametres)
-    {
-        $where = [];
-        $bind = [];
-        if (!empty($parametres['id'])) {
-            $where[] = 'creneau_id = :id';
-            $bind[':id'] = $parametres['id'];
-        }
-        if (!empty($parametres['planning_id'])) {
-            $where[] = 'planning_id = :planningId';
-            $bind[':planningId'] = $parametres['planning_id'];
-        }
-
-        return [
-            'where' => !empty($where)
-                ? ' WHERE ' . implode(' AND ', $where)
-                : '',
-            'bind' => $bind,
-        ];
     }
 
     /*************************************************
@@ -85,16 +53,9 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function post(array $data)
     {
-        $req = 'INSERT INTO ' . $this->getTableName() . ' (planning_id, jour_id, type_semaine, type_periode, debut, fin)
-            VALUES (:planning_id, :jour_id, :type_semaine, :type_periode, :debut, :fin)';
-        $res = $this->storageConnector->prepare($req);
-        $res->execute([
-            ':planning_id' => $data['planning_id'],
-            ':jour_id' => $data['jour_id'],
-            ':type_periode' => $data['type_periode'],
-            ':debut' => $data['debut'],
-            ':fin' => $data['fin'],
-        ]);
+        $this->queryBuilder->insert();
+        $this->setValues($data);
+        $this->queryBuilder->execute();
 
         return $this->storageConnector->lastInsertId();
     }
@@ -108,21 +69,11 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function put(array $data, $id)
     {
-        $req = 'UPDATE ' . $this->getTableName() . '
-            SET planning_id = :planning_id, jour_id = :jour_id, type_semaine = :type_semaine, type_periode = :type_periode, debut = :debut, fin = :fin
-            WHERE id = :id';
-        $res = $this->storageConnector->prepare($req);
-        $res->execute([
-            ':planning_id' => $data['planning_id'],
-            ':jour_id' => $data['jour_id'],
-            ':type_semaine' => $data['type_semaine'],
-            ':type_periode' => $data['type_periode'],
-            ':debut' => $data['debut'],
-            ':fin' => $data['fin'],
-            ':id' => $id,
-        ]);
+        $this->queryBuilder->update();
+        $this->setWhere(['id' => $id]);
+        $this->setValues($data);
 
-        return $res->rowCount();
+        $this->queryBuilder->execute();
     }
 
     /*************************************************
@@ -134,6 +85,38 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function delete($id)
     {
+    }
+
+    /**
+     * Définit les filtres à appliquer à la requête
+     *
+     * @param array $parametres
+     */
+    private function setWhere(array $parametres)
+    {
+        if (!empty($parametres['id'])) {
+            $this->queryBuilder->andWhere('creneau_id = :id');
+            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
+        }
+        if (!empty($parametres['planning_id'])) {
+            $this->queryBuilder->andWhere('planning_id = :planningId');
+            $this->queryBuilder->setParameter(':planningId', (int) $parametres['planning_id']);
+        }
+    }
+
+    /**
+     * Définit les values à insérer
+     *
+     * @param array $values
+     */
+    private function setValues(array $values)
+    {
+        $this->queryBuilder->setValue('planning_id', $values['planning_id']);
+        $this->queryBuilder->setValue('jour_id', $values['jour_id']);
+        $this->queryBuilder->setValue('type_semaine', $values['type_semaine']);
+        $this->queryBuilder->setValue('type_periode', $values['type_periode']);
+        $this->queryBuilder->setValue('debut', $values['debut']);
+        $this->queryBuilder->setValue('fin', $values['fin']);
     }
 
     /**

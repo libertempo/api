@@ -56,8 +56,7 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     public function post(array $data)
     {
         $this->queryBuilder->insert();
-        $this->queryBuilder->setValue('name', $data['name']);
-        $this->queryBuilder->setValue('status', $data['status']);
+        $this->setValues($data);
         $this->queryBuilder->execute();
 
         return $this->storageConnector->lastInsertId();
@@ -74,8 +73,7 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     {
         $this->queryBuilder->update();
         $this->setWhere(['id' => $id]);
-        $this->queryBuilder->setValue('name', $data['name']);
-        $this->queryBuilder->setValue('status', $data['status']);
+        $this->setValues($data);
 
         $this->queryBuilder->execute();
     }
@@ -97,7 +95,7 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     }
 
     /**
-     * Retourne le tableau des filtres à appliquer à la requête
+     * Définit les filtres à appliquer à la requête
      *
      * @param array $parametres
      * @example [filter => [], lt => 23, limit => 4]
@@ -116,6 +114,17 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
             $this->queryBuilder->andWhere('planning_id > :gt');
             $this->queryBuilder->setParameter(':gt', (int) $parametres['gt']);
         }
+    }
+
+    /**
+     * Définit les values à insérer
+     *
+     * @param array $values
+     */
+    private function setValues(array $values)
+    {
+        $this->queryBuilder->setValue('name', $values['name']);
+        $this->queryBuilder->setValue('status', $values['status']);
     }
 
     /**
