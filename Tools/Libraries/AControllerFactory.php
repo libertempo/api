@@ -2,6 +2,8 @@
 namespace LibertAPI\Tools\Libraries;
 
 use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Tools\Libraries\Application;
+use Doctrine\DBAL\Driver\Connection;
 
 /**
  * Fabrique des contrôleurs, basé sur les dépendances
@@ -20,13 +22,13 @@ abstract class AControllerFactory
      * Créé le bon contrôleur avec les bonnes dépendances en fonction de la requête
      *
      * @param string $ressourcePath
-     * @param \PDO $storageConnector Connecteur à la BDD
+     * @param Connection $storageConnector Connecteur à la BDD
      * @param IRouter $router Routeur de l'application
      *
      * @return \LibertAPI\Tools\Libraries\AController
      * @throws \DomainException Si la ressource est inconnue
      */
-    final static function createController($ressourcePath, \PDO $storageConnector, IRouter $router)
+    final static function createController($ressourcePath, Connection $storageConnector, IRouter $router)
     {
         $controllerClass = static::getControllerClassname($ressourcePath);
         $paths = explode('\\', $ressourcePath);

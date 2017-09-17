@@ -1,6 +1,8 @@
 <?php
 namespace LibertAPI\Tools\Libraries;
 
+use Doctrine\DBAL\Driver;
+
 /**
  * Classe de base des DAO
  *
@@ -15,11 +17,11 @@ namespace LibertAPI\Tools\Libraries;
 abstract class ADao
 {
     /**
-     * @var \PDO Connecteur à la BDD
+     * @var Driver\Connection Connecteur à la BDD
      */
     protected $storageConnector;
 
-    public function __construct(\PDO $storageConnector)
+    public function __construct(Driver\Connection $storageConnector)
     {
         $this->storageConnector = $storageConnector;
     }
