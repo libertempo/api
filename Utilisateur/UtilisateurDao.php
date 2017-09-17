@@ -21,50 +21,11 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function getList(array $parametres)
     {
-        $req = 'SELECT *, u_login AS id FROM ' . $this->getTableName();
-        $filters = $this->getFilters($parametres);
-        $req .= $filters['where'];
-        $res = $this->storageConnector->prepare($req);
-        $res->execute($filters['bind']);
+        $this->queryBuilder->select('*');
+        $this->setWhere($parametres);
+        $res = $this->queryBuilder->execute();
 
         return $res->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Retourne le tableau des filtres à appliquer à la requête
-     *
-     * @param array $parametres
-     * @example [filter => [], lt => 23, limit => 4]
-     *
-     * @return array ['where' => clause complète, 'bind' => variables[]]
-     */
-    private function getFilters(array $parametres)
-    {
-        $where = [];
-        $bind = [];
-        if (!empty($parametres['u_login'])) {
-            $where[] = 'u_login = :u_login';
-            $bind[':u_login'] = $parametres['u_login'];
-        }
-        if (!empty($parametres['u_passwd'])) {
-            $where[] = 'u_passwd = :u_passwd';
-            $bind[':u_passwd'] = $parametres['u_passwd'];
-        }
-        if (!empty($parametres['token'])) {
-            $where[] = 'token = :token';
-            $bind[':token'] = $parametres['token'];
-        }
-        if (!empty($parametres['gt_date_last_access'])) {
-            $where[] = 'date_last_access >= :gt_date_last_access';
-            $bind[':gt_date_last_access'] = $parametres['gt_date_last_access'];
-        }
-
-        return [
-            'where' => !empty($where)
-                ? ' WHERE ' . implode(' AND ', $where)
-                : '',
-            'bind' => $bind,
-        ];
     }
 
     /*************************************************
@@ -83,15 +44,11 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function put(array $data, $id)
     {
-        $req = 'UPDATE ' . $this->getTableName() . '
-            SET token = :token, date_last_access = :date_last_access
-            WHERE u_login = :id';
-        $res = $this->storageConnector->prepare($req);
-        $res->execute([
-            'token' => $data['token'],
-            'date_last_access' => $data['date_last_access'],
-            'id' => $id,
-        ]);
+        $this->queryBuilder->update($this->getTableName());
+        $this->queryBuilder->setValue('token', $data['token']);
+        $this->setWhere(['u_login' => $id]);
+
+        $this->queryBuilder->execute();
     }
 
     /*************************************************
@@ -100,6 +57,23 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 
     public function delete($id)
     {
+    }
+
+    /**
+     * Définit les values à insérer
+     *
+     * @param array $parametres
+     */
+    private function setWhere(array $parametres)
+    {
+        if (!empty($parametres['u_login'])) {
+            $this->queryBuilder->andWhere('u_login = :id');
+            $this->queryBuilder->setParameter(':id', (int) $parametres['u_login']);
+        }
+        if (!empty($parametres['u_passwd'])) {
+            $this->queryBuilder->andWhere('u_passwd = :passwor');
+            $this->queryBuilder->setParameter(':passwor', (int) $parametres['u_passwd']);
+        }
     }
 
     /**
