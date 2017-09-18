@@ -41,6 +41,7 @@ final class UtilisateurRepository extends \Atoum
 
     public function beforeTestMethod($method)
     {
+        parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->dao = new \mock\LibertAPI\Utilisateur\UtilisateurDao();
@@ -51,6 +52,7 @@ final class UtilisateurRepository extends \Atoum
         $this->mockGenerator->shuntParentClassCalls();
         $this->connector = new \mock\Doctrine\DBAL\Connection();
         $this->connector->getMockController()->query = $this->statement;
+        $this->mockGenerator->orphanize('__construct');
         $this->application = new \mock\LibertAPI\Tools\Libraries\Application($this->connector);
         $this->mockGenerator->orphanize('__construct');
         $this->entite = new \mock\LibertAPI\Utilisateur\UtilisateurEntite();
