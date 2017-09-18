@@ -25,12 +25,12 @@ final class UtilisateurRepository extends \Atoum
     private $dao;
 
     /**
-     * @var \PDO Mock du connecteur
+     * @var \Doctrine\DBAL\Connection Mock du connecteur
      */
     private $connector;
 
     /**
-     * @var \PDOStatement Mock du curseur de résultat PDO
+     * @var \Doctrine\DBAL\Statement Mock du curseur de résultat
      */
     private $statement;
 
@@ -46,11 +46,10 @@ final class UtilisateurRepository extends \Atoum
         $this->dao = new \mock\LibertAPI\Utilisateur\UtilisateurDao();
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->statement = new \mock\PDOStatement();
-        $this->statement->getMockController()->fetchAll = [];
+        $this->statement = new \mock\Doctrine\DBAL\Statement();
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->connector = new \mock\PDO();
+        $this->connector = new \mock\Doctrine\DBAL\Connection();
         $this->connector->getMockController()->query = $this->statement;
         $this->application = new \mock\LibertAPI\Tools\Libraries\Application($this->connector);
         $this->mockGenerator->orphanize('__construct');
