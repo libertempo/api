@@ -28,7 +28,7 @@ abstract class AControllerFactory
      * @return \LibertAPI\Tools\Libraries\AController
      * @throws \DomainException Si la ressource est inconnue
      */
-    final static function createController($ressourcePath, Connection $storageConnector, IRouter $router)
+    final public static function createController($ressourcePath, Connection $storageConnector, IRouter $router)
     {
         $controllerClass = static::getControllerClassname($ressourcePath);
         $paths = explode('\\', $ressourcePath);

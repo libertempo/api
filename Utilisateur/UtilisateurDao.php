@@ -17,7 +17,6 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 
     /**
      * @inheritDoc
-     * @todo
      */
     public function getList(array $parametres)
     {
