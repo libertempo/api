@@ -1,6 +1,8 @@
 <?php
 namespace LibertAPI\Tools\Libraries;
 
+use Doctrine\DBAL\Driver\Connection;
+
 /**
  * Bibliothèque d'accès aux données stockées de l'application
  *
@@ -15,7 +17,7 @@ namespace LibertAPI\Tools\Libraries;
 class Application
 {
     /**
-     * @var \PDO Connecteur à la BDD
+     * @var Connection Connecteur à la BDD
      */
     private $storageConnector;
 
@@ -24,7 +26,7 @@ class Application
      */
     private $data;
 
-    public function __construct(\PDO $storageConnector)
+    public function __construct(Connection $storageConnector)
     {
         $this->storageConnector = $storageConnector;
         $data = [];

@@ -45,6 +45,7 @@ abstract class AControllerFactory
                 $repo = new $repoClass(
                     new $daoClass($storageConnector)
                 );
+                // TODO : Application est un injectable, supprimer la création ici
                 $repo->setApplication(new Application($storageConnector));
 
                 return new $controllerClass($repo, $router);
