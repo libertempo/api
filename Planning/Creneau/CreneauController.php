@@ -56,17 +56,17 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
     {
         try {
             $creneau = $this->repository->getOne($id, $planningId);
-
-            return $this->getResponseSuccess(
-                $response,
-                $this->buildData($creneau),
-                200
-            );
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             throw $e;
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->buildData($creneau),
+            200
+        );
     }
 
     /**
@@ -81,21 +81,19 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
      */
     private function getList(IRequest $request, IResponse $response, $planningId)
     {
-        $code = -1;
-        $data = [];
         try {
             $creneaux = $this->repository->getList(['planningId' => $planningId]);
-            $entites = [];
-            foreach ($creneaux as $creneau) {
-                $entites[] = $this->buildData($creneau);
-            }
-
-            return $this->getResponseSuccess($response, $models, 200);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
             throw $e;
         }
+        $entites = [];
+        foreach ($creneaux as $creneau) {
+            $entites[] = $this->buildData($creneau);
+        }
+
+        return $this->getResponseSuccess($response, $entites, 200);
     }
 
     /**

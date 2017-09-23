@@ -54,17 +54,17 @@ final class Controller extends \App\Libraries\AController
     {
         try {
             $utilisateur = $this->repository->getOne($id);
-
-            return $this->getResponseSuccess(
-                $response,
-                $this->buildData($utilisateur),
-                200
-            );
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « utilisateurs#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             throw $e;
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->buildData($utilisateur),
+            200
+        );
     }
 
     /**
@@ -82,17 +82,17 @@ final class Controller extends \App\Libraries\AController
             $utilisateurs = $this->repository->getList(
                 $request->getQueryParams()
             );
-            $models = [];
-            foreach ($utilisateurs as $utilisateur) {
-                $models[] = $this->buildData($utilisateur);
-            }
-
-            return $this->getResponseSuccess($response, $models, 200);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNotFound($response, 'No result');
         } catch (\Exception $e) {
             throw $e;
         }
+        $models = [];
+        foreach ($utilisateurs as $utilisateur) {
+            $models[] = $this->buildData($utilisateur);
+        }
+
+        return $this->getResponseSuccess($response, $models, 200);
     }
 
     /**
