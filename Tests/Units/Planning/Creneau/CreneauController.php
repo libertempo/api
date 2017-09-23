@@ -1,8 +1,6 @@
 <?php
 namespace LibertAPI\Tests\Units\Planning\Creneau;
 
-use LibertAPI\Planning\Creneau\CreneauController as _Controller;
-
 /**
  * Classe de test du contrôleur de créneau de planning
  *
@@ -13,24 +11,15 @@ use LibertAPI\Planning\Creneau\CreneauController as _Controller;
  */
 final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
-    /**
-     * @var \LibertAPI\Planning\Creneau\Repository Mock du repository associé
-     */
-    private $repository;
-
-    /**
-     * @var \LibertAPI\Planning\Creneau\Entite Mock de l'entité associée
-     */
-    private $entite;
-
-    /**
-     * Init des tests
-     */
-    public function beforeTestMethod($method) {
-        parent::beforeTestMethod($method);
+    protected function initRepository()
+    {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\LibertAPI\Planning\Creneau\CreneauRepository();
+    }
+
+    protected function initModel()
+    {
         $this->mockGenerator->orphanize('__construct');
         $this->entite = new \mock\LibertAPI\Planning\Creneau\CreneauEntite();
         $this->entite->getMockController()->getId = 42;
@@ -42,111 +31,14 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->entite->getMockController()->getFin = 12;
     }
 
-    /*************************************************
-     * GET
-     *************************************************/
-
-    /**
-     * Teste la méthode get d'un détail trouvé
-     */
-    public function testGetOneFound()
+    protected function getOne()
     {
-        $this->repository->getMockController()->getOne = $this->entite;
-        $controller = new _Controller($this->repository, $this->router);
-
-        $response = $controller->get($this->request, $this->response, ['creneauId' => 99, 'planningId' => 45]);
-        $data = $this->getJsonDecoded($response->getBody());
-
-        $this->integer($response->getStatusCode())->isIdenticalTo(200);
-        $this->array($data)
-            ->integer['code']->isIdenticalTo(200)
-            ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
-            ->array['data']->isNotEmpty()
-        ;
+        return $this->testedInstance->get($this->request, $this->response, ['creneauId' => 99, 'planningId' => 45]);
     }
 
-    /**
-     * Teste la méthode get d'un détail non trouvé
-     */
-    public function testGetOneNotFound()
+    protected function getList()
     {
-        $this->repository->getMockController()->getOne = function () {
-            throw new \DomainException('');
-        };
-        $controller = new _Controller($this->repository, $this->router);
-
-        $response = $controller->get($this->request, $this->response, ['creneauId' => 99, 'planningId' => 45]);
-
-        $this->assertError($response, 404);
-    }
-
-    /**
-     * Teste le fallback de la méthode get d'un détail
-     */
-    public function testGetOneFallback()
-    {
-        $this->repository->getMockController()->getOne = function () {
-            throw new \Exception('');
-        };
-        $controller = new _Controller($this->repository, $this->router);
-
-        $this->exception(function () use ($controller) {
-            $controller->get($this->request, $this->response, ['creneauId' => 99, 'planningId' => 45]);
-        })->isInstanceOf('\Exception');
-    }
-
-    /**
-     * Teste la méthode get d'une liste trouvée
-     */
-    public function testGetListFound()
-    {
-        $this->repository->getMockController()->getList = [
-            42 => $this->entite,
-        ];
-        $controller = new _Controller($this->repository, $this->router);
-
-        $response = $controller->get($this->request, $this->response, ['planningId' => 45]);
-        $data = $this->getJsonDecoded($response->getBody());
-
-        $this->integer($response->getStatusCode())->isIdenticalTo(200);
-        $this->array($data)
-            ->integer['code']->isIdenticalTo(200)
-            ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
-            //->array['data']->hasSize(1) // l'asserter atoum en sucre syntaxique est buggé, faire un ticket
-        ;
-        $this->array($data['data'][0])->hasKey('id');
-    }
-
-    /**
-     * Teste la méthode get d'une liste non trouvée
-     */
-    public function testGetListNotFound()
-    {
-        $this->repository->getMockController()->getList = function () {
-            throw new \UnexpectedValueException('');
-        };
-        $controller = new _Controller($this->repository, $this->router);
-
-        $response = $controller->get($this->request, $this->response, ['planningId' => 45]);
-
-        $this->assertSuccessEmpty($response);
-    }
-
-    /**
-     * Teste le fallback de la méthode get d'une liste
-     */
-    public function testGetListFallback()
-    {
-        $this->repository->getMockController()->getList = function () {
-            throw new \Exception('');
-        };
-        $controller = new _Controller($this->repository, $this->router);
-
-        $this->exception(function () use ($controller) {
-            $controller->get($this->request, $this->response, ['planningId' => 45]);
-        })->isInstanceOf('\Exception');
+        return $this->testedInstance->get($this->request, $this->response, ['planningId' => 45]);
     }
 
     /*************************************************
@@ -162,9 +54,9 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
     {
         // Le framework fait du traitement, un mauvais json est simplement null
         $this->request->getMockController()->getParsedBody = null;
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response);
 
         $this->assertError($response, 400);
     }
@@ -178,9 +70,9 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->postList = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response);
 
         $this->assertError($response, 412);
     }
@@ -194,9 +86,9 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->postList = function () {
             throw new \DomainException('');
         };
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response);
 
         $this->assertError($response, 412);
     }
@@ -210,10 +102,10 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->postList = function () {
             throw new \LogicException('');
         };
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () use ($controller) {
-            $controller->post($this->request, $this->response);
+        $this->exception(function () {
+            $this->testedInstance->post($this->request, $this->response);
         })->isInstanceOf('\Exception');
     }
     /**
@@ -224,9 +116,9 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->request->getMockController()->getParsedBody = [[]];
         $this->router->getMockController()->pathFor = '';
         $this->repository->getMockController()->postList = [42, 74, 314];
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response);
         $data = $this->getJsonDecoded($response->getBody());
 
         $this->integer($response->getStatusCode())->isIdenticalTo(201);
@@ -250,9 +142,9 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
     {
         // Le framework fait du traitement, un mauvais json est simplement null
         $this->request->getMockController()->getParsedBody = null;
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
 
         $this->assertError($response, 400);
     }
@@ -266,9 +158,9 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->getOne = function () {
             throw new \DomainException('');
         };
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
 
         $this->boolean($response->isNotFound())->isTrue();
     }
@@ -282,10 +174,10 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->getOne = function () {
             throw new \LogicException('');
         };
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () use ($controller) {
-            $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $this->exception(function () {
+            $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
         })->isInstanceOf('\Exception');
     }
 
@@ -300,9 +192,9 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->putOne = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
 
         $this->assertError($response, 412);
     }
@@ -317,9 +209,9 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->putOne = function () {
             throw new \DomainException('');
         };
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
 
         $this->assertError($response, 412);
     }
@@ -334,10 +226,10 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->putOne = function () {
             throw new \LogicException('');
         };
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () use ($controller) {
-            $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $this->exception(function () {
+            $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
         })->isInstanceOf('\Exception');
     }
 
@@ -349,9 +241,9 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->request->getMockController()->getParsedBody = [];
         $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = '';
-        $controller = new _Controller($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
 
         $data = $this->getJsonDecoded($response->getBody());
 
