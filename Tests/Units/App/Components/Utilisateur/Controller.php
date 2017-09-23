@@ -9,7 +9,7 @@ namespace Tests\Units\App\Components\Utilisateur;
  *
  * @since 0.4
  */
-final class Controller extends \Tests\Units\App\Libraries\AController
+final class Controller extends \Tests\Units\App\Libraries\ARestController
 {
     protected function initRepository()
     {

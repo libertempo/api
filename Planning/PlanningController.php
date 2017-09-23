@@ -134,17 +134,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
 
         try {
             $planningId = $this->repository->postOne($body, new PlanningEntite([]));
-            $code = 201;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $this->router->pathFor('getPlanningDetail', [
-                    'planningId' => $planningId
-                ]),
-            ];
-
-            return $response->withJson($data, $code);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -152,6 +141,14 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\Exception $e) {
             throw $e;
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->router->pathFor('getPlanningDetail', [
+                'planningId' => $planningId
+            ]),
+            201
+        );
     }
 
     /*************************************************
@@ -186,15 +183,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
 
         try {
             $this->repository->putOne($body, $planning);
-            $code = 204;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => '',
-            ];
-
-            return $response->withJson($data, $code);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -202,6 +190,8 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\Exception $e) {
             throw $e;
         }
+
+        return $this->getResponseSuccess($response, '', 204);
     }
 
     /*************************************************
@@ -224,19 +214,12 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         try {
             $planning = $this->repository->getOne($id);
             $this->repository->deleteOne($planning);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => '',
-            ];
-
-            return $response->withJson($data, $code);
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             throw $e;
         }
+
+        return $this->getResponseSuccess($response, '', 200);
     }
 }

@@ -9,7 +9,7 @@ namespace LibertAPI\Tests\Units\Planning;
  *
  * @since 0.1
  */
-final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
+final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestController
 {
     protected function initRepository()
     {
@@ -104,7 +104,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AC
         $this->array($data)
             ->integer['code']->isIdenticalTo(201)
             ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
             ->array['data']->isNotEmpty()
         ;
     }
@@ -245,7 +244,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AC
         $this->array($data)
             ->integer['code']->isIdenticalTo(204)
             ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
             ->string['data']->isIdenticalTo('')
         ;
     }
@@ -299,7 +297,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AC
         $this->array($data)
             ->integer['code']->isIdenticalTo(200)
             ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
             ->array['data']->isNotEmpty()
         ;
     }

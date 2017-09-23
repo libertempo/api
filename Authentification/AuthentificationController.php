@@ -43,19 +43,15 @@ final class AuthentificationController extends \LibertAPI\Tools\Libraries\AContr
                 'login' => $login,
                 'password' => $password,
             ]);
+            $utilisateurUpdated = $this->repository->regenerateToken($utilisateur);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNotFound($response, 'No user matches these criteria');
         }
-        $utilisateurUpdated = $this->repository->regenerateToken($utilisateur);
 
-        $code = 200;
-        $data = [
-            'code' => $code,
-            'status' => 'success',
-            'message' => '',
-            'data' => $utilisateurUpdated->getToken(),
-        ];
-
-        return $response->withJson($data, $code);
+        return $this->getResponseSuccess(
+            $response,
+            $utilisateurUpdated->getToken(),
+            200
+        );
     }
 }

@@ -8,6 +8,11 @@
 /* Routes sur l'utilisateur et associés */
 $app->group('/utilisateurs', function () {
     $utilisateurNS = \App\Components\Utilisateur\Controller::class;
+    $this->group('/{utilisateurId:[0-9]+}', function () use ($utilisateurNS) {
+        /* Detail */
+        $this->get('', $utilisateurNS . ':get')->setName('getUtilisateurDetail');
+    });
+
     /* Collection */
-    $this->get('', $planningNS .  ':get')->setName('getPlanningListe');
+    $this->get('', $utilisateurNS .  ':get')->setName('getUtilisateurListe');
 });

@@ -9,7 +9,7 @@ namespace LibertAPI\Tests\Units\Planning\Creneau;
  *
  * @since 0.1
  */
-final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
+final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestController
 {
     protected function initRepository()
     {
@@ -125,7 +125,6 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->array($data)
             ->integer['code']->isIdenticalTo(201)
             ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
             ->array['data']->isNotEmpty()
         ;
         $this->integer(count($data['data']))->isIdenticalTo(3);
@@ -251,7 +250,6 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->array($data)
             ->integer['code']->isIdenticalTo(204)
             ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
             ->string['data']->isIdenticalTo('')
         ;
     }

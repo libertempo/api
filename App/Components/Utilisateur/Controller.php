@@ -22,6 +22,10 @@ final class Controller extends \App\Libraries\AController
      * GET
      *************************************************/
 
+    /* Mettre le niveau de droits autorisés
+        && ce que ces droits permettre de voir (l'utilisateur peut-il voir HR / admin ?)
+     */
+
     /**
      * Execute l'ordre HTTP GET
      *
@@ -109,6 +113,7 @@ final class Controller extends \App\Libraries\AController
             'login' => $model->getLogin(),
             'nom' => $model->getNom(),
             'date_inscription' => $model->getDateInscription(),
+            // mettre le lien du planning associé, sous un offset formalisé
         ];
     }
 }

@@ -36,7 +36,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
         if (!isset($arguments['creneauId'])) {
-            return $this->getList($request, $response, (int) $arguments['planningId']);
+            return $this->getList($response, (int) $arguments['planningId']);
         }
 
         return $this->getOne($response, (int) $arguments['creneauId'], (int) $arguments['planningId']);
@@ -72,14 +72,13 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
     /**
      * Retourne un tableau de plannings
      *
-     * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
      * @param int $planningId Contrainte de recherche sur le planning
      *
      * @return IResponse
      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
-    private function getList(IRequest $request, IResponse $response, $planningId)
+    private function getList(IResponse $response, $planningId)
     {
         try {
             $creneaux = $this->repository->getList(['planningId' => $planningId]);
@@ -142,17 +141,9 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
             foreach ($creneauxIds as $id) {
                 $dataMessage[] = $this->router->pathFor('getPlanningCreneauDetail', [
                     'creneauId' => $id,
+                    // il manque pas l'id du planning là ?
                 ]);
             }
-            $code = 201;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $dataMessage,
-            ];
-
-            return $response->withJson($data, $code);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -160,6 +151,12 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         } catch (\Exception $e) {
             throw $e;
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $dataMessage,
+            201
+        );
     }
 
     /*************************************************
@@ -185,7 +182,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
 
         $id = (int) $arguments['creneauId'];
         try {
-            $creneau = $this->repository->getOne($id);
+            $creneau = $this->repository->getOne($id); // un getList avec creneauId et planningId ?
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
@@ -194,15 +191,6 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
 
         try {
             $this->repository->putOne($body, $creneau);
-            $code = 204;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => '',
-            ];
-
-            return $response->withJson($data, $code);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -210,5 +198,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         } catch (\Exception $e) {
             throw $e;
         }
+
+        return $this->getResponseSuccess($response, '', 204);
     }
 }

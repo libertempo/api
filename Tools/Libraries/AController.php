@@ -45,7 +45,7 @@ abstract class AController
      */
     protected function getResponseSuccess(IResponse $response, $messageData, $code)
     {
-        return $this->getResponse($response, '', $messageData, $code, 'success');
+        return $this->getResponse($response, $messageData, $code, 'success');
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class AController
      */
     protected function getResponseBadRequest(IResponse $response, $message)
     {
-        return $this->getResponseError($response, 'Bad Request', ['data' => $message], 400);
+        return $this->getResponseError($response, $message, 400);
     }
 
     /**
@@ -70,7 +70,7 @@ abstract class AController
      */
     protected function getResponseMissingArgument(IResponse $response)
     {
-        return $this->getResponseError($response, 'Precondition Failed', ['data' => 'Missing required argument'], 412);
+        return $this->getResponseError($response, 'Missing required argument', 412);
     }
 
     /**
@@ -115,71 +115,36 @@ abstract class AController
      * Retourne une réponse d'erreur normalisée
      *
      * @param IResponse $response Réponse Http
-     * @param string $message Précision de l'erreur
-     * @param array $data
+     * @param mixed $messageData Message data d'un json bien formé
      * @param int $code Code Http
      *
      * @return IResponse
      */
-    private function getResponseError(IResponse $response, $message, array $data, $code)
+    private function getResponseError(IResponse $response, $messageData, $code)
     {
-        return $this->getResponse($response, $message, $messageData, $code, 'error');
+        return $this->getResponse($response, $messageData, $code, 'error');
     }
 
     /**
      * Retourne une réponse normalisée
      *
      * @param IResponse $response Réponse Http
-     * @param string $message Précision de l'erreur éventuelle
      * @param mixed $messageData Message data d'un json bien formé
      * @param int $code Code Http
      * @param string $status Statut textuel correspondant à la classe du code (fail | error | success)
      *
      * @return IResponse
      */
-    private function getResponse(IResponse $response, $message, $messageData, $code, $status)
+    private function getResponse(IResponse $response, $messageData, $code, $status)
     {
+        $response = $response->withStatus($code);
         $data = [
             'code' => $code,
             'status' => $status,
-            'message' => $message,
+            'message' => $response->getReasonPhrase(),
             'data' => $messageData,
         ];
 
-        return $this->getResponse($response, $data);
-    }
-
-    /**
-     * Retourne une réponse normalisée en cas de succès
-     *
-     * @param IResponse $response Réponse Http
-     * @param string $message Message data d'un json bien formé
-     * @param array $data
-     * @param int $code Code Http
-     *
-     * @return IResponse
-     */
-    private function getResponseSuccess(IResponse $response, $message, array $data, $code)
-    {
-        $data += [
-            'code' => $code,
-            'status' => 'success',
-            'message' => $message
-        ];
-
-        return $this->getResponse($response, $data);
-    }
-
-    /**
-     * Retourne une réponse normalisée
-     *
-     * @param IResponse $response Réponse Http
-     * @param array $data
-     *
-     * @return IResponse
-     */
-    private function getResponse(IResponse $response, array $data)
-    {
-        return $response->withJson($data, $data['code']);
+        return $response->withJson($data);
     }
 }
