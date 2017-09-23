@@ -52,7 +52,7 @@ abstract class AController
      * Retourne une réponse d'erreur normalisée
      *
      * @param IResponse $response Réponse Http
-     * @param mixed $messageData Message data d'un json bien formé
+     * @param \Exception $e Cas d'échec
      * @param int $code Code Http
      *
      * @return IResponse
