@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\App\Libraries;
+namespace LibertAPI\Tests\Units\App\Libraries;
 
-use App\Libraries\Application as _Application;
+use LibertAPI\App\Libraries\Application as _Application;
 
 /**
  * Classe de test des accès aux données de l'application

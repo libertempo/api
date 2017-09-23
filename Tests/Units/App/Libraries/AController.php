@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Units\App\Libraries;
+namespace LibertAPI\Tests\Units\App\Libraries;
 
 use Psr\Http\Message\ResponseInterface as IResponse;
 

@@ -7,7 +7,7 @@
 
 /* Routes sur le planning et associés */
 $app->group('/plannings', function () {
-    $planningNS = '\App\Components\Planning\Controller';
+    $planningNS = '\LibertAPI\App\Components\Planning\Controller';
     $this->group('/{planningId:[0-9]+}', function () use ($planningNS) {
         /* Detail */
         $this->get('', $planningNS . ':get')->setName('getPlanningDetail');
@@ -16,7 +16,7 @@ $app->group('/plannings', function () {
 
         /* Dependances de plannings */
         $this->group('/creneaux', function () {
-            $creneauNS = '\App\Components\Planning\Creneau\Controller';
+            $creneauNS = '\LibertAPI\App\Components\Planning\Creneau\Controller';
             /* Detail creneaux */
             $this->get('/{creneauId:[0-9]+}', $creneauNS . ':get')->setName('getPlanningCreneauDetail');
             $this->put('/{creneauId:[0-9]+}', $creneauNS . ':put')->setName('putPlanningCreneauDetail');

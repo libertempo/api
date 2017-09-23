@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Units\App\Libraries;
+namespace LibertAPI\Tests\Units\App\Libraries;
 
 /**
  * Classe commune de test du DAO
@@ -12,12 +12,12 @@ namespace Tests\Units\App\Libraries;
 abstract class ADao extends \Atoum
 {
     /**
-     * @var \mock\PDO Mock du connecteur
+     * @var \PDO Mock du connecteur
      */
     protected $connector;
 
     /**
-     * @var \mock\PDOStatement Mock du curseur de résultat PDO
+     * @var \PDOStatement Mock du curseur de résultat PDO
      */
     protected $statement;
 

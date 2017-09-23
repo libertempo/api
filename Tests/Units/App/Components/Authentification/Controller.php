@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\App\Components\Authentification;
+namespace LibertAPI\Tests\Units\App\Components\Authentification;
 
-use \App\Components\Authentification\Controller as _Controller;
+use LibertAPI\App\Components\Authentification\Controller as _Controller;
 
 /**
  * Classe de test du contrôleur de planning
@@ -11,15 +11,15 @@ use \App\Components\Authentification\Controller as _Controller;
  *
  * @since 0.2
  */
-final class Controller extends \Tests\Units\App\Libraries\AController
+final class Controller extends \LibertAPI\Tests\Units\App\Libraries\AController
 {
     /**
-     * @var \mock\App\Components\Utilisateur\Repository Mock du repository associé
+     * @var \LibertAPI\App\Components\Utilisateur\Repository Mock du repository associé
      */
     private $repository;
 
     /**
-     * @var \mock\App\Components\Utilisateur\Entite Mock de l'entité associée
+     * @var \LibertAPI\App\Components\Utilisateur\Entite Mock de l'entité associée
      */
     private $entite;
 
@@ -31,9 +31,9 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\App\Components\Utilisateur\Repository();
+        $this->repository = new \mock\LibertAPI\App\Components\Utilisateur\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\App\Components\Utilisateur\Entite();
+        $this->entite = new \mock\LibertAPI\App\Components\Utilisateur\Entite();
     }
 
     /*************************************************

@@ -1,8 +1,8 @@
 <?php
-namespace App\Components\Planning;
+namespace LibertAPI\App\Components\Planning;
 
-use App\Exceptions\MissingArgumentException;
-use App\Libraries\AEntite;
+use LibertAPI\App\Exceptions\MissingArgumentException;
+use LibertAPI\App\Libraries\AEntite;
 
 /**
  * {@inheritDoc}
@@ -16,7 +16,7 @@ use App\Libraries\AEntite;
  * Ne devrait être contacté que par le Planning\Controller
  * Ne devrait contacter que le Planning\Entite, Planning\Dao
  */
-class Repository extends \App\Libraries\ARepository
+class Repository extends \LibertAPI\App\Libraries\ARepository
 {
     /*************************************************
      * GET

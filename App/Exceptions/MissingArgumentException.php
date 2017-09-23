@@ -1,5 +1,5 @@
 <?php
-namespace App\Exceptions;
+namespace LibertAPI\App\Exceptions;
 
 /**
  * Expection déclenchée en cas de valeur manquante

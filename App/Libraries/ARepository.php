@@ -1,7 +1,7 @@
 <?php
-namespace App\Libraries;
+namespace LibertAPI\App\Libraries;
 
-use App\Exceptions\MissingArgumentException;
+use LibertAPI\App\Exceptions\MissingArgumentException;
 
 /**
  * Garant de la cohérence métier de l'entité en relation.
@@ -19,11 +19,11 @@ use App\Exceptions\MissingArgumentException;
 abstract class ARepository
 {
     /**
-     * @var \App\Libraries\ADao $dao Data Access Object
+     * @var ADao $dao Data Access Object
      */
     protected $dao;
 
-    public function __construct(\App\Libraries\ADao $dao)
+    public function __construct(ADao $dao)
     {
         $this->dao = $dao;
     }

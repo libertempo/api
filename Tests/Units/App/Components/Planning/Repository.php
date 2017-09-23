@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\App\Components\Planning;
+namespace LibertAPI\Tests\Units\App\Components\Planning;
 
-use \App\Components\Planning\Repository as _Repository;
+use \LibertAPI\App\Components\Planning\Repository as _Repository;
 
 /**
  * Classe de test du repository de planning
@@ -14,12 +14,12 @@ use \App\Components\Planning\Repository as _Repository;
 final class Repository extends \Atoum
 {
     /**
-     * @var \mock\App\Components\Planning\Dao Mock du DAO du planning
+     * @var \LibertAPI\App\Components\Planning\Dao Mock du DAO du planning
      */
     private $dao;
 
     /**
-     * @var \mock\App\Components\Planning\Entite Mock de l'Entité de planning
+     * @var \LibertAPI\App\Components\Planning\Entite Mock de l'Entité de planning
      */
     private $entite;
 
@@ -27,9 +27,9 @@ final class Repository extends \Atoum
     {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->dao = new \mock\App\Components\Planning\Dao();
+        $this->dao = new \mock\LibertAPI\App\Components\Planning\Dao();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\App\Components\Planning\Entite();
+        $this->entite = new \mock\LibertAPI\App\Components\Planning\Entite();
         $this->entite->getMockController()->getId = 42;
         $this->entite->getMockController()->getName = 12;
         $this->entite->getMockController()->getStatus = 12;
@@ -66,7 +66,7 @@ final class Repository extends \Atoum
 
         $entite = $repository->getOne(42);
 
-        $this->object($entite)->isInstanceOf('\App\Libraries\AEntite');
+        $this->object($entite)->isInstanceOf('\LibertAPI\App\Libraries\AEntite');
         $this->integer($entite->getId())->isIdenticalTo(42);
     }
 
@@ -98,7 +98,7 @@ final class Repository extends \Atoum
         $entites = $repository->getList([]);
 
         $this->array($entites)->hasKey(42);
-        $this->object($entites[42])->isInstanceOf('\App\Libraries\AEntite');
+        $this->object($entites[42])->isInstanceOf('\LibertAPI\App\Libraries\AEntite');
     }
 
     /*************************************************
@@ -113,8 +113,8 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->postOne(['name' => 'bob'], new \mock\App\Components\Planning\Entite([]));
-        })->isInstanceOf('\App\Exceptions\MissingArgumentException');
+            $repository->postOne(['name' => 'bob'], new \mock\LibertAPI\App\Components\Planning\Entite([]));
+        })->isInstanceOf('\LibertAPI\App\Exceptions\MissingArgumentException');
     }
 
     /**
@@ -123,7 +123,7 @@ final class Repository extends \Atoum
     public function testPostOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\App\Components\Planning\Entite([]);
+        $entite = new \mock\LibertAPI\App\Components\Planning\Entite([]);
         $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -139,7 +139,7 @@ final class Repository extends \Atoum
     public function testPostOneOk()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\App\Components\Planning\Entite([]);
+        $entite = new \mock\LibertAPI\App\Components\Planning\Entite([]);
         $entite->getMockController()->populate = '';
         $entite->getMockController()->getName = 'name';
         $entite->getMockController()->getStatus = 'status';
@@ -162,8 +162,8 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->putOne(['name' => 'bob'], new \mock\App\Components\Planning\Entite([]));
-        })->isInstanceOf('\App\Exceptions\MissingArgumentException');
+            $repository->putOne(['name' => 'bob'], new \mock\LibertAPI\App\Components\Planning\Entite([]));
+        })->isInstanceOf('\LibertAPI\App\Exceptions\MissingArgumentException');
     }
 
     /**
@@ -172,7 +172,7 @@ final class Repository extends \Atoum
     public function testPutOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\App\Components\Planning\Entite([]);
+        $entite = new \mock\LibertAPI\App\Components\Planning\Entite([]);
         $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -209,7 +209,7 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->deleteOne(new \mock\App\Components\Planning\Entite([]));
+            $repository->deleteOne(new \mock\LibertAPI\App\Components\Planning\Entite([]));
         })->isInstanceOf('\LogicException');
 
     }
@@ -221,7 +221,7 @@ final class Repository extends \Atoum
     {
         $this->dao->getMockController()->delete = 4;
         $repository = new _Repository($this->dao);
-        $entite = new \mock\App\Components\Planning\Entite([]);
+        $entite = new \mock\LibertAPI\App\Components\Planning\Entite([]);
 
         $this->variable($repository->deleteOne($entite))->isNull();
     }

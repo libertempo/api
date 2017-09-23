@@ -1,8 +1,8 @@
 <?php
-namespace Tests\Units\App\Libraries;
+namespace LibertAPI\Tests\Units\App\Libraries;
 
-use App\Libraries\AControllerFactory as _AControllerFactory;
-use App\Libraries\AController as _AController;
+use LibertAPI\App\Libraries\AControllerFactory as _AControllerFactory;
+use LibertAPI\App\Libraries\AController as _AController;
 
 /**
  * Test de la fabrication de contrôleurs
@@ -60,7 +60,7 @@ final class AControllerFactory extends \Atoum
     {
         $controller = _AControllerFactory::createController('Authentification', $this->storageConnector, $this->router);
 
-        $this->object($controller)->isInstanceOf(\App\Components\Authentification\Controller::class);
+        $this->object($controller)->isInstanceOf(\LibertAPI\App\Components\Authentification\Controller::class);
     }
 
     /**
@@ -81,7 +81,7 @@ final class AControllerFactory extends \Atoum
         $ressource = 'Planning\Creneau';
 
         $this->string(_AControllerFactory::getControllerClassname($ressource))
-            ->isIdenticalTo('\App\Components\Planning\Creneau\Controller')
+            ->isIdenticalTo('\LibertAPI\App\Components\Planning\Creneau\Controller')
         ;
     }
 }

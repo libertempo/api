@@ -1,5 +1,5 @@
 <?php
-namespace App\Components\Utilisateur;
+namespace LibertAPI\App\Components\Utilisateur;
 
 /**
  * {@inheritDoc}
@@ -12,7 +12,7 @@ namespace App\Components\Utilisateur;
  * Ne devrait être contacté que par Utilisateur\Repository
  * Ne devrait contacter personne
  */
-class Dao extends \App\Libraries\ADao
+class Dao extends \LibertAPI\App\Libraries\ADao
 {
     public function getById($id)
     {

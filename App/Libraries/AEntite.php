@@ -1,5 +1,5 @@
 <?php
-namespace App\Libraries;
+namespace LibertAPI\App\Libraries;
 
 /**
  * Domain Model. Par essence, ne peut pas être immuable.

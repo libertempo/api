@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\App\Helpers;
+namespace LibertAPI\Tests\Units\App\Helpers;
 
-use \App\Helpers\Formatter as _Formatter;
+use LibertAPI\App\Helpers\Formatter as _Formatter;
 
 /**
  * Test des petits utilitaires de l'application

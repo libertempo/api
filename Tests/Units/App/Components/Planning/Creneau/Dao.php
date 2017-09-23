@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\App\Components\Planning\Creneau;
+namespace LibertAPI\Tests\Units\App\Components\Planning\Creneau;
 
-use \App\Components\Planning\Creneau\Dao as _Dao;
+use \LibertAPI\App\Components\Planning\Creneau\Dao as _Dao;
 
 /**
  * Classe de test du DAO de créneau de planning
@@ -11,7 +11,7 @@ use \App\Components\Planning\Creneau\Dao as _Dao;
  *
  * @since 0.1
  */
-final class Dao extends \Tests\Units\App\Libraries\ADao
+final class Dao extends \LibertAPI\Tests\Units\App\Libraries\ADao
 {
     /*************************************************
      * GET

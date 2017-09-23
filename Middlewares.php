@@ -4,7 +4,7 @@
  *
  * /!\ Les Middlewares sont executés en mode PILE : le premier de la liste est lancé en dernier
  */
-use App\Libraries\AControllerFactory;
+use LibertAPI\App\Libraries\AControllerFactory;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -54,10 +54,10 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
 
 /* Middleware 4 : sécurité via identification (+ « ping » last access) */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
-    $repoUtilisateur = new \App\Components\Utilisateur\Repository(
-        new \App\Components\Utilisateur\Dao($this['storageConnector'])
+    $repoUtilisateur = new \LibertAPI\App\Components\Utilisateur\Repository(
+        new \LibertAPI\App\Components\Utilisateur\Dao($this['storageConnector'])
     );
-    $identification = new \Middlewares\Identification($request, $repoUtilisateur);
+    $identification = new \LibertAPI\Middlewares\Identification($request, $repoUtilisateur);
     $reserved = ['Authentification', 'HelloWorld'];
     $ressourcePath = $request->getAttribute('nomRessources');
     if (in_array($ressourcePath, $reserved, true)) {
@@ -117,8 +117,8 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $ressources = [];
     foreach ($paths as $value) {
         if (!is_numeric($value)) {
-            $ressources[] = \App\Helpers\Formatter::getSingularTerm(
-                \App\Helpers\Formatter::getStudlyCapsFromSnake($value)
+            $ressources[] = \LibertAPI\App\Helpers\Formatter::getSingularTerm(
+                \LibertAPI\App\Helpers\Formatter::getStudlyCapsFromSnake($value)
             );
         }
     }

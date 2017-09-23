@@ -1,5 +1,5 @@
 <?php
-namespace App\Components\Planning;
+namespace LibertAPI\App\Components\Planning;
 
 /**
  * @inheritDoc
@@ -8,12 +8,12 @@ namespace App\Components\Planning;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Tests\Units\App\Components\Planning\Entite
+ * @see \LibertAPI\Tests\Units\App\Components\Planning\Entite
  *
  * Ne devrait être contacté que par le Planning\Repository
  * Ne devrait contacter personne
  */
-class Entite extends \App\Libraries\AEntite
+class Entite extends \LibertAPI\App\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ name

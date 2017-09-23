@@ -1,5 +1,5 @@
 <?php
-namespace App\Helpers;
+namespace LibertAPI\App\Helpers;
 
 /**
  * Formatage de petits utilitaires

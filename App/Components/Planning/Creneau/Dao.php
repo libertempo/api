@@ -1,5 +1,5 @@
 <?php
-namespace App\Components\Planning\Creneau;
+namespace LibertAPI\App\Components\Planning\Creneau;
 
 /**
  * {@inheritDoc}
@@ -12,7 +12,7 @@ namespace App\Components\Planning\Creneau;
  * Ne devrait être contacté que par Planning\Creneau\Repository
  * Ne devrait contacter personne
  */
-class Dao extends \App\Libraries\ADao
+class Dao extends \LibertAPI\App\Libraries\ADao
 {
     /*************************************************
      * GET

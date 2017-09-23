@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\Middlewares;
+namespace LibertAPI\Tests\Units\Middlewares;
 
-use Middlewares\Identification as _Identification;
+use LibertAPI\Middlewares\Identification as _Identification;
 
 /**
  * Test de l'identification d'un utilisateur

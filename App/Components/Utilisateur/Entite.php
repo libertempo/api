@@ -1,5 +1,5 @@
 <?php
-namespace App\Components\Utilisateur;
+namespace LibertAPI\App\Components\Utilisateur;
 
 use App\Helpers\Formatter;
 
@@ -10,12 +10,12 @@ use App\Helpers\Formatter;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \Tests\Units\App\Components\Utilisateur\Entite
+ * @see \LibertAPI\Tests\Units\App\Components\Utilisateur\Entite
  *
  * Ne devrait être contacté que par le Utilisateur\Repository
  * Ne devrait contacter personne
  */
-class Entite extends \App\Libraries\AEntite
+class Entite extends \LibertAPI\App\Libraries\AEntite
 {
     public function getToken()
     {

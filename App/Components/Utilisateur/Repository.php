@@ -1,8 +1,8 @@
 <?php
-namespace App\Components\Utilisateur;
+namespace LibertAPI\App\Components\Utilisateur;
 
-use App\Libraries\AEntite;
-use App\Libraries\Application;
+use LibertAPI\App\Libraries\AEntite;
+use LibertAPI\App\Libraries\Application;
 
 /**
  * {@inheritDoc}
@@ -11,12 +11,12 @@ use App\Libraries\Application;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \Tests\Units\App\Components\Utilisateur\Repository
+ * @see \LibertAPI\Tests\Units\App\Components\Utilisateur\Repository
  *
  * Ne devrait être contacté que par le Authentification\Controller
  * Ne devrait contacter que le Utilisateur\Entite, Utilisateur\Dao
  */
-class Repository extends \App\Libraries\ARepository
+class Repository extends \LibertAPI\App\Libraries\ARepository
 {
     /**
      * @var Application Bibliothèque d'accès aux données de l'application

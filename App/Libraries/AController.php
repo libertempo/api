@@ -1,7 +1,7 @@
 <?php
-namespace App\Libraries;
+namespace LibertAPI\App\Libraries;
 
-use \App\Libraries\ARepository;
+use LibertAPI\App\Libraries\ARepository;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use Psr\Http\Message\ResponseInterface as IResponse;
 

@@ -1,8 +1,7 @@
 <?php
-namespace App\Libraries;
+namespace LibertAPI\App\Libraries;
 
 use \Slim\Interfaces\RouterInterface as IRouter;
-use App\Libraries\Application;
 
 /**
  * Fabrique des contrôleurs, basé sur les dépendances
@@ -12,7 +11,7 @@ use App\Libraries\Application;
  *
  * @since 0.2
  *
- * Ne devrait être contacté que par \Middlewares
+ * Ne devrait être contacté que par \LibertAPI\Middlewares
  * Peut contacter tous les contrôleurs
  */
 abstract class AControllerFactory
@@ -24,7 +23,7 @@ abstract class AControllerFactory
      * @param \PDO $storageConnector Connecteur à la BDD
      * @param IRouter $router Routeur de l'application
      *
-     * @return \App\Libraries\AController
+     * @return \LibertAPI\App\Libraries\AController
      * @throws \DomainException Si la ressource est inconnue
      */
     final static function createController($ressourcePath, \PDO $storageConnector, IRouter $router)
@@ -36,8 +35,8 @@ abstract class AControllerFactory
 
         switch ($ressourcePath) {
             case 'Authentification':
-                $daoClass = '\App\Components\Utilisateur\Dao';
-                $repoClass = '\App\Components\Utilisateur\Repository';
+                $daoClass = '\LibertAPI\App\Components\Utilisateur\Dao';
+                $repoClass = '\LibertAPI\App\Components\Utilisateur\Repository';
 
                 $repo = new $repoClass(
                     new $daoClass($storageConnector)
@@ -47,8 +46,8 @@ abstract class AControllerFactory
                 return new $controllerClass($repo, $router);
 
             default:
-                $daoClass = '\App\Components\\' . $ressourcePath . '\Dao';
-                $repoClass = '\App\Components\\' . $ressourcePath . '\Repository';
+                $daoClass = '\LibertAPI\App\Components\\' . $ressourcePath . '\Dao';
+                $repoClass = '\LibertAPI\App\Components\\' . $ressourcePath . '\Repository';
 
                 return new $controllerClass(
                     new $repoClass(
@@ -68,6 +67,6 @@ abstract class AControllerFactory
      */
     final static function getControllerClassname($ressourcePath)
     {
-        return '\App\Components\\' . $ressourcePath . '\Controller';
+        return '\LibertAPI\App\Components\\' . $ressourcePath . '\Controller';
     }
 }

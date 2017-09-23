@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\App\Components\Planning\Creneau;
+namespace LibertAPI\Tests\Units\App\Components\Planning\Creneau;
 
-use \App\Components\Planning\Creneau\Controller as _Controller;
+use LibertAPI\App\Components\Planning\Creneau\Controller as _Controller;
 
 /**
  * Classe de test du contrôleur de créneau de planning
@@ -11,15 +11,15 @@ use \App\Components\Planning\Creneau\Controller as _Controller;
  *
  * @since 0.1
  */
-final class Controller extends \Tests\Units\App\Libraries\AController
+final class Controller extends \LibertAPI\Tests\Units\App\Libraries\AController
 {
     /**
-     * @var \mock\App\Components\Planning\Creneau\Repository Mock du repository associé
+     * @var \LibertAPI\App\Components\Planning\Creneau\Repository Mock du repository associé
      */
     private $repository;
 
     /**
-     * @var \mock\App\Components\Planning\Creneau\Entite Mock de l'entité associée
+     * @var \LibertAPI\App\Components\Planning\Creneau\Entite Mock de l'entité associée
      */
     private $entite;
 
@@ -30,9 +30,9 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\App\Components\Planning\Creneau\Repository();
+        $this->repository = new \mock\LibertAPI\App\Components\Planning\Creneau\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\App\Components\Planning\Creneau\Entite();
+        $this->entite = new \mock\LibertAPI\App\Components\Planning\Creneau\Entite();
         $this->entite->getMockController()->getId = 42;
         $this->entite->getMockController()->getPlanningId = 12;
         $this->entite->getMockController()->getJourId = 12;
@@ -176,7 +176,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     {
         $this->request->getMockController()->getParsedBody = [[]];
         $this->repository->getMockController()->postList = function () {
-            throw new \App\Exceptions\MissingArgumentException('');
+            throw new \LibertAPI\App\Exceptions\MissingArgumentException('');
         };
         $controller = new _Controller($this->repository, $this->router);
 
@@ -298,7 +298,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         $this->repository->getMockController()->getOne = $this->entite;
 
         $this->repository->getMockController()->putOne = function () {
-            throw new \App\Exceptions\MissingArgumentException('');
+            throw new \LibertAPI\App\Exceptions\MissingArgumentException('');
         };
         $controller = new _Controller($this->repository, $this->router);
 

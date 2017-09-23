@@ -1,5 +1,5 @@
 <?php
-namespace App\Components\Planning\Creneau;
+namespace LibertAPI\App\Components\Planning\Creneau;
 
 /**
  * {@inheritDoc}
@@ -8,12 +8,12 @@ namespace App\Components\Planning\Creneau;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Tests\Units\App\Components\Planning\Creneau\Entite
+ * @see \LibertAPI\Tests\Units\App\Components\Planning\Creneau\Entite
  *
  * Ne devrait être contacté que par le Planning\Creneau\Repository
  * Ne devrait contacter personne
  */
-class Entite extends \App\Libraries\AEntite
+class Entite extends \LibertAPI\App\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ planning id

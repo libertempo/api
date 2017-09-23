@@ -1,7 +1,7 @@
 <?php
-namespace App\Components\Planning;
+namespace LibertAPI\App\Components\Planning;
 
-use App\Exceptions\MissingArgumentException;
+use LibertAPI\App\Exceptions\MissingArgumentException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le Planning\Repository
  */
-final class Controller extends \App\Libraries\AController
+final class Controller extends \LibertAPI\App\Libraries\AController
 {
     /*************************************************
      * GET

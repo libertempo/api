@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\App\Libraries;
+namespace LibertAPI\Tests\Units\App\Libraries;
 
-use \App\Libraries\AEntite as _AEntite;
+use LibertAPI\App\Libraries\AEntite as _AEntite;
 
 /**
  * Classe commune de test sur les entités
