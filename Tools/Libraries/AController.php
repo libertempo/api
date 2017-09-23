@@ -49,6 +49,20 @@ abstract class AController
     }
 
     /**
+     * Retourne une réponse d'erreur normalisée
+     *
+     * @param IResponse $response Réponse Http
+     * @param mixed $messageData Message data d'un json bien formé
+     * @param int $code Code Http
+     *
+     * @return IResponse
+     */
+    public function getResponseError(IResponse $response, \Exception $e)
+    {
+        return $this->getResponse($response, $e->getMessage(), 500, 'error');
+    }
+
+    /**
      * Retourne une réponse 400 normalisée
      *
      * @param IResponse $response Réponse Http
@@ -58,7 +72,7 @@ abstract class AController
      */
     protected function getResponseBadRequest(IResponse $response, $message)
     {
-        return $this->getResponseError($response, $message, 400);
+        return $this->getResponseFail($response, $message, 400);
     }
 
     /**
@@ -70,7 +84,7 @@ abstract class AController
      */
     protected function getResponseMissingArgument(IResponse $response)
     {
-        return $this->getResponseError($response, 'Missing required argument', 412);
+        return $this->getResponseFail($response, 'Missing required argument', 412);
     }
 
     /**
@@ -83,7 +97,7 @@ abstract class AController
      */
     protected function getResponseBadDomainArgument(IResponse $response, \Exception $e)
     {
-        return $this->getResponseError($response, 'Precondition Failed', ['data' => json_decode($e->getMessage(), true)], 412);
+        return $this->getResponseFail($response, json_decode($e->getMessage(), true), 412);
     }
 
     /**
@@ -96,23 +110,11 @@ abstract class AController
      */
     protected function getResponseNotFound(IResponse $response, $messageData)
     {
-        return $this->getResponseError($response, 'Not Found', ['data' => $messageData], 404);
+        return $this->getResponseFail($response, $messageData, 404);
     }
 
     /**
-     * Retourne une réponse normalisée d'élément sans contenu
-     *
-     * @param IResponse $response Réponse Http
-     *
-     * @return IResponse
-     */
-    protected function getResponseNoContent(IResponse $response)
-    {
-        return $this->getResponseSuccess($response, 'No Content', [], 204);
-    }
-
-    /**
-     * Retourne une réponse d'erreur normalisée
+     * Retourne une réponse d'échec normalisée
      *
      * @param IResponse $response Réponse Http
      * @param mixed $messageData Message data d'un json bien formé
@@ -120,9 +122,9 @@ abstract class AController
      *
      * @return IResponse
      */
-    private function getResponseError(IResponse $response, $messageData, $code)
+    private function getResponseFail(IResponse $response, $messageData, $code)
     {
-        return $this->getResponse($response, $messageData, $code, 'error');
+        return $this->getResponse($response, $messageData, $code, 'fail');
     }
 
     /**

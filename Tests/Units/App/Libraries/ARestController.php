@@ -1,8 +1,6 @@
 <?php
 namespace Tests\Units\App\Libraries;
 
-use Psr\Http\Message\ResponseInterface as IResponse;
-
 /**
  * Classe de base des tests sur les contrôleurs REST
  *
@@ -48,7 +46,7 @@ abstract class ARestController extends AController
 
         $response = $this->getOne();
 
-        $this->assertError($response, 404);
+        $this->assertFail($response, 404);
     }
 
     /**
@@ -61,9 +59,8 @@ abstract class ARestController extends AController
         };
         $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () {
-            $this->getOne();
-        })->isInstanceOf(\Exception::class);
+        $response = $this->getOne();
+        $response = $this->assertError($response);
     }
 
     abstract protected function getOne();
@@ -104,7 +101,7 @@ abstract class ARestController extends AController
 
         $response = $this->getList();
 
-        $this->assertError($response, 404);
+        $this->assertFail($response, 404);
     }
 
     /**
@@ -118,9 +115,8 @@ abstract class ARestController extends AController
         };
         $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () {
-            $this->getList();
-        })->isInstanceOf('\Exception');
+        $response = $this->getList();
+        $this->assertError($response);
     }
 
     abstract protected function getList();

@@ -58,7 +58,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
 
         $response = $this->testedInstance->post($this->request, $this->response);
 
-        $this->assertError($response, 400);
+        $this->assertFail($response, 400);
     }
 
     /**
@@ -74,7 +74,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
 
         $response = $this->testedInstance->post($this->request, $this->response);
 
-        $this->assertError($response, 412);
+        $this->assertFail($response, 412);
     }
 
     /**
@@ -90,7 +90,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
 
         $response = $this->testedInstance->post($this->request, $this->response);
 
-        $this->assertError($response, 412);
+        $this->assertFail($response, 412);
     }
 
     /**
@@ -104,10 +104,10 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () {
-            $this->testedInstance->post($this->request, $this->response);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->post($this->request, $this->response);
+        $this->assertError($response);
     }
+
     /**
      * Teste la méthode post tout ok
      */
@@ -145,7 +145,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
 
         $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
 
-        $this->assertError($response, 400);
+        $this->assertFail($response, 400);
     }
 
     /**
@@ -175,9 +175,8 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () {
-            $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
+        $this->assertError($response);
     }
 
     /**
@@ -195,7 +194,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
 
-        $this->assertError($response, 412);
+        $this->assertFail($response, 412);
     }
 
     /**
@@ -212,7 +211,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
 
-        $this->assertError($response, 412);
+        $this->assertFail($response, 412);
     }
 
     /**
@@ -227,9 +226,8 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () {
-            $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
+        $this->assertError($response);
     }
 
     /**

@@ -61,7 +61,7 @@ final class Controller extends \App\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « utilisateurs#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
@@ -89,7 +89,7 @@ final class Controller extends \App\Libraries\AController
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNotFound($response, 'No result');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
         $models = [];
         foreach ($utilisateurs as $utilisateur) {

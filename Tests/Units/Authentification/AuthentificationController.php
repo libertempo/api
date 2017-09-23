@@ -39,7 +39,7 @@ final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libr
 
         $response = $this->testedInstance->get($this->request, $this->response);
 
-        $this->assertError($response, 400);
+        $this->assertFail($response, 400);
     }
 
     /**
@@ -58,7 +58,7 @@ final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libr
             $this->response
         );
 
-        $this->assertError($response, 404);
+        $this->assertFail($response, 404);
     }
 
     /**

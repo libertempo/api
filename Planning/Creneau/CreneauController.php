@@ -59,7 +59,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
@@ -85,7 +85,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
         $entites = [];
         foreach ($creneaux as $creneau) {
@@ -149,7 +149,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
@@ -186,7 +186,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         try {
@@ -196,7 +196,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess($response, '', 204);

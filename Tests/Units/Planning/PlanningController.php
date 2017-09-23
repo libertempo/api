@@ -52,7 +52,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
 
         $response = $this->testedInstance->post($this->request, $this->response);
 
-        $this->assertError($response, 400);
+        $this->assertFail($response, 400);
     }
 
     /**
@@ -68,7 +68,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
 
         $response = $this->testedInstance->post($this->request, $this->response);
 
-        $this->assertError($response, 412);
+        $this->assertFail($response, 412);
     }
 
     /**
@@ -84,7 +84,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
 
         $response = $this->testedInstance->post($this->request, $this->response);
 
-        $this->assertError($response, 412);
+        $this->assertFail($response, 412);
     }
 
     /**
@@ -119,9 +119,9 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         };
         $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () {
-            $this->testedInstance->post($this->request, $this->response);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->post($this->request, $this->response);
+
+        $this->assertError($response);
     }
 
     /*************************************************
@@ -139,7 +139,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
 
         $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
 
-        $this->assertError($response, 400);
+        $this->assertFail($response, 400);
     }
 
     /**
@@ -169,9 +169,8 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         };
         $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () {
-            $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $this->assertError($response);
     }
 
     /**
@@ -189,7 +188,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
 
         $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
 
-        $this->assertError($response, 412);
+        $this->assertFail($response, 412);
     }
 
     /**
@@ -206,7 +205,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
 
         $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
 
-        $this->assertError($response, 412);
+        $this->assertFail($response, 412);
     }
 
     /**
@@ -221,9 +220,8 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         };
         $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () {
-            $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $this->assertError($response);
     }
 
     /**
@@ -277,9 +275,8 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         };
         $this->newTestedInstance($this->repository, $this->router);
 
-        $this->exception(function () {
-            $this->testedInstance->delete($this->request, $this->response, ['planningId' => 99]);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->delete($this->request, $this->response, ['planningId' => 99]);
+        $this->assertError($response);
     }
 
     /**

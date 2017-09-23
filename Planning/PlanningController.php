@@ -58,7 +58,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
@@ -86,7 +86,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
         $entites = [];
         foreach ($plannings as $planning) {
@@ -139,7 +139,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
@@ -178,7 +178,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         try {
@@ -188,7 +188,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess($response, '', 204);
@@ -217,7 +217,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess($response, '', 200);
