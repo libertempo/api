@@ -35,6 +35,20 @@ abstract class AController
     }
 
     /**
+     * Retourne une réponse de succès normalisée
+     *
+     * @param IResponse $response Réponse Http
+     * @param mixed $messageData Message data d'un json bien formé
+     * @param int $code Code Http
+     *
+     * @return IResponse
+     */
+    protected function getResponseSuccess(IResponse $response, $messageData, $code)
+    {
+        return $this->getResponse($response, '', $messageData, $code, 'success');
+    }
+
+    /**
      * Retourne une réponse 400 normalisée
      *
      * @param IResponse $response Réponse Http
@@ -109,10 +123,27 @@ abstract class AController
      */
     private function getResponseError(IResponse $response, $message, array $data, $code)
     {
-        $data += [
+        return $this->getResponse($response, $message, $messageData, $code, 'error');
+    }
+
+    /**
+     * Retourne une réponse normalisée
+     *
+     * @param IResponse $response Réponse Http
+     * @param string $message Précision de l'erreur éventuelle
+     * @param mixed $messageData Message data d'un json bien formé
+     * @param int $code Code Http
+     * @param string $status Statut textuel correspondant à la classe du code (fail | error | success)
+     *
+     * @return IResponse
+     */
+    private function getResponse(IResponse $response, $message, $messageData, $code, $status)
+    {
+        $data = [
             'code' => $code,
-            'status' => 'error',
-            'message' => $message
+            'status' => $status,
+            'message' => $message,
+            'data' => $messageData,
         ];
 
         return $this->getResponse($response, $data);

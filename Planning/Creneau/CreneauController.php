@@ -28,8 +28,10 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
      *
      * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
+     * @param array $arguments Arguments de route
      *
      * @return IResponse
+     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
@@ -52,29 +54,16 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
      */
     private function getOne(IResponse $response, $id, $planningId)
     {
-        $code = -1;
-        $data = [];
         try {
             $creneau = $this->repository->getOne($id, $planningId);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $this->buildData($creneau),
-            ];
 
-            return $response->withJson($data, $code);
+            return $this->getResponseSuccess(
+                $response,
+                $this->buildData($creneau),
+                200
+            );
         } catch (\DomainException $e) {
-            $code = 404;
-            $data = [
-                'code' => $code,
-                'status' => 'error',
-                'message' => 'Not Found',
-                'data' => 'Element « creneaux#' . $id . ' » is not a valid resource',
-            ];
-
-            return $response->withJson($data, $code);
+            return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             throw $e;
         }
@@ -100,15 +89,8 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
             foreach ($creneaux as $creneau) {
                 $entites[] = $this->buildData($creneau);
             }
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $entites,
-            ];
 
-            return $response->withJson($data, $code);
+            return $this->getResponseSuccess($response, $models, 200);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {

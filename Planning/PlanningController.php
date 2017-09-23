@@ -55,15 +55,12 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
     {
         try {
             $planning = $this->repository->getOne($id);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $this->buildData($planning),
-            ];
 
-            return $response->withJson($data, $code);
+            return $this->getResponseSuccess(
+                $response,
+                $this->buildData($planning),
+                200
+            );
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
@@ -90,15 +87,8 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
             foreach ($plannings as $planning) {
                 $entites[] = $this->buildData($planning);
             }
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $entites,
-            ];
 
-            return $response->withJson($data, $code);
+            return $this->getResponseSuccess($response, $models, 200);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {

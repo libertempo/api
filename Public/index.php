@@ -25,6 +25,7 @@ $app->get('/hello_world', function(IRequest $request, IResponse $response) {
 
 require_once ROUTE_PATH . 'Plannings.php';
 require_once ROUTE_PATH . 'Authentification.php';
+require_once ROUTE_PATH . 'Utilisateurs.php';
 
 /* Jump in ! */
 $app->run();
