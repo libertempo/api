@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Middlewares;
+namespace LibertAPI\Tools\Middlewares;
 
 use App\Libraries\AEntite;
 use Psr\Http\Message\ServerRequestInterface as IRequest;

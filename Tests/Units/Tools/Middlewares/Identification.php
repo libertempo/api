@@ -1,7 +1,7 @@
 <?php
-namespace LibertAPI\Tests\Units\Middlewares;
+namespace LibertAPI\Tests\Units\Tools\Middlewares;
 
-use LibertAPI\Middlewares\Identification as _Identification;
+use LibertAPI\Tools\Middlewares\Identification as _Identification;
 
 /**
  * Test de l'identification d'un utilisateur
@@ -11,7 +11,7 @@ use LibertAPI\Middlewares\Identification as _Identification;
 final class Identification extends \Atoum
 {
     /**
-     * @var \mock\Slim\Http\Request Mock de la requête HTTP
+     * @var \Slim\Http\Request Mock de la requête HTTP
      */
     private $request;
 

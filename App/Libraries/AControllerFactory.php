@@ -11,7 +11,7 @@ use \Slim\Interfaces\RouterInterface as IRouter;
  *
  * @since 0.2
  *
- * Ne devrait être contacté que par \LibertAPI\Middlewares
+ * Ne devrait être contacté que par \LibertAPI\Tools\Middlewares
  * Peut contacter tous les contrôleurs
  */
 abstract class AControllerFactory
