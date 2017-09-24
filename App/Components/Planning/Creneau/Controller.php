@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\App\Components\Planning\Creneau;
 
-use LibertAPI\App\Exceptions\MissingArgumentException;
+use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 

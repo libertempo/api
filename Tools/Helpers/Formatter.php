@@ -1,11 +1,11 @@
 <?php
-namespace LibertAPI\App\Helpers;
+namespace LibertAPI\Tools\Helpers;
 
 /**
  * Formatage de petits utilitaires
  *
  * @since 0.1
- * @see \Tests\Units\App\Helpers\Formatter
+ * @see \Tests\Units\Tools\Helpers\Formatter
  */
 class Formatter
 {

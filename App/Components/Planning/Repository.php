@@ -1,8 +1,8 @@
 <?php
 namespace LibertAPI\App\Components\Planning;
 
-use LibertAPI\App\Exceptions\MissingArgumentException;
-use LibertAPI\App\Libraries\AEntite;
+use LibertAPI\Tools\Exceptions\MissingArgumentException;
+use LibertAPI\Tools\Libraries\AEntite;
 
 /**
  * {@inheritDoc}

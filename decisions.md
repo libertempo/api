@@ -5,6 +5,12 @@
 ~ Prytoegrian
 
 
+## 2017-09-24
+
+* Afin de suivre complètement Psr4, j'ai donné un préfixe au namespace global. Dans un contexte d'import, ça permet de bien séparer les packages. Ce faisant, \App devient inutile, je remonte donc tout d'un niveau
+
+~ Prytoegrian
+
 ## 2016-10-29
 
 * Histoire de faciliter la transmission des connaissances et des intentions, j'amorce la création de ce fichier, en m'appuyant sur cette [proposition](http://akazlou.com/posts/2015-11-09-every-project-should-have-decisions.html).

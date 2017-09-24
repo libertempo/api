@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\App\Libraries;
 
-use LibertAPI\App\Exceptions\MissingArgumentException;
+use LibertAPI\Tools\Exceptions\MissingArgumentException;
 
 /**
  * Garant de la cohérence métier de l'entité en relation.

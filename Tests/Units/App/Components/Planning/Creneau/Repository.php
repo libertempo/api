@@ -180,7 +180,7 @@ final class Repository extends \Atoum
 
         $this->exception(function () use ($repository, $entite) {
             $repository->postOne([], $entite);
-        })->isInstanceOf('\App\Exceptions\MissingArgumentException');
+        })->isInstanceOf('\LibertAPI\Tools\Exceptions\MissingArgumentException');
     }
 
     /**
@@ -249,7 +249,7 @@ final class Repository extends \Atoum
 
         $this->exception(function () use ($repository) {
             $repository->putOne(['planningId' => 4], new \mock\LibertAPI\App\Components\Planning\Creneau\Entite([]));
-        })->isInstanceOf('\App\Exceptions\MissingArgumentException');
+        })->isInstanceOf('\LibertAPI\Tools\Exceptions\MissingArgumentException');
     }
 
     /**

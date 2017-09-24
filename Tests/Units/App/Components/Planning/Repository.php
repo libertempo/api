@@ -114,7 +114,7 @@ final class Repository extends \Atoum
 
         $this->exception(function () use ($repository) {
             $repository->postOne(['name' => 'bob'], new \mock\LibertAPI\App\Components\Planning\Entite([]));
-        })->isInstanceOf('\LibertAPI\App\Exceptions\MissingArgumentException');
+        })->isInstanceOf('\LibertAPI\Tools\Exceptions\MissingArgumentException');
     }
 
     /**
@@ -163,7 +163,7 @@ final class Repository extends \Atoum
 
         $this->exception(function () use ($repository) {
             $repository->putOne(['name' => 'bob'], new \mock\LibertAPI\App\Components\Planning\Entite([]));
-        })->isInstanceOf('\LibertAPI\App\Exceptions\MissingArgumentException');
+        })->isInstanceOf('\LibertAPI\Tools\Exceptions\MissingArgumentException');
     }
 
     /**

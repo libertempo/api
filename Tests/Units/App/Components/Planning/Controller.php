@@ -174,7 +174,7 @@ final class Controller extends \LibertAPI\Tests\Units\App\Libraries\AController
     {
         $this->request->getMockController()->getParsedBody = [];
         $this->repository->getMockController()->postOne = function () {
-            throw new \LibertAPI\App\Exceptions\MissingArgumentException('');
+            throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
         $controller = new _Controller($this->repository, $this->router);
 
@@ -296,7 +296,7 @@ final class Controller extends \LibertAPI\Tests\Units\App\Libraries\AController
         $this->repository->getMockController()->getOne = $this->entite;
 
         $this->repository->getMockController()->putOne = function () {
-            throw new \LibertAPI\App\Exceptions\MissingArgumentException('');
+            throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
         $controller = new _Controller($this->repository, $this->router);
 
