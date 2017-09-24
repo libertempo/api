@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\Tests\Units\Planning;
 
-use \LibertAPI\Planning\Repository as _Repository;
+use \LibertAPI\Planning\PlanningRepository as _Repository;
 
 /**
  * Classe de test du repository de planning
@@ -11,15 +11,15 @@ use \LibertAPI\Planning\Repository as _Repository;
  *
  * @since 0.1
  */
-final class Repository extends \Atoum
+final class PlanningRepository extends \Atoum
 {
     /**
-     * @var \LibertAPI\Planning\Dao Mock du DAO du planning
+     * @var \LibertAPI\Planning\PlanningDao Mock du DAO du planning
      */
     private $dao;
 
     /**
-     * @var \LibertAPI\Planning\Entite Mock de l'Entité de planning
+     * @var \LibertAPI\Planning\PlanningEntite Mock de l'Entité de planning
      */
     private $entite;
 
@@ -27,9 +27,9 @@ final class Repository extends \Atoum
     {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->dao = new \mock\LibertAPI\Planning\Dao();
+        $this->dao = new \mock\LibertAPI\Planning\PlanningDao();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Planning\Entite();
+        $this->entite = new \mock\LibertAPI\Planning\PlaningEntite();
         $this->entite->getMockController()->getId = 42;
         $this->entite->getMockController()->getName = 12;
         $this->entite->getMockController()->getStatus = 12;
@@ -113,7 +113,7 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->postOne(['name' => 'bob'], new \mock\LibertAPI\Planning\Entite([]));
+            $repository->postOne(['name' => 'bob'], new \mock\LibertAPI\Planning\PlanningEntite([]));
         })->isInstanceOf('\LibertAPI\Tools\Exceptions\MissingArgumentException');
     }
 
@@ -123,7 +123,7 @@ final class Repository extends \Atoum
     public function testPostOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Planning\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\PlanningEntite([]);
         $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -139,7 +139,7 @@ final class Repository extends \Atoum
     public function testPostOneOk()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Planning\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\PlanningEntite([]);
         $entite->getMockController()->populate = '';
         $entite->getMockController()->getName = 'name';
         $entite->getMockController()->getStatus = 'status';
@@ -162,7 +162,7 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->putOne(['name' => 'bob'], new \mock\LibertAPI\Planning\Entite([]));
+            $repository->putOne(['name' => 'bob'], new \mock\LibertAPI\Planning\PlanningEntite([]));
         })->isInstanceOf('\LibertAPI\Tools\Exceptions\MissingArgumentException');
     }
 
@@ -172,7 +172,7 @@ final class Repository extends \Atoum
     public function testPutOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Planning\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\PlanningEntite([]);
         $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -209,7 +209,7 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->deleteOne(new \mock\LibertAPI\Planning\Entite([]));
+            $repository->deleteOne(new \mock\LibertAPI\Planning\PlanningEntite([]));
         })->isInstanceOf('\LogicException');
 
     }
@@ -221,7 +221,7 @@ final class Repository extends \Atoum
     {
         $this->dao->getMockController()->delete = 4;
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Planning\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\PlanningEntite([]);
 
         $this->variable($repository->deleteOne($entite))->isNull();
     }

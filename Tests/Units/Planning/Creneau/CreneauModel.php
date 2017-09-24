@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\Tests\Units\Planning\Creneau;
 
-use \LibertAPI\Planning\Creneau\Model as _Model;
+use \LibertAPI\Planning\Creneau\CreneauModel as _Model;
 
 /**
  * Classe de test du modèle de créneau
@@ -11,7 +11,7 @@ use \LibertAPI\Planning\Creneau\Model as _Model;
  *
  * @since 0.1
  */
-final class Model extends \LibertAPI\Tests\Units\Tools\Libraries\AModel
+final class CreneauModel extends \LibertAPI\Tests\Units\Tools\Libraries\AModel
 {
     /**
      * @inheritDoc

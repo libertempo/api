@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\Tests\Units\Utilisateur;
 
-use \LibertAPI\Utilisateur\Dao as _Dao;
+use \LibertAPI\Utilisateur\UtilisateurDao as _Dao;
 
 /**
  * Classe de test du DAO de l'utilisateur
@@ -11,7 +11,7 @@ use \LibertAPI\Utilisateur\Dao as _Dao;
  *
  * @since 0.2
  */
-final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
+final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
 {
     /*************************************************
      * GET

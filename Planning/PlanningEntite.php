@@ -8,12 +8,12 @@ namespace LibertAPI\Planning;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \LibertAPI\Tests\Units\Planning\Model
+ * @see \LibertAPI\Tests\Units\Planning\Entite
  *
  * Ne devrait être contacté que par le Planning\Repository
  * Ne devrait contacter personne
  */
-class Model extends \LibertAPI\Tools\Libraries\AModel
+class PlanningEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ name

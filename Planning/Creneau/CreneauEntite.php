@@ -8,12 +8,12 @@ namespace LibertAPI\Planning\Creneau;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \LibertAPI\Tests\Units\Planning\Creneau\Model
+ * @see \LibertAPI\Tests\Units\Planning\Creneau\Entite
  *
  * Ne devrait être contacté que par le Planning\Creneau\Repository
  * Ne devrait contacter personne
  */
-class Model extends \LibertAPI\Tools\Libraries\AModel
+class CreneauEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ planning id

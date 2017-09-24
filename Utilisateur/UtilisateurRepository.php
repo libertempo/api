@@ -11,12 +11,9 @@ use LibertAPI\Tools\Libraries\Application;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \LibertAPI\Tests\Units\Utilisateur\Repository
- *
- * Ne devrait être contacté que par le Authentification\Controller
- * Ne devrait contacter que le Utilisateur\Entite, Utilisateur\Dao
+ * @see \LibertAPI\Tests\Units\Utilisateur\UtilisateurRepository
  */
-class Repository extends \LibertAPI\Tools\Libraries\ARepository
+class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
     /**
      * @var Application Bibliothèque d'accès aux données de l'application
@@ -70,7 +67,7 @@ class Repository extends \LibertAPI\Tools\Libraries\ARepository
 
         $entites = [];
         foreach ($data as $value) {
-            $entite = new Entite($this->getDataDao2Entite($value));
+            $entite = new UtilisateurEntite($this->getDataDao2Entite($value));
             $entites[$entite->getId()] = $entite;
         }
 

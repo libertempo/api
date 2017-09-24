@@ -8,11 +8,8 @@ namespace LibertAPI\Utilisateur;
  * @author Wouldsmina
  *
  * @since 0.2
- *
- * Ne devrait être contacté que par Utilisateur\Repository
- * Ne devrait contacter personne
  */
-class Dao extends \LibertAPI\Tools\Libraries\ADao
+class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 {
     public function getById($id)
     {

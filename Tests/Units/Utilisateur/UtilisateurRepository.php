@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\Tests\Units\Utilisateur;
 
-use LibertAPI\Utilisateur\Repository as _Repository;
+use LibertAPI\Utilisateur\UtilisateurRepository as _Repository;
 use LibertAPI\Tools\Libraries\AEntite;
 
 /**
@@ -12,7 +12,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  *
  * @since 0.2
  */
-final class Repository extends \Atoum
+final class UtilisateurRepository extends \Atoum
 {
     /**
      * @var \LibertAPI\Tools\Libraries\Application Mock de la bibliothèque d'application
@@ -43,7 +43,7 @@ final class Repository extends \Atoum
     {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->dao = new \mock\LibertAPI\Utilisateur\Dao();
+        $this->dao = new \mock\LibertAPI\Utilisateur\UtilisateurDao();
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->statement = new \mock\PDOStatement();
@@ -54,7 +54,7 @@ final class Repository extends \Atoum
         $this->connector->getMockController()->query = $this->statement;
         $this->application = new \mock\LibertAPI\Tools\Libraries\Application($this->connector);
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Utilisateur\Entite();
+        $this->entite = new \mock\LibertAPI\Utilisateur\UtilisateurEntite();
         $this->entite->getMockController()->getNom = 'Aladdin';
         $this->entite->getMockController()->getDateInscription = '222';
     }

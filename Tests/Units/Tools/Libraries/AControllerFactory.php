@@ -60,7 +60,7 @@ final class AControllerFactory extends \Atoum
     {
         $controller = _AControllerFactory::createController('Authentification', $this->storageConnector, $this->router);
 
-        $this->object($controller)->isInstanceOf(\LibertAPI\Authentification\Controller::class);
+        $this->object($controller)->isInstanceOf(\LibertAPI\Authentification\AuthentificationController::class);
     }
 
     /**
@@ -81,7 +81,7 @@ final class AControllerFactory extends \Atoum
         $ressource = 'Planning\Creneau';
 
         $this->string(_AControllerFactory::getControllerClassname($ressource))
-            ->isIdenticalTo('\LibertAPI\Planning\Creneau\Controller')
+            ->isIdenticalTo('\LibertAPI\Planning\Creneau\CreneauController')
         ;
     }
 }

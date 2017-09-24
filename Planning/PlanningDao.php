@@ -12,7 +12,7 @@ namespace LibertAPI\Planning;
  * Ne devrait être contacté que par Planning\Repository
  * Ne devrait contacter personne
  */
-class Dao extends \LibertAPI\Tools\Libraries\ADao
+class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
 {
     /*************************************************
      * GET

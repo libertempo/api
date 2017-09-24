@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\Tests\Units\Utilisateur;
 
-use \LibertAPI\Utilisateur\Model as _Model;
+use \LibertAPI\Utilisateur\UtilisateurModel as _Model;
 
 /**
  * Classe de test du modèle de l'utilisateur
@@ -11,7 +11,7 @@ use \LibertAPI\Utilisateur\Model as _Model;
  *
  * @since 0.2
  */
-final class Model extends \LibertAPI\Tests\Units\Tools\Libraries\AModel
+final class UtilisateurModel extends \LibertAPI\Tests\Units\Tools\Libraries\AModel
 {
     /**
      * @inheritDoc

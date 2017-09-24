@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\Tests\Units\Authentification;
 
-use LibertAPI\Authentification\Controller as _Controller;
+use LibertAPI\Authentification\AuthentificationController as _AuthentificationController;
 
 /**
  * Classe de test du contrôleur de planning
@@ -11,7 +11,7 @@ use LibertAPI\Authentification\Controller as _Controller;
  *
  * @since 0.2
  */
-final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AController
+final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
      * @var \LibertAPI\Utilisateur\Repository Mock du repository associé
@@ -31,9 +31,9 @@ final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AControlle
         parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\LibertAPI\Utilisateur\Repository();
+        $this->repository = new \mock\LibertAPI\Utilisateur\UtilisateurRepository();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Utilisateur\Entite();
+        $this->entite = new \mock\LibertAPI\Utilisateur\UtilisateurEntite();
     }
 
     /*************************************************
@@ -47,7 +47,7 @@ final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AControlle
     {
         // Le framework fait du traitement, un mauvais json est simplement null
         $this->request->getMockController()->getHeaderLine = 'NotBasic';
-        $controller = new _Controller($this->repository, $this->router);
+        $controller = new _AuthentificationController($this->repository, $this->router);
 
         $response = $controller->get($this->request, $this->response);
 
@@ -63,7 +63,7 @@ final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AControlle
             throw new \UnexpectedValueException('');
         };
         $this->request->getMockController()->getHeaderLine = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
-        $controller = new _Controller($this->repository, $this->router);
+        $controller = new _AuthentificationController($this->repository, $this->router);
 
         $response = $controller->get(
             $this->request,
@@ -83,7 +83,7 @@ final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AControlle
         $this->repository->getMockController()->find = $this->entite;
         $this->repository->getMockController()->regenerateToken = $this->entite;
         $this->request->getMockController()->getHeaderLine = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
-        $controller = new _Controller($this->repository, $this->router);
+        $controller = new _AuthentificationController($this->repository, $this->router);
 
         $response = $controller->get($this->request, $this->response);
         $data = $this->getJsonDecoded($response->getBody());

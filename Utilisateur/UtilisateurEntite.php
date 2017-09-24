@@ -10,12 +10,12 @@ use App\Helpers\Formatter;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \LibertAPI\Tests\Units\Utilisateur\Model
+ * @see \LibertAPI\Tests\Units\Utilisateur\Entite
  *
  * Ne devrait être contacté que par le Utilisateur\Repository
  * Ne devrait contacter personne
  */
-class Model extends \LibertAPI\Tools\Libraries\AModel
+class UtilisateurEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     public function getToken()
     {
@@ -49,7 +49,7 @@ class Model extends \LibertAPI\Tools\Libraries\AModel
     }
 
     /**
-     * Insère le token dans le modèle
+     * Insère le token dans l'entité
      *
      * @param string $token Nouveau token d'indentification utilisateur
      *
@@ -94,7 +94,7 @@ class Model extends \LibertAPI\Tools\Libraries\AModel
 
     /**
      * @inheritDoc
-     * @TODO Le modèle utilisateur n'a pas de clé primaire en int, donc on surcharge le parent. Mettre une PK en int !
+     * @TODO L'entité utilisateur n'a pas de clé primaire en int, donc on surcharge le parent. Mettre une PK en int !
      */
     final protected function setId($id)
     {

@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\Tests\Units\Planning;
 
-use \LibertAPI\Planning\Model as _Model;
+use \LibertAPI\Planning\PlanningModel as _Model;
 
 /**
  * Classe de test du modèle de planning
@@ -11,7 +11,7 @@ use \LibertAPI\Planning\Model as _Model;
  *
  * @since 0.1
  */
-final class Model extends \LibertAPI\Tests\Units\Tools\Libraries\AModel
+final class PlanningModel extends \LibertAPI\Tests\Units\Tools\Libraries\AModel
 {
     /**
      * @inheritDoc

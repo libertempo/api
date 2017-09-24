@@ -11,12 +11,9 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \Tests\Units\Authentification\Controller
- *
- * Ne devrait être contacté que par le routeur
- * Ne devrait contacter que le Authentification\Repository
+ * @see \Tests\Units\Authentification\AuthentificationController
  */
-final class Controller extends \LibertAPI\Tools\Libraries\AController
+final class AuthentificationController extends \LibertAPI\Tools\Libraries\AController
 {
     /*************************************************
      * GET

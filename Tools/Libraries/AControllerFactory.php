@@ -29,14 +29,16 @@ abstract class AControllerFactory
     final static function createController($ressourcePath, \PDO $storageConnector, IRouter $router)
     {
         $controllerClass = static::getControllerClassname($ressourcePath);
+        $paths = explode('\\', $ressourcePath);
+        $end = array_pop($paths);
         if (!class_exists($controllerClass, true)) {
             throw new \DomainException('Unknown component');
         }
 
         switch ($ressourcePath) {
             case 'Authentification':
-                $daoClass = '\LibertAPI\Utilisateur\Dao';
-                $repoClass = '\LibertAPI\Utilisateur\Repository';
+                $daoClass = '\LibertAPI\Utilisateur\UtilisateurDao';
+                $repoClass = '\LibertAPI\Utilisateur\UtilisateurRepository';
 
                 $repo = new $repoClass(
                     new $daoClass($storageConnector)
@@ -46,8 +48,8 @@ abstract class AControllerFactory
                 return new $controllerClass($repo, $router);
 
             default:
-                $daoClass = '\LibertAPI\\' . $ressourcePath . '\Dao';
-                $repoClass = '\LibertAPI\\' . $ressourcePath . '\Repository';
+                $daoClass = '\LibertAPI\\' . $ressourcePath . '\\' . $end . 'Dao';
+                $repoClass = '\LibertAPI\\' . $ressourcePath . '\\' . $end . 'Repository';
 
                 return new $controllerClass(
                     new $repoClass(
@@ -67,6 +69,8 @@ abstract class AControllerFactory
      */
     final static function getControllerClassname($ressourcePath)
     {
-        return '\LibertAPI\\' . $ressourcePath . '\Controller';
+        $paths = explode('\\', $ressourcePath);
+        $end = array_pop($paths);
+        return '\LibertAPI\\' . $ressourcePath . '\\' . $end . 'Controller';
     }
 }
