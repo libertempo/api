@@ -20,7 +20,7 @@ C'est préférable pour l'isolation des systèmes (donc la sécurité), en plus 
 Les échanges se font en JSON et nous suivons les codes HTTP standards.
 
 # Requête
-En tant qu'architecture REST, les échanges sont *sans-état*, ce qui signifie que le serveur ne stocke pas d'informations pour se *souvenir* d'un client et n'induit rien. Cela implique que le client doit fournir toutes les informations nécessaires à la réalisation d'une action, passant tout d'abord par une *connexion*, puis la transmission à chaque requête du *token* reçu suite à cette connexion.
+En tant qu'architecture REST, les échanges sont *sans-état*, ce qui signifie que le serveur ne stocke pas d'information pour se *souvenir* d'un client et n'induit rien. Cela implique que le client doit fournir toutes les informations nécessaires à la réalisation d'une action, passant tout d'abord par une *connexion*, puis la transmission à chaque requête du *token* reçu suite à cette connexion.
 
 Les headers basiques, à transmettre pour toute requête, sont :
 ```
@@ -82,7 +82,7 @@ Suivant les règles de l'architecture REST, les routes disponibles à ce jour so
 * `GET /plannings/{id}/creneaux/{id}`
 * `DELETE /plannings/{id}/creneaux/{id}`
 
-## Versions
+# Versions
 
 L'API suit `semver`, ce qui signifie qu'une route ne sera enlevée ou que ses spécifications ne seront changées que si la version passe `vM.0.0`.
 Attention : pour le moment, le logiciel n'est pas encore en `v1.m.p`, donc ces [cassages de compatibilité](https://github.com/Prytoegrian/check-break#what-is-a-compatibility-break-) peuvent arriver à tout moment.
