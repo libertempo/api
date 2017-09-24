@@ -11,7 +11,7 @@ use \LibertAPI\App\Components\Planning\Model as _Model;
  *
  * @since 0.1
  */
-final class Model extends \LibertAPI\Tests\Units\App\Libraries\AModel
+final class Model extends \LibertAPI\Tests\Units\Tools\Libraries\AModel
 {
     /**
      * @inheritDoc

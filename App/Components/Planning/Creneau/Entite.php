@@ -13,7 +13,7 @@ namespace LibertAPI\App\Components\Planning\Creneau;
  * Ne devrait être contacté que par le Planning\Creneau\Repository
  * Ne devrait contacter personne
  */
-class Entite extends \LibertAPI\App\Libraries\AEntite
+class Entite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ planning id

@@ -16,7 +16,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le Authentification\Repository
  */
-final class Controller extends \LibertAPI\App\Libraries\AController
+final class Controller extends \LibertAPI\Tools\Libraries\AController
 {
     /*************************************************
      * GET

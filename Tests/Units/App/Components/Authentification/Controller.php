@@ -11,7 +11,7 @@ use LibertAPI\App\Components\Authentification\Controller as _Controller;
  *
  * @since 0.2
  */
-final class Controller extends \LibertAPI\Tests\Units\App\Libraries\AController
+final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
      * @var \LibertAPI\App\Components\Utilisateur\Repository Mock du repository associé

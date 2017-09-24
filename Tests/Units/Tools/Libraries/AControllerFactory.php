@@ -1,8 +1,8 @@
 <?php
-namespace LibertAPI\Tests\Units\App\Libraries;
+namespace LibertAPI\Tests\Units\Tools\Libraries;
 
-use LibertAPI\App\Libraries\AControllerFactory as _AControllerFactory;
-use LibertAPI\App\Libraries\AController as _AController;
+use LibertAPI\Tools\Libraries\AControllerFactory as _AControllerFactory;
+use LibertAPI\Tools\Libraries\AController as _AController;
 
 /**
  * Test de la fabrication de contrôleurs

@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\App\Libraries;
+namespace LibertAPI\Tools\Libraries;
 
 use \Slim\Interfaces\RouterInterface as IRouter;
 
@@ -23,7 +23,7 @@ abstract class AControllerFactory
      * @param \PDO $storageConnector Connecteur à la BDD
      * @param IRouter $router Routeur de l'application
      *
-     * @return \LibertAPI\App\Libraries\AController
+     * @return \LibertAPI\Tools\Libraries\AController
      * @throws \DomainException Si la ressource est inconnue
      */
     final static function createController($ressourcePath, \PDO $storageConnector, IRouter $router)

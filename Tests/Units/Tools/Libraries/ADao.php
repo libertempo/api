@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Tests\Units\App\Libraries;
+namespace LibertAPI\Tests\Units\Tools\Libraries;
 
 /**
  * Classe commune de test du DAO

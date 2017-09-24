@@ -2,7 +2,7 @@
 namespace LibertAPI\Tests\Units\App\Components\Utilisateur;
 
 use LibertAPI\App\Components\Utilisateur\Repository as _Repository;
-use LibertAPI\App\Libraries\AEntite;
+use LibertAPI\Tools\Libraries\AEntite;
 
 /**
  * Classe de test du repository de l'utilisateur
@@ -15,7 +15,7 @@ use LibertAPI\App\Libraries\AEntite;
 final class Repository extends \Atoum
 {
     /**
-     * @var \LibertAPI\App\Libraries\Application Mock de la bibliothèque d'application
+     * @var \LibertAPI\Tools\Libraries\Application Mock de la bibliothèque d'application
      */
     private $application;
 
@@ -52,7 +52,7 @@ final class Repository extends \Atoum
         $this->mockGenerator->shuntParentClassCalls();
         $this->connector = new \mock\PDO();
         $this->connector->getMockController()->query = $this->statement;
-        $this->application = new \mock\LibertAPI\App\Libraries\Application($this->connector);
+        $this->application = new \mock\LibertAPI\Tools\Libraries\Application($this->connector);
         $this->mockGenerator->orphanize('__construct');
         $this->entite = new \mock\LibertAPI\App\Components\Utilisateur\Entite();
         $this->entite->getMockController()->getNom = 'Aladdin';
@@ -78,7 +78,7 @@ final class Repository extends \Atoum
 
         $this->exception(function () use ($repository) {
             $repository->setApplication($this->application);
-            $application2 = new \mock\LibertAPI\App\Libraries\Application($this->connector);
+            $application2 = new \mock\LibertAPI\Tools\Libraries\Application($this->connector);
             $repository->setApplication($application2);
             $repository->getList([]);
         })->isInstanceOf('\LogicException');
@@ -144,7 +144,7 @@ final class Repository extends \Atoum
 
         $entite = $repository->find([]);
 
-        $this->object($entite)->isInstanceOf('\LibertAPI\App\Libraries\AEntite');
+        $this->object($entite)->isInstanceOf('\LibertAPI\Tools\Libraries\AEntite');
     }
 
     /**
@@ -190,7 +190,7 @@ final class Repository extends \Atoum
         $entites = $repository->getList([]);
 
         $this->array($entites)->hasKey('Aladdin');
-        $this->object($entites['Aladdin'])->isInstanceOf('\LibertAPI\App\Libraries\AEntite');
+        $this->object($entites['Aladdin'])->isInstanceOf('\LibertAPI\Tools\Libraries\AEntite');
     }
 
     /*************************************************

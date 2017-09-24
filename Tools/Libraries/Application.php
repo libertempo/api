@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\App\Libraries;
+namespace LibertAPI\Tools\Libraries;
 
 /**
  * Bibliothèque d'accès aux données stockées de l'application

@@ -11,7 +11,7 @@ use \LibertAPI\App\Components\Planning\Dao as _Dao;
  *
  * @since 0.1
  */
-final class Dao extends \LibertAPI\Tests\Units\App\Libraries\ADao
+final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
 {
     /*************************************************
      * GET

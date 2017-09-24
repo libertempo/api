@@ -13,7 +13,7 @@ namespace LibertAPI\App\Components\Planning;
  * Ne devrait être contacté que par le Planning\Repository
  * Ne devrait contacter personne
  */
-class Entite extends \LibertAPI\App\Libraries\AEntite
+class Entite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ name

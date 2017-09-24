@@ -4,7 +4,7 @@
  *
  * /!\ Les Middlewares sont executés en mode PILE : le premier de la liste est lancé en dernier
  */
-use LibertAPI\App\Libraries\AControllerFactory;
+use LibertAPI\Tools\Libraries\AControllerFactory;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 

@@ -12,7 +12,7 @@ namespace LibertAPI\App\Components\Planning\Creneau;
  * Ne devrait être contacté que par Planning\Creneau\Repository
  * Ne devrait contacter personne
  */
-class Dao extends \LibertAPI\App\Libraries\ADao
+class Dao extends \LibertAPI\Tools\Libraries\ADao
 {
     /*************************************************
      * GET

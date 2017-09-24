@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\App\Libraries;
+namespace LibertAPI\Tools\Libraries;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 
@@ -37,7 +37,7 @@ abstract class ARepository
      *
      * @param int $id Id potentiel de ressource
      *
-     * @return \App\Libraries\AEntite
+     * @return \Tools\Libraries\AEntite
      * @throws \DomainException Si $id n'est pas dans le domaine de définition
      */
     abstract public function getOne($id);

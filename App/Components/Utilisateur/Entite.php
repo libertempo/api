@@ -15,7 +15,7 @@ use App\Helpers\Formatter;
  * Ne devrait être contacté que par le Utilisateur\Repository
  * Ne devrait contacter personne
  */
-class Entite extends \LibertAPI\App\Libraries\AEntite
+class Entite extends \LibertAPI\Tools\Libraries\AEntite
 {
     public function getToken()
     {

@@ -11,7 +11,7 @@ use \LibertAPI\App\Components\Planning\Controller as _Controller;
  *
  * @since 0.1
  */
-final class Controller extends \LibertAPI\Tests\Units\App\Libraries\AController
+final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
      * @var \LibertAPI\App\Components\Planning\Repository Mock du repository associé

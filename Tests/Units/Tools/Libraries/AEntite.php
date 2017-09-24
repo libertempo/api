@@ -1,7 +1,7 @@
 <?php
-namespace LibertAPI\Tests\Units\App\Libraries;
+namespace LibertAPI\Tests\Units\Tools\Libraries;
 
-use LibertAPI\App\Libraries\AEntite as _AEntite;
+use LibertAPI\Tools\Libraries\AEntite as _AEntite;
 
 /**
  * Classe commune de test sur les entités
@@ -14,7 +14,7 @@ use LibertAPI\App\Libraries\AEntite as _AEntite;
 abstract class AEntite extends \Atoum
 {
     /**
-     * @var \App\Libraries\AEntite $entite Entité en cours de test
+     * @var \Tools\Libraries\AEntite $entite Entité en cours de test
      */
     protected $entite;
 

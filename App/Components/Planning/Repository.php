@@ -16,7 +16,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  * Ne devrait être contacté que par le Planning\Controller
  * Ne devrait contacter que le Planning\Entite, Planning\Dao
  */
-class Repository extends \LibertAPI\App\Libraries\ARepository
+class Repository extends \LibertAPI\Tools\Libraries\ARepository
 {
     /*************************************************
      * GET

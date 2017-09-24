@@ -16,7 +16,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  * Ne devrait être contacté que par le Planning\Creneau\Controller, Planning\Repository
  * Ne devrait contacter que le Planning\Creneau\Entite, Planning\Creneau\Dao
  */
-class Repository extends \LibertAPI\App\Libraries\ARepository
+class Repository extends \LibertAPI\Tools\Libraries\ARepository
 {
     /*************************************************
      * GET

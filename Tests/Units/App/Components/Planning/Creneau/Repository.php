@@ -68,7 +68,7 @@ final class Repository extends \Atoum
 
         $entite = $repository->getOne(42, 23);
 
-        $this->object($entite)->isInstanceOf('\LibertAPI\App\Libraries\AEntite');
+        $this->object($entite)->isInstanceOf('\LibertAPI\Tools\Libraries\AEntite');
         $this->integer($entite->getId())->isIdenticalTo(42);
     }
 
@@ -104,7 +104,7 @@ final class Repository extends \Atoum
         $entites = $repository->getList(['planningId' => 53]);
 
         $this->array($entites)->hasKey(42);
-        $this->object($entites[42])->isInstanceOf('\LibertAPI\App\Libraries\AEntite');
+        $this->object($entites[42])->isInstanceOf('\LibertAPI\Tools\Libraries\AEntite');
     }
 
     /*************************************************

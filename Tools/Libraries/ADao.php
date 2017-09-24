@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\App\Libraries;
+namespace LibertAPI\Tools\Libraries;
 
 /**
  * Classe de base des DAO

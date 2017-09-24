@@ -12,7 +12,7 @@ namespace LibertAPI\App\Components\Utilisateur;
  * Ne devrait être contacté que par Utilisateur\Repository
  * Ne devrait contacter personne
  */
-class Dao extends \LibertAPI\App\Libraries\ADao
+class Dao extends \LibertAPI\Tools\Libraries\ADao
 {
     public function getById($id)
     {

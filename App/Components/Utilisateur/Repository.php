@@ -1,8 +1,8 @@
 <?php
 namespace LibertAPI\App\Components\Utilisateur;
 
-use LibertAPI\App\Libraries\AEntite;
-use LibertAPI\App\Libraries\Application;
+use LibertAPI\Tools\Libraries\AEntite;
+use LibertAPI\Tools\Libraries\Application;
 
 /**
  * {@inheritDoc}
@@ -16,7 +16,7 @@ use LibertAPI\App\Libraries\Application;
  * Ne devrait être contacté que par le Authentification\Controller
  * Ne devrait contacter que le Utilisateur\Entite, Utilisateur\Dao
  */
-class Repository extends \LibertAPI\App\Libraries\ARepository
+class Repository extends \LibertAPI\Tools\Libraries\ARepository
 {
     /**
      * @var Application Bibliothèque d'accès aux données de l'application
