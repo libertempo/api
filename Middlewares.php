@@ -58,7 +58,7 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
         new \App\Components\Utilisateur\Dao($this['storageConnector'])
     );
     $identification = new \Middlewares\Identification($request, $repoUtilisateur);
-    $reserved = ['Authentification'];
+    $reserved = ['Authentification', 'HelloWorld'];
     $ressourcePath = $request->getAttribute('nomRessources');
     if (in_array($ressourcePath, $reserved, true)) {
         return $next($request, $response);
