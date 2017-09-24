@@ -12,7 +12,8 @@ L'API Libertempo doit être installée comme un domaine à part, autrement dit :
 - api.libertempo.mon-entreprise.tld
 
 Et non pas comme un sous-répertoire de votre domaine existant :
-- mon-entreprise.tld/libertempo
+- mon-entreprise.tld/libertempo/api
+- libertempo.mon-entreprise.tld/api
 
 C'est préférable pour l'isolation des systèmes (donc la sécurité), en plus d'être plus simple à gérer côté applicatif (plus de certitudes, donc moins de bugs).
 
