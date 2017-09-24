@@ -1,15 +1,15 @@
 <?php
-namespace LibertAPI\Tests\Units\Components\Utilisateur;
+namespace LibertAPI\Tests\Units\Planning;
 
-use \LibertAPI\Components\Utilisateur\Dao as _Dao;
+use \LibertAPI\Planning\Dao as _Dao;
 
 /**
- * Classe de test du DAO de l'utilisateur
+ * Classe de test du DAO de planning
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.2
+ * @since 0.1
  */
 final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
 {
@@ -17,10 +17,30 @@ final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      * GET
      *************************************************/
 
-    public function testGetById()
+    /**
+     * Teste la méthode getById avec un id non trouvé
+     */
+    public function testGetByIdNotFound()
     {
+        $this->statement->getMockController()->fetch = [];
         $dao = new _Dao($this->connector);
-        $this->variable($dao->getById(''))->isNull();
+
+        $get = $dao->getById(99);
+
+        $this->array($get)->isEmpty();
+    }
+
+    /**
+     * Teste la méthode getById avec un id trouvé
+     */
+    public function testGetByIdFound()
+    {
+        $this->statement->getMockController()->fetch = ['a'];
+        $dao = new _Dao($this->connector);
+
+        $get = $dao->getById(99);
+
+        $this->array($get)->isNotEmpty();
     }
 
     /**
@@ -53,10 +73,20 @@ final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      * POST
      *************************************************/
 
-    public function testPost()
+    /**
+     * Teste la méthode post quand tout est ok
+     */
+    public function testPostOk()
     {
+        $this->connector->getMockController()->lastInsertId = 314;
         $dao = new _Dao($this->connector);
-        $this->variable($dao->post([]))->isNull();
+
+        $postId = $dao->post([
+            'name' => 'name',
+            'status' => 59,
+        ]);
+
+        $this->integer($postId)->isIdenticalTo(314);
     }
 
     /*************************************************
@@ -71,9 +101,9 @@ final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
         $dao = new _Dao($this->connector);
 
         $put = $dao->put([
-            'token' => 'token',
-            'date_last_access' => 'date_last_access',
-        ], 'Aladdin');
+            'name' => 'name',
+            'status' => 59,
+        ], 12);
 
         $this->variable($put)->isNull();
     }
@@ -82,9 +112,16 @@ final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      * DELETE
      *************************************************/
 
-    public function testDelete()
+    /**
+     * Teste la méthode delete quand tout est ok
+     */
+    public function testDeleteOk()
     {
+        $this->statement->getMockController()->rowCount = 1;
         $dao = new _Dao($this->connector);
-        $this->variable($dao->delete([]))->isNull();
+
+        $res = $dao->delete(7);
+
+        $this->integer($res)->isIdenticalTo(1);
     }
 }

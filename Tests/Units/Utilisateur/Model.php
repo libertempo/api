@@ -1,7 +1,7 @@
 <?php
-namespace LibertAPI\Tests\Units\Components\Utilisateur;
+namespace LibertAPI\Tests\Units\Utilisateur;
 
-use \LibertAPI\Components\Utilisateur\Model as _Model;
+use \LibertAPI\Utilisateur\Model as _Model;
 
 /**
  * Classe de test du modèle de l'utilisateur

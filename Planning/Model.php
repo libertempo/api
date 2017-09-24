@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Components\Planning;
+namespace LibertAPI\Planning;
 
 /**
  * @inheritDoc
@@ -8,7 +8,7 @@ namespace LibertAPI\Components\Planning;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \LibertAPI\Tests\Units\Components\Planning\Model
+ * @see \LibertAPI\Tests\Units\Planning\Model
  *
  * Ne devrait être contacté que par le Planning\Repository
  * Ne devrait contacter personne

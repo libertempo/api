@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Components\Planning\Creneau;
+namespace LibertAPI\Planning\Creneau;
 
 /**
  * {@inheritDoc}

@@ -1,7 +1,7 @@
 <?php
-namespace LibertAPI\Tests\Units\Components\Planning;
+namespace LibertAPI\Tests\Units\Planning;
 
-use \LibertAPI\Components\Planning\Controller as _Controller;
+use \LibertAPI\Planning\Controller as _Controller;
 
 /**
  * Classe de test du contrôleur de planning
@@ -14,12 +14,12 @@ use \LibertAPI\Components\Planning\Controller as _Controller;
 final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
-     * @var \LibertAPI\Components\Planning\Repository Mock du repository associé
+     * @var \LibertAPI\Planning\Repository Mock du repository associé
      */
     private $repository;
 
     /**
-     * @var \LibertAPI\Components\Planning\Entite Mock de l'entité associée
+     * @var \LibertAPI\Planning\Entite Mock de l'entité associée
      */
     private $entite;
 
@@ -31,9 +31,9 @@ final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AControlle
         parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\LibertAPI\Components\Planning\Repository();
+        $this->repository = new \mock\LibertAPI\Planning\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Components\Planning\Entite();
+        $this->entite = new \mock\LibertAPI\Planning\Entite();
         $this->entite->getMockController()->getId = 42;
         $this->entite->getMockController()->getName = 12;
         $this->entite->getMockController()->getStatus = 12;

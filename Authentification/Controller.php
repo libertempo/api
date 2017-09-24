@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Components\Authentification;
+namespace LibertAPI\Authentification;
 
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \Tests\Units\Components\Authentification\Controller
+ * @see \Tests\Units\Authentification\Controller
  *
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le Authentification\Repository

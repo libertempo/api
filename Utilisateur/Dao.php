@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Components\Utilisateur;
+namespace LibertAPI\Utilisateur;
 
 /**
  * {@inheritDoc}

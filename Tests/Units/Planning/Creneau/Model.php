@@ -1,7 +1,7 @@
 <?php
-namespace LibertAPI\Tests\Units\Components\Planning\Creneau;
+namespace LibertAPI\Tests\Units\Planning\Creneau;
 
-use \LibertAPI\Components\Planning\Creneau\Model as _Model;
+use \LibertAPI\Planning\Creneau\Model as _Model;
 
 /**
  * Classe de test du modèle de créneau

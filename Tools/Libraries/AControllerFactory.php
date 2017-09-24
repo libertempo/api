@@ -35,8 +35,8 @@ abstract class AControllerFactory
 
         switch ($ressourcePath) {
             case 'Authentification':
-                $daoClass = '\LibertAPI\Components\Utilisateur\Dao';
-                $repoClass = '\LibertAPI\Components\Utilisateur\Repository';
+                $daoClass = '\LibertAPI\Utilisateur\Dao';
+                $repoClass = '\LibertAPI\Utilisateur\Repository';
 
                 $repo = new $repoClass(
                     new $daoClass($storageConnector)
@@ -46,8 +46,8 @@ abstract class AControllerFactory
                 return new $controllerClass($repo, $router);
 
             default:
-                $daoClass = '\LibertAPI\Components\\' . $ressourcePath . '\Dao';
-                $repoClass = '\LibertAPI\Components\\' . $ressourcePath . '\Repository';
+                $daoClass = '\LibertAPI\\' . $ressourcePath . '\Dao';
+                $repoClass = '\LibertAPI\\' . $ressourcePath . '\Repository';
 
                 return new $controllerClass(
                     new $repoClass(
@@ -67,6 +67,6 @@ abstract class AControllerFactory
      */
     final static function getControllerClassname($ressourcePath)
     {
-        return '\LibertAPI\Components\\' . $ressourcePath . '\Controller';
+        return '\LibertAPI\\' . $ressourcePath . '\Controller';
     }
 }

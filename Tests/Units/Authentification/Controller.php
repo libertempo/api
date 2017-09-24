@@ -1,7 +1,7 @@
 <?php
-namespace LibertAPI\Tests\Units\Components\Authentification;
+namespace LibertAPI\Tests\Units\Authentification;
 
-use LibertAPI\Components\Authentification\Controller as _Controller;
+use LibertAPI\Authentification\Controller as _Controller;
 
 /**
  * Classe de test du contrôleur de planning
@@ -14,12 +14,12 @@ use LibertAPI\Components\Authentification\Controller as _Controller;
 final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
-     * @var \LibertAPI\Components\Utilisateur\Repository Mock du repository associé
+     * @var \LibertAPI\Utilisateur\Repository Mock du repository associé
      */
     private $repository;
 
     /**
-     * @var \LibertAPI\Components\Utilisateur\Entite Mock de l'entité associée
+     * @var \LibertAPI\Utilisateur\Entite Mock de l'entité associée
      */
     private $entite;
 
@@ -31,9 +31,9 @@ final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AControlle
         parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\LibertAPI\Components\Utilisateur\Repository();
+        $this->repository = new \mock\LibertAPI\Utilisateur\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Components\Utilisateur\Entite();
+        $this->entite = new \mock\LibertAPI\Utilisateur\Entite();
     }
 
     /*************************************************

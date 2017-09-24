@@ -1,18 +1,18 @@
 <?php
-namespace LibertAPI\Components\Planning\Creneau;
+namespace LibertAPI\Planning;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
 /**
- * Contrôleur des creneaux de plannings
+ * Contrôleur de plannings
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Tests\Units\Components\Planning\Controller
+ * @see \Tests\Units\Planning\Controller
  *
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le Planning\Repository
@@ -28,16 +28,18 @@ final class Controller extends \LibertAPI\Tools\Libraries\AController
      *
      * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
+     * @param array $arguments Arguments de route
      *
      * @return IResponse
+     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
-        if (!isset($arguments['creneauId'])) {
-            return $this->getList($request, $response, (int) $arguments['planningId']);
+        if (!isset($arguments['planningId'])) {
+            return $this->getList($request, $response);
         }
 
-        return $this->getOne($response, (int) $arguments['creneauId'], (int) $arguments['planningId']);
+        return $this->getOne($response, (int) $arguments['planningId']);
     }
 
     /**
@@ -45,36 +47,25 @@ final class Controller extends \LibertAPI\Tools\Libraries\AController
      *
      * @param IResponse $response Réponse Http
      * @param int $id ID de l'élément
-     * @param int $planningId Contrainte de recherche sur le planning
      *
      * @return IResponse, 404 si l'élément n'est pas trouvé, 200 sinon
      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
-    private function getOne(IResponse $response, $id, $planningId)
+    private function getOne(IResponse $response, $id)
     {
-        $code = -1;
-        $data = [];
         try {
-            $creneau = $this->repository->getOne($id, $planningId);
+            $planning = $this->repository->getOne($id);
             $code = 200;
             $data = [
                 'code' => $code,
                 'status' => 'success',
                 'message' => '',
-                'data' => $this->buildData($creneau),
+                'data' => $this->buildData($planning),
             ];
 
             return $response->withJson($data, $code);
         } catch (\DomainException $e) {
-            $code = 404;
-            $data = [
-                'code' => $code,
-                'status' => 'error',
-                'message' => 'Not Found',
-                'data' => 'Element « creneaux#' . $id . ' » is not a valid resource',
-            ];
-
-            return $response->withJson($data, $code);
+            return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             throw $e;
         }
@@ -85,20 +76,19 @@ final class Controller extends \LibertAPI\Tools\Libraries\AController
      *
      * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
-     * @param int $planningId Contrainte de recherche sur le planning
      *
      * @return IResponse
      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
-    private function getList(IRequest $request, IResponse $response, $planningId)
+    private function getList(IRequest $request, IResponse $response)
     {
-        $code = -1;
-        $data = [];
         try {
-            $creneaux = $this->repository->getList(['planningId' => $planningId]);
+            $plannings = $this->repository->getList(
+                $request->getQueryParams()
+            );
             $entites = [];
-            foreach ($creneaux as $creneau) {
-                $entites[] = $this->buildData($creneau);
+            foreach ($plannings as $planning) {
+                $entites[] = $this->buildData($planning);
             }
             $code = 200;
             $data = [
@@ -119,7 +109,7 @@ final class Controller extends \LibertAPI\Tools\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param Entite $entite Créneau de planning
+     * @param Entite $entite Planning
      *
      * @return array
      */
@@ -127,12 +117,8 @@ final class Controller extends \LibertAPI\Tools\Libraries\AController
     {
         return [
             'id' => $entite->getId(),
-            'planningId' => $entite->getPlanningId(),
-            'jourId' => $entite->getJourId(),
-            'typeSemaine' => $entite->getTypeSemaine(),
-            'typePeriode' => $entite->getTypePeriode(),
-            'debut' => $entite->getDebut(),
-            'fin' => $entite->getFin(),
+            'name' => $entite->getName(),
+            'status' => $entite->getStatus(),
         ];
     }
 
@@ -157,19 +143,15 @@ final class Controller extends \LibertAPI\Tools\Libraries\AController
         }
 
         try {
-            $creneauxIds = $this->repository->postList($body, new Entite([]));
-            $dataMessage = [];
-            foreach ($creneauxIds as $id) {
-                $dataMessage[] = $this->router->pathFor('getPlanningCreneauDetail', [
-                    'creneauId' => $id,
-                ]);
-            }
+            $planningId = $this->repository->postOne($body, new Entite([]));
             $code = 201;
             $data = [
                 'code' => $code,
                 'status' => 'success',
                 'message' => '',
-                'data' => $dataMessage,
+                'data' => $this->router->pathFor('getPlanningDetail', [
+                    'planningId' => $planningId
+                ]),
             ];
 
             return $response->withJson($data, $code);
@@ -203,17 +185,17 @@ final class Controller extends \LibertAPI\Tools\Libraries\AController
             return $this->getResponseBadRequest($response, 'Body request is not a json content');
         }
 
-        $id = (int) $arguments['creneauId'];
+        $id = (int) $arguments['planningId'];
         try {
-            $creneau = $this->repository->getOne($id);
+            $planning = $this->repository->getOne($id);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             throw $e;
         }
 
         try {
-            $this->repository->putOne($body, $creneau);
+            $this->repository->putOne($body, $planning);
             $code = 204;
             $data = [
                 'code' => $code,
@@ -227,6 +209,42 @@ final class Controller extends \LibertAPI\Tools\Libraries\AController
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /*************************************************
+     * DELETE
+     *************************************************/
+
+     /**
+      * Execute l'ordre HTTP DELETE
+      *
+      * @param IRequest $request Requête Http
+      * @param IResponse $response Réponse Http
+      * @param array $arguments Arguments de route
+      *
+      * @return IResponse
+      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
+      */
+    public function delete(IRequest $request, IResponse $response, array $arguments)
+    {
+        $id = (int) $arguments['planningId'];
+        try {
+            $planning = $this->repository->getOne($id);
+            $this->repository->deleteOne($planning);
+            $code = 200;
+            $data = [
+                'code' => $code,
+                'status' => 'success',
+                'message' => '',
+                'data' => '',
+            ];
+
+            return $response->withJson($data, $code);
+        } catch (\DomainException $e) {
+            return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             throw $e;
         }

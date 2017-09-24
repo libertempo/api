@@ -1,7 +1,7 @@
 <?php
-namespace LibertAPI\Tests\Units\Components\Planning\Creneau;
+namespace LibertAPI\Tests\Units\Planning\Creneau;
 
-use \LibertAPI\Components\Planning\Creneau\Repository as _Repository;
+use \LibertAPI\Planning\Creneau\Repository as _Repository;
 
 /**
  * Classe de test du repository de créneau de planning
@@ -14,12 +14,12 @@ use \LibertAPI\Components\Planning\Creneau\Repository as _Repository;
 final class Repository extends \Atoum
 {
     /**
-     * @var \LibertAPI\Components\Planning\Creneau\Dao Mock du DAO du créneau
+     * @var \LibertAPI\Planning\Creneau\Dao Mock du DAO du créneau
      */
     private $dao;
 
     /**
-     * @var \LibertAPI\Components\Planning\Creneau\Entite Mock de l'Entité de créneau
+     * @var \LibertAPI\Planning\Creneau\Entite Mock de l'Entité de créneau
      */
     private $entite;
 
@@ -27,9 +27,9 @@ final class Repository extends \Atoum
     {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->dao = new \mock\LibertAPI\Components\Planning\Creneau\Dao();
+        $this->dao = new \mock\LibertAPI\Planning\Creneau\Dao();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Components\Planning\Creneau\Entite();
+        $this->entite = new \mock\LibertAPI\Planning\Creneau\Entite();
         $this->entite->getMockController()->getId = 42;
     }
 
@@ -117,7 +117,7 @@ final class Repository extends \Atoum
     public function testPostListException()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Components\Planning\Creneau\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\Creneau\Entite([]);
         $entite->getMockController()->populate = function () {
             throw new \LogicException('');
         };
@@ -141,7 +141,7 @@ final class Repository extends \Atoum
     public function testPostListOk()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Components\Planning\Creneau\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\Creneau\Entite([]);
         $entite->getMockController()->populate = '';
         $entite->getMockController()->getPlanningId = 3;
         $entite->getMockController()->getJourId = 4;
@@ -176,7 +176,7 @@ final class Repository extends \Atoum
     public function testPostOneMissingArgument()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Components\Planning\Creneau\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\Creneau\Entite([]);
 
         $this->exception(function () use ($repository, $entite) {
             $repository->postOne([], $entite);
@@ -189,7 +189,7 @@ final class Repository extends \Atoum
     public function testPostOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Components\Planning\Creneau\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\Creneau\Entite([]);
         $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };
@@ -213,7 +213,7 @@ final class Repository extends \Atoum
     public function testPostOneOk()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Components\Planning\Creneau\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\Creneau\Entite([]);
         $entite->getMockController()->populate = '';
         $entite->getMockController()->getPlanningId = 3;
         $entite->getMockController()->getJourId = 4;
@@ -248,7 +248,7 @@ final class Repository extends \Atoum
         $repository = new _Repository($this->dao);
 
         $this->exception(function () use ($repository) {
-            $repository->putOne(['planningId' => 4], new \mock\LibertAPI\Components\Planning\Creneau\Entite([]));
+            $repository->putOne(['planningId' => 4], new \mock\LibertAPI\Planning\Creneau\Entite([]));
         })->isInstanceOf('\LibertAPI\Tools\Exceptions\MissingArgumentException');
     }
 
@@ -258,7 +258,7 @@ final class Repository extends \Atoum
     public function testPutOneBadDomain()
     {
         $repository = new _Repository($this->dao);
-        $entite = new \mock\LibertAPI\Components\Planning\Creneau\Entite([]);
+        $entite = new \mock\LibertAPI\Planning\Creneau\Entite([]);
         $entite->getMockController()->populate = function () {
             throw new \DomainException('');
         };

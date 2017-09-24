@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Components\Planning;
+namespace LibertAPI\Planning;
 
 /**
  * {@inheritDoc}

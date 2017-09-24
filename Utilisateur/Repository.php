@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Components\Utilisateur;
+namespace LibertAPI\Utilisateur;
 
 use LibertAPI\Tools\Libraries\AEntite;
 use LibertAPI\Tools\Libraries\Application;
@@ -11,7 +11,7 @@ use LibertAPI\Tools\Libraries\Application;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \LibertAPI\Tests\Units\Components\Utilisateur\Repository
+ * @see \LibertAPI\Tests\Units\Utilisateur\Repository
  *
  * Ne devrait être contacté que par le Authentification\Controller
  * Ne devrait contacter que le Utilisateur\Entite, Utilisateur\Dao

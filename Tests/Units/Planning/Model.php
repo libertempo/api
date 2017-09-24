@@ -1,7 +1,7 @@
 <?php
-namespace LibertAPI\Tests\Units\Components\Planning;
+namespace LibertAPI\Tests\Units\Planning;
 
-use \LibertAPI\Components\Planning\Model as _Model;
+use \LibertAPI\Planning\Model as _Model;
 
 /**
  * Classe de test du modèle de planning

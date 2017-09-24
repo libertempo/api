@@ -1,10 +1,10 @@
 <?php
-namespace LibertAPI\Tests\Units\Components\Planning;
+namespace LibertAPI\Tests\Units\Planning\Creneau;
 
-use \LibertAPI\Components\Planning\Dao as _Dao;
+use \LibertAPI\Planning\Creneau\Dao as _Dao;
 
 /**
- * Classe de test du DAO de planning
+ * Classe de test du DAO de créneau de planning
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
@@ -57,7 +57,7 @@ final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     }
 
     /**
-     * Teste la méthode getList avec des critères pertinents
+    * Teste la méthode getList avec des critères pertinents
      */
     public function testGetListFound()
     {
@@ -82,8 +82,12 @@ final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
         $dao = new _Dao($this->connector);
 
         $postId = $dao->post([
-            'name' => 'name',
-            'status' => 59,
+            'planning_id' => 12,
+            'jour_id' => 7,
+            'type_semaine' => 23,
+            'type_periode' => 2,
+            'debut' => 63,
+            'fin' => 55,
         ]);
 
         $this->integer($postId)->isIdenticalTo(314);
@@ -99,29 +103,17 @@ final class Dao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     public function testPutOk()
     {
         $dao = new _Dao($this->connector);
+        $this->statement->getMockController()->rowCount = 43;
 
         $put = $dao->put([
-            'name' => 'name',
-            'status' => 59,
-        ], 12);
+            'planning_id' => 83,
+            'jour_id' => 27,
+            'type_semaine' => 2,
+            'type_periode' => 52,
+            'debut' => 31,
+            'fin' => 91,
+        ], 22);
 
-        $this->variable($put)->isNull();
-    }
-
-    /*************************************************
-     * DELETE
-     *************************************************/
-
-    /**
-     * Teste la méthode delete quand tout est ok
-     */
-    public function testDeleteOk()
-    {
-        $this->statement->getMockController()->rowCount = 1;
-        $dao = new _Dao($this->connector);
-
-        $res = $dao->delete(7);
-
-        $this->integer($res)->isIdenticalTo(1);
+        $this->integer($put);
     }
 }

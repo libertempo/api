@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Components\Utilisateur;
+namespace LibertAPI\Utilisateur;
 
 use App\Helpers\Formatter;
 
@@ -10,7 +10,7 @@ use App\Helpers\Formatter;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \LibertAPI\Tests\Units\Components\Utilisateur\Model
+ * @see \LibertAPI\Tests\Units\Utilisateur\Model
  *
  * Ne devrait être contacté que par le Utilisateur\Repository
  * Ne devrait contacter personne

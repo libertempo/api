@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Components\Planning\Creneau;
+namespace LibertAPI\Planning\Creneau;
 
 /**
  * {@inheritDoc}
@@ -8,7 +8,7 @@ namespace LibertAPI\Components\Planning\Creneau;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \LibertAPI\Tests\Units\Components\Planning\Creneau\Model
+ * @see \LibertAPI\Tests\Units\Planning\Creneau\Model
  *
  * Ne devrait être contacté que par le Planning\Creneau\Repository
  * Ne devrait contacter personne

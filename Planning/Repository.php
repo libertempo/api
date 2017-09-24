@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Components\Planning\Creneau;
+namespace LibertAPI\Planning;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Libraries\AEntite;
@@ -11,10 +11,10 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Tests\Units\Components\Planning\Repository
+ * @see \Tests\Units\Planning\Repository
  *
- * Ne devrait être contacté que par le Planning\Creneau\Controller, Planning\Repository
- * Ne devrait contacter que le Planning\Creneau\Entite, Planning\Creneau\Dao
+ * Ne devrait être contacté que par le Planning\Controller
+ * Ne devrait contacter que le Planning\Entite, Planning\Dao
  */
 class Repository extends \LibertAPI\Tools\Libraries\ARepository
 {
@@ -24,15 +24,13 @@ class Repository extends \LibertAPI\Tools\Libraries\ARepository
 
     /**
      * @inheritDoc
-     *
-     * @param int $planningId Contrainte de recherche sur le planning
      */
-    public function getOne($id, $planningId = -1)
+    public function getOne($id)
     {
         $id = (int) $id;
-        $data = $this->dao->getById($id, $planningId);
+        $data = $this->dao->getById($id);
         if (empty($data)) {
-            throw new \DomainException('Creneau#' . $id . ' is not a valid resource');
+            throw new \DomainException('Planning#' . $id . ' is not a valid resource');
         }
 
         return new Entite($this->getDataDao2Entite($data));
@@ -43,7 +41,13 @@ class Repository extends \LibertAPI\Tools\Libraries\ARepository
      */
     public function getList(array $parametres)
     {
-        /* retourner une collection pour avoir le total, hors limite forcée (utile pour la pagination) */
+        /* TODO: retourner une collection pour avoir le total, hors limite forcée (utile pour la pagination) */
+        /*
+        several params :
+        offset (first, !isset => 0) / start-after ?
+        Limit (nb elements)
+        filter (dimensions forced)
+        */
         $data = $this->dao->getList($this->getParamsConsumer2Dao($parametres));
         if (empty($data)) {
             throw new \UnexpectedValueException('No resource match with these parameters');
@@ -64,13 +68,9 @@ class Repository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function getDataDao2Entite(array $dataDao)
     {
         return [
-            'id' => $dataDao['creneau_id'],
-            'planningId' => $dataDao['planning_id'],
-            'jourId' => $dataDao['jour_id'],
-            'typeSemaine' => $dataDao['type_semaine'],
-            'typePeriode' => $dataDao['type_periode'],
-            'debut' => $dataDao['debut'],
-            'fin' => $dataDao['fin'],
+            'id' => $dataDao['planning_id'],
+            'name' => $dataDao['name'],
+            'status' => $dataDao['status'],
         ];
     }
 
@@ -87,48 +87,22 @@ class Repository extends \LibertAPI\Tools\Libraries\ARepository
             );
         };
         $results = [];
-        if (!empty($paramsConsumer['planningId'])) {
-            $results['planning_id'] = $filterInt($paramsConsumer['planningId']);
+        if (!empty($paramsConsumer['limit'])) {
+            $results['limit'] = $filterInt($paramsConsumer['limit']);
         }
+        if (!empty($paramsConsumer['start-after'])) {
+            $results['lt'] = $filterInt($paramsConsumer['start-after']);
 
+        }
+        if (!empty($paramsConsumer['start-before'])) {
+            $results['gt'] = $filterInt($paramsConsumer['start-before']);
+        }
         return $results;
     }
 
     /*************************************************
      * POST
      *************************************************/
-
-    /**
-     * Poste une liste de ressource
-     *
-     * @param array $data Tableau de données à poster
-     * @param AEntite $entite [Vide par définition]
-     *
-     * @return array Tableau d'id des créneaux nouvellement créés
-     * @throws MissingArgumentException Si un élément requis n'est pas présent
-     * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
-     */
-    public function postList(array $data, AEntite $entite)
-    {
-        $postIds = [];
-        $this->dao->beginTransaction();
-        foreach ($data as $creneau) {
-            try {
-                $postIds[] = $this->postOne($creneau, $entite);
-                /*
-                 * Le plus cool aurait été de cloner l'objet de base,
-                 * mais le clonage de mock est nul, donc on reset pour la boucle
-                 */
-                $entite->reset();
-            } catch (\Exception $e) {
-                $this->dao->rollback();
-                throw $e;
-            }
-        }
-        $this->dao->commit();
-
-        return $postIds;
-    }
 
     /**
      * @inheritDoc
@@ -155,12 +129,8 @@ class Repository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function getEntite2DataDao(AEntite $entite)
     {
         return [
-            'planning_id' => $entite->getPlanningId(),
-            'jour_id' => $entite->getJourId(),
-            'type_semaine' => $entite->getTypeSemaine(),
-            'type_periode' => $entite->getTypePeriode(),
-            'debut' => $entite->getDebut(),
-            'fin' => $entite->getFin(),
+            'name' => $entite->getName(),
+            'status' => $entite->getStatus(),
         ];
     }
 
@@ -189,7 +159,7 @@ class Repository extends \LibertAPI\Tools\Libraries\ARepository
      */
     private function getListRequired()
     {
-        return ['planningId', 'jourId', 'typeSemaine', 'typePeriode', 'debut', 'fin'];
+        return ['name', 'status'];
     }
 
     /*************************************************
@@ -224,5 +194,11 @@ class Repository extends \LibertAPI\Tools\Libraries\ARepository
      */
     public function deleteOne(AEntite $entite)
     {
+        try {
+            $entite->reset();
+            $this->dao->delete($entite->getId());
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

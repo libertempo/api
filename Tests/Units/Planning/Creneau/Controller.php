@@ -1,7 +1,7 @@
 <?php
-namespace LibertAPI\Tests\Units\Components\Planning\Creneau;
+namespace LibertAPI\Tests\Units\Planning\Creneau;
 
-use LibertAPI\Components\Planning\Creneau\Controller as _Controller;
+use LibertAPI\Planning\Creneau\Controller as _Controller;
 
 /**
  * Classe de test du contrôleur de créneau de planning
@@ -14,12 +14,12 @@ use LibertAPI\Components\Planning\Creneau\Controller as _Controller;
 final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
-     * @var \LibertAPI\Components\Planning\Creneau\Repository Mock du repository associé
+     * @var \LibertAPI\Planning\Creneau\Repository Mock du repository associé
      */
     private $repository;
 
     /**
-     * @var \LibertAPI\Components\Planning\Creneau\Entite Mock de l'entité associée
+     * @var \LibertAPI\Planning\Creneau\Entite Mock de l'entité associée
      */
     private $entite;
 
@@ -30,9 +30,9 @@ final class Controller extends \LibertAPI\Tests\Units\Tools\Libraries\AControlle
         parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\LibertAPI\Components\Planning\Creneau\Repository();
+        $this->repository = new \mock\LibertAPI\Planning\Creneau\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Components\Planning\Creneau\Entite();
+        $this->entite = new \mock\LibertAPI\Planning\Creneau\Entite();
         $this->entite->getMockController()->getId = 42;
         $this->entite->getMockController()->getPlanningId = 12;
         $this->entite->getMockController()->getJourId = 12;
