@@ -123,7 +123,7 @@ abstract class AController
      *
      * @param IResponse $response Réponse Http
      * @param string $message Message data d'un json bien formé
-     * @param array $data 
+     * @param array $data
      * @param int $code Code Http
      *
      * @return IResponse
