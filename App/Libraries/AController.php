@@ -143,7 +143,7 @@ abstract class AController
      * Retourne une réponse normalisée
      *
      * @param IResponse $response Réponse Http
-     * @param array $data 
+     * @param array $data
      *
      * @return IResponse
      */
