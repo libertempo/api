@@ -102,7 +102,7 @@ abstract class AController
      *
      * @param IResponse $response Réponse Http
      * @param string $message Précision de l'erreur
-     * @param array $data 
+     * @param array $data
      * @param int $code Code Http
      *
      * @return IResponse
@@ -137,7 +137,7 @@ abstract class AController
         ];
 
         return $this->getResponse($response, $data);
-}
+    }
 
     /**
      * Retourne une réponse normalisée

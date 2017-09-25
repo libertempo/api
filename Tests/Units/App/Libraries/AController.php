@@ -88,5 +88,4 @@ abstract class AController extends \Atoum
             ->string['message']->isEqualTo('No Content')
         ;
     }
-    
 }
