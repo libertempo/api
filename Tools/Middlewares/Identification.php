@@ -1,9 +1,9 @@
 <?php
 namespace LibertAPI\Tools\Middlewares;
 
-use App\Libraries\AEntite;
+use \LibertAPI\Tools\Libraries\AEntite;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
-use App\Helpers\Formatter;
+use LibertAPI\Tools\Helpers\Formatter;
 
 /**
  * Identification d'un utilisateur via la transmission du token
@@ -17,11 +17,11 @@ final class Identification
      */
     const DUREE_SESSION = 30*60;
     /**
-     * @var \App\Libraries\AEntite
+     * @var \LibertAPI\Tools\Libraries\AEntite
      */
     private $utilisateur;
 
-    public function __construct(IRequest $request, \App\Libraries\ARepository $repository)
+    public function __construct(IRequest $request, \LibertAPI\Tools\Libraries\ARepository $repository)
     {
         $token = $request->getHeaderLine('Token');
         if (empty($token)) {

@@ -141,11 +141,11 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * « Ping » la date de dernier accès de l'utilisateur
      *
-     * @param AEntite $entite Entité utilisateur
+     * @param UtilisateurEntite $entite Entité utilisateur
      *
      * @since 0.3
      */
-    public function updateDateLastAccess(AEntite $entite)
+    public function updateDateLastAccess(UtilisateurEntite $entite)
     {
         $entite->updateDateLastAccess();
         $dataDao = $this->getEntite2DataDao($entite);

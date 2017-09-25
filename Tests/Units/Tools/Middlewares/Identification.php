@@ -28,7 +28,7 @@ final class Identification extends \Atoum
         $this->request = new \mock\Slim\Http\Request();
         $this->calling($this->request)->getHeaderLine = 'token';
         $this->mockGenerator->orphanize('__construct');
-        $this->repository = new \mock\App\Components\Utilisateur\Repository();
+        $this->repository = new \mock\LibertAPI\Utilisateur\UtilisateurRepository();
     }
 
     /**
@@ -37,7 +37,7 @@ final class Identification extends \Atoum
     public function testIsTokenOkOk()
     {
         $this->calling($this->repository)->find = function () {
-            return new \App\Components\Utilisateur\Entite([]);
+            return new \LibertAPI\Utilisateur\UtilisateurEntite([]);
         };
         $auth = new _Identification($this->request, $this->repository);
 

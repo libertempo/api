@@ -1,7 +1,7 @@
 <?php
 namespace LibertAPI\Utilisateur;
 
-use App\Helpers\Formatter;
+use LibertAPI\Tools\Helpers\Formatter;
 
 /**
  * @inheritDoc
