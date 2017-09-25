@@ -77,13 +77,13 @@ abstract class AController extends \Atoum
      * @param IResponse $response Réponse Http
      * @param int $code Code Http attendu
      */
-    protected function assertSuccessEmpty(IResponse $response, $code)
+    protected function assertSuccessEmpty(IResponse $response)
     {
         $data = $this->getJsonDecoded($response->getBody());
 
-        $this->integer($response->getStatusCode())->isIdenticalTo($code);
+        $this->integer($response->getStatusCode())->isIdenticalTo(204);
         $this->array($data)
-            ->integer['code']->isIdenticalTo($code)
+            ->integer['code']->isIdenticalTo(204)
             ->string['status']->isIdenticalTo('success')
             ->string['message']->isEqualTo('No Content')
         ;

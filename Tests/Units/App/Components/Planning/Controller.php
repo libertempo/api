@@ -130,7 +130,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
 
         $response = $controller->get($this->request, $this->response, []);
 
-        $this->assertSuccessEmpty($response, 204);
+        $this->assertSuccessEmpty($response);
     }
 
     /**

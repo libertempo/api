@@ -89,13 +89,12 @@ abstract class AController
      * Retourne une réponse normalisée d'élément sans contenu
      *
      * @param IResponse $response Réponse Http
-     * @param string $messageData Message data d'un json bien formé
      *
      * @return IResponse
      */
     protected function getResponseNoContent(IResponse $response)
     {
-        return $this->getResponseOk($response, 'No Content', [], 204);
+        return $this->getResponseSuccess($response, 'No Content', [], 204);
     }
 
     /**
@@ -103,7 +102,7 @@ abstract class AController
      *
      * @param IResponse $response Réponse Http
      * @param string $message Précision de l'erreur
-     * @param mixed $messageData Message data d'un json bien formé
+     * @param array $data 
      * @param int $code Code Http
      *
      * @return IResponse
@@ -112,44 +111,44 @@ abstract class AController
     {
         $data += [
             'code' => $code,
-            'status' => 'error'
+            'status' => 'error',
+            'message' => $message
         ];
 
-        return $this->getResponse($response, $message, $data);
+        return $this->getResponse($response, $data);
     }
 
     /**
      * Retourne une réponse normalisée en cas de succès
      *
      * @param IResponse $response Réponse Http
-     * @param string $messageData Message data d'un json bien formé
+     * @param string $message Message data d'un json bien formé
+     * @param array $data 
+     * @param int $code Code Http
      *
      * @return IResponse
      */
-    private function getResponseOk(IResponse $response, $message, array $data, $code)
+    private function getResponseSuccess(IResponse $response, $message, array $data, $code)
     {
         $data += [
             'code' => $code,
-            'status' => 'success'
+            'status' => 'success',
+            'message' => $message
         ];
 
-        return $this->getResponse($response, $message, $data);
+        return $this->getResponse($response, $data);
 }
 
     /**
      * Retourne une réponse normalisée
      *
      * @param IResponse $response Réponse Http
-     * @param string $messageData Message data d'un json bien formé
+     * @param array $data 
      *
      * @return IResponse
      */
-    private function getResponse(IResponse $response, $message, array $data)
+    private function getResponse(IResponse $response, array $data)
     {
-        $data += [
-            'message' => $message
-            ];
-
         return $response->withJson($data, $data['code']);
     }
 }
