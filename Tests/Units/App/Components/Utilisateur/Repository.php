@@ -215,11 +215,11 @@ final class Repository extends \Atoum
     public function testUpdateDateLastAccess()
     {
         $repo = new _Repository($this->dao);
-        $this->model->getMockController()->getToken = 'Tartuffe';
+        $this->entite->getMockController()->getToken = 'Tartuffe';
 
-        $repo->updateDateLastAccess($this->model);
+        $repo->updateDateLastAccess($this->entite);
 
-        $this->mock($this->model)->call('updateDateLastAccess')->once();
+        $this->mock($this->entite)->call('updateDateLastAccess')->once();
         $this->mock($this->dao)->call('put')->once();
 
     }

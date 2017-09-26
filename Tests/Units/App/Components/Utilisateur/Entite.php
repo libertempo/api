@@ -40,9 +40,9 @@ final class Entite extends \Tests\Units\App\Libraries\AEntite
      */
     public function testGetLogin()
     {
-        $model = new _Model(['token' => 'token', 'login' => 'login']);
+        $entite = new _Entite(['token' => 'token', 'login' => 'login']);
 
-        $this->variable($model->getLogin())->isNull();
+        $this->variable($entite->getLogin())->isNull();
     }
 
     /**
@@ -84,12 +84,12 @@ final class Entite extends \Tests\Units\App\Libraries\AEntite
 
     public function testUpdateDateLastAccess()
     {
-        $model = new _Model(['id' => 3, 'dateLastAccess' => "0"]);
+        $entite = new _Entite(['id' => 3, 'dateLastAccess' => "0"]);
 
-        $this->string($model->getDateLastAccess())->isIdenticalTo("0");
+        $this->string($entite->getDateLastAccess())->isIdenticalTo("0");
 
-        $model->updateDateLastAccess();
+        $entite->updateDateLastAccess();
 
-        $this->string($model->getDateLastAccess())->isIdenticalTo(date('Y-m-d H:i'));
+        $this->string($entite->getDateLastAccess())->isIdenticalTo(date('Y-m-d H:i'));
     }
 }

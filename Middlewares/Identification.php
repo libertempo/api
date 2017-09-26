@@ -1,7 +1,7 @@
 <?php
 namespace Middlewares;
 
-use App\Libraries\AModel;
+use App\Libraries\AEntite;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use App\Helpers\Formatter;
 
@@ -17,7 +17,7 @@ final class Identification
      */
     const DUREE_SESSION = 30*60;
     /**
-     * @var \App\Libraries\AModel
+     * @var \App\Libraries\AEntite
      */
     private $utilisateur;
 
@@ -54,7 +54,7 @@ final class Identification
      */
     public function isTokenOk()
     {
-        return $this->getUtilisateur() instanceof AModel;
+        return $this->getUtilisateur() instanceof AEntite;
     }
 
     /**

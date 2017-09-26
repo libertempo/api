@@ -151,7 +151,7 @@ class Repository extends \App\Libraries\ARepository
     public function updateDateLastAccess(AEntite $entite)
     {
         $entite->updateDateLastAccess();
-        $dataDao = $this->getModel2DataDao($entite);
+        $dataDao = $this->getEntite2DataDao($entite);
         $this->dao->put($dataDao, $entite->getId());
     }
 

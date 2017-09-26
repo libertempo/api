@@ -37,7 +37,7 @@ final class Identification extends \Atoum
     public function testIsTokenOkOk()
     {
         $this->calling($this->repository)->find = function () {
-            return new \App\Components\Utilisateur\Model([]);
+            return new \App\Components\Utilisateur\Entite([]);
         };
         $auth = new _Identification($this->request, $this->repository);
 
