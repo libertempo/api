@@ -8,12 +8,12 @@ namespace App\Components\Planning;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Tests\Units\App\Components\Planning\Model
+ * @see \Tests\Units\App\Components\Planning\Entite
  *
  * Ne devrait être contacté que par le Planning\Repository
  * Ne devrait contacter personne
  */
-class Model extends \App\Libraries\AModel
+class Entite extends \App\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ name

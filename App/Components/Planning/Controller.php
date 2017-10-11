@@ -86,16 +86,16 @@ final class Controller extends \App\Libraries\AController
             $plannings = $this->repository->getList(
                 $request->getQueryParams()
             );
-            $models = [];
+            $entites = [];
             foreach ($plannings as $planning) {
-                $models[] = $this->buildData($planning);
+                $entites[] = $this->buildData($planning);
             }
             $code = 200;
             $data = [
                 'code' => $code,
                 'status' => 'success',
                 'message' => '',
-                'data' => $models,
+                'data' => $entites,
             ];
 
             return $response->withJson($data, $code);
@@ -109,16 +109,16 @@ final class Controller extends \App\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param Model $model Planning
+     * @param Entite $entite Planning
      *
      * @return array
      */
-    private function buildData(Model $model)
+    private function buildData(Entite $entite)
     {
         return [
-            'id' => $model->getId(),
-            'name' => $model->getName(),
-            'status' => $model->getStatus(),
+            'id' => $entite->getId(),
+            'name' => $entite->getName(),
+            'status' => $entite->getStatus(),
         ];
     }
 
@@ -143,7 +143,7 @@ final class Controller extends \App\Libraries\AController
         }
 
         try {
-            $planningId = $this->repository->postOne($body, new Model([]));
+            $planningId = $this->repository->postOne($body, new Entite([]));
             $code = 201;
             $data = [
                 'code' => $code,

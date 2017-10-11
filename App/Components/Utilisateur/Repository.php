@@ -1,7 +1,7 @@
 <?php
 namespace App\Components\Utilisateur;
 
-use App\Libraries\AModel;
+use App\Libraries\AEntite;
 use App\Libraries\Application;
 
 /**
@@ -13,8 +13,8 @@ use App\Libraries\Application;
  * @since 0.2
  * @see \Tests\Units\App\Components\Utilisateur\Repository
  *
- * Ne devrait être contacté que par le Authentification\Controller et \Middlewares\Identification
- * Ne devrait contacter que le Utilisateur\Model, Utilisateur\Dao
+ * Ne devrait être contacté que par le Authentification\Controller
+ * Ne devrait contacter que le Utilisateur\Entite, Utilisateur\Dao
  */
 class Repository extends \App\Libraries\ARepository
 {
@@ -50,7 +50,7 @@ class Repository extends \App\Libraries\ARepository
      * @param array $parametres
      * @example [offset => 4, start-after => 23, filter => 'name::chapo|status::1,3']
      *
-     * @return AModel
+     * @return AEntite
      */
     public function find(array $parametres)
     {
@@ -68,19 +68,19 @@ class Repository extends \App\Libraries\ARepository
             throw new \UnexpectedValueException('No resource match with these parameters');
         }
 
-        $models = [];
+        $entites = [];
         foreach ($data as $value) {
-            $model = new Model($this->getDataDao2Model($value));
-            $models[$model->getId()] = $model;
+            $entite = new Entite($this->getDataDao2Entite($value));
+            $entites[$entite->getId()] = $entite;
         }
 
-        return $models;
+        return $entites;
     }
 
     /**
      * @inheritDoc
      */
-    final protected function getDataDao2Model(array $dataDao)
+    final protected function getDataDao2Entite(array $dataDao)
     {
         return [
             'id' => $dataDao['id'],
@@ -129,7 +129,7 @@ class Repository extends \App\Libraries\ARepository
      * POST
      *************************************************/
 
-    public function postOne(array $data, AModel $model)
+    public function postOne(array $data, AEntite $entite)
     {
     }
 
@@ -137,33 +137,33 @@ class Repository extends \App\Libraries\ARepository
      * PUT
      *************************************************/
 
-    public function putOne(array $data, AModel $model)
+    public function putOne(array $data, AEntite $entite)
     {
     }
 
     /**
      * « Ping » la date de dernier accès de l'utilisateur
      *
-     * @param Model $model Modèle utilisateur
+     * @param AEntite $entite Entité utilisateur
      *
      * @since 0.3
      */
-    public function updateDateLastAccess(Model $model)
+    public function updateDateLastAccess(AEntite $entite)
     {
-        $model->updateDateLastAccess();
-        $dataDao = $this->getModel2DataDao($model);
-        $this->dao->put($dataDao, $model->getId());
+        $entite->updateDateLastAccess();
+        $dataDao = $this->getEntite2DataDao($entite);
+        $this->dao->put($dataDao, $entite->getId());
     }
 
     /**
      * Regénère le token de l'utilisateur pour une nouvelle session
      *
-     * @param AModel $model Modèle utilisateur
+     * @param AEntite $entite Entité utilisateur
      *
-     * @return AModel Le modèle hydraté du nouveau token
+     * @return AEntite L'entité hydratée du nouveau token
      * @throws \RuntimeException Si le token instance n'est pas posé
      */
-    public function regenerateToken(AModel $model)
+    public function regenerateToken(AEntite $entite)
     {
         $instanceToken = $this->application->getTokenInstance();
         if (empty($instanceToken)) {
@@ -171,12 +171,12 @@ class Repository extends \App\Libraries\ARepository
         }
 
         try {
-            $model->populateToken($this->buildToken($instanceToken));
-            $model->updateDateLastAccess();
-            $dataDao = $this->getModel2DataDao($model);
-            $this->dao->put($dataDao, $model->getId());
+            $entite->populateToken($this->buildToken($instanceToken));
+            $entite->updateDateLastAccess();
+            $dataDao = $this->getEntite2DataDao($entite);
+            $this->dao->put($dataDao, $entite->getId());
 
-            return $model;
+            return $entite;
         } catch (\Exception $e) {
             throw $e;
         }
@@ -185,26 +185,26 @@ class Repository extends \App\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getModel2DataDao(AModel $model)
+    final protected function getEntite2DataDao(AEntite $entite)
     {
         return [
-            //'u_login' => $model->getLogin(), // PK ne doit pas être vu par la DAO
-            /*'u_nom' => $model->getJourId(),
-            'u_prenom' => $model->getTypeSemaine(),
-            'u_is_resp' => $model->getTypePeriode(),
-            'u_is_admin' => $model->getDebut(),
-            'u_is_hr' => $model->getFin(),
-            'u_is_active' => $model->getFin(),
-            'u_see_all' => $model->getFin(),
-            'u_passwd' => $model->getFin(),
-            'u_quotite' => $model->getFin(),
-            'u_email' => $model->getFin(),
-            'u_num_exercice' => $model->getFin(),
-            'planning_id' => $model->getFin(),
-            'u_heure_solde' => $model->getFin(),
-            'date_inscription' => $model->getFin(),*/
-            'token' => $model->getToken(),
-            'date_last_access' => $model->getDateLastAccess(),
+            //'u_login' => $entite->getLogin(), // PK ne doit pas être vu par la DAO
+            /*'u_nom' => $entite->getJourId(),
+            'u_prenom' => $entite->getTypeSemaine(),
+            'u_is_resp' => $entite->getTypePeriode(),
+            'u_is_admin' => $entite->getDebut(),
+            'u_is_hr' => $entite->getFin(),
+            'u_is_active' => $entite->getFin(),
+            'u_see_all' => $entite->getFin(),
+            'u_passwd' => $entite->getFin(),
+            'u_quotite' => $entite->getFin(),
+            'u_email' => $entite->getFin(),
+            'u_num_exercice' => $entite->getFin(),
+            'planning_id' => $entite->getFin(),
+            'u_heure_solde' => $entite->getFin(),
+            'date_inscription' => $entite->getFin(),*/
+            'token' => $entite->getToken(),
+            'date_last_access' => $entite->getDateLastAccess(),
         ];
     }
 
@@ -224,7 +224,7 @@ class Repository extends \App\Libraries\ARepository
      * DELETE
      *************************************************/
 
-    public function deleteOne(AModel $model)
+    public function deleteOne(AEntite $entite)
     {
     }
 }

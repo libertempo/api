@@ -96,16 +96,16 @@ final class Controller extends \App\Libraries\AController
         $data = [];
         try {
             $creneaux = $this->repository->getList(['planningId' => $planningId]);
-            $models = [];
+            $entites = [];
             foreach ($creneaux as $creneau) {
-                $models[] = $this->buildData($creneau);
+                $entites[] = $this->buildData($creneau);
             }
             $code = 200;
             $data = [
                 'code' => $code,
                 'status' => 'success',
                 'message' => '',
-                'data' => $models,
+                'data' => $entites,
             ];
 
             return $response->withJson($data, $code);
@@ -119,20 +119,20 @@ final class Controller extends \App\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param Model $model Créneau de planning
+     * @param Entite $entite Créneau de planning
      *
      * @return array
      */
-    private function buildData(Model $model)
+    private function buildData(Entite $entite)
     {
         return [
-            'id' => $model->getId(),
-            'planningId' => $model->getPlanningId(),
-            'jourId' => $model->getJourId(),
-            'typeSemaine' => $model->getTypeSemaine(),
-            'typePeriode' => $model->getTypePeriode(),
-            'debut' => $model->getDebut(),
-            'fin' => $model->getFin(),
+            'id' => $entite->getId(),
+            'planningId' => $entite->getPlanningId(),
+            'jourId' => $entite->getJourId(),
+            'typeSemaine' => $entite->getTypeSemaine(),
+            'typePeriode' => $entite->getTypePeriode(),
+            'debut' => $entite->getDebut(),
+            'fin' => $entite->getFin(),
         ];
     }
 
@@ -157,7 +157,7 @@ final class Controller extends \App\Libraries\AController
         }
 
         try {
-            $creneauxIds = $this->repository->postList($body, new Model([]));
+            $creneauxIds = $this->repository->postList($body, new Entite([]));
             $dataMessage = [];
             foreach ($creneauxIds as $id) {
                 $dataMessage[] = $this->router->pathFor('getPlanningCreneauDetail', [

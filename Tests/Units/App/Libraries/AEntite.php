@@ -1,22 +1,22 @@
 <?php
 namespace Tests\Units\App\Libraries;
 
-use \App\Libraries\AModel as _AModel;
+use \App\Libraries\AEntite as _AEntite;
 
 /**
- * Classe commune de test sur les modèles
+ * Classe commune de test sur les entités
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
  * @since 0.1
  */
-abstract class AModel extends \Atoum
+abstract class AEntite extends \Atoum
 {
     /**
-     * @var \App\Libraries\AModel $model Modèle en cours de test
+     * @var \App\Libraries\AEntite $entite Entité en cours de test
      */
-    protected $model;
+    protected $entite;
 
     /**
     * Teste la méthode __construct avec un Id (typiquement lors d'un get())
@@ -31,12 +31,12 @@ abstract class AModel extends \Atoum
     /**
      * Asserters commun sur la construction avec id
      *
-     * @param _AModel $model
+     * @param _AEntite $entite
      * @param int $id Id de l'objet
      */
-    final protected function assertConstructWithId(_AModel $model, $id)
+    final protected function assertConstructWithId(_AEntite $entite, $id)
     {
-        $this->integer($model->getId())->isIdenticalTo($id);
+        $this->integer($entite->getId())->isIdenticalTo($id);
     }
 
     /**
@@ -47,10 +47,10 @@ abstract class AModel extends \Atoum
     /**
      * Asserteurs communs sur le reset
      */
-    final protected function assertReset(_AModel $model)
+    final protected function assertReset(_AEntite $entite)
     {
-        $model->reset();
+        $entite->reset();
 
-        $this->variable($model->getId())->isNull();
+        $this->variable($entite->getId())->isNull();
     }
 }

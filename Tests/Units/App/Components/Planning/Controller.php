@@ -19,9 +19,9 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     private $repository;
 
     /**
-     * @var \mock\App\Components\Planning\Model Mock du modèle associé
+     * @var \mock\App\Components\Planning\Entite Mock de l'entité associée
      */
-    private $model;
+    private $entite;
 
     /**
      * Init des tests
@@ -33,10 +33,10 @@ final class Controller extends \Tests\Units\App\Libraries\AController
         $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\App\Components\Planning\Repository();
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\App\Components\Planning\Model();
-        $this->model->getMockController()->getId = 42;
-        $this->model->getMockController()->getName = 12;
-        $this->model->getMockController()->getStatus = 12;
+        $this->entite = new \mock\App\Components\Planning\Entite();
+        $this->entite->getMockController()->getId = 42;
+        $this->entite->getMockController()->getName = 12;
+        $this->entite->getMockController()->getStatus = 12;
     }
 
     /*************************************************
@@ -48,7 +48,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
      */
     public function testGetOneFound()
     {
-        $this->repository->getMockController()->getOne = $this->model;
+        $this->repository->getMockController()->getOne = $this->entite;
         $controller = new _Controller($this->repository, $this->router);
 
         $response = $controller->get($this->request, $this->response, ['planningId' => 99]);
@@ -100,7 +100,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     {
         $this->request->getMockController()->getQueryParams = [];
         $this->repository->getMockController()->getList = [
-            42 => $this->model,
+            42 => $this->entite,
         ];
         $controller = new _Controller($this->repository, $this->router);
 
@@ -293,7 +293,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     public function testPutMissingRequiredArg()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = $this->model;
+        $this->repository->getMockController()->getOne = $this->entite;
 
         $this->repository->getMockController()->putOne = function () {
             throw new \App\Exceptions\MissingArgumentException('');
@@ -311,7 +311,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     public function testPutBadDomain()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = $this->model;
+        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \DomainException('');
         };
@@ -328,7 +328,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = $this->model;
+        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \LogicException('');
         };
@@ -345,7 +345,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = $this->model;
+        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = '';
         $controller = new _Controller($this->repository, $this->router);
 
@@ -401,7 +401,7 @@ final class Controller extends \Tests\Units\App\Libraries\AController
      */
     public function testDeleteOk()
     {
-        $this->repository->getMockController()->getOne = $this->model;
+        $this->repository->getMockController()->getOne = $this->entite;
         $controller = new _Controller($this->repository, $this->router);
 
         $response = $controller->delete($this->request, $this->response, ['planningId' => 99]);

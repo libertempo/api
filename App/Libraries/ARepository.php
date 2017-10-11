@@ -4,7 +4,7 @@ namespace App\Libraries;
 use App\Exceptions\MissingArgumentException;
 
 /**
- * Garant de la cohérence métier du modèle en relation.
+ * Garant de la cohérence métier de l'entité en relation.
  * Autrement dit, c'est lui qui va chercher les données (dépendances comprises),
  * pour construire un Domain model bien formé
  *
@@ -37,7 +37,7 @@ abstract class ARepository
      *
      * @param int $id Id potentiel de ressource
      *
-     * @return \App\Libraries\AModel
+     * @return \App\Libraries\AEntite
      * @throws \DomainException Si $id n'est pas dans le domaine de définition
      */
     abstract public function getOne($id);
@@ -54,13 +54,13 @@ abstract class ARepository
     abstract public function getList(array $parametres);
 
     /**
-     * Effectue le mapping des éléments venant de la DAO pour qu'ils soient compréhensibles pour le Modèle
+     * Effectue le mapping des éléments venant de la DAO pour qu'ils soient compréhensibles pour l'Entité
      *
      * @param array $dataDao
      *
      * @return array
      */
-    abstract protected function getDataDao2Model(array $dataDao);
+    abstract protected function getDataDao2Entite(array $dataDao);
 
     /**
      * Effectue le mapping des recherches du consommateur de l'API pour qu'elles
@@ -76,13 +76,13 @@ abstract class ARepository
     abstract protected function getParamsConsumer2Dao(array $paramsConsumer);
 
     /**
-     * Effectue le mapping des éléments venant du modèle pour qu'ils soient compréhensibles pour la DAO
+     * Effectue le mapping des éléments venant de l'entité pour qu'ils soient compréhensibles pour la DAO
      *
-     * @param AModel $model
+     * @param AEntite $entite
      *
      * @return array
      */
-    abstract protected function getModel2DataDao(AModel $model);
+    abstract protected function getEntite2DataDao(AEntite $entite);
 
     /*************************************************
      * POST
@@ -92,13 +92,13 @@ abstract class ARepository
      * Poste une ressource unique
      *
      * @param array $data Données à poster
-     * @param AModel $model [Vide par définition]
+     * @param AEntite $entite [Vide par définition]
      *
      * @return int Id de la ressource nouvellement insérée
      * @throws MissingArgumentException Si un élément requis n'est pas présent
      * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
      */
-    abstract public function postOne(array $data, AModel $model);
+    abstract public function postOne(array $data, AEntite $entite);
 
     /*************************************************
      * PUT
@@ -108,12 +108,12 @@ abstract class ARepository
      * Met à jour une ressource unique
      *
      * @param array $data Données à mettre à jour
-     * @param AModel $model
+     * @param AEntite $entite
      *
      * @throws MissingArgumentException Si un élément requis n'est pas présent
      * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
      */
-    abstract public function putOne(array $data, AModel $model);
+    abstract public function putOne(array $data, AEntite $entite);
 
     /*************************************************
      * DELETE
@@ -122,7 +122,7 @@ abstract class ARepository
     /**
      * Détruit une ressource unique
      *
-     * @param AModel $model
+     * @param AEntite $entite
      */
-    abstract public function deleteOne(AModel $model);
+    abstract public function deleteOne(AEntite $entite);
 }
