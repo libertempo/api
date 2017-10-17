@@ -29,7 +29,7 @@ final class PlanningRepository extends \Atoum
         $this->mockGenerator->shuntParentClassCalls();
         $this->dao = new \mock\LibertAPI\Planning\PlanningDao();
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Planning\PlaningEntite();
+        $this->entite = new \mock\LibertAPI\Planning\PlanningEntite();
         $this->entite->getMockController()->getId = 42;
         $this->entite->getMockController()->getName = 12;
         $this->entite->getMockController()->getStatus = 12;

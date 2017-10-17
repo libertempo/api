@@ -1,17 +1,17 @@
 <?php
-namespace Tests\Units\App\Components\Utilisateur;
+namespace LibertAPI\Tests\Units\Utilisateur;
 
-use \App\Components\Utilisateur\Entite as _Entite;
+use \LibertAPI\Utilisateur\UtilisateurEntite as _Entite;
 
 /**
- * Classe de test de l'entité de l'utilisateur
+ * Classe de test du modèle de l'utilisateur
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
  * @since 0.2
  */
-final class Entite extends \Tests\Units\App\Libraries\AEntite
+final class UtilisateurEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEntite
 {
     /**
      * @inheritDoc

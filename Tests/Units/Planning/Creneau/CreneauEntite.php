@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\App\Components\Planning\Creneau;
+namespace LibertAPI\Tests\Units\Planning\Creneau;
 
-use \App\Components\Planning\Creneau\Entite as _Entite;
+use \LibertAPI\Planning\Creneau\CreneauEntite as _Entite;
 
 /**
  * Classe de test de l'entité de créneau
@@ -11,7 +11,7 @@ use \App\Components\Planning\Creneau\Entite as _Entite;
  *
  * @since 0.1
  */
-final class Entite extends \Tests\Units\App\Libraries\AEntite
+final class CreneauEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEntite
 {
     /**
      * @inheritDoc

@@ -1,17 +1,17 @@
 <?php
-namespace Tests\Units\App\Components\Planning;
+namespace LibertAPI\Tests\Units\Planning;
 
-use \App\Components\Planning\Entite as _Entite;
+use \LibertAPI\Planning\PlanningEntite as _Entite;
 
 /**
- * Classe de test de l'entité de planning
+ * Classe de test du modèle de planning
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
  * @since 0.1
  */
-final class Entite extends \Tests\Units\App\Libraries\AEntite
+final class PlanningEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEntite
 {
     /**
      * @inheritDoc
