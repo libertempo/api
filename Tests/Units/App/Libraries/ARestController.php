@@ -20,7 +20,7 @@ abstract class ARestController extends AController
      */
     public function testGetOneFound()
     {
-        $this->repository->getMockController()->getOne = $this->model;
+        $this->repository->getMockController()->getOne = $this->entite;
         $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->getOne();
@@ -72,7 +72,7 @@ abstract class ARestController extends AController
     {
         $this->request->getMockController()->getQueryParams = [];
         $this->repository->getMockController()->getList = [
-            42 => $this->model,
+            42 => $this->entite,
         ];
         $this->newTestedInstance($this->repository, $this->router);
 
@@ -101,7 +101,7 @@ abstract class ARestController extends AController
 
         $response = $this->getList();
 
-        $this->assertFail($response, 404);
+        $this->assertSuccessEmpty($response);
     }
 
     /**

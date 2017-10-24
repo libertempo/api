@@ -34,9 +34,9 @@ abstract class AController extends \Atoum
     protected $repository;
 
     /**
-     * @var \App\Libraries\AModel Mock du modèle associé
+     * @var \App\Libraries\AEntite Mock de l'entité associée
      */
-    protected $model;
+    protected $entite;
 
     /**
      * Init des tests
@@ -50,12 +50,12 @@ abstract class AController extends \Atoum
         $this->response = new \mock\Slim\Http\Response();
         $this->router = new \mock\Slim\Router();
         $this->initRepository();
-        $this->initModel();
+        $this->initEntite();
     }
 
     abstract protected function initRepository();
 
-    abstract protected function initModel();
+    abstract protected function initEntite();
 
     /**
      * Retourne le json décodé

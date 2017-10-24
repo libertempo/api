@@ -114,6 +114,18 @@ abstract class AController
     }
 
     /**
+     * Retourne une réponse normalisée d'élément sans contenu
+     *
+     * @param IResponse $response Réponse Http
+     *
+     * @return IResponse
+     */
+    protected function getResponseNoContent(IResponse $response)
+    {
+        return $this->getResponseSuccess($response, 'No Content', 204);
+    }
+
+    /**
      * Retourne une réponse d'échec normalisée
      *
      * @param IResponse $response Réponse Http

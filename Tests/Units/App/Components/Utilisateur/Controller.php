@@ -18,15 +18,15 @@ final class Controller extends \Tests\Units\App\Libraries\ARestController
         $this->repository = new \mock\App\Components\Utilisateur\Repository();
     }
 
-    protected function initModel()
+    protected function initEntite()
     {
         $this->mockGenerator->orphanize('__construct');
-        $this->model = new \mock\App\Components\Utilisateur\Model();
-        $this->model->getMockController()->getId = 42;
-        $this->model->getMockController()->getToken = 12;
-        $this->model->getMockController()->getLogin = 12;
-        $this->model->getMockController()->getNom = 12;
-        $this->model->getMockController()->getDateInscription = 12;
+        $this->entite = new \mock\App\Components\Utilisateur\Entite();
+        $this->entite->getMockController()->getId = 42;
+        $this->entite->getMockController()->getToken = 12;
+        $this->entite->getMockController()->getLogin = 12;
+        $this->entite->getMockController()->getNom = 12;
+        $this->entite->getMockController()->getDateInscription = 12;
     }
 
     protected function getOne()

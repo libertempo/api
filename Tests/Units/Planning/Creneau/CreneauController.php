@@ -18,7 +18,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         $this->repository = new \mock\LibertAPI\Planning\Creneau\CreneauRepository();
     }
 
-    protected function initModel()
+    protected function initEntite()
     {
         $this->mockGenerator->orphanize('__construct');
         $this->entite = new \mock\LibertAPI\Planning\Creneau\CreneauEntite();

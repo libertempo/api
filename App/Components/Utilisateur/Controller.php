@@ -87,32 +87,32 @@ final class Controller extends \App\Libraries\AController
                 $request->getQueryParams()
             );
         } catch (\UnexpectedValueException $e) {
-            return $this->getResponseNotFound($response, 'No result');
+            return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        $models = [];
+        $entites = [];
         foreach ($utilisateurs as $utilisateur) {
-            $models[] = $this->buildData($utilisateur);
+            $entites[] = $this->buildData($utilisateur);
         }
 
-        return $this->getResponseSuccess($response, $models, 200);
+        return $this->getResponseSuccess($response, $entites, 200);
     }
 
     /**
      * Construit le « data » du json
      *
-     * @param Model $model Utilisateur
+     * @param Entite $entite Utilisateur
      *
      * @return array
      */
-    private function buildData(Model $model)
+    private function buildData(Entite $entite)
     {
         return [
-            'id' => $model->getId(),
-            'login' => $model->getLogin(),
-            'nom' => $model->getNom(),
-            'date_inscription' => $model->getDateInscription(),
+            'id' => $entite->getId(),
+            'login' => $entite->getLogin(),
+            'nom' => $entite->getNom(),
+            'date_inscription' => $entite->getDateInscription(),
             // mettre le lien du planning associé, sous un offset formalisé
         ];
     }
