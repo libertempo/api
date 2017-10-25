@@ -20,7 +20,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function getList(array $parametres)
     {
-        $this->queryBuilder->select('*');
+        $this->queryBuilder->select('*, u_login AS id');
         $this->setWhere($parametres);
         $res = $this->queryBuilder->execute();
 
