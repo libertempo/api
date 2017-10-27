@@ -44,8 +44,9 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     public function put(array $data, $id)
     {
         $this->queryBuilder->update($this->getTableName());
-        $this->queryBuilder->setValue('token', $data['token']);
-        $this->setWhere(['u_login' => $id]);
+        $this->setSet($data);
+        $this->queryBuilder->where('u_login = :id');
+        $this->queryBuilder->setParameter(':id', $id);
 
         $this->queryBuilder->execute();
     }
@@ -67,11 +68,31 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     {
         if (!empty($parametres['u_login'])) {
             $this->queryBuilder->andWhere('u_login = :id');
-            $this->queryBuilder->setParameter(':id', (int) $parametres['u_login']);
+            $this->queryBuilder->setParameter(':id', $parametres['u_login']);
         }
         if (!empty($parametres['u_passwd'])) {
-            $this->queryBuilder->andWhere('u_passwd = :passwor');
-            $this->queryBuilder->setParameter(':passwor', (int) $parametres['u_passwd']);
+            $this->queryBuilder->andWhere('u_passwd = :password');
+            $this->queryBuilder->setParameter(':password', $parametres['u_passwd']);
+        }
+        if (!empty($parametres['token'])) {
+            $this->queryBuilder->andWhere('token = :token');
+            $this->queryBuilder->setParameter(':token', $parametres['token']);
+        }
+        if (!empty($parametres['gt_date_last_access'])) {
+            $this->queryBuilder->andWhere('date_last_access >= :gt_date_last_access');
+            $this->queryBuilder->setParameter(':gt_date_last_access', $parametres['gt_date_last_access']);
+        }
+    }
+
+    private function setSet(array $parametres)
+    {
+        if (!empty($parametres['token'])) {
+            $this->queryBuilder->set('token', ':token');
+            $this->queryBuilder->setParameter(':token', $parametres['token']);
+        }
+        if (!empty($parametres['date_last_access'])) {
+            $this->queryBuilder->set('date_last_access', ':date_last_access');
+            $this->queryBuilder->setParameter(':date_last_access', $parametres['date_last_access']);
         }
     }
 

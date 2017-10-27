@@ -21,6 +21,7 @@ abstract class ADao
     {
         $this->storageConnector = $storageConnector;
         $this->queryBuilder = $storageConnector->createQueryBuilder();
+        //$this->queryBuilder->resetQueryParts();
         $this->queryBuilder->from($this->getTableName());
     }
 
