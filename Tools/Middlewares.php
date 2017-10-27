@@ -86,7 +86,6 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     try {
         $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
         $config = new DBAL\Configuration();
-        $config->setAutoCommit(false);
         $connexion = DBAL\DriverManager::getConnection(
             [
                 'driver' => 'pdo_mysql',
