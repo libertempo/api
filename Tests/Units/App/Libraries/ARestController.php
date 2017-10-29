@@ -21,7 +21,7 @@ abstract class ARestController extends AController
     public function testGetOneFound()
     {
         $this->repository->getMockController()->getOne = $this->entite;
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
 
         $response = $this->getOne();
         $data = $this->getJsonDecoded($response->getBody());
@@ -42,7 +42,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getOne = function () {
             throw new \DomainException('');
         };
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
 
         $response = $this->getOne();
 
@@ -57,7 +57,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getOne = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
 
         $response = $this->getOne();
         $response = $this->assertError($response);
@@ -74,7 +74,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getList = [
             42 => $this->entite,
         ];
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
 
         $response = $this->getList();
         $data = $this->getJsonDecoded($response->getBody());
@@ -97,7 +97,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getList = function () {
             throw new \UnexpectedValueException('');
         };
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
 
         $response = $this->getList();
 
@@ -113,7 +113,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getList = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
 
         $response = $this->getList();
         $this->assertError($response);

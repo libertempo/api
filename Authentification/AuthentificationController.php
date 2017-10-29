@@ -30,6 +30,7 @@ final class AuthentificationController extends \LibertAPI\Tools\Libraries\AContr
     {
         return true;
     }
+
     /*************************************************
      * GET
      *************************************************/

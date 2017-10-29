@@ -98,7 +98,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\App\Exceptions\MissingRightException $e) {
-            // TODO: Handling.
             return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);

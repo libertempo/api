@@ -31,6 +31,7 @@ final class AControllerFactory extends \Atoum
      */
     public function beforeTestMethod($method)
     {
+        parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->statement = new \mock\PDOStatement();
@@ -49,7 +50,7 @@ final class AControllerFactory extends \Atoum
     public function testCreateControllerNotFound()
     {
         $this->exception(function () {
-            _AControllerFactory::createController('notFoundNs', $this->storageConnector, $this->router);
+            _AControllerFactory::createControllerWithUser('notFoundNs', $this->storageConnector, $this->router);
         })->isInstanceOf('\DomainException');
     }
 
@@ -58,7 +59,7 @@ final class AControllerFactory extends \Atoum
      */
     public function testCreateControllerAuthentification()
     {
-        $controller = _AControllerFactory::createController('Authentification', $this->storageConnector, $this->router);
+        $controller = _AControllerFactory::createControllerAuthentification('Authentification', $this->storageConnector, $this->router);
 
         $this->object($controller)->isInstanceOf(\LibertAPI\Authentification\AuthentificationController::class);
     }
@@ -68,7 +69,7 @@ final class AControllerFactory extends \Atoum
      */
     public function testCreateControllerDefault()
     {
-        $controller = _AControllerFactory::createController('Planning', $this->storageConnector, $this->router);
+        $controller = _AControllerFactory::createControllerWithUser('Planning', $this->storageConnector, $this->router, new \App\Components\Utilisateur\Entite([]));
 
         $this->object($controller)->isInstanceOf(_AController::class);
     }

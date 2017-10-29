@@ -19,6 +19,14 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class CreneauController extends \LibertAPI\Tools\Libraries\AController
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected function ensureAccessUser($order, \App\Components\Utilisateur\Entite $utilisateur)
+    {
+        return true;
+    }
+    
     /*************************************************
      * GET
      *************************************************/

@@ -18,6 +18,14 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class Controller extends \App\Libraries\AController
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected function ensureAccessUser($order, \App\Components\Utilisateur\Entite $utilisateur)
+    {
+        return true;
+    }
+
     /*************************************************
      * GET
      *************************************************/

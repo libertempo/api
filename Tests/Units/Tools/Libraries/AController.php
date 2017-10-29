@@ -38,6 +38,8 @@ abstract class AController extends \Atoum
      */
     protected $entite;
 
+    protected $currentUser;
+
     /**
      * Init des tests
      */
@@ -51,6 +53,7 @@ abstract class AController extends \Atoum
         $this->router = new \mock\Slim\Router();
         $this->initRepository();
         $this->initEntite();
+        $this->currentUser = new \App\Components\Utilisateur\Entite([]);
     }
 
     abstract protected function initRepository();
