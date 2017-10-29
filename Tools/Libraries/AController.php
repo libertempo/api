@@ -46,11 +46,11 @@ abstract class AController
      * Vérifie les bons droits de l'utilisateur pour accéder à l'ordre demandé
      *
      * @param string $order Ordre dont on veut vérifier les droits
-     * @param \App\Components\Utilisateur\Entite $utilisateur Utilisateur courant
+     * @param LibertAPI\Utilisateur\UtilisateurEntite $utilisateur Utilisateur courant
      *
-     * @throws \App\Exceptions\MissingRightException if rights aren't enought to execute action
+     * @throws \LibertAPI\Tools\Exceptions\MissingRightException if rights aren't enought to execute action
      */
-    abstract protected function ensureAccessUser($order, \App\Components\Utilisateur\Entite $utilisateur);
+    abstract protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur);
 
     /**
      * Retourne une réponse de succès normalisée

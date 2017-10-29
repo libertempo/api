@@ -31,8 +31,6 @@ abstract class AControllerFactory
     final public static function createControllerAuthentification($ressourcePath, \PDO $storageConnector, IRouter $router)
     {
         $controllerClass = static::getControllerClassname($ressourcePath);
-        $paths = explode('\\', $ressourcePath);
-        $end = array_pop($paths);
         if (!class_exists($controllerClass, true)) {
             throw new \DomainException('Unknown component');
         }
@@ -67,8 +65,10 @@ abstract class AControllerFactory
             throw new \DomainException('Unknown component');
         }
 
-        $daoClass = '\App\Components\\' . $ressourcePath . '\Dao';
-        $repoClass = '\App\Components\\' . $ressourcePath . '\Repository';
+        $paths = explode('\\', $ressourcePath);
+        $end = array_pop($paths);
+        $daoClass = '\LibertAPI\\' . $ressourcePath . '\\' . $end . 'Dao';
+        $repoClass = '\LibertAPI\\' . $ressourcePath . '\\' . $end . 'Repository';
 
         return new $controllerClass(
             new $repoClass(

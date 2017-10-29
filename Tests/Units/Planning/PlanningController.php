@@ -44,7 +44,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         $this->calling($this->request)->getQueryParams = [];
         $this->calling($this->request)->getUri = $uri;
         $this->calling($this->repository)->getList = function () {
-            throw new \App\Exceptions\MissingRightException('');
+            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 

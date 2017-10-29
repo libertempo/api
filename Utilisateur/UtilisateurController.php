@@ -16,12 +16,12 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le Utilisateur\Repository
  */
-final class Controller extends \App\Libraries\AController
+final class UtilisateurController extends \App\Libraries\AController
 {
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, \App\Components\Utilisateur\Entite $utilisateur)
+    protected function ensureAccessUser($order, LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
         return true;
     }

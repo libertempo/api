@@ -22,6 +22,11 @@ final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libr
     {
         $this->mockGenerator->orphanize('__construct');
         $this->entite = new \mock\LibertAPI\Utilisateur\UtilisateurEntite();
+        $this->entite->getMockController()->getId = 42;
+        $this->entite->getMockController()->getToken = 12;
+        $this->entite->getMockController()->getLogin = 12;
+        $this->entite->getMockController()->getNom = 12;
+        $this->entite->getMockController()->getDateInscription = 12;
     }
 
     /*************************************************
@@ -82,5 +87,15 @@ final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libr
             ->string['status']->isIdenticalTo('success')
             ->string['data']->isIdenticalTo($token)
         ;
+    }
+
+    protected function getOne()
+    {
+        return $this->testedInstance->get($this->request, $this->response, ['utilisateurId' => 99,]);
+    }
+
+    protected function getList()
+    {
+        return $this->testedInstance->get($this->request, $this->response, []);
     }
 }

@@ -22,7 +22,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, \App\Components\Utilisateur\Entite $utilisateur)
+    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
         return true;
     }

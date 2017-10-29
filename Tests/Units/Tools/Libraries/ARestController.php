@@ -1,7 +1,7 @@
 <?php
-namespace Tests\Units\App\Libraries;
+namespace LibertAPI\Tests\Units\Tools\Libraries;
 
-use App\Components\Utilisateur\Entite;
+use LibertAPI\Utilisateur\UtilisateurEntite;
 
 /**
  * Classe de base des tests sur les contrôleurs REST
@@ -14,12 +14,12 @@ use App\Components\Utilisateur\Entite;
 abstract class ARestController extends AController
 {
     /**
-     * @var Entite Standardisation d'un rôle responsable
+     * @var UtilisateurEntite Standardisation d'un rôle responsable
      */
     protected $currentResponsable;
 
     /**
-     * @var Entite Standardisation d'un rôle employé
+     * @var UtilisateurEntite Standardisation d'un rôle employé
      */
     protected $currentEmploye;
 
@@ -29,8 +29,8 @@ abstract class ARestController extends AController
     public function beforeTestMethod($method)
     {
         parent::beforeTestMethod($method);
-        $this->currentEmploye = new Entite(['id' => 'user', 'isResp' => false]);
-        $this->currentResponsable = new Entite(['id' => 'resp', 'isResp' => true]);
+        $this->currentEmploye = new UtilisateurEntite(['id' => 'user', 'isResp' => false]);
+        $this->currentResponsable = new UtilisateurEntite(['id' => 'resp', 'isResp' => true]);
 
     }
     /*************************************************

@@ -1,5 +1,5 @@
 <?php
-namespace App\Exceptions;
+namespace LibertAPI\Tools\Exceptions;
 
 /**
  * Exception déclenchée en cas de droit insuffisant

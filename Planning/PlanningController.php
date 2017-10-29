@@ -22,14 +22,14 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, \App\Components\Utilisateur\Entite $utilisateur)
+    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
         $rights = [
             'getList' => $utilisateur->isResponsable(),
         ];
 
         if (isset($rights[$order]) && !$rights[$order]) {
-            throw new \App\Exceptions\MissingRightException('');
+            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
         }
     }
 
@@ -97,7 +97,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
             );
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
-        } catch (\App\Exceptions\MissingRightException $e) {
+        } catch (\LibertAPI\Tools\Exceptions\MissingRightException $e) {
             return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
