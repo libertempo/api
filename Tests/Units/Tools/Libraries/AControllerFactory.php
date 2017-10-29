@@ -50,7 +50,7 @@ final class AControllerFactory extends \Atoum
     public function testCreateControllerNotFound()
     {
         $this->exception(function () {
-            _AControllerFactory::createControllerWithUser('notFoundNs', $this->storageConnector, $this->router);
+            _AControllerFactory::createControllerAuthentification('notFoundNs', $this->storageConnector, $this->router);
         })->isInstanceOf('\DomainException');
     }
 

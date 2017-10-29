@@ -1,6 +1,8 @@
 <?php
 namespace Tests\Units\App\Libraries;
 
+use App\Components\Utilisateur\Entite;
+
 /**
  * Classe de base des tests sur les contrôleurs REST
  *
@@ -11,6 +13,26 @@ namespace Tests\Units\App\Libraries;
  */
 abstract class ARestController extends AController
 {
+    /**
+     * @var Entite Standardisation d'un rôle responsable
+     */
+    protected $currentResponsable;
+
+    /**
+     * @var Entite Standardisation d'un rôle employé
+     */
+    protected $currentEmploye;
+
+    /**
+     * Init des tests
+     */
+    public function beforeTestMethod($method)
+    {
+        parent::beforeTestMethod($method);
+        $this->currentEmploye = new Entite(['id' => 'user', 'isResp' => false]);
+        $this->currentResponsable = new Entite(['id' => 'resp', 'isResp' => true]);
+
+    }
     /*************************************************
      * GET
      *************************************************/
@@ -21,7 +43,7 @@ abstract class ARestController extends AController
     public function testGetOneFound()
     {
         $this->repository->getMockController()->getOne = $this->entite;
-        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $response = $this->getOne();
         $data = $this->getJsonDecoded($response->getBody());
@@ -42,7 +64,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getOne = function () {
             throw new \DomainException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $response = $this->getOne();
 
@@ -57,7 +79,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getOne = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $response = $this->getOne();
         $response = $this->assertError($response);
@@ -74,7 +96,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getList = [
             42 => $this->entite,
         ];
-        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentResponsable);
 
         $response = $this->getList();
         $data = $this->getJsonDecoded($response->getBody());
@@ -89,15 +111,15 @@ abstract class ARestController extends AController
     }
 
     /**
-     * Teste la méthode get d'une liste non trouvée
+     * Teste la méthode get d'une liste vide
      */
-    public function testGetListNotFound()
+    public function testGetListNoContent()
     {
         $this->request->getMockController()->getQueryParams = [];
         $this->repository->getMockController()->getList = function () {
             throw new \UnexpectedValueException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentResponsable);
 
         $response = $this->getList();
 
@@ -113,7 +135,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getList = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentUser);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentResponsable);
 
         $response = $this->getList();
         $this->assertError($response);

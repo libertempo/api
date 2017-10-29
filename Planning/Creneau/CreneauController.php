@@ -26,7 +26,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
     {
         return true;
     }
-    
+
     /*************************************************
      * GET
      *************************************************/
