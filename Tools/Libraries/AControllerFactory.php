@@ -2,6 +2,8 @@
 namespace LibertAPI\Tools\Libraries;
 
 use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Tools\Libraries\Application;
+use LibertAPI\Tools\Libraries\AEntite;
 
 /**
  * Fabrique des contrôleurs, basé sur les dépendances
@@ -17,7 +19,7 @@ use \Slim\Interfaces\RouterInterface as IRouter;
 abstract class AControllerFactory
 {
     /**
-     * Créé le bon contrôleur avec les bonnes dépendances en fonction de la requête
+     * Créé le contrôleur d'authentification
      *
      * @param string $ressourcePath
      * @param \PDO $storageConnector Connecteur à la BDD
@@ -26,7 +28,7 @@ abstract class AControllerFactory
      * @return \LibertAPI\Tools\Libraries\AController
      * @throws \DomainException Si la ressource est inconnue
      */
-    final static function createController($ressourcePath, \PDO $storageConnector, IRouter $router)
+    final public static function createControllerAuthentification($ressourcePath, \PDO $storageConnector, IRouter $router)
     {
         $controllerClass = static::getControllerClassname($ressourcePath);
         $paths = explode('\\', $ressourcePath);
@@ -35,29 +37,46 @@ abstract class AControllerFactory
             throw new \DomainException('Unknown component');
         }
 
-        switch ($ressourcePath) {
-            case 'Authentification':
-                $daoClass = '\LibertAPI\Utilisateur\UtilisateurDao';
-                $repoClass = '\LibertAPI\Utilisateur\UtilisateurRepository';
+        $daoClass = '\LibertAPI\Utilisateur\UtilisateurDao';
+        $repoClass = '\LibertAPI\Utilisateur\UtilisateurRepository';
 
-                $repo = new $repoClass(
-                    new $daoClass($storageConnector)
-                );
-                $repo->setApplication(new Application($storageConnector));
+        $repo = new $repoClass(
+            new $daoClass($storageConnector)
+        );
+        $repo->setApplication(new Application($storageConnector));
 
-                return new $controllerClass($repo, $router);
 
-            default:
-                $daoClass = '\LibertAPI\\' . $ressourcePath . '\\' . $end . 'Dao';
-                $repoClass = '\LibertAPI\\' . $ressourcePath . '\\' . $end . 'Repository';
+        return new $controllerClass($repo, $router);
+    }
 
-                return new $controllerClass(
-                    new $repoClass(
-                        new $daoClass($storageConnector)
-                    ),
-                    $router
-                );
+    /**
+     * Créé le contrôleur authentifié
+     *
+     * @param string $ressourcePath
+     * @param \PDO $storageConnector Connecteur à la BDD
+     * @param IRouter $router Routeur de l'application
+     * @param AEntite $currentUser Utilisateur authentifié
+     *
+     * @return \App\Libraries\AController
+     * @throws \DomainException Si la ressource est inconnue
+     */
+    final public static function createControllerWithUser($ressourcePath, \PDO $storageConnector, IRouter $router, AEntite $currentUser)
+    {
+        $controllerClass = static::getControllerClassname($ressourcePath);
+        if (!class_exists($controllerClass, true)) {
+            throw new \DomainException('Unknown component');
         }
+
+        $daoClass = '\App\Components\\' . $ressourcePath . '\Dao';
+        $repoClass = '\App\Components\\' . $ressourcePath . '\Repository';
+
+        return new $controllerClass(
+            new $repoClass(
+                new $daoClass($storageConnector)
+            ),
+            $router,
+            $currentUser
+        );
     }
 
     /**
@@ -67,7 +86,7 @@ abstract class AControllerFactory
      *
      * @return string
      */
-    final static function getControllerClassname($ressourcePath)
+    final public static function getControllerClassname($ressourcePath)
     {
         $paths = explode('\\', $ressourcePath);
         $end = array_pop($paths);

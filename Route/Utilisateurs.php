@@ -7,7 +7,7 @@
 
 /* Routes sur l'utilisateur et associés */
 $app->group('/utilisateurs', function () {
-    $utilisateurNS = \App\Components\Utilisateur\Controller::class;
+    $utilisateurNS = '\App\Components\Utilisateur\Controller';
     $this->group('/{utilisateurId:[0-9]+}', function () use ($utilisateurNS) {
         /* Detail */
         $this->get('', $utilisateurNS . ':get')->setName('getUtilisateurDetail');

@@ -2,7 +2,7 @@
 namespace LibertAPI\Tools\Exceptions;
 
 /**
- * Expection déclenchée en cas de valeur manquante
+ * Exception déclenchée en cas de valeur manquante
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina

@@ -37,21 +37,6 @@ $container['unauthorizedHandler'] = function () {
     };
 };
 
-$container['forbiddenHandler'] = function () {
-    return function (IRequest $request, IResponse $response) {
-        $code = 403;
-        $responseUpd = $response->withStatus($code);
-        $data = [
-            'code' => $code,
-            'status' => 'fail',
-            'message' => $responseUpd->getReasonPhrase(),
-            'data' => 'User has not access to « ' . $request->getUri()->getPath() . ' » resource',
-        ];
-
-        return $responseUpd->withJson($data);
-    };
-};
-
 $container['notFoundHandler'] = function () {
     return function (IRequest $request, IResponse $response) {
         $code = 404;

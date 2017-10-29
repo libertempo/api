@@ -44,28 +44,27 @@ class UtilisateurEntite extends \LibertAPI\Tools\Libraries\AEntite
 
     public function isResponsable()
     {
-        // n'avoir que des données pures ici, donc c'est au repo de faire le mapping 'Y' => true
-        return $this->getFreshData('isResp');
+        return (int) $this->getFreshData('isResp');
     }
 
     public function isAdmin()
     {
-        return $this->getFreshData('isAdmin');
+        return (int) $this->getFreshData('isAdmin');
     }
 
     public function isHautReponsable()
     {
-        return $this->getFreshData('isHr');
+        return (int) $this->getFreshData('isHr');
     }
 
     public function isActif()
     {
-        return $this->getFreshData('isActif');
+        return (int) $this->getFreshData('isActif');
     }
 
     public function canSeeAll()
     {
-        return $this->getFreshData('seeAll');
+        return (int) $this->getFreshData('seeAll');
     }
 
     public function getMotDePasse()

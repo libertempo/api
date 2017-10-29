@@ -2,8 +2,10 @@
 namespace LibertAPI\Tools\Libraries;
 
 use LibertAPI\Tools\Libraries\ARepository;
+use LibertAPI\Tools\Libraries\AEntite;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use Psr\Http\Message\ServerRequestInterface as IRequest;
 
 /**
  * Contrôleur principal
@@ -28,11 +30,27 @@ abstract class AController
      */
     protected $router;
 
-    public function __construct(ARepository $repository, IRouter $router)
+    /**
+     * @var AEntite
+     */
+    protected $currentUser;
+
+    public function __construct(ARepository $repository, IRouter $router, AEntite $currentUser)
     {
         $this->repository = $repository;
         $this->router = $router;
+        $this->currentUser = $currentUser;
     }
+
+    /**
+     * Vérifie les bons droits de l'utilisateur pour accéder à l'ordre demandé
+     *
+     * @param string $order Ordre dont on veut vérifier les droits
+     * @param \App\Components\Utilisateur\Entite $utilisateur Utilisateur courant
+     *
+     * @throws \App\Exceptions\MissingRightException if rights aren't enought to execute action
+     */
+    abstract protected function ensureAccessUser($order, \App\Components\Utilisateur\Entite $utilisateur);
 
     /**
      * Retourne une réponse de succès normalisée
@@ -43,7 +61,7 @@ abstract class AController
      *
      * @return IResponse
      */
-    protected function getResponseSuccess(IResponse $response, $messageData, $code)
+    final protected function getResponseSuccess(IResponse $response, $messageData, $code)
     {
         return $this->getResponse($response, $messageData, $code, 'success');
     }
@@ -53,11 +71,10 @@ abstract class AController
      *
      * @param IResponse $response Réponse Http
      * @param \Exception $e Cas d'échec
-     * @param int $code Code Http
      *
      * @return IResponse
      */
-    public function getResponseError(IResponse $response, \Exception $e)
+    final protected function getResponseError(IResponse $response, \Exception $e)
     {
         return $this->getResponse($response, $e->getMessage(), 500, 'error');
     }
@@ -70,9 +87,22 @@ abstract class AController
      *
      * @return IResponse
      */
-    protected function getResponseBadRequest(IResponse $response, $message)
+    final protected function getResponseBadRequest(IResponse $response, $message)
     {
         return $this->getResponseFail($response, $message, 400);
+    }
+
+    /**
+     * Retourne une réponse 403 normalisée
+     *
+     * @param IResponse $response Réponse Http
+     * @param IRequest $request Requête Http
+     *
+     * @return IResponse
+     */
+    final protected function getResponseForbidden(IResponse $response, IRequest $request)
+    {
+        return $this->getResponseFail($response, 'User has not access to « ' . $request->getUri()->getPath() . ' » resource', 403);
     }
 
     /**
@@ -82,7 +112,7 @@ abstract class AController
      *
      * @return IResponse
      */
-    protected function getResponseMissingArgument(IResponse $response)
+    final protected function getResponseMissingArgument(IResponse $response)
     {
         return $this->getResponseFail($response, 'Missing required argument', 412);
     }
@@ -95,7 +125,7 @@ abstract class AController
      *
      * @return IResponse
      */
-    protected function getResponseBadDomainArgument(IResponse $response, \Exception $e)
+    final protected function getResponseBadDomainArgument(IResponse $response, \Exception $e)
     {
         return $this->getResponseFail($response, json_decode($e->getMessage(), true), 412);
     }
@@ -108,7 +138,7 @@ abstract class AController
      *
      * @return IResponse
      */
-    protected function getResponseNotFound(IResponse $response, $messageData)
+    final protected function getResponseNotFound(IResponse $response, $messageData)
     {
         return $this->getResponseFail($response, $messageData, 404);
     }
@@ -120,7 +150,7 @@ abstract class AController
      *
      * @return IResponse
      */
-    protected function getResponseNoContent(IResponse $response)
+    final protected function getResponseNoContent(IResponse $response)
     {
         return $this->getResponseSuccess($response, 'No Content', 204);
     }

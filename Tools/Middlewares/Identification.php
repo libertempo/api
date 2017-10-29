@@ -17,7 +17,7 @@ final class Identification
      */
     const DUREE_SESSION = 30*60;
     /**
-     * @var \LibertAPI\Tools\Libraries\AEntite
+     * @var AEntite | null
      */
     private $utilisateur;
 
@@ -59,6 +59,8 @@ final class Identification
 
     /**
      * Retourne l'utilisateur courant
+     *
+     * @return AEntite | null
      * @since 0.3
      */
     public function getUtilisateur()

@@ -19,6 +19,20 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class PlanningController extends \LibertAPI\Tools\Libraries\AController
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected function ensureAccessUser($order, \App\Components\Utilisateur\Entite $utilisateur)
+    {
+        $rights = [
+            'getList' => $utilisateur->isResponsable(),
+        ];
+
+        if (isset($rights[$order]) && !$rights[$order]) {
+            throw new \App\Exceptions\MissingRightException('');
+        }
+    }
+
     /*************************************************
      * GET
      *************************************************/
@@ -31,7 +45,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
      * @param array $arguments Arguments de route
      *
      * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
@@ -48,8 +61,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
      * @param IResponse $response Réponse Http
      * @param int $id ID de l'élément
      *
-     * @return IResponse, 404 si l'élément n'est pas trouvé, 200 sinon
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
+     * @return IResponse
      */
     private function getOne(IResponse $response, $id)
     {
@@ -75,16 +87,19 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
      * @param IResponse $response Réponse Http
      *
      * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     private function getList(IRequest $request, IResponse $response)
     {
         try {
+            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $plannings = $this->repository->getList(
                 $request->getQueryParams()
             );
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
+        } catch (\App\Exceptions\MissingRightException $e) {
+            // TODO: Handling.
+            return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -123,7 +138,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
       * @param IResponse $response Réponse Http
       *
       * @return IResponse
-      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
       */
     public function post(IRequest $request, IResponse $response)
     {
@@ -163,7 +177,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
      * @param array $arguments Arguments de route
      *
      * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     public function put(IRequest $request, IResponse $response, array $arguments)
     {
@@ -206,7 +219,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
       * @param array $arguments Arguments de route
       *
       * @return IResponse
-      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
       */
     public function delete(IRequest $request, IResponse $response, array $arguments)
     {

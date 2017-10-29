@@ -1,6 +1,8 @@
 <?php
 namespace LibertAPI\Authentification;
 
+use App\Libraries\ARepository;
+use \Slim\Interfaces\RouterInterface as IRouter;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -15,6 +17,19 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class AuthentificationController extends \LibertAPI\Tools\Libraries\AController
 {
+    public function __construct(ARepository $repository, IRouter $router)
+    {
+        $this->repository = $repository;
+        $this->router = $router;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function ensureAccessUser($order, \App\Components\Utilisateur\Entite $utilisateur)
+    {
+        return true;
+    }
     /*************************************************
      * GET
      *************************************************/
