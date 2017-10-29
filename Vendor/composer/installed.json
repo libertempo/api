@@ -17,7 +17,7 @@
         "require": {
             "php": ">=5.1.0"
         },
-        "time": "2015-09-16 14:09:00",
+        "time": "2015-09-16T14:09:00+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -71,7 +71,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2017-02-14 16:28:37",
+        "time": "2017-02-14T16:28:37+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -122,7 +122,7 @@
         "require": {
             "psr/container": "^1.0"
         },
-        "time": "2017-02-14 19:40:03",
+        "time": "2017-02-14T19:40:03+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -155,7 +155,7 @@
         "require": {
             "php": ">=5.4.0"
         },
-        "time": "2017-01-19 11:35:12",
+        "time": "2017-01-19T11:35:12+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -200,7 +200,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-08-06 14:39:51",
+        "time": "2016-08-06T14:39:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -252,7 +252,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2015-09-11 15:10:35",
+        "time": "2015-09-11T15:10:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -311,7 +311,7 @@
             "phpunit/phpunit": "^4.0",
             "squizlabs/php_codesniffer": "^2.5"
         },
-        "time": "2016-12-20 20:30:47",
+        "time": "2016-12-20T20:30:47+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -388,7 +388,7 @@
             "ext-mbstring": "Provides support for UTF-8 strings",
             "ext-xdebug": "Provides code coverage report (>= 2.3)"
         },
-        "time": "2017-02-22 13:05:37",
+        "time": "2017-02-22T13:05:37+00:00",
         "bin": [
             "bin/atoum"
         ],

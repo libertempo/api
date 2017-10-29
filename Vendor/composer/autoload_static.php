@@ -21,6 +21,10 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
         ),
+        'L' => 
+        array (
+            'LibertAPI\\' => 10,
+        ),
         'I' => 
         array (
             'Interop\\Container\\' => 18,
@@ -44,6 +48,10 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
+        'LibertAPI\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/',
+        ),
         'Interop\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
@@ -52,10 +60,6 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
-    );
-
-    public static $fallbackDirsPsr4 = array (
-        0 => __DIR__ . '/../..' . '/',
     );
 
     public static $prefixesPsr0 = array (
@@ -379,7 +383,6 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0::$classMap;
 

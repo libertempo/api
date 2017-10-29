@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "": "."
+            "LibertAPI\\": "."
         }
     },
     "license": "AGPL-3.0",
