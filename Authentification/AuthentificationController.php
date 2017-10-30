@@ -28,7 +28,6 @@ final class AuthentificationController extends \LibertAPI\Tools\Libraries\AContr
      */
     protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
-        return true;
     }
 
     /*************************************************

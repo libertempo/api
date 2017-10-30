@@ -23,7 +23,6 @@ final class UtilisateurController extends \App\Libraries\AController
      */
     protected function ensureAccessUser($order, LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
-        return true;
     }
 
     /*************************************************
