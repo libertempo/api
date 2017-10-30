@@ -44,49 +44,6 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
         return $res->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    /*************************************************
-     * POST
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function post(array $data)
-    {
-        $this->queryBuilder->insert();
-        $this->setValues($data);
-        $this->queryBuilder->execute();
-
-        return $this->storageConnector->lastInsertId();
-    }
-
-    /*************************************************
-     * PUT
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function put(array $data, $id)
-    {
-        $this->queryBuilder->update();
-        $this->setWhere(['id' => $id]);
-        $this->setValues($data);
-
-        $this->queryBuilder->execute();
-    }
-
-    /*************************************************
-     * DELETE
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function delete($id)
-    {
-    }
-
     /**
      * Définit les filtres à appliquer à la requête
      *
@@ -104,6 +61,22 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
         }
     }
 
+    /*************************************************
+     * POST
+     *************************************************/
+
+    /**
+     * @inheritDoc
+     */
+    public function post(array $data)
+    {
+        $this->queryBuilder->insert($this->getTableName());
+        $this->setValues($data);
+        $this->queryBuilder->execute();
+
+        return $this->storageConnector->lastInsertId();
+    }
+
     /**
      * Définit les values à insérer
      *
@@ -111,12 +84,68 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      */
     private function setValues(array $values)
     {
-        $this->queryBuilder->setValue('planning_id', $values['planning_id']);
-        $this->queryBuilder->setValue('jour_id', $values['jour_id']);
+        $this->queryBuilder->setValue('planning_id', (int) $values['planning_id']);
+        $this->queryBuilder->setValue('jour_id', (int) $values['jour_id']);
         $this->queryBuilder->setValue('type_semaine', $values['type_semaine']);
         $this->queryBuilder->setValue('type_periode', $values['type_periode']);
         $this->queryBuilder->setValue('debut', $values['debut']);
         $this->queryBuilder->setValue('fin', $values['fin']);
+    }
+
+    /*************************************************
+     * PUT
+     *************************************************/
+
+    /**
+     * @inheritDoc
+     */
+    public function put(array $data, $id)
+    {
+        $this->queryBuilder->update($this->getTableName());
+        $this->queryBuilder->where('creneau_id = :id');
+        $this->queryBuilder->setParameter(':id', (int) $id);
+        $this->setSet($data);
+
+        $this->queryBuilder->execute();
+    }
+
+    private function setSet(array $parametres)
+    {
+        if (!empty($parametres['planning_id'])) {
+            $this->queryBuilder->set('planning_id', ':planning_id');
+            $this->queryBuilder->setParameter(':planning_id', $parametres['planning_id']);
+        }
+        if (!empty($parametres['jour_id'])) {
+            $this->queryBuilder->set('jour_id', ':jour_id');
+            $this->queryBuilder->setParameter(':jour_id', (int) $parametres['jour_id']);
+        }
+        if (!empty($parametres['type_semaine'])) {
+            $this->queryBuilder->set('type_semaine', ':type_semaine');
+            $this->queryBuilder->setParameter(':type_semaine', $parametres['type_semaine']);
+        }
+        if (!empty($parametres['type_periode'])) {
+            $this->queryBuilder->set('type_periode', ':type_periode');
+            $this->queryBuilder->setParameter(':type_periode', $parametres['type_periode']);
+        }
+        if (!empty($parametres['debut'])) {
+            $this->queryBuilder->set('debut', ':debut');
+            $this->queryBuilder->setParameter(':debut', $parametres['debut']);
+        }
+        if (!empty($parametres['fin'])) {
+            $this->queryBuilder->set('fin', ':fin');
+            $this->queryBuilder->setParameter(':fin', $parametres['fin']);
+        }
+    }
+
+    /*************************************************
+     * DELETE
+     *************************************************/
+
+    /**
+     * @inheritDoc
+     */
+    public function delete($id)
+    {
     }
 
     /**
