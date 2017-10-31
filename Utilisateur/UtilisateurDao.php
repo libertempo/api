@@ -51,6 +51,18 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
         $this->queryBuilder->execute();
     }
 
+    private function setSet(array $parametres)
+    {
+        if (!empty($parametres['token'])) {
+            $this->queryBuilder->set('token', ':token');
+            $this->queryBuilder->setParameter(':token', $parametres['token']);
+        }
+        if (!empty($parametres['date_last_access'])) {
+            $this->queryBuilder->set('date_last_access', ':date_last_access');
+            $this->queryBuilder->setParameter(':date_last_access', $parametres['date_last_access']);
+        }
+    }
+
     /*************************************************
      * DELETE
      *************************************************/
@@ -81,18 +93,6 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
         if (!empty($parametres['gt_date_last_access'])) {
             $this->queryBuilder->andWhere('date_last_access >= :gt_date_last_access');
             $this->queryBuilder->setParameter(':gt_date_last_access', $parametres['gt_date_last_access']);
-        }
-    }
-
-    private function setSet(array $parametres)
-    {
-        if (!empty($parametres['token'])) {
-            $this->queryBuilder->set('token', ':token');
-            $this->queryBuilder->setParameter(':token', $parametres['token']);
-        }
-        if (!empty($parametres['date_last_access'])) {
-            $this->queryBuilder->set('date_last_access', ':date_last_access');
-            $this->queryBuilder->setParameter(':date_last_access', $parametres['date_last_access']);
         }
     }
 

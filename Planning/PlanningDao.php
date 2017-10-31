@@ -55,11 +55,23 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function post(array $data)
     {
-        $this->queryBuilder->insert();
+        $this->queryBuilder->insert($this->getTableName());
         $this->setValues($data);
         $this->queryBuilder->execute();
 
         return $this->storageConnector->lastInsertId();
+    }
+
+    /**
+     * Définit les values à insérer
+     *
+     * @param array $values
+     */
+    private function setValues(array $values)
+    {
+        $this->queryBuilder->setValue('name', ':name');
+        $this->queryBuilder->setParameter(':name', $values['name']);
+        $this->queryBuilder->setValue('status', $values['status']);
     }
 
     /*************************************************
@@ -71,11 +83,24 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function put(array $data, $id)
     {
-        $this->queryBuilder->update();
-        $this->setWhere(['id' => $id]);
-        $this->setValues($data);
+        $this->queryBuilder->update($this->getTableName());
+        $this->setSet($data);
+        $this->queryBuilder->where('planning_id = :id');
+        $this->queryBuilder->setParameter(':id', $id);
 
         $this->queryBuilder->execute();
+    }
+
+    private function setSet(array $parametres)
+    {
+        if (!empty($parametres['name'])) {
+            $this->queryBuilder->set('name', ':name');
+            $this->queryBuilder->setParameter(':name', $parametres['name']);
+        }
+        if (!empty($parametres['status'])) {
+            $this->queryBuilder->set('status', ':status');
+            $this->queryBuilder->setParameter(':status', $parametres['status']);
+        }
     }
 
     /*************************************************
@@ -114,17 +139,6 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
             $this->queryBuilder->andWhere('planning_id > :gt');
             $this->queryBuilder->setParameter(':gt', (int) $parametres['gt']);
         }
-    }
-
-    /**
-     * Définit les values à insérer
-     *
-     * @param array $values
-     */
-    private function setValues(array $values)
-    {
-        $this->queryBuilder->setValue('name', $values['name']);
-        $this->queryBuilder->setValue('status', $values['status']);
     }
 
     /**
