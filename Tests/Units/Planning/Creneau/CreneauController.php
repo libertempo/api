@@ -164,7 +164,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->request->getMockController()->getParsedBody = null;
         $controller = new _Controller($this->repository, $this->router);
 
-        $response = $controller->post($this->request, $this->response);
+        $response = $controller->post($this->request, $this->response, ['planningId' => 11]);
 
         $this->assertError($response, 400);
     }
@@ -180,7 +180,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         };
         $controller = new _Controller($this->repository, $this->router);
 
-        $response = $controller->post($this->request, $this->response);
+        $response = $controller->post($this->request, $this->response, ['planningId' => 11]);
 
         $this->assertError($response, 412);
     }
@@ -196,7 +196,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         };
         $controller = new _Controller($this->repository, $this->router);
 
-        $response = $controller->post($this->request, $this->response);
+        $response = $controller->post($this->request, $this->response, ['planningId' => 11]);
 
         $this->assertError($response, 412);
     }
@@ -213,7 +213,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $controller = new _Controller($this->repository, $this->router);
 
         $this->exception(function () use ($controller) {
-            $controller->post($this->request, $this->response);
+            $controller->post($this->request, $this->response, ['planningId' => 11]);
         })->isInstanceOf('\Exception');
     }
     /**
@@ -226,7 +226,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->postList = [42, 74, 314];
         $controller = new _Controller($this->repository, $this->router);
 
-        $response = $controller->post($this->request, $this->response);
+        $response = $controller->post($this->request, $this->response, ['planningId' => 11]);
         $data = $this->getJsonDecoded($response->getBody());
 
         $this->integer($response->getStatusCode())->isIdenticalTo(201);
@@ -252,7 +252,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->request->getMockController()->getParsedBody = null;
         $controller = new _Controller($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $controller->put($this->request, $this->response, ['planningId' => 99, 'planningId' => 11]);
 
         $this->assertError($response, 400);
     }
@@ -268,7 +268,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         };
         $controller = new _Controller($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $controller->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
         $this->boolean($response->isNotFound())->isTrue();
     }
@@ -285,7 +285,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $controller = new _Controller($this->repository, $this->router);
 
         $this->exception(function () use ($controller) {
-            $controller->put($this->request, $this->response, ['creneauId' => 99]);
+            $controller->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
         })->isInstanceOf('\Exception');
     }
 
@@ -302,7 +302,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         };
         $controller = new _Controller($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $controller->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
         $this->assertError($response, 412);
     }
@@ -319,7 +319,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         };
         $controller = new _Controller($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $controller->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
         $this->assertError($response, 412);
     }
@@ -337,7 +337,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $controller = new _Controller($this->repository, $this->router);
 
         $this->exception(function () use ($controller) {
-            $controller->put($this->request, $this->response, ['creneauId' => 99]);
+            $controller->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
         })->isInstanceOf('\Exception');
     }
 
@@ -351,7 +351,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->repository->getMockController()->putOne = '';
         $controller = new _Controller($this->repository, $this->router);
 
-        $response = $controller->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $controller->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
         $data = $this->getJsonDecoded($response->getBody());
 

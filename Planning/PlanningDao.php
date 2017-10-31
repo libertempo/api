@@ -23,14 +23,9 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function getById($id)
     {
-        $res = $this->storageConnector->prepare(
-            'SELECT *
-            FROM ' . $this->getTableName() . '
-            WHERE planning_id = :id'
-        );
-        $res->execute([
-            ':id' => (int) $id,
-        ]);
+        $this->queryBuilder->select('*');
+        $this->setWhere(['id' => $id]);
+        $res = $this->queryBuilder->execute();
 
         return $res->fetch(\PDO::FETCH_ASSOC);
     }
@@ -40,45 +35,15 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function getList(array $parametres)
     {
-        $req = 'SELECT * FROM ' . $this->getTableName();
-        $filters = $this->getFilters($parametres);
-        $req .= $filters['where'];
+        $this->queryBuilder->select('*');
+        $this->setWhere($parametres);
         if (!empty($parametres['limit'])) {
-            $req .= ' LIMIT 0,' . $parametres['limit'];
+            $this->queryBuilder->setFirstResult(0);
+            $this->queryBuilder->setMaxResults((int) $parametres['limit']);
         }
-        $res = $this->storageConnector->prepare($req);
-        $res->execute($filters['bind']);
+        $res = $this->queryBuilder->execute();
 
         return $res->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Retourne le tableau des filtres à appliquer à la requête
-     *
-     * @param array $parametres
-     * @example [filter => [], lt => 23, limit => 4]
-     *
-     * @return array ['where' => clause complète, 'bind' => variables[]]
-     */
-    private function getFilters(array $parametres)
-    {
-        $where = [];
-        $bind = [];
-        if (!empty($parametres['lt'])) {
-            $where[] = 'planning_id < :lt';
-            $bind[':lt'] = $parametres['lt'];
-        }
-        if (!empty($parametres['gt'])) {
-            $where[] = 'planning_id > :gt';
-            $bind[':gt'] = $parametres['gt'];
-        }
-
-        return [
-            'where' => !empty($where)
-                ? ' WHERE ' . implode(' AND ', $where)
-                : '',
-            'bind' => $bind,
-        ];
     }
 
     /*************************************************
@@ -90,15 +55,23 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function post(array $data)
     {
-        $req = 'INSERT INTO ' . $this->getTableName() . ' (name, status)
-            VALUES (:name, :status)';
-        $res = $this->storageConnector->prepare($req);
-        $res->execute([
-            'name' => $data['name'],
-            'status' => $data['status'],
-        ]);
+        $this->queryBuilder->insert($this->getTableName());
+        $this->setValues($data);
+        $this->queryBuilder->execute();
 
         return $this->storageConnector->lastInsertId();
+    }
+
+    /**
+     * Définit les values à insérer
+     *
+     * @param array $values
+     */
+    private function setValues(array $values)
+    {
+        $this->queryBuilder->setValue('name', ':name');
+        $this->queryBuilder->setParameter(':name', $values['name']);
+        $this->queryBuilder->setValue('status', $values['status']);
     }
 
     /*************************************************
@@ -110,15 +83,24 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function put(array $data, $id)
     {
-        $req = 'UPDATE ' . $this->getTableName() . '
-            SET name = :name, status = :status
-            WHERE id = :id';
-        $res = $this->storageConnector->prepare($req);
-        $res->execute([
-            'name' => $data['name'],
-            'status' => $data['status'],
-            'id' => $id,
-        ]);
+        $this->queryBuilder->update($this->getTableName());
+        $this->setSet($data);
+        $this->queryBuilder->where('planning_id = :id');
+        $this->queryBuilder->setParameter(':id', $id);
+
+        $this->queryBuilder->execute();
+    }
+
+    private function setSet(array $parametres)
+    {
+        if (!empty($parametres['name'])) {
+            $this->queryBuilder->set('name', ':name');
+            $this->queryBuilder->setParameter(':name', $parametres['name']);
+        }
+        if (!empty($parametres['status'])) {
+            $this->queryBuilder->set('status', ':status');
+            $this->queryBuilder->setParameter(':status', $parametres['status']);
+        }
     }
 
     /*************************************************
@@ -130,12 +112,33 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function delete($id)
     {
-        $req = 'DELETE FROM ' . $this->getTableName() . '
-            WHERE id = :id';
-        $res = $this->storageConnector->prepare($req);
-        $res->execute(['id' => $id]);
+        $this->queryBuilder->delete();
+        $this->setWhere(['id' => $id]);
+        $res = $this->queryBuilder->execute();
 
         return $res->rowCount();
+    }
+
+    /**
+     * Définit les filtres à appliquer à la requête
+     *
+     * @param array $parametres
+     * @example [filter => [], lt => 23, limit => 4]
+     */
+    private function setWhere(array $parametres)
+    {
+        if (!empty($parametres['id'])) {
+            $this->queryBuilder->andWhere('planning_id = :id');
+            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
+        }
+        if (!empty($parametres['lt'])) {
+            $this->queryBuilder->andWhere('planning_id < :lt');
+            $this->queryBuilder->setParameter(':lt', (int) $parametres['lt']);
+        }
+        if (!empty($parametres['gt'])) {
+            $this->queryBuilder->andWhere('planning_id > :gt');
+            $this->queryBuilder->setParameter(':gt', (int) $parametres['gt']);
+        }
     }
 
     /**

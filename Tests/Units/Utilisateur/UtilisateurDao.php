@@ -28,7 +28,7 @@ final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetListNotFound()
     {
-        $this->statement->getMockController()->fetchAll = [];
+        $this->calling($this->result)->fetchAll = [];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getList([]);
@@ -41,7 +41,7 @@ final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetListFound()
     {
-        $this->statement->getMockController()->fetchAll = [['a']];
+        $this->calling($this->result)->fetchAll = [['a']];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getList([]);

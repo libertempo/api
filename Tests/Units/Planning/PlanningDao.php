@@ -22,7 +22,7 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetByIdNotFound()
     {
-        $this->statement->getMockController()->fetch = [];
+        $this->calling($this->result)->fetch = [];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getById(99);
@@ -35,7 +35,7 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetByIdFound()
     {
-        $this->statement->getMockController()->fetch = ['a'];
+        $this->calling($this->result)->fetch = ['a'];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getById(99);
@@ -48,7 +48,7 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetListNotFound()
     {
-        $this->statement->getMockController()->fetchAll = [];
+        $this->calling($this->result)->fetchAll = [];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getList([]);
@@ -61,7 +61,7 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetListFound()
     {
-        $this->statement->getMockController()->fetchAll = [['a']];
+        $this->calling($this->result)->fetchAll = [['a']];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getList([]);
@@ -78,7 +78,7 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testPostOk()
     {
-        $this->connector->getMockController()->lastInsertId = 314;
+        $this->calling($this->connector)->lastInsertId = 314;
         $dao = new _Dao($this->connector);
 
         $postId = $dao->post([
@@ -117,7 +117,7 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testDeleteOk()
     {
-        $this->statement->getMockController()->rowCount = 1;
+        $this->calling($this->result)->rowCount = 1;
         $dao = new _Dao($this->connector);
 
         $res = $dao->delete(7);

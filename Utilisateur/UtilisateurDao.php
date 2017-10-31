@@ -17,54 +17,14 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 
     /**
      * @inheritDoc
-     * @todo
      */
     public function getList(array $parametres)
     {
-        $req = 'SELECT *, u_login AS id FROM ' . $this->getTableName();
-        $filters = $this->getFilters($parametres);
-        $req .= $filters['where'];
-        $res = $this->storageConnector->prepare($req);
-        $res->execute($filters['bind']);
+        $this->queryBuilder->select('*, u_login AS id');
+        $this->setWhere($parametres);
+        $res = $this->queryBuilder->execute();
 
         return $res->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Retourne le tableau des filtres à appliquer à la requête
-     *
-     * @param array $parametres
-     * @example [filter => [], lt => 23, limit => 4]
-     *
-     * @return array ['where' => clause complète, 'bind' => variables[]]
-     */
-    private function getFilters(array $parametres)
-    {
-        $where = [];
-        $bind = [];
-        if (!empty($parametres['u_login'])) {
-            $where[] = 'u_login = :u_login';
-            $bind[':u_login'] = $parametres['u_login'];
-        }
-        if (!empty($parametres['u_passwd'])) {
-            $where[] = 'u_passwd = :u_passwd';
-            $bind[':u_passwd'] = $parametres['u_passwd'];
-        }
-        if (!empty($parametres['token'])) {
-            $where[] = 'token = :token';
-            $bind[':token'] = $parametres['token'];
-        }
-        if (!empty($parametres['gt_date_last_access'])) {
-            $where[] = 'date_last_access >= :gt_date_last_access';
-            $bind[':gt_date_last_access'] = $parametres['gt_date_last_access'];
-        }
-
-        return [
-            'where' => !empty($where)
-                ? ' WHERE ' . implode(' AND ', $where)
-                : '',
-            'bind' => $bind,
-        ];
     }
 
     /*************************************************
@@ -83,15 +43,24 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function put(array $data, $id)
     {
-        $req = 'UPDATE ' . $this->getTableName() . '
-            SET token = :token, date_last_access = :date_last_access
-            WHERE u_login = :id';
-        $res = $this->storageConnector->prepare($req);
-        $res->execute([
-            'token' => $data['token'],
-            'date_last_access' => $data['date_last_access'],
-            'id' => $id,
-        ]);
+        $this->queryBuilder->update($this->getTableName());
+        $this->setSet($data);
+        $this->queryBuilder->where('u_login = :id');
+        $this->queryBuilder->setParameter(':id', $id);
+
+        $this->queryBuilder->execute();
+    }
+
+    private function setSet(array $parametres)
+    {
+        if (!empty($parametres['token'])) {
+            $this->queryBuilder->set('token', ':token');
+            $this->queryBuilder->setParameter(':token', $parametres['token']);
+        }
+        if (!empty($parametres['date_last_access'])) {
+            $this->queryBuilder->set('date_last_access', ':date_last_access');
+            $this->queryBuilder->setParameter(':date_last_access', $parametres['date_last_access']);
+        }
     }
 
     /*************************************************
@@ -100,6 +69,31 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 
     public function delete($id)
     {
+    }
+
+    /**
+     * Définit les values à insérer
+     *
+     * @param array $parametres
+     */
+    private function setWhere(array $parametres)
+    {
+        if (!empty($parametres['u_login'])) {
+            $this->queryBuilder->andWhere('u_login = :id');
+            $this->queryBuilder->setParameter(':id', $parametres['u_login']);
+        }
+        if (!empty($parametres['u_passwd'])) {
+            $this->queryBuilder->andWhere('u_passwd = :password');
+            $this->queryBuilder->setParameter(':password', $parametres['u_passwd']);
+        }
+        if (!empty($parametres['token'])) {
+            $this->queryBuilder->andWhere('token = :token');
+            $this->queryBuilder->setParameter(':token', $parametres['token']);
+        }
+        if (!empty($parametres['gt_date_last_access'])) {
+            $this->queryBuilder->andWhere('date_last_access >= :gt_date_last_access');
+            $this->queryBuilder->setParameter(':gt_date_last_access', $parametres['gt_date_last_access']);
+        }
     }
 
     /**
