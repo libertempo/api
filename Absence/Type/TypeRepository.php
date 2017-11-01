@@ -1,7 +1,6 @@
 <?php
 namespace LibertAPI\Absence\Type;
 
-use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Libraries\AEntite;
 
 /**
@@ -94,25 +93,6 @@ class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function postOne(array $data, AEntite $entite)
-    {
-        if (!$this->hasAllRequired($data)) {
-            throw new MissingArgumentException('');
-        }
-
-        try {
-            $entite->populate($data);
-            $dataDao = $this->getEntite2DataDao($entite);
-
-            return $this->dao->post($dataDao);
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
     final protected function getEntite2DataDao(AEntite $entite)
     {
         return [
@@ -123,50 +103,11 @@ class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
     }
 
     /**
-     * Vérifie que les données passées possèdent bien tous les champs requis
-     *
-     * @param array $data
-     *
-     * @return bool
+     * {@inheritDoc}
      */
-    private function hasAllRequired(array $data)
-    {
-        foreach ($this->getListRequired() as $value) {
-            if (!isset($data[$value])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Retourne la liste des champs requis
-     *
-     * @return array
-     */
-    private function getListRequired()
+    protected function getListRequired()
     {
         return ['type', 'libelle', 'libelleCourt'];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function putOne(array $data, AEntite $entite)
-    {
-        if (!$this->hasAllRequired($data)) {
-            throw new MissingArgumentException('');
-        }
-
-        try {
-            $entite->populate($data);
-            $dataDao = $this->getEntite2DataDao($entite);
-
-            return $this->dao->put($dataDao, $entite->getId());
-        } catch (\Exception $e) {
-            throw $e;
-        }
     }
 
     /**

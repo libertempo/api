@@ -98,7 +98,46 @@ abstract class ARepository
      * @throws MissingArgumentException Si un élément requis n'est pas présent
      * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
      */
-    abstract public function postOne(array $data, AEntite $entite);
+    public function postOne(array $data, AEntite $entite)
+    {
+        if (!$this->hasAllRequired($data)) {
+            throw new MissingArgumentException('');
+        }
+
+        try {
+            $entite->populate($data);
+            $dataDao = $this->getEntite2DataDao($entite);
+
+            return $this->dao->post($dataDao);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Vérifie que les données passées possèdent bien tous les champs requis
+     *
+     * @param array $data
+     *
+     * @return bool
+     */
+    protected function hasAllRequired(array $data)
+    {
+        foreach ($this->getListRequired() as $value) {
+            if (!isset($data[$value])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Retourne la liste des champs requis
+     *
+     * @return array
+     */
+    abstract protected function getListRequired();
 
     /*************************************************
      * PUT
@@ -113,7 +152,21 @@ abstract class ARepository
      * @throws MissingArgumentException Si un élément requis n'est pas présent
      * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
      */
-    abstract public function putOne(array $data, AEntite $entite);
+    public function putOne(array $data, AEntite $entite)
+    {
+        if (!$this->hasAllRequired($data)) {
+            throw new MissingArgumentException('');
+        }
+
+        try {
+            $entite->populate($data);
+            $dataDao = $this->getEntite2DataDao($entite);
+
+            return $this->dao->put($dataDao, $entite->getId());
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 
     /*************************************************
      * DELETE

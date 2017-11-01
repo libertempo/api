@@ -130,6 +130,14 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     {
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    protected function getListRequired()
+    {
+        return [];
+    }
+
     /*************************************************
      * PUT
      *************************************************/
