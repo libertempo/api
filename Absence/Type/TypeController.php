@@ -96,16 +96,17 @@ implements Interfaces\IGetable
     /**
      * Construit le « data » du json
      *
-     * @param PlanningEntite $entite Planning
+     * @param TypeEntite $entite Type
      *
      * @return array
      */
-    private function buildData(PlanningEntite $entite)
+    private function buildData(TypeEntite $entite)
     {
         return [
             'id' => $entite->getId(),
-            'name' => $entite->getName(),
-            'status' => $entite->getStatus(),
+            'type' => $entite->getType(),
+            'libelle' => $entite->getLibelle(),
+            'libelleCourt' => $entite->getLibelleCourt(),
         ];
     }
 }

@@ -57,9 +57,10 @@ class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function getDataDao2Entite(array $dataDao)
     {
         return [
-            'id' => $dataDao['planning_id'],
-            'name' => $dataDao['name'],
-            'status' => $dataDao['status'],
+            'id' => $dataDao['ta_id'],
+            'type' => $dataDao['ta_type'],
+            'libelle' => $dataDao['ta_libelle'],
+            'libelleCourt' => $dataDao['ta_short_libelle'],
         ];
     }
 
