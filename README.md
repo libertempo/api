@@ -74,6 +74,7 @@ Les réponses de l'API se font sous la spécification jsend. Autrement dit :
 
 # Routes disponibles
 Suivant les règles de l'architecture REST, les routes disponibles à ce jour sont :
+* `GET /absences/types/{id}`
 * `GET /planning`
 * `POST /planning`
 * `GET /planning/{id}`

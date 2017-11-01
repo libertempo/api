@@ -6,3 +6,12 @@
  */
 
 /* Routes sur une absence et associés */
+$app->group('/absences', function () {
+    /* Route sur un type d'absence */
+    $this->group('/types', function () {
+        $type = '\LibertAPI\Absence\Type\TypeController';
+
+        /* Collection */
+        $this->get('', $type . ':get')->setName('getAbsenceTypeListe');
+    });
+});
