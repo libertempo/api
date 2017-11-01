@@ -66,9 +66,12 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
      */
     private function setValues(array $values)
     {
-        $this->queryBuilder->setValue('name', ':name');
-        $this->queryBuilder->setParameter(':name', $values['name']);
-        $this->queryBuilder->setValue('status', $values['status']);
+        $this->queryBuilder->setValue('ta_type', ':type');
+        $this->queryBuilder->setParameter(':type', $values['type']);
+        $this->queryBuilder->setValue('ta_libelle', ':libelle');
+        $this->queryBuilder->setParameter(':libelle', $values['libelle']);
+        $this->queryBuilder->setValue('ta_short_libelle', ':libelleCourt');
+        $this->queryBuilder->setParameter(':libelleCourt', $values['libelleCourt']);
     }
 
     /*************************************************
@@ -82,7 +85,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     {
         $this->queryBuilder->update($this->getTableName());
         $this->setSet($data);
-        $this->queryBuilder->where('planning_id = :id');
+        $this->queryBuilder->where('ta_id = :id');
         $this->queryBuilder->setParameter(':id', $id);
 
         $this->queryBuilder->execute();
@@ -90,13 +93,18 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
 
     private function setSet(array $parametres)
     {
-        if (!empty($parametres['name'])) {
-            $this->queryBuilder->set('name', ':name');
-            $this->queryBuilder->setParameter(':name', $parametres['name']);
+        if (!empty($parametres['type'])) {
+            $this->queryBuilder->set('ta_type', ':type');
+            $this->queryBuilder->setParameter(':type', $parametres['type']);
         }
-        if (!empty($parametres['status'])) {
-            $this->queryBuilder->set('status', ':status');
-            $this->queryBuilder->setParameter(':status', $parametres['status']);
+        if (!empty($parametres['libelle'])) {
+            $this->queryBuilder->set('ta_libelle', ':libelle');
+            // @TODO : changer le schema
+            $this->queryBuilder->setParameter(':libelle', $parametres['libelle']);
+        }
+        if (!empty($parametres['libelleCourt'])) {
+            $this->queryBuilder->set('ta_short_libelle', ':libelleCourt');
+            $this->queryBuilder->setParameter(':libelleCourt', $parametres['libelleCourt']);
         }
     }
 
@@ -109,11 +117,11 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function delete($id)
     {
-        $this->queryBuilder->delete();
-        $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
+        $this->queryBuilder->delete($this->getTableName());
+        $this->setWhere(['ta_id' => $id]);
+        $this->queryBuilder->execute();
 
-        return $res->rowCount();
+        return $this->queryBuilder->rowCount();
     }
 
     /**

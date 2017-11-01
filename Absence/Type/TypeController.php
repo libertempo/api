@@ -2,6 +2,7 @@
 namespace LibertAPI\Absence\Type;
 
 use LibertAPI\Tools\Interfaces;
+use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -15,7 +16,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @see \Tests\Units\Absence\Type\TypeController
  */
 final class TypeController extends \LibertAPI\Tools\Libraries\AController
-implements Interfaces\IGetable
+implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
     /**
      * {@inheritDoc}
@@ -41,18 +42,18 @@ implements Interfaces\IGetable
     private function getOne(IResponse $response, $id)
     {
         try {
-            $planning = $this->repository->getOne($id);
+            $responseResource = $this->repository->getOne($id);
             $code = 200;
             $data = [
                 'code' => $code,
                 'status' => 'success',
                 'message' => '',
-                'data' => $this->buildData($planning),
+                'data' => $this->buildData($responseResource),
             ];
 
             return $response->withJson($data, $code);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             throw $e;
         }
@@ -70,12 +71,12 @@ implements Interfaces\IGetable
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $plannings = $this->repository->getList(
+            $responseResources = $this->repository->getList(
                 $request->getQueryParams()
             );
             $entites = [];
-            foreach ($plannings as $planning) {
-                $entites[] = $this->buildData($planning);
+            foreach ($responseResources as $responseResource) {
+                $entites[] = $this->buildData($responseResources);
             }
             $code = 200;
             $data = [
@@ -108,5 +109,101 @@ implements Interfaces\IGetable
             'libelle' => $entite->getLibelle(),
             'libelleCourt' => $entite->getLibelleCourt(),
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function post(IRequest $request, IResponse $response, array $routeArguments)
+    {
+        $body = $request->getParsedBody();
+        if (null === $body) {
+            return $this->getResponseBadRequest($response, 'Body request is not a json content');
+        }
+
+        try {
+            $typeId = $this->repository->postOne($body, new TypeEntite([]));
+            $code = 201;
+            $data = [
+                'code' => $code,
+                'status' => 'success',
+                'message' => '',
+                'data' => $this->router->pathFor('getAbsenceTypeDetail', [
+                    'typeId' => $typeId
+                ]),
+            ];
+
+            return $response->withJson($data, $code);
+        } catch (MissingArgumentException $e) {
+            return $this->getResponseMissingArgument($response);
+        } catch (\DomainException $e) {
+            return $this->getResponseBadDomainArgument($response, $e);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function put(IRequest $request, IResponse $response, array $arguments)
+    {
+        $body = $request->getParsedBody();
+        if (null === $body) {
+            return $this->getResponseBadRequest($response, 'Body request is not a json content');
+        }
+
+        $id = (int) $arguments['typeId'];
+        try {
+            $resource = $this->repository->getOne($id);
+        } catch (\DomainException $e) {
+            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        try {
+            $this->repository->putOne($body, $resource);
+            $code = 204;
+            $data = [
+                'code' => $code,
+                'status' => 'success',
+                'message' => '',
+                'data' => '',
+            ];
+
+            return $response->withJson($data, $code);
+        } catch (MissingArgumentException $e) {
+            return $this->getResponseMissingArgument($response);
+        } catch (\DomainException $e) {
+            return $this->getResponseBadDomainArgument($response, $e);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete(IRequest $request, IResponse $response, array $arguments)
+    {
+        $id = (int) $arguments['typeId'];
+        try {
+            $resource = $this->repository->getOne($id);
+            $this->repository->deleteOne($resource);
+            $code = 200;
+            $data = [
+                'code' => $code,
+                'status' => 'success',
+                'message' => '',
+                'data' => '',
+            ];
+
+            return $response->withJson($data, $code);
+        } catch (\DomainException $e) {
+            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

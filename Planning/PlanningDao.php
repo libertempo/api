@@ -112,11 +112,11 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function delete($id)
     {
-        $this->queryBuilder->delete();
+        $this->queryBuilder->delete($this->getTableName());
         $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
+        $this->queryBuilder->execute();
 
-        return $res->rowCount();
+        return $this->queryBuilder->rowCount();
     }
 
     /**

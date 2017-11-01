@@ -30,7 +30,12 @@ class TypeEntite extends \LibertAPI\Tools\Libraries\AEntite
      */
     public function getLibelle()
     {
-        return utf8_encode($this->getFreshData('libelle'));
+        if ('utf-8' !== strtolower(mb_detect_encoding($this->getFreshData('libelle')))) {
+            return utf8_encode($this->getFreshData('libelle'));
+        }
+
+        return $this->getFreshData('libelle');
+
     }
 
     /**
@@ -48,8 +53,9 @@ class TypeEntite extends \LibertAPI\Tools\Libraries\AEntite
      */
     public function populate(array $data)
     {
-        $this->setName($data['name']);
-        $this->setStatus($data['status']);
+        $this->setType($data['type']);
+        $this->setLibelle($data['libelle']);
+        $this->setLibelleCourt($data['libelleCourt']);
 
         $erreurs = $this->getErreurs();
         if (!empty($erreurs)) {
@@ -58,40 +64,60 @@ class TypeEntite extends \LibertAPI\Tools\Libraries\AEntite
     }
 
     /**
-     * Tente l'insertion d'une donnée en tant que champ « name »
+     * Tente l'insertion d'une donnée en tant que champ « type »
      *
      * Stocke une erreur si la donnée ne colle pas au domaine
      *
-     * @param string $name
+     * @param string $type
      * @todo
      */
-    private function setName($name)
+    private function setType($type)
     {
-        // domaine de name ?
-        if (empty($name)) {
-            $this->setErreur('name', 'Le champ est vide');
+        // domaine ?
+        if (empty($type)) {
+            $this->setErreur('type', 'Le champ est vide');
             return;
         }
 
-        $this->dataUpdated['name'] = $name;
+        $this->dataUpdated['type'] = $type;
     }
 
     /**
-     * Tente l'insertion d'une donnée en tant que champ « status »
+     * Tente l'insertion d'une donnée en tant que champ « libelle »
      *
      * Stocke une erreur si la donnée ne colle pas au domaine
      *
-     * @param string $status
+     * @param string $var
      * @todo
      */
-    private function setStatus($status)
+    private function setLibelle($var)
     {
-        // domaine de status ?
-        if (empty($status)) {
-            $this->setErreur('status', 'Le champ est vide');
+        // domaine ?
+        if (empty($var)) {
+            $this->setErreur('libelle', 'Le champ est vide');
             return;
         }
 
-        $this->dataUpdated['status'] = $status;
+        $this->dataUpdated['libelle'] = $var;
     }
+
+    /**
+     * Tente l'insertion d'une donnée en tant que champ « libelleCourt »
+     *
+     * Stocke une erreur si la donnée ne colle pas au domaine
+     *
+     * @param string $var
+     * @todo
+     */
+    private function setLibelleCourt($var)
+    {
+        // domaine ?
+        if (empty($var)) {
+            $this->setErreur('libelleCourt', 'Le champ est vide');
+            return;
+        }
+
+        $this->dataUpdated['libelleCourt'] = $var;
+    }
+
 }
