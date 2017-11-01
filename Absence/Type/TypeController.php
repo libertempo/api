@@ -76,7 +76,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
             );
             $entites = [];
             foreach ($responseResources as $responseResource) {
-                $entites[] = $this->buildData($responseResources);
+                $entites[] = $this->buildData($responseResource);
             }
             $code = 200;
             $data = [

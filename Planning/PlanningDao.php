@@ -84,9 +84,9 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     public function put(array $data, $id)
     {
         $this->queryBuilder->update($this->getTableName());
-        $this->setSet($data);
         $this->queryBuilder->where('planning_id = :id');
         $this->queryBuilder->setParameter(':id', $id);
+        $this->setSet($data);
 
         $this->queryBuilder->execute();
     }
@@ -114,9 +114,9 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     {
         $this->queryBuilder->delete($this->getTableName());
         $this->setWhere(['id' => $id]);
-        $this->queryBuilder->execute();
+        $res = $this->queryBuilder->execute();
 
-        return $this->queryBuilder->rowCount();
+        return $res->rowCount();
     }
 
     /**

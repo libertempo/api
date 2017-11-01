@@ -1,17 +1,15 @@
 <?php
-namespace LibertAPI\Tests\Units\Planning;
-
-use LibertAPI\Planning\PlanningDao as _Dao;
+namespace LibertAPI\Tests\Units\Absence\Type;
 
 /**
- * Classe de test du DAO de planning
+ * Classe de test du DAO de type d'absence
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.1
+ * @since 0.5
  */
-final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
+final class TypeDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
 {
     /*************************************************
      * GET
@@ -23,9 +21,9 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     public function testGetByIdNotFound()
     {
         $this->calling($this->result)->fetch = [];
-        $dao = new _Dao($this->connector);
+        $this->newTestedInstance($this->connector);
 
-        $get = $dao->getById(99);
+        $get = $this->testedInstance->getById(99);
 
         $this->array($get)->isEmpty();
     }
@@ -36,9 +34,9 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     public function testGetByIdFound()
     {
         $this->calling($this->result)->fetch = ['a'];
-        $dao = new _Dao($this->connector);
+        $this->newTestedInstance($this->connector);
 
-        $get = $dao->getById(99);
+        $get = $this->testedInstance->getById(99);
 
         $this->array($get)->isNotEmpty();
     }
@@ -49,9 +47,9 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     public function testGetListNotFound()
     {
         $this->calling($this->result)->fetchAll = [];
-        $dao = new _Dao($this->connector);
+        $this->newTestedInstance($this->connector);
 
-        $get = $dao->getList([]);
+        $get = $this->testedInstance->getList([]);
 
         $this->array($get)->isEmpty();
     }
@@ -62,9 +60,9 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     public function testGetListFound()
     {
         $this->calling($this->result)->fetchAll = [['a']];
-        $dao = new _Dao($this->connector);
+        $this->newTestedInstance($this->connector);
 
-        $get = $dao->getList([]);
+        $get = $this->testedInstance->getList([]);
 
         $this->array($get[0])->isNotEmpty();
     }
@@ -79,11 +77,12 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     public function testPostOk()
     {
         $this->calling($this->connector)->lastInsertId = 314;
-        $dao = new _Dao($this->connector);
+        $this->newTestedInstance($this->connector);
 
-        $postId = $dao->post([
-            'name' => 'name',
-            'status' => 59,
+        $postId = $this->testedInstance->post([
+            'type' => 'type',
+            'libelle' => 'libelle',
+            'libelleCourt' => 'libelleCourt',
         ]);
 
         $this->integer($postId)->isIdenticalTo(314);
@@ -98,11 +97,12 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testPutOk()
     {
-        $dao = new _Dao($this->connector);
+        $this->newTestedInstance($this->connector);
 
-        $put = $dao->put([
-            'name' => 'name',
-            'status' => 59,
+        $put = $this->testedInstance->put([
+            'type' => 'type',
+            'libelle' => 'libelle',
+            'libelleCourt' => 'libelleCourt',
         ], 12);
 
         $this->variable($put)->isNull();
@@ -118,9 +118,9 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     public function testDeleteOk()
     {
         $this->calling($this->result)->rowCount = 1;
-        $dao = new _Dao($this->connector);
+        $this->newTestedInstance($this->connector);
 
-        $res = $dao->delete(7);
+        $res = $this->testedInstance->delete(7);
 
         $this->integer($res)->isIdenticalTo(1);
     }

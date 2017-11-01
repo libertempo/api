@@ -119,9 +119,9 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     {
         $this->queryBuilder->delete($this->getTableName());
         $this->setWhere(['ta_id' => $id]);
-        $this->queryBuilder->execute();
+        $res = $this->queryBuilder->execute();
 
-        return $this->queryBuilder->rowCount();
+        return $res->rowCount();
     }
 
     /**
