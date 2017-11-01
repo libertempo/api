@@ -9,9 +9,10 @@
 $app->group('/absences', function () {
     /* Route sur un type d'absence */
     $this->group('/types', function () {
-        $type = '\LibertAPI\Absence\Type\TypeController';
-
+        /* Détail */
+        $typeNS = '\LibertAPI\Absence\Type\TypeController';
+        $this->get('/{typeId:[0-9]+}', $typeNS . ':get')->setName('getAbsenceTypeDetail');
         /* Collection */
-        $this->get('', $type . ':get')->setName('getAbsenceTypeListe');
+        $this->get('', $typeNS . ':get')->setName('getAbsenceTypeListe');
     });
 });

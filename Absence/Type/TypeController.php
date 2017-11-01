@@ -22,11 +22,11 @@ implements Interfaces\IGetable
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
-        if (!isset($arguments['planningId'])) {
+        if (!isset($arguments['typeId'])) {
             return $this->getList($request, $response);
         }
 
-        return $this->getOne($response, (int) $arguments['planningId']);
+        return $this->getOne($response, (int) $arguments['typeId']);
     }
 
     /**

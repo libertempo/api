@@ -125,7 +125,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     private function setWhere(array $parametres)
     {
         if (!empty($parametres['id'])) {
-            $this->queryBuilder->andWhere('planning_id = :id');
+            $this->queryBuilder->andWhere('ta_id = :id');
             $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
         }
         if (!empty($parametres['lt'])) {

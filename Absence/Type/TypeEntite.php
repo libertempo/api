@@ -26,7 +26,7 @@ class TypeEntite extends \LibertAPI\Tools\Libraries\AEntite
      * Retourne la donnée la plus à jour du champ libelle
      *
      * @return string
-     * @TODO : changer le schema bd, le transtypage ne devrait pas être nécessaire
+     * @TODO : changer le schema bd, le transcodage ne devrait pas être nécessaire
      */
     public function getLibelle()
     {
@@ -75,7 +75,6 @@ class TypeEntite extends \LibertAPI\Tools\Libraries\AEntite
 
         $this->dataUpdated['name'] = $name;
     }
-
 
     /**
      * Tente l'insertion d'une donnée en tant que champ « status »
