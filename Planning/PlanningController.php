@@ -2,6 +2,7 @@
 namespace LibertAPI\Planning;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
+use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -18,6 +19,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * Ne devrait contacter que le Planning\Repository
  */
 final class PlanningController extends \LibertAPI\Tools\Libraries\AController
+implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
     /**
      * {@inheritDoc}
@@ -33,18 +35,8 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         }
     }
 
-    /*************************************************
-     * GET
-     *************************************************/
-
     /**
-     * Execute l'ordre HTTP GET
-     *
-     * @param IRequest $request Requête Http
-     * @param IResponse $response Réponse Http
-     * @param array $arguments Arguments de route
-     *
-     * @return IResponse
+     * {@inheritDoc}
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
@@ -126,19 +118,10 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         ];
     }
 
-    /*************************************************
-     * POST
-     *************************************************/
-
-     /**
-      * Execute l'ordre HTTP POST
-      *
-      * @param IRequest $request Requête Http
-      * @param IResponse $response Réponse Http
-      *
-      * @return IResponse
-      */
-    public function post(IRequest $request, IResponse $response)
+    /**
+     * {@inheritDoc}
+     */
+    public function post(IRequest $request, IResponse $response, array $routeArguments)
     {
         $body = $request->getParsedBody();
         if (null === $body) {
@@ -164,18 +147,8 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         );
     }
 
-    /*************************************************
-     * PUT
-     *************************************************/
-
     /**
-     * Execute l'ordre HTTP PUT
-     *
-     * @param IRequest $request Requête Http
-     * @param IResponse $response Réponse Http
-     * @param array $arguments Arguments de route
-     *
-     * @return IResponse
+     * {@inheritDoc}
      */
     public function put(IRequest $request, IResponse $response, array $arguments)
     {
@@ -206,19 +179,9 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         return $this->getResponseSuccess($response, '', 204);
     }
 
-    /*************************************************
-     * DELETE
-     *************************************************/
-
-     /**
-      * Execute l'ordre HTTP DELETE
-      *
-      * @param IRequest $request Requête Http
-      * @param IResponse $response Réponse Http
-      * @param array $arguments Arguments de route
-      *
-      * @return IResponse
-      */
+    /**
+     * {@inheritDoc}
+     */
     public function delete(IRequest $request, IResponse $response, array $arguments)
     {
         $id = (int) $arguments['planningId'];
