@@ -198,7 +198,7 @@ final class TypeRepository extends \Atoum
         $this->newTestedInstance($this->dao);
 
         $this->exception(function () {
-            $this->testedInstance->deleteOne(new \mock\LibertAPI\Planning\PlanningEntite([]));
+            $this->testedInstance->deleteOne(new \LibertAPI\Absence\Type\TypeEntite([]));
         })->isInstanceOf('\LogicException');
 
     }
@@ -210,7 +210,7 @@ final class TypeRepository extends \Atoum
     {
         $this->dao->getMockController()->delete = 4;
         $this->newTestedInstance($this->dao);
-        $entite = new \mock\LibertAPI\Planning\PlanningEntite([]);
+        $entite = new \LibertAPI\Absence\Type\TypeEntite([]);
 
         $this->variable($this->testedInstance->deleteOne($entite))->isNull();
     }

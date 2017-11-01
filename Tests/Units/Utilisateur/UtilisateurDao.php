@@ -17,36 +17,24 @@ final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      * GET
      *************************************************/
 
+    /**
+     * Teste la méthode getById avec un id non trouvé
+     */
+    public function testGetByIdNotFound()
+    {
+    }
+
+    /**
+     * Teste la méthode getById avec un id trouvé
+     */
+    public function testGetByIdFound()
+    {
+    }
+
     public function testGetById()
     {
         $dao = new _Dao($this->connector);
         $this->variable($dao->getById(''))->isNull();
-    }
-
-    /**
-     * Teste la méthode getList avec des critères non pertinents
-     */
-    public function testGetListNotFound()
-    {
-        $this->calling($this->result)->fetchAll = [];
-        $dao = new _Dao($this->connector);
-
-        $get = $dao->getList([]);
-
-        $this->array($get)->isEmpty();
-    }
-
-    /**
-     * Teste la méthode getList avec des critères pertinents
-     */
-    public function testGetListFound()
-    {
-        $this->calling($this->result)->fetchAll = [['a']];
-        $dao = new _Dao($this->connector);
-
-        $get = $dao->getList([]);
-
-        $this->array($get[0])->isNotEmpty();
     }
 
     /*************************************************
@@ -82,9 +70,16 @@ final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      * DELETE
      *************************************************/
 
-    public function testDelete()
-    {
-        $dao = new _Dao($this->connector);
-        $this->variable($dao->delete([]))->isNull();
-    }
+     /**
+      * Teste la méthode delete quand tout est ok
+      */
+     public function testDeleteOk()
+     {
+         $this->calling($this->result)->rowCount = 1;
+         $this->newTestedInstance($this->connector);
+
+         $res = $this->testedInstance->delete(7);
+
+         $this->variable($res)->isNull();
+     }
 }
