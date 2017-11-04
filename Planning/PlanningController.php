@@ -68,7 +68,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         try {
             $planning = $this->repository->getOne($id);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -188,7 +188,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         try {
             $planning = $this->repository->getOne($id);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -226,7 +226,7 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
             $planning = $this->repository->getOne($id);
             $this->repository->deleteOne($planning);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }

@@ -112,9 +112,7 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $ressources = [];
     foreach ($paths as $value) {
         if (!is_numeric($value)) {
-            $ressources[] = Formatter::getSingularTerm(
-                Formatter::getStudlyCapsFromSnake($value)
-            );
+            $ressources[] = Formatter::getStudlyCapsFromSnake($value);
         }
     }
     $request = $request->withAttribute('nomRessources', implode('|', $ressources));
