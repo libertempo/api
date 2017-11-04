@@ -1,8 +1,6 @@
 <?php
 namespace LibertAPI\Tests\Units\Journal;
 
-use \LibertAPI\Planning\PlanningController as _Controller;
-
 /**
  * Classe de test du contrôleur de journal
  *
@@ -14,12 +12,12 @@ use \LibertAPI\Planning\PlanningController as _Controller;
 final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
-     * @var \LibertAPI\Planning\PlanningRepository Mock du repository associé
+     * @var \LibertAPI\Journal\JournalRepository Mock du repository associé
      */
     private $repository;
 
     /**
-     * @var \LibertAPI\Planning\PlanningEntite Mock de l'entité associée
+     * @var \LibertAPI\Journal\JournalEntite Entité associée
      */
     private $entite;
 
@@ -32,7 +30,6 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\LibertAPI\Journal\JournalRepository();
-        $this->mockGenerator->orphanize('__construct');
         $this->entite = new \LibertAPI\Journal\JournalEntite([
             'id' => 42,
             'numeroPeriode' => 88,

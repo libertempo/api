@@ -10,7 +10,7 @@ namespace LibertAPI\Journal;
  * @since 0.5
  * @see \LibertAPI\Tests\Units\Journal\JournalEntite
  */
-class JournalEntite extends \LibertAPI\Tools\Libraries\AEntite
+final class JournalEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
      * @return int
