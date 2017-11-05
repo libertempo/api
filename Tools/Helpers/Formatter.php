@@ -37,6 +37,8 @@ class Formatter
      */
     public static function timeToSQLDatetime($timestamp)
     {
-        return date('Y-m-d H:i', $timestamp);
+        $format = 'Y-m-d H:i';
+        $date = date($format, $timestamp);
+        return (new \DateTimeImmutable($date))->format($format);
     }
 }
