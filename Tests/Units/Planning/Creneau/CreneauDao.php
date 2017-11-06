@@ -22,7 +22,7 @@ final class CreneauDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetByIdNotFound()
     {
-        $this->statement->getMockController()->fetch = [];
+        $this->calling($this->result)->fetch = [];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getById(99);
@@ -35,7 +35,7 @@ final class CreneauDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetByIdFound()
     {
-        $this->statement->getMockController()->fetch = ['a'];
+        $this->calling($this->result)->fetch = ['a'];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getById(99);
@@ -48,7 +48,7 @@ final class CreneauDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetListNotFound()
     {
-        $this->statement->getMockController()->fetchAll = [];
+        $this->calling($this->result)->fetchAll = [];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getList([]);
@@ -61,7 +61,7 @@ final class CreneauDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetListFound()
     {
-        $this->statement->getMockController()->fetchAll = [['a']];
+        $this->calling($this->result)->fetchAll = [['a']];
         $dao = new _Dao($this->connector);
 
         $get = $dao->getList([]);
@@ -103,7 +103,6 @@ final class CreneauDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     public function testPutOk()
     {
         $dao = new _Dao($this->connector);
-        $this->statement->getMockController()->rowCount = 43;
 
         $put = $dao->put([
             'planning_id' => 83,
@@ -114,6 +113,6 @@ final class CreneauDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
             'fin' => 91,
         ], 22);
 
-        $this->integer($put);
+        $this->variable($put)->isNull();
     }
 }

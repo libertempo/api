@@ -56,7 +56,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         $this->request->getMockController()->getParsedBody = null;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
 
         $this->assertFail($response, 400);
     }
@@ -72,7 +72,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
 
         $this->assertFail($response, 412);
     }
@@ -88,7 +88,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
 
         $this->assertFail($response, 412);
     }
@@ -104,7 +104,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
         $this->assertError($response);
     }
 
@@ -118,7 +118,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         $this->repository->getMockController()->postList = [42, 74, 314];
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
         $data = $this->getJsonDecoded($response->getBody());
 
         $this->integer($response->getStatusCode())->isIdenticalTo(201);
@@ -143,7 +143,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         $this->request->getMockController()->getParsedBody = null;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
         $this->assertFail($response, 400);
     }
@@ -159,7 +159,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
         $this->boolean($response->isNotFound())->isTrue();
     }
@@ -175,7 +175,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
         $this->assertError($response);
     }
 
@@ -192,7 +192,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
         $this->assertFail($response, 412);
     }
@@ -209,7 +209,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
         $this->assertFail($response, 412);
     }
@@ -226,7 +226,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
         $this->assertError($response);
     }
 
@@ -240,7 +240,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         $this->repository->getMockController()->putOne = '';
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
         $data = $this->getJsonDecoded($response->getBody());
 

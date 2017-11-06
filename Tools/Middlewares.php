@@ -9,6 +9,7 @@ use \LibertAPI\Tools\Helpers\Formatter;
 use \LibertAPI\Utilisateur;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use Doctrine\DBAL;
 
 /* Middleware 5 : construction du contrôleur pour le Dependencies Injection Container */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
@@ -73,14 +74,17 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
     try {
         $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
-        $dbh = new \PDO(
-            'mysql:host=' . $configuration->db->serveur . ';dbname=' . $configuration->db->base,
-            $configuration->db->utilisateur,
-            $configuration->db->mot_de_passe
-        );
-        // MYSQL_ATTR_FOUND_ROWS
-        $dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        $this['storageConnector'] = $dbh;
+        $config = new DBAL\Configuration();
+        $connexion = DBAL\DriverManager::getConnection(
+            [
+                'driver' => 'pdo_mysql',
+                'host' => $configuration->db->serveur,
+                'dbname' => $configuration->db->base,
+                'user' => $configuration->db->utilisateur,
+                'password' => $configuration->db->mot_de_passe,
+            ],
+            $config);
+        $this['storageConnector'] = $connexion;
 
         return $next($request, $response);
     /* Fallback */

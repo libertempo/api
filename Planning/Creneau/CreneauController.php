@@ -131,16 +131,21 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
       *
       * @param IRequest $request Requête Http
       * @param IResponse $response Réponse Http
+      * @param array $arguments Arguments de route
       *
       * @return IResponse
       * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
       */
-    public function post(IRequest $request, IResponse $response)
+    public function post(IRequest $request, IResponse $response, array $arguments)
     {
         $body = $request->getParsedBody();
         if (null === $body) {
             return $this->getResponseBadRequest($response, 'Body request is not a json content');
         }
+        if (is_array($body) && !is_array(reset($body))) {
+            return $this->getResponseBadRequest($response, 'Body request is not a creneaux list');
+        }
+        $planningId = (int) $arguments['planningId'];
 
         try {
             $creneauxIds = $this->repository->postList($body, new CreneauEntite([]));
@@ -148,7 +153,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
             foreach ($creneauxIds as $id) {
                 $dataMessage[] = $this->router->pathFor('getPlanningCreneauDetail', [
                     'creneauId' => $id,
-                    // il manque pas l'id du planning là ?
+                    'planningId' => $planningId,
                 ]);
             }
         } catch (MissingArgumentException $e) {
@@ -188,8 +193,9 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         }
 
         $id = (int) $arguments['creneauId'];
+        $planningId = (int) $arguments['planningId'];
         try {
-            $creneau = $this->repository->getOne($id); // un getList avec creneauId et planningId ?
+            $creneau = $this->repository->getOne($id, $planningId);
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {

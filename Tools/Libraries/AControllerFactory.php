@@ -4,6 +4,7 @@ namespace LibertAPI\Tools\Libraries;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Tools\Libraries\Application;
 use LibertAPI\Tools\Libraries\AEntite;
+use Doctrine\DBAL\Driver\Connection;
 
 /**
  * Fabrique des contrôleurs, basé sur les dépendances
@@ -22,7 +23,7 @@ abstract class AControllerFactory
      * Créé le contrôleur d'authentification
      *
      * @param string $ressourcePath
-     * @param \PDO $storageConnector Connecteur à la BDD
+     * @param Connection $storageConnector Connecteur à la BDD
      * @param IRouter $router Routeur de l'application
      *
      * @return \LibertAPI\Tools\Libraries\AController
@@ -41,8 +42,8 @@ abstract class AControllerFactory
         $repo = new $repoClass(
             new $daoClass($storageConnector)
         );
+        // TODO : Application est un injectable, supprimer la création ici
         $repo->setApplication(new Application($storageConnector));
-
 
         return new $controllerClass($repo, $router);
     }

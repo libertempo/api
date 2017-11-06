@@ -3,7 +3,6 @@ namespace LibertAPI\Tests\Units\Tools\Libraries;
 
 use LibertAPI\Tools\Libraries\AControllerFactory as _AControllerFactory;
 use LibertAPI\Tools\Libraries\AController as _AController;
-
 /**
  * Test de la fabrication de contrôleurs
  *
@@ -12,17 +11,17 @@ use LibertAPI\Tools\Libraries\AController as _AController;
 final class AControllerFactory extends \Atoum
 {
     /**
-     * @var \mock\PDO Connecteur BD
+     * @var \Doctrine\DBAL\Connection Connecteur BD
      */
     private $storageConnector;
 
     /**
-     * @var \mock\PDOStatement Mock du curseur de résultat PDO
+     * @var \Doctrine\DBAL\Statement Mock du curseur de résultat
      */
-    private $statement;
+    private $result;
 
     /**
-     * @var \mock\Slim\Slim\Router Mock du routeur
+     * @var \Slim\Slim\Router Mock du routeur
      */
     private $router;
 
@@ -34,13 +33,17 @@ final class AControllerFactory extends \Atoum
         parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->statement = new \mock\PDOStatement();
-        $this->statement->getMockController()->fetchAll = [];
+        $this->result = new \mock\Doctrine\DBAL\Statement();
+        $this->calling($this->result)->fetchAll = [['appli_variable' => '', 'appli_valeur' => '']];
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
+        $queryBuilder = new \mock\Doctrine\DBAL\Query\QueryBuilder();
         $this->mockGenerator->orphanize('__construct');
-        $this->storageConnector = new \mock\PDO();
-        $this->storageConnector->getMockController()->query = $this->statement;
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->storageConnector = new \mock\Doctrine\DBAL\Connection();
+        $this->calling($this->storageConnector)->createQueryBuilder = $queryBuilder;
+        $this->calling($this->storageConnector)->query = $this->result;
+
         $this->router = new \mock\Slim\Router();
     }
 
@@ -50,7 +53,8 @@ final class AControllerFactory extends \Atoum
     public function testCreateControllerNotFound()
     {
         $this->exception(function () {
-            _AControllerFactory::createControllerAuthentification('notFoundNs', $this->storageConnector, $this->router);
+            $class = $this->testedClass()->getClass();
+            $class::createControllerAuthentification('notFoundNs', $this->storageConnector, $this->router);
         })->isInstanceOf('\DomainException');
     }
 
@@ -59,7 +63,8 @@ final class AControllerFactory extends \Atoum
      */
     public function testCreateControllerAuthentification()
     {
-        $controller = _AControllerFactory::createControllerAuthentification('Authentification', $this->storageConnector, $this->router);
+        $class = $this->testedClass()->getClass();
+        $controller = $class::createControllerAuthentification('Authentification', $this->storageConnector, $this->router);
 
         $this->object($controller)->isInstanceOf(\LibertAPI\Authentification\AuthentificationController::class);
     }
@@ -69,7 +74,8 @@ final class AControllerFactory extends \Atoum
      */
     public function testCreateControllerDefault()
     {
-        $controller = _AControllerFactory::createControllerWithUser('Planning', $this->storageConnector, $this->router, new \LibertAPI\Utilisateur\UtilisateurEntite([]));
+        $class = $this->testedClass()->getClass();
+        $controller = $class::createControllerWithUser('Planning', $this->storageConnector, $this->router);
 
         $this->object($controller)->isInstanceOf(_AController::class);
     }
@@ -80,8 +86,8 @@ final class AControllerFactory extends \Atoum
     public function testGetControllerClassname()
     {
         $ressource = 'Planning\Creneau';
-
-        $this->string(_AControllerFactory::getControllerClassname($ressource))
+        $class = $this->testedClass()->getClass();
+        $this->string($class::getControllerClassname($ressource))
             ->isIdenticalTo('\LibertAPI\Planning\Creneau\CreneauController')
         ;
     }
