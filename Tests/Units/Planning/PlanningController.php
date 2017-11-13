@@ -145,7 +145,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->post($this->request, $this->response);
+        $response = $this->testedInstance->post($this->request, $this->response , []);
 
         $this->assertError($response);
     }

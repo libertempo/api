@@ -21,6 +21,13 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * {@inheritDoc}
      */
+    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
         if (!isset($arguments['typeId'])) {
@@ -43,20 +50,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         try {
             $responseResource = $this->repository->getOne($id);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $this->buildData($responseResource),
-            ];
-
-            return $response->withJson($data, $code);
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->buildData($responseResource),
+            200
+        );
     }
 
     /**
@@ -71,27 +75,21 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getList(IRequest $request, IResponse $response)
     {
         try {
+            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $responseResources = $this->repository->getList(
                 $request->getQueryParams()
             );
-            $entites = [];
-            foreach ($responseResources as $responseResource) {
-                $entites[] = $this->buildData($responseResource);
-            }
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $entites,
-            ];
-
-            return $response->withJson($data, $code);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+        $entites = [];
+        foreach ($responseResources as $responseResource) {
+            $entites[] = $this->buildData($responseResource);
+        }
+
+        return $this->getResponseSuccess($response, $entites, 200);
     }
 
     /**
@@ -123,24 +121,21 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         try {
             $typeId = $this->repository->postOne($body, new TypeEntite([]));
-            $code = 201;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $this->router->pathFor('getAbsenceTypeDetail', [
-                    'typeId' => $typeId
-                ]),
-            ];
-
-            return $response->withJson($data, $code);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->router->pathFor('getAbsenceTypeDetail', [
+                'typeId' => $typeId
+            ]),
+            201
+        );
     }
 
     /**
