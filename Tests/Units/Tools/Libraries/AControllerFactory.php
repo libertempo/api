@@ -75,7 +75,7 @@ final class AControllerFactory extends \Atoum
     public function testCreateControllerDefault()
     {
         $class = $this->testedClass()->getClass();
-        $controller = $class::createControllerWithUser('Planning', $this->storageConnector, $this->router);
+        $controller = $class::createControllerWithUser('Planning', $this->storageConnector, $this->router, new \LibertAPI\Utilisateur\UtilisateurEntite([]));
 
         $this->object($controller)->isInstanceOf(_AController::class);
     }

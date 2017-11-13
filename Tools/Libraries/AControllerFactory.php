@@ -29,7 +29,7 @@ abstract class AControllerFactory
      * @return \LibertAPI\Tools\Libraries\AController
      * @throws \DomainException Si la ressource est inconnue
      */
-    final public static function createControllerAuthentification($ressourcePath, \PDO $storageConnector, IRouter $router)
+    final public static function createControllerAuthentification($ressourcePath, Connection $storageConnector, IRouter $router)
     {
         $controllerClass = static::getControllerClassname($ressourcePath);
         if (!class_exists($controllerClass, true)) {
@@ -52,14 +52,14 @@ abstract class AControllerFactory
      * Créé le contrôleur authentifié
      *
      * @param string $ressourcePath
-     * @param \PDO $storageConnector Connecteur à la BDD
+     * @param Connection $storageConnector Connecteur à la BDD
      * @param IRouter $router Routeur de l'application
      * @param AEntite $currentUser Utilisateur authentifié
      *
      * @return \App\Libraries\AController
      * @throws \DomainException Si la ressource est inconnue
      */
-    final public static function createControllerWithUser($ressourcePath, \PDO $storageConnector, IRouter $router, AEntite $currentUser)
+    final public static function createControllerWithUser($ressourcePath, Connection $storageConnector, IRouter $router, AEntite $currentUser)
     {
         $controllerClass = static::getControllerClassname($ressourcePath);
         if (!class_exists($controllerClass, true)) {
