@@ -19,6 +19,13 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class CreneauController extends \LibertAPI\Tools\Libraries\AController
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    {
+    }
+
     /*************************************************
      * GET
      *************************************************/
@@ -28,13 +35,15 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
      *
      * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
+     * @param array $arguments Arguments de route
      *
      * @return IResponse
+     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
         if (!isset($arguments['creneauId'])) {
-            return $this->getList($request, $response, (int) $arguments['planningId']);
+            return $this->getList($response, (int) $arguments['planningId']);
         }
 
         return $this->getOne($response, (int) $arguments['creneauId'], (int) $arguments['planningId']);
@@ -52,68 +61,45 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
      */
     private function getOne(IResponse $response, $id, $planningId)
     {
-        $code = -1;
-        $data = [];
         try {
             $creneau = $this->repository->getOne($id, $planningId);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $this->buildData($creneau),
-            ];
-
-            return $response->withJson($data, $code);
         } catch (\DomainException $e) {
-            $code = 404;
-            $data = [
-                'code' => $code,
-                'status' => 'error',
-                'message' => 'Not Found',
-                'data' => 'Element « creneaux#' . $id . ' » is not a valid resource',
-            ];
-
-            return $response->withJson($data, $code);
+            return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->buildData($creneau),
+            200
+        );
     }
 
     /**
      * Retourne un tableau de plannings
      *
-     * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
      * @param int $planningId Contrainte de recherche sur le planning
      *
      * @return IResponse
      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
-    private function getList(IRequest $request, IResponse $response, $planningId)
+    private function getList(IResponse $response, $planningId)
     {
-        $code = -1;
-        $data = [];
         try {
             $creneaux = $this->repository->getList(['planningId' => $planningId]);
-            $entites = [];
-            foreach ($creneaux as $creneau) {
-                $entites[] = $this->buildData($creneau);
-            }
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $entites,
-            ];
-
-            return $response->withJson($data, $code);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+        $entites = [];
+        foreach ($creneaux as $creneau) {
+            $entites[] = $this->buildData($creneau);
+        }
+
+        return $this->getResponseSuccess($response, $entites, 200);
     }
 
     /**
@@ -170,22 +156,19 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
                     'planningId' => $planningId,
                 ]);
             }
-            $code = 201;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $dataMessage,
-            ];
-
-            return $response->withJson($data, $code);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $dataMessage,
+            201
+        );
     }
 
     /*************************************************
@@ -216,26 +199,19 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         try {
             $this->repository->putOne($body, $creneau);
-            $code = 204;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => '',
-            ];
-
-            return $response->withJson($data, $code);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess($response, '', 204);
     }
 }

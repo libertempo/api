@@ -24,11 +24,77 @@ class UtilisateurEntite extends \LibertAPI\Tools\Libraries\AEntite
 
     public function getLogin()
     {
+        return $this->getFreshData('login');
     }
 
     public function getNom()
     {
         return $this->getFreshData('nom');
+    }
+
+    public function getPrenom()
+    {
+        return $this->getFreshData('prenom');
+    }
+
+    /* Est ce vraiment utile d'avoir un tableau pour le stockage ?
+        Si non, ça nous permettrait d'avoir une empreinte moindre (N. Popov),
+        et supprimer une grande partie des accesseurs
+     */
+
+    public function isResponsable()
+    {
+        return (int) $this->getFreshData('isResp');
+    }
+
+    public function isAdmin()
+    {
+        return (int) $this->getFreshData('isAdmin');
+    }
+
+    public function isHautReponsable()
+    {
+        return (int) $this->getFreshData('isHr');
+    }
+
+    public function isActif()
+    {
+        return (int) $this->getFreshData('isActif');
+    }
+
+    public function canSeeAll()
+    {
+        return (int) $this->getFreshData('seeAll');
+    }
+
+    public function getMotDePasse()
+    {
+        return $this->getFreshData('password');
+    }
+
+    public function getQuotite()
+    {
+        return $this->getFreshData('quotite');
+    }
+
+    public function getMail()
+    {
+        return $this->getFreshData('email');
+    }
+
+    public function getNumeroExercice()
+    {
+        return $this->getFreshData('numeroExercice');
+    }
+
+    public function getPlanningId()
+    {
+        return $this->getFreshData('planningId');
+    }
+
+    public function getHeureSolde()
+    {
+        return $this->getFreshData('heureSolde');
     }
 
     public function getDateInscription()

@@ -14,31 +14,54 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 abstract class AController extends \Atoum
 {
     /**
-     * @var \mock\Slim\Http\Request Mock de la requête HTTP
+     * @var \Slim\Http\Request Mock de la requête HTTP
      */
     protected $request;
 
     /**
-     * @var \mock\Slim\Http\Response Mock de la réponse HTTP
+     * @var \Slim\Http\Response Mock de la réponse HTTP
      */
     protected $response;
 
     /**
-     * @var \mock\Slim\Slim\Router Mock du routeur
+     * @var \Slim\Router Mock du routeur
      */
     protected $router;
+
+    /**
+     * @var \App\Libraries\ARepository Mock du repository associé
+     */
+    protected $repository;
+
+    /**
+     * @var \App\Libraries\AEntite Mock de l'entité associée
+     */
+    protected $entite;
 
     /**
      * Init des tests
      */
     public function beforeTestMethod($method)
     {
+        parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->request = new \mock\Slim\Http\Request();
         $this->response = new \mock\Slim\Http\Response();
         $this->router = new \mock\Slim\Router();
+        $this->initRepository();
+        $this->initEntite();
     }
+
+    /**
+     * Initialise un repo bien formé au sens du contrôleur testé
+     */
+    abstract protected function initRepository();
+
+    /**
+     * Initialise une entité bien formée au sens du contrôleur testé
+     */
+    abstract protected function initEntite();
 
     /**
      * Retourne le json décodé
@@ -53,20 +76,37 @@ abstract class AController extends \Atoum
     }
 
     /**
-     * Lance un pool d'assertion d'erreur
+     * Lance un pool d'assertion d'échec
      *
      * @param IResponse $response Réponse Http
      * @param int $code Code d'erreur Http attendu
      */
-    protected function assertError(IResponse $response, $code)
+    protected function assertFail(IResponse $response, $code)
     {
         $data = $this->getJsonDecoded($response->getBody());
 
         $this->integer($response->getStatusCode())->isIdenticalTo($code);
         $this->array($data)
             ->integer['code']->isIdenticalTo($code)
+            ->string['status']->isIdenticalTo('fail')
+            ->array['data']->isNotEmpty()
+        ;
+    }
+
+    /**
+     * Lance un pool d'assertion d'erreur
+     *
+     * @param IResponse $response Réponse Http
+     */
+    protected function assertError(IResponse $response)
+    {
+        $data = $this->getJsonDecoded($response->getBody());
+        $code = 500;
+
+        $this->integer($response->getStatusCode())->isIdenticalTo($code);
+        $this->array($data)
+            ->integer['code']->isIdenticalTo($code)
             ->string['status']->isIdenticalTo('error')
-            ->string['message']->isNotEqualTo('')
             ->array['data']->isNotEmpty()
         ;
     }

@@ -54,7 +54,7 @@ final class AControllerFactory extends \Atoum
     {
         $this->exception(function () {
             $class = $this->testedClass()->getClass();
-            $class::createController('notFoundNs', $this->storageConnector, $this->router);
+            $class::createControllerAuthentification('notFoundNs', $this->storageConnector, $this->router);
         })->isInstanceOf('\DomainException');
     }
 
@@ -64,7 +64,7 @@ final class AControllerFactory extends \Atoum
     public function testCreateControllerAuthentification()
     {
         $class = $this->testedClass()->getClass();
-        $controller = $class::createController('Authentification', $this->storageConnector, $this->router);
+        $controller = $class::createControllerAuthentification('Authentification', $this->storageConnector, $this->router);
 
         $this->object($controller)->isInstanceOf(\LibertAPI\Authentification\AuthentificationController::class);
     }
@@ -75,7 +75,7 @@ final class AControllerFactory extends \Atoum
     public function testCreateControllerDefault()
     {
         $class = $this->testedClass()->getClass();
-        $controller = $class::createController('Planning', $this->storageConnector, $this->router);
+        $controller = $class::createControllerWithUser('Planning', $this->storageConnector, $this->router, new \LibertAPI\Utilisateur\UtilisateurEntite([]));
 
         $this->object($controller)->isInstanceOf(_AController::class);
     }

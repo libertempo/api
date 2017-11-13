@@ -11,19 +11,27 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use Doctrine\DBAL;
 
-/* Middleware 6 : construction du contrôleur pour le Dependencies Injection Container */
+/* Middleware 5 : construction du contrôleur pour le Dependencies Injection Container */
 $app->add(function (IRequest $request, IResponse $response, callable $next) {
     $reserved = ['HelloWorld'];
     $ressourcePath = str_replace('|', '\\', $request->getAttribute('nomRessources'));
     if (!in_array($ressourcePath, $reserved, true)) {
         try {
-            $controller = AControllerFactory::createController(
-                $ressourcePath,
-                $this['storageConnector'],
-                $this->router
-            );
+            if ('Authentification' === $ressourcePath) {
+                $controller = AControllerFactory::createControllerAuthentification(
+                    $ressourcePath,
+                    $this['storageConnector'],
+                    $this->router
+                );
+            } else {
+                $controller = AControllerFactory::createControllerWithUser(
+                    $ressourcePath,
+                    $this['storageConnector'],
+                    $this->router,
+                    $this['currentUser']
+                );
+            }
             $this[AControllerFactory::getControllerClassname($ressourcePath)] = $controller;
-
         } catch (\DomainException $e) {
             return call_user_func(
                 $this->notFoundHandler,
@@ -34,25 +42,6 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
     }
 
     return $next($request, $response);
-});
-
-/* Middleware 5 : sécurité via droits d'accès sur la ressource */
-$app->add(function (IRequest $request, IResponse $response, callable $next) {
-    /**
-     * TODO
-     *
-     * qu'est ce que ça veut dire qu'une ressource est accessible, et où le mettre ? dépend du rôle ?
-     * On peut désormais s'appuyer sur le DIC : $this['currentUser']
-     */
-    if (true) {
-        return $next($request, $response);
-    } else {
-        return call_user_func(
-            $this->forbiddenHandler,
-            $request,
-            $response
-        );
-    }
 });
 
 /* Middleware 4 : sécurité via identification (+ « ping » last access) */

@@ -1,8 +1,6 @@
 <?php
 namespace LibertAPI\Tests\Units\Authentification;
 
-use LibertAPI\Authentification\AuthentificationController as _AuthentificationController;
-
 /**
  * Classe de test du contrôleur de planning
  *
@@ -13,27 +11,22 @@ use LibertAPI\Authentification\AuthentificationController as _AuthentificationCo
  */
 final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
-    /**
-     * @var \LibertAPI\Utilisateur\Repository Mock du repository associé
-     */
-    private $repository;
-
-    /**
-     * @var \LibertAPI\Utilisateur\Entite Mock de l'entité associée
-     */
-    private $entite;
-
-    /**
-     * Init des tests
-     */
-    public function beforeTestMethod($method)
+    protected function initRepository()
     {
-        parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\LibertAPI\Utilisateur\UtilisateurRepository();
+    }
+
+    protected function initEntite()
+    {
         $this->mockGenerator->orphanize('__construct');
         $this->entite = new \mock\LibertAPI\Utilisateur\UtilisateurEntite();
+        $this->entite->getMockController()->getId = 42;
+        $this->entite->getMockController()->getToken = 12;
+        $this->entite->getMockController()->getLogin = 12;
+        $this->entite->getMockController()->getNom = 12;
+        $this->entite->getMockController()->getDateInscription = 12;
     }
 
     /*************************************************
@@ -47,11 +40,11 @@ final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libr
     {
         // Le framework fait du traitement, un mauvais json est simplement null
         $this->request->getMockController()->getHeaderLine = 'NotBasic';
-        $controller = new _AuthentificationController($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->get($this->request, $this->response);
+        $response = $this->testedInstance->get($this->request, $this->response);
 
-        $this->assertError($response, 400);
+        $this->assertFail($response, 400);
     }
 
     /**
@@ -63,14 +56,14 @@ final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libr
             throw new \UnexpectedValueException('');
         };
         $this->request->getMockController()->getHeaderLine = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
-        $controller = new _AuthentificationController($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->get(
+        $response = $this->testedInstance->get(
             $this->request,
             $this->response
         );
 
-        $this->assertError($response, 404);
+        $this->assertFail($response, 404);
     }
 
     /**
@@ -83,17 +76,26 @@ final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libr
         $this->repository->getMockController()->find = $this->entite;
         $this->repository->getMockController()->regenerateToken = $this->entite;
         $this->request->getMockController()->getHeaderLine = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
-        $controller = new _AuthentificationController($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router);
 
-        $response = $controller->get($this->request, $this->response);
+        $response = $this->testedInstance->get($this->request, $this->response);
         $data = $this->getJsonDecoded($response->getBody());
 
         $this->integer($response->getStatusCode())->isIdenticalTo(200);
         $this->array($data)
             ->integer['code']->isIdenticalTo(200)
             ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
             ->string['data']->isIdenticalTo($token)
         ;
+    }
+
+    protected function getOne()
+    {
+        return $this->testedInstance->get($this->request, $this->response, ['utilisateurId' => 99,]);
+    }
+
+    protected function getList()
+    {
+        return $this->testedInstance->get($this->request, $this->response, []);
     }
 }

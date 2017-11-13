@@ -1,6 +1,8 @@
 <?php
 namespace LibertAPI\Authentification;
 
+use LibertAPI\Tools\Libraries\ARepository;
+use \Slim\Interfaces\RouterInterface as IRouter;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -15,6 +17,19 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class AuthentificationController extends \LibertAPI\Tools\Libraries\AController
 {
+    public function __construct(ARepository $repository, IRouter $router)
+    {
+        $this->repository = $repository;
+        $this->router = $router;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    {
+    }
+
     /*************************************************
      * GET
      *************************************************/
@@ -43,19 +58,15 @@ final class AuthentificationController extends \LibertAPI\Tools\Libraries\AContr
                 'login' => $login,
                 'password' => $password,
             ]);
+            $utilisateurUpdated = $this->repository->regenerateToken($utilisateur);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNotFound($response, 'No user matches these criteria');
         }
-        $utilisateurUpdated = $this->repository->regenerateToken($utilisateur);
 
-        $code = 200;
-        $data = [
-            'code' => $code,
-            'status' => 'success',
-            'message' => '',
-            'data' => $utilisateurUpdated->getToken(),
-        ];
-
-        return $response->withJson($data, $code);
+        return $this->getResponseSuccess(
+            $response,
+            $utilisateurUpdated->getToken(),
+            200
+        );
     }
 }

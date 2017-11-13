@@ -36,16 +36,6 @@ final class UtilisateurEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEn
     }
 
     /**
-     * @since 0.3
-     */
-    public function testGetLogin()
-    {
-        $entite = new _Entite(['token' => 'token', 'login' => 'login']);
-
-        $this->variable($entite->getLogin())->isNull();
-    }
-
-    /**
      * @inheritDoc
      */
     public function testReset()

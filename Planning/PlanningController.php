@@ -19,6 +19,20 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class PlanningController extends \LibertAPI\Tools\Libraries\AController
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    {
+        $rights = [
+            'getList' => $utilisateur->isResponsable(),
+        ];
+
+        if (isset($rights[$order]) && !$rights[$order]) {
+            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
+        }
+    }
+
     /*************************************************
      * GET
      *************************************************/
@@ -31,7 +45,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
      * @param array $arguments Arguments de route
      *
      * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
@@ -48,27 +61,23 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
      * @param IResponse $response Réponse Http
      * @param int $id ID de l'élément
      *
-     * @return IResponse, 404 si l'élément n'est pas trouvé, 200 sinon
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
+     * @return IResponse
      */
     private function getOne(IResponse $response, $id)
     {
         try {
             $planning = $this->repository->getOne($id);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $this->buildData($planning),
-            ];
-
-            return $response->withJson($data, $code);
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->buildData($planning),
+            200
+        );
     }
 
     /**
@@ -78,32 +87,27 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
      * @param IResponse $response Réponse Http
      *
      * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     private function getList(IRequest $request, IResponse $response)
     {
         try {
+            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $plannings = $this->repository->getList(
                 $request->getQueryParams()
             );
-            $entites = [];
-            foreach ($plannings as $planning) {
-                $entites[] = $this->buildData($planning);
-            }
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $entites,
-            ];
-
-            return $response->withJson($data, $code);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
+        } catch (\LibertAPI\Tools\Exceptions\MissingRightException $e) {
+            return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+        $entites = [];
+        foreach ($plannings as $planning) {
+            $entites[] = $this->buildData($planning);
+        }
+
+        return $this->getResponseSuccess($response, $entites, 200);
     }
 
     /**
@@ -133,7 +137,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
       * @param IResponse $response Réponse Http
       *
       * @return IResponse
-      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
       */
     public function post(IRequest $request, IResponse $response)
     {
@@ -144,24 +147,21 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
 
         try {
             $planningId = $this->repository->postOne($body, new PlanningEntite([]));
-            $code = 201;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $this->router->pathFor('getPlanningDetail', [
-                    'planningId' => $planningId
-                ]),
-            ];
-
-            return $response->withJson($data, $code);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->router->pathFor('getPlanningDetail', [
+                'planningId' => $planningId
+            ]),
+            201
+        );
     }
 
     /*************************************************
@@ -176,7 +176,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
      * @param array $arguments Arguments de route
      *
      * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     public function put(IRequest $request, IResponse $response, array $arguments)
     {
@@ -191,27 +190,20 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
 
         try {
             $this->repository->putOne($body, $planning);
-            $code = 204;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => '',
-            ];
-
-            return $response->withJson($data, $code);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess($response, '', 204);
     }
 
     /*************************************************
@@ -226,7 +218,6 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
       * @param array $arguments Arguments de route
       *
       * @return IResponse
-      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
       */
     public function delete(IRequest $request, IResponse $response, array $arguments)
     {
@@ -234,19 +225,12 @@ final class PlanningController extends \LibertAPI\Tools\Libraries\AController
         try {
             $planning = $this->repository->getOne($id);
             $this->repository->deleteOne($planning);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => '',
-            ];
-
-            return $response->withJson($data, $code);
         } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « plannings#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess($response, '', 200);
     }
 }
