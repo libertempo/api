@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Heure\RH\Repos;
+namespace LibertAPI\Heure\HautResponsable\Repos;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Libraries\AEntite;

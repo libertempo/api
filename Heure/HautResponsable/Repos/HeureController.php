@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Heure\RH\Repos;
+namespace LibertAPI\Heure\HautResponsable\Repos;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
@@ -81,11 +81,12 @@ final class HeureController extends \LibertAPI\Tools\Libraries\AController
     }
 
     /**
-     * Retourne un tableau de plannings
+     * Retourne un tableau d'heure
      *
      * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
-     * @param int $planningId Contrainte de recherche sur le planning
+     * @param int $heureStatut Contrainte de recherche sur le statut
+     * @param int $employe Contrainte de recherche sur l'employé
      *
      * @return IResponse
      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
@@ -119,7 +120,7 @@ final class HeureController extends \LibertAPI\Tools\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param CreneauEntite $entite Créneau de planning
+     * @param HeureEntite $entite heure
      *
      * @return array
      */
