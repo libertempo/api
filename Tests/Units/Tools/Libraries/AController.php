@@ -70,7 +70,7 @@ abstract class AController extends \Atoum
      *
      * @return array | mixed si le json est mal formé
      */
-    protected function getJsonDecoded($json)
+    protected function getJsonDecoded($json) : array
     {
         return json_decode((string) $json, true);
     }

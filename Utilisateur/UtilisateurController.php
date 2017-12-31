@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @author Wouldsmina
  *
  * @since 0.4
- * @see \Tests\Units\App\Components\Utilisateur\Controller
+ * @see \LibertAPI\Utilisateur\UtilisateurController
  *
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le Utilisateur\Repository

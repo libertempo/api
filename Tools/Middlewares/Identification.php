@@ -42,7 +42,7 @@ final class Identification
      *
      * @return string
      */
-    private function getDateLastAccessAuthorized()
+    private function getDateLastAccessAuthorized() : string
     {
         return Formatter::timeToSQLDatetime(time() - static::DUREE_SESSION);
     }
@@ -52,7 +52,7 @@ final class Identification
      *
      * @return bool
      */
-    public function isTokenOk()
+    public function isTokenOk() : bool
     {
         return $this->getUtilisateur() instanceof AEntite;
     }
