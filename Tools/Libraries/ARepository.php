@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Tools\Libraries;
 
 /**
@@ -36,8 +36,9 @@ abstract class ARepository
      * @param int $id Id potentiel de ressource
      *
      * @return \LibertAPI\Tools\Libraries\AEntite
+     * @throws \DomainException Si $id n'est pas dans le domaine de définition
      */
-    public function getOne($id)
+    public function getOne($id) : \LibertAPI\Tools\Libraries\AEntite
     {
         return $this->dao->getById((int) $id);
     }
@@ -48,8 +49,9 @@ abstract class ARepository
      * @param array $parametres
      *
      * @return array [$objetId => $objet]
+     * @throws \UnexpectedValueException Si les critères ne sont pas pertinents
      */
-    public function getList(array $parametres)
+    public function getList(array $parametres) : array
     {
         return $this->dao->getList($this->getParamsConsumer2Dao($parametres));
     }
@@ -64,7 +66,7 @@ abstract class ARepository
      *
      * @return array
      */
-    abstract protected function getParamsConsumer2Dao(array $paramsConsumer);
+    abstract protected function getParamsConsumer2Dao(array $paramsConsumer) : array;
 
     /*************************************************
      * POST

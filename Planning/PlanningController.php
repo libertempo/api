@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Planning;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
@@ -24,7 +24,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
         $rights = [
             'getList' => $utilisateur->isResponsable() || $utilisateur->isHautReponsable() || $utilisateur->isAdmin(),
