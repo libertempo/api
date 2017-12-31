@@ -31,8 +31,8 @@ abstract class ARestController extends AController
         parent::beforeTestMethod($method);
         $this->currentEmploye = new UtilisateurEntite(['id' => 'user', 'isResp' => false]);
         $this->currentResponsable = new UtilisateurEntite(['id' => 'resp', 'isResp' => true]);
-
     }
+
     /*************************************************
      * GET
      *************************************************/

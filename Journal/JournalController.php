@@ -15,6 +15,13 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class JournalController extends \LibertAPI\Tools\Libraries\AController
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    {
+    }
+
     /*************************************************
      * GET
      *************************************************/
@@ -31,28 +38,23 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
+        unset($arguments);
         try {
             $resources = $this->repository->getList(
                 $request->getQueryParams()
             );
-            $entites = [];
-            foreach ($resources as $resource) {
-                $entites[] = $this->buildData($resource);
-            }
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => $entites,
-            ];
-
-            return $response->withJson($data, $code);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
             throw $e;
         }
+
+        $entites = [];
+        foreach ($resources as $resource) {
+            $entites[] = $this->buildData($resource);
+        }
+
+        return $this->getResponseSuccess($response, $entites, 200);
     }
 
     /**

@@ -1,6 +1,8 @@
 <?php
 namespace LibertAPI\Tests\Units\Journal;
 
+use LibertAPI\Utilisateur\UtilisateurEntite;
+
 /**
  * Classe de test du contrôleur de journal
  *
@@ -12,24 +14,34 @@ namespace LibertAPI\Tests\Units\Journal;
 final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
-     * @var \LibertAPI\Journal\JournalRepository Mock du repository associé
+     * @var UtilisateurEntite Standardisation d'un rôle employé
      */
-    private $repository;
+    protected $currentEmploye;
 
     /**
-     * @var \LibertAPI\Journal\JournalEntite Entité associée
-     */
-    private $entite;
-
-    /**
-     * Init des tests
+     * {@inheritdoc}
      */
     public function beforeTestMethod($method)
     {
         parent::beforeTestMethod($method);
+        $this->currentEmploye = new UtilisateurEntite(['id' => 'user', 'isResp' => false]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function initRepository()
+    {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\LibertAPI\Journal\JournalRepository();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function initEntite()
+    {
         $this->entite = new \LibertAPI\Journal\JournalEntite([
             'id' => 42,
             'numeroPeriode' => 88,
@@ -48,13 +60,13 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
     /**
      * Teste la méthode get d'une liste trouvée
      */
-    public function testGetListFound()
+    public function testGetFound()
     {
         $this->calling($this->request)->getQueryParams = [];
         $this->calling($this->repository)->getList = [
             42 => $this->entite,
         ];
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $data = $this->getJsonDecoded($response->getBody());
 
@@ -62,7 +74,7 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->array($data)
             ->integer['code']->isIdenticalTo(200)
             ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
+            ->string['message']->isIdenticalTo('OK')
             //->array['data']->hasSize(1) // TODO: l'asserter atoum en sucre syntaxique est buggé, faire un ticket
         ;
         $this->array($data['data'][0])->hasKey('id');
@@ -71,13 +83,13 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
     /**
      * Teste la méthode get d'une liste non trouvée
      */
-    public function testGetListNotFound()
+    public function testGetNotFound()
     {
         $this->calling($this->request)->getQueryParams = [];
         $this->calling($this->repository)->getList = function () {
             throw new \UnexpectedValueException('');
         };
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
         $response = $this->testedInstance->get($this->request, $this->response, []);
 
         $this->assertSuccessEmpty($response);
@@ -86,13 +98,13 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
     /**
      * Teste le fallback de la méthode get d'une liste
      */
-    public function testGetListFallback()
+    public function testGetFallback()
     {
         $this->calling($this->request)->getQueryParams = [];
         $this->calling($this->repository)->getList = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $this->exception(function () {
             $this->testedInstance->get($this->request, $this->response, []);
