@@ -132,6 +132,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 
     public function delete(int $id) : int
     {
+        throw new \Exception('Not implemented');
     }
 
     /**

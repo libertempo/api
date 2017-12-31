@@ -81,6 +81,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
 
     public function postOne(array $data, AEntite $entite) : int
     {
+        throw new \Exception('Not implemented');
     }
 
     /*************************************************

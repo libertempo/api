@@ -42,7 +42,6 @@ final class PlanningRepository extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         $this->exception(function () use ($repository) {
             $repository->deleteOne($this->entite);
         })->isInstanceOf('\LogicException');
-
     }
 
     /**
