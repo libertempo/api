@@ -25,7 +25,7 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      *
      * @param int $planningId Contrainte de recherche sur le planning
      */
-    public function getById($id, $planningId = null)
+    public function getById(int $id, $planningId = null) : array
     {
         $this->queryBuilder->select('*');
         $this->setWhere(['id' => $id, 'planning_id' => $planningId]);
@@ -58,7 +58,7 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getList(array $parametres)
+    public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('*');
         $this->setWhere($parametres);
@@ -102,7 +102,7 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function post(AEntite $entite)
+    public function post(AEntite $entite) : int
     {
         $this->queryBuilder->insert($this->getTableName());
         $this->setValues($this->getEntite2Storage($entite));
@@ -193,14 +193,14 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function delete($id)
+    public function delete(int $id) : int
     {
     }
 
     /**
      * @inheritDoc
      */
-    final protected function getTableName()
+    final protected function getTableName() : string
     {
         return 'planning_creneau';
     }

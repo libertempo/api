@@ -25,7 +25,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
     }
 

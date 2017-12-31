@@ -24,7 +24,7 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
      *
      * @param int $planningId Contrainte de recherche sur le planning
      */
-    public function getOne($id, $planningId = -1)
+    public function getOne(int $id, $planningId = -1) : \LibertAPI\Tools\Libraries\AEntite
     {
         return $this->dao->getById((int) $id, $planningId);
     }
@@ -32,7 +32,7 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getParamsConsumer2Dao(array $paramsConsumer)
+    final protected function getParamsConsumer2Dao(array $paramsConsumer) : array
     {
         $results = [];
         if (!empty($paramsConsumer['planningId'])) {
@@ -56,7 +56,7 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
      * @throws MissingArgumentException Si un élément requis n'est pas présent
      * @throws \DomainException Si un élément de la ressource n'est pas dans le bon domaine de définition
      */
-    public function postList(array $data, AEntite $entite)
+    public function postList(array $data, AEntite $entite) : array
     {
         $postIds = [];
         $this->dao->beginTransaction();

@@ -79,7 +79,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
      * POST
      *************************************************/
 
-    public function postOne(array $data, AEntite $entite)
+    public function postOne(array $data, AEntite $entite) : int
     {
     }
 
