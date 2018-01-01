@@ -14,7 +14,6 @@ final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libr
     protected function initRepository()
     {
         $this->mockGenerator->orphanize('__construct');
-        $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\LibertAPI\Utilisateur\UtilisateurRepository();
     }
 
