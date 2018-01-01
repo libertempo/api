@@ -1,8 +1,6 @@
 <?php
 namespace LibertAPI\Tests\Units\Planning\Creneau;
 
-use LibertAPI\Planning\Creneau\CreneauEntite;
-
 /**
  * Classe de test du repository de créneau de planning
  *
@@ -22,7 +20,7 @@ final class CreneauRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
 
     protected function initEntite()
     {
-        $this->entite = new CreneauEntite(['id' => 42]);
+        $this->entite = new \LibertAPI\Planning\Creneau\CreneauEntite(['id' => 42]);
     }
 
     /*************************************************
