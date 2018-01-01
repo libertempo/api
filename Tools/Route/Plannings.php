@@ -7,28 +7,26 @@
 
 /* Routes sur le planning et associés */
 $app->group('/plannings', function () {
-    $planningNS = '\LibertAPI\Planning\PlanningController';
-    $this->group('/{planningId:[0-9]+}', function () use ($planningNS) {
+    $this->group('/{planningId:[0-9]+}', function () {
         /* Detail */
-        $this->get('', $planningNS . ':get')->setName('getPlanningDetail');
-        $this->put('', $planningNS . ':put')->setName('putPlanningDetail');
-        $this->delete('', $planningNS . ':delete')->setName('deletePlanningDetail');
+        $this->get('', 'controller:get')->setName('getPlanningDetail');
+        $this->put('', 'controller:put')->setName('putPlanningDetail');
+        $this->delete('', 'controller:delete')->setName('deletePlanningDetail');
 
         /* Dependances de plannings */
         $this->group('/creneaux', function () {
-            $creneauNS = '\LibertAPI\Planning\Creneau\CreneauController';
             /* Detail creneaux */
-            $this->get('/{creneauId:[0-9]+}', $creneauNS . ':get')->setName('getPlanningCreneauDetail');
-            $this->put('/{creneauId:[0-9]+}', $creneauNS . ':put')->setName('putPlanningCreneauDetail');
+            $this->get('/{creneauId:[0-9]+}', 'controller:get')->setName('getPlanningCreneauDetail');
+            $this->put('/{creneauId:[0-9]+}', 'controller:put')->setName('putPlanningCreneauDetail');
             //$this->delete('/{creneauId:[0-9]+}', $creneauNS . ':delete')->setName('deletePlanningCreneauDetail');
 
             /* Collection creneaux */
-            $this->get('', $creneauNS . ':get')->setName('getPlanningCreneauListe');
-            $this->post('', $creneauNS . ':post')->setName('postPlanningCreneauListe');
+            $this->get('', 'controller:get')->setName('getPlanningCreneauListe');
+            $this->post('', 'controller:post')->setName('postPlanningCreneauListe');
         });
     });
 
     /* Collection */
-    $this->get('', $planningNS .  ':get')->setName('getPlanningListe');
-    $this->post('', $planningNS .  ':post')->setName('postPlanningListe');
+    $this->get('', 'controller:get')->setName('getPlanningListe');
+    $this->post('', 'controller:post')->setName('postPlanningListe');
 });

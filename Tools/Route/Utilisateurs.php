@@ -7,12 +7,11 @@
 
 /* Routes sur l'utilisateur et associés */
 $app->group('/utilisateurs', function () {
-    $utilisateurNS = '\App\Components\Utilisateur\Controller';
-    $this->group('/{utilisateurId:[0-9]+}', function () use ($utilisateurNS) {
+    $this->group('/{utilisateurId:[0-9]+}', function () {
         /* Detail */
-        $this->get('', $utilisateurNS . ':get')->setName('getUtilisateurDetail');
+        $this->get('', 'controller:get')->setName('getUtilisateurDetail');
     });
 
     /* Collection */
-    $this->get('', $utilisateurNS .  ':get')->setName('getUtilisateurListe');
+    $this->get('', 'controller:get')->setName('getUtilisateurListe');
 });
