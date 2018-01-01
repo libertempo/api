@@ -31,7 +31,7 @@ $app->add(function (IRequest $request, IResponse $response, callable $next) {
                     $this['currentUser']
                 );
             }
-            $this[AControllerFactory::getControllerClassname($ressourcePath)] = $controller;
+            $this['controller'] = $controller;
         } catch (\DomainException $e) {
             return call_user_func(
                 $this->notFoundHandler,
