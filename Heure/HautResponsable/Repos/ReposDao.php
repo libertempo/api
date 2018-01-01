@@ -12,7 +12,7 @@ namespace LibertAPI\Heure\HautResponsable\Repos;
  * Ne devrait être contacté que par Heure\HR\Repository
  * Ne devrait contacter personne
  */
-class HeureDao extends \LibertAPI\Tools\Libraries\ADao
+class ReposDao extends \LibertAPI\Tools\Libraries\ADao
 {
     /*************************************************
      * GET

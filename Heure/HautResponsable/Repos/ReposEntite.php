@@ -14,7 +14,7 @@ namespace LibertAPI\Heure\HautResponsable\Repos;
  * Ne devrait contacter personne
  */
 
-class HeureEntite extends \LibertAPI\Tools\Libraries\AEntite
+class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ heure id

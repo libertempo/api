@@ -13,7 +13,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @since 0.6
  * @see \Tests\Units\Heure\RH\Repos
  */
-class HeureRepository extends \LibertAPI\Tools\Libraries\ARepository
+class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
     /*************************************************
      * GET

@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que Heure\Repository
  */
-final class HeureController extends \LibertAPI\Tools\Libraries\AController
+final class ReposController extends \LibertAPI\Tools\Libraries\AController
 {
     /*************************************************
      * GET
