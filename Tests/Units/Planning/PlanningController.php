@@ -17,7 +17,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     protected function initRepository()
     {
         $this->mockGenerator->orphanize('__construct');
-        $this->mockGenerator->shuntParentClassCalls();
         $this->repository = new \mock\LibertAPI\Planning\PlanningRepository();
     }
 
@@ -311,6 +310,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testDeleteOk()
     {
         $this->repository->getMockController()->getOne = $this->entite;
+        $this->repository->getMockController()->deleteOne = '';
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $response = $this->testedInstance->delete($this->request, $this->response, ['planningId' => 99]);

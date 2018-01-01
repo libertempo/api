@@ -1,6 +1,8 @@
 <?php
 namespace LibertAPI\Planning;
 
+use LibertAPI\Tools\Libraries\AEntite;
+
 /**
  * {@inheritDoc}
  *
@@ -27,7 +29,24 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
         $this->setWhere(['id' => $id]);
         $res = $this->queryBuilder->execute();
 
-        return $res->fetch(\PDO::FETCH_ASSOC);
+        $data = $res->fetch(\PDO::FETCH_ASSOC);;
+        if (empty($data)) {
+            throw new \DomainException('#' . $id . ' is not a valid resource');
+        }
+
+        return new PlanningEntite($this->getStorage2Entite($data));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getStorage2Entite(array $dataDao)
+    {
+        return [
+            'id' => $dataDao['planning_id'],
+            'name' => $dataDao['name'],
+            'status' => $dataDao['status'],
+        ];
     }
 
     /**
@@ -43,7 +62,18 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
         }
         $res = $this->queryBuilder->execute();
 
-        return $res->fetchAll(\PDO::FETCH_ASSOC);
+        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            throw new \UnexpectedValueException('No resource match with these parameters');
+        }
+
+        $entites = [];
+        foreach ($data as $value) {
+            $entite = new PlanningEntite($this->getStorage2Entite($value));
+            $entites[$entite->getId()] = $entite;
+        }
+
+        return $entites;
     }
 
     /*************************************************
@@ -53,10 +83,10 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function post(array $data)
+    public function post(AEntite $entite)
     {
         $this->queryBuilder->insert($this->getTableName());
-        $this->setValues($data);
+        $this->setValues($this->getEntite2Storage($entite));
         $this->queryBuilder->execute();
 
         return $this->storageConnector->lastInsertId();
@@ -81,14 +111,25 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function put(array $data, $id)
+    public function put(AEntite $entite)
     {
         $this->queryBuilder->update($this->getTableName());
+        $this->setSet($this->getEntite2Storage($entite));
         $this->queryBuilder->where('planning_id = :id');
-        $this->queryBuilder->setParameter(':id', $id);
-        $this->setSet($data);
+        $this->queryBuilder->setParameter(':id', $entite->getId());
 
         $this->queryBuilder->execute();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getEntite2Storage(AEntite $entite)
+    {
+        return [
+            'name' => $entite->getName(),
+            'status' => $entite->getStatus(),
+        ];
     }
 
     private function setSet(array $parametres)

@@ -1,7 +1,6 @@
 <?php
 namespace LibertAPI\Planning;
 
-use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Libraries\AEntite;
 
 /**
@@ -21,58 +20,6 @@ class PlanningRepository extends \LibertAPI\Tools\Libraries\ARepository
     /*************************************************
      * GET
      *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function getOne($id)
-    {
-        $id = (int) $id;
-        $data = $this->dao->getById($id);
-        if (empty($data)) {
-            throw new \DomainException('Planning#' . $id . ' is not a valid resource');
-        }
-
-        return new PlanningEntite($this->getDataDao2Entite($data));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getList(array $parametres)
-    {
-        /* TODO: retourner une collection pour avoir le total, hors limite forcée (utile pour la pagination) */
-        /*
-        several params :
-        offset (first, !isset => 0) / start-after ?
-        Limit (nb elements)
-        filter (dimensions forced)
-        */
-        $data = $this->dao->getList($this->getParamsConsumer2Dao($parametres));
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = [];
-        foreach ($data as $value) {
-            $entite = new PlanningEntite($this->getDataDao2Entite($value));
-            $entites[$entite->getId()] = $entite;
-        }
-
-        return $entites;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getDataDao2Entite(array $dataDao)
-    {
-        return [
-            'id' => $dataDao['planning_id'],
-            'name' => $dataDao['name'],
-            'status' => $dataDao['status'],
-        ];
-    }
 
     /**
      * @inheritDoc
@@ -100,28 +47,6 @@ class PlanningRepository extends \LibertAPI\Tools\Libraries\ARepository
         return $results;
     }
 
-    /*************************************************
-     * POST
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getEntite2DataDao(AEntite $entite)
-    {
-        return [
-            'name' => $entite->getName(),
-            'status' => $entite->getStatus(),
-        ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getListRequired()
-    {
-        return ['name', 'status'];
-    }
 
     /*************************************************
      * DELETE

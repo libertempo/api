@@ -3,6 +3,8 @@ namespace LibertAPI\Tests\Units\Planning;
 
 use LibertAPI\Planning\PlanningDao as _Dao;
 
+use LibertAPI\Planning\PlanningEntite;
+
 /**
  * Classe de test du DAO de planning
  *
@@ -13,11 +15,6 @@ use LibertAPI\Planning\PlanningDao as _Dao;
  */
 final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
-
     /*************************************************
      * POST
      *************************************************/
@@ -30,10 +27,7 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
         $this->calling($this->connector)->lastInsertId = 314;
         $dao = new _Dao($this->connector);
 
-        $postId = $dao->post([
-            'name' => 'name',
-            'status' => 59,
-        ]);
+        $postId = $dao->post(new PlanningEntite($this->entiteContent));
 
         $this->integer($postId)->isIdenticalTo(314);
     }
@@ -49,11 +43,21 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     {
         $dao = new _Dao($this->connector);
 
-        $put = $dao->put([
-            'name' => 'name',
-            'status' => 59,
-        ], 12);
+        $put = $dao->put(new PlanningEntite($this->entiteContent));
 
         $this->variable($put)->isNull();
     }
+
+
+    private $storageContent = [
+        'planning_id' => 72,
+        'name' => 'name',
+        'status' => 59,
+    ];
+
+    private $entiteContent = [
+        'id' => 72,
+        'name' => 'name',
+        'status' => 59,
+    ];
 }
