@@ -197,7 +197,7 @@ final class CreneauController extends \LibertAPI\Tools\Libraries\AController
         try {
             $creneau = $this->repository->getOne($id, $planningId);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « creneau#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
