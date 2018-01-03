@@ -23,6 +23,7 @@ final class TypeRepository extends \Atoum
 
     public function beforeTestMethod($method)
     {
+        parent::beforeTestMethod($method);
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->dao = new \mock\LibertAPI\Absence\Type\TypeDao();

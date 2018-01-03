@@ -6,18 +6,17 @@
  */
 
 /* Routes sur une absence et associés */
-$app->group('/absences', function () {
+$app->group('/absence', function () {
     /* Route sur un type d'absence */
-    $this->group('/types', function () {
-        $typeNS = '\LibertAPI\Absence\Type\TypeController';
+    $this->group('/type', function () {
         /* Détail */
-        $this->group('/{typeId:[0-9]+}', function () use ($typeNS) {
-            $this->get('', $typeNS . ':get')->setName('getAbsenceTypeDetail');
-            $this->put('', $typeNS . ':put')->setName('putAbsenceTypeDetail');
-            $this->delete('', $typeNS . ':delete')->setName('deleteAbsenceTypeDetail');
+        $this->group('/{typeId:[0-9]+}', function () {
+            $this->get('', 'controller:get')->setName('getAbsenceTypeDetail');
+            $this->put('', 'controller:put')->setName('putAbsenceTypeDetail');
+            $this->delete('', 'controller:delete')->setName('deleteAbsenceTypeDetail');
         });
         /* Collection */
-        $this->get('', $typeNS . ':get')->setName('getAbsenceTypeListe');
-        $this->post('', $typeNS . ':post')->setName('postAbsenceTypeListe');
+        $this->get('', 'controller:get')->setName('getAbsenceTypeListe');
+        $this->post('', 'controller:post')->setName('postAbsenceTypeListe');
     });
 });

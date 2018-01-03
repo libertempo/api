@@ -22,6 +22,9 @@ final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetByIdNotFound()
     {
+        $this->exception(function () {
+            $this->newTestedInstance($this->connector)->getById(0);
+        });
     }
 
     /**
@@ -29,12 +32,9 @@ final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testGetByIdFound()
     {
-    }
-
-    public function testGetById()
-    {
-        $dao = new _Dao($this->connector);
-        $this->variable($dao->getById(''))->isNull();
+        $this->exception(function () {
+            $this->newTestedInstance($this->connector)->getById(0);
+        });
     }
 
     /*************************************************

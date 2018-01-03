@@ -106,6 +106,11 @@ class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
         throw new \RuntimeException('Action is forbidden');
     }
 
+    protected function getListRequired()
+    {
+        return [];
+    }
+
     /**
      * @inheritDoc
      */
