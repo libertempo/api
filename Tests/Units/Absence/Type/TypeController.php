@@ -179,11 +179,10 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
         $this->repository->getMockController()->getOne = function () {
             throw new \LogicException('');
         };
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $this->exception(function () {
-            $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-            $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
+        $this->assertError($response);
     }
 
     /**
@@ -229,11 +228,10 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
         $this->repository->getMockController()->putOne = function () {
             throw new \LogicException('');
         };
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $this->exception(function () {
-            $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-            $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
+        $this->assertError($response);
     }
 
     /**
@@ -253,7 +251,6 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
         $this->array($data)
             ->integer['code']->isIdenticalTo(204)
             ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
             ->string['data']->isIdenticalTo('')
         ;
     }
