@@ -1,23 +1,16 @@
 <?php
-namespace LibertAPI\Tests\Units\Planning;
-
-use LibertAPI\Planning\PlanningDao as _Dao;
+namespace LibertAPI\Tests\Units\Absence\Type;
 
 /**
- * Classe de test du DAO de planning
+ * Classe de test du DAO de type d'absence
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.1
+ * @since 0.5
  */
-final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
+final class TypeDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
-
     /*************************************************
      * POST
      *************************************************/
@@ -28,11 +21,12 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
     public function testPostOk()
     {
         $this->calling($this->connector)->lastInsertId = 314;
-        $dao = new _Dao($this->connector);
+        $this->newTestedInstance($this->connector);
 
-        $postId = $dao->post([
-            'name' => 'name',
-            'status' => 59,
+        $postId = $this->testedInstance->post([
+            'type' => 'type',
+            'libelle' => 'libelle',
+            'libelleCourt' => 'libelleCourt',
         ]);
 
         $this->integer($postId)->isIdenticalTo(314);
@@ -47,11 +41,12 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testPutOk()
     {
-        $dao = new _Dao($this->connector);
+        $this->newTestedInstance($this->connector);
 
-        $put = $dao->put([
-            'name' => 'name',
-            'status' => 59,
+        $put = $this->testedInstance->put([
+            'type' => 'type',
+            'libelle' => 'libelle',
+            'libelleCourt' => 'libelleCourt',
         ], 12);
 
         $this->variable($put)->isNull();

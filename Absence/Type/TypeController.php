@@ -1,24 +1,21 @@
 <?php
-namespace LibertAPI\Planning;
+namespace LibertAPI\Absence\Type;
 
-use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Interfaces;
+use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
 /**
- * Contrôleur de plannings
+ * Contrôleur de type d'absence
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.1
- * @see \Tests\Units\Planning\Controller
- *
- * Ne devrait être contacté que par le routeur
- * Ne devrait contacter que le Planning\Repository
+ * @since 0.5
+ * @see \Tests\Units\Absence\Type\TypeController
  */
-final class PlanningController extends \LibertAPI\Tools\Libraries\AController
+final class TypeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
     /**
@@ -26,13 +23,6 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
-        $rights = [
-            'getList' => $utilisateur->isResponsable(),
-        ];
-
-        if (isset($rights[$order]) && !$rights[$order]) {
-            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
-        }
     }
 
     /**
@@ -40,11 +30,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
-        if (!isset($arguments['planningId'])) {
+        if (!isset($arguments['typeId'])) {
             return $this->getList($request, $response);
         }
 
-        return $this->getOne($response, (int) $arguments['planningId']);
+        return $this->getOne($response, (int) $arguments['typeId']);
     }
 
     /**
@@ -53,21 +43,22 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      * @param IResponse $response Réponse Http
      * @param int $id ID de l'élément
      *
-     * @return IResponse
+     * @return IResponse, 404 si l'élément n'est pas trouvé, 200 sinon
+     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     private function getOne(IResponse $response, $id)
     {
         try {
-            $planning = $this->repository->getOne($id);
+            $responseResource = $this->repository->getOne($id);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
             $response,
-            $this->buildData($planning),
+            $this->buildData($responseResource),
             200
         );
     }
@@ -79,24 +70,23 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      * @param IResponse $response Réponse Http
      *
      * @return IResponse
+     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     private function getList(IRequest $request, IResponse $response)
     {
         try {
             $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
-            $plannings = $this->repository->getList(
+            $responseResources = $this->repository->getList(
                 $request->getQueryParams()
             );
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
-        } catch (\LibertAPI\Tools\Exceptions\MissingRightException $e) {
-            return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
         $entites = [];
-        foreach ($plannings as $planning) {
-            $entites[] = $this->buildData($planning);
+        foreach ($responseResources as $responseResource) {
+            $entites[] = $this->buildData($responseResource);
         }
 
         return $this->getResponseSuccess($response, $entites, 200);
@@ -105,16 +95,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param PlanningEntite $entite Planning
+     * @param TypeEntite $entite Type
      *
      * @return array
      */
-    private function buildData(PlanningEntite $entite)
+    private function buildData(TypeEntite $entite)
     {
         return [
             'id' => $entite->getId(),
-            'name' => $entite->getName(),
-            'status' => $entite->getStatus(),
+            'type' => $entite->getType(),
+            'libelle' => $entite->getLibelle(),
+            'libelleCourt' => $entite->getLibelleCourt(),
         ];
     }
 
@@ -129,7 +120,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $planningId = $this->repository->postOne($body, new PlanningEntite([]));
+            $typeId = $this->repository->postOne($body, new TypeEntite([]));
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -140,8 +131,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         return $this->getResponseSuccess(
             $response,
-            $this->router->pathFor('getPlanningDetail', [
-                'planningId' => $planningId
+            $this->router->pathFor('getAbsenceTypeDetail', [
+                'typeId' => $typeId
             ]),
             201
         );
@@ -157,17 +148,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
             return $this->getResponseBadRequest($response, 'Body request is not a json content');
         }
 
-        $id = (int) $arguments['planningId'];
+        $id = (int) $arguments['typeId'];
         try {
-            $planning = $this->repository->getOne($id);
+            $resource = $this->repository->getOne($id);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
 
         try {
-            $this->repository->putOne($body, $planning);
+            $this->repository->putOne($body, $resource);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -184,16 +175,23 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     public function delete(IRequest $request, IResponse $response, array $arguments)
     {
-        $id = (int) $arguments['planningId'];
+        $id = (int) $arguments['typeId'];
         try {
-            $planning = $this->repository->getOne($id);
-            $this->repository->deleteOne($planning);
-        } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
-        } catch (\Exception $e) {
-            return $this->getResponseError($response, $e);
-        }
+            $resource = $this->repository->getOne($id);
+            $this->repository->deleteOne($resource);
+            $code = 200;
+            $data = [
+                'code' => $code,
+                'status' => 'success',
+                'message' => '',
+                'data' => '',
+            ];
 
-        return $this->getResponseSuccess($response, '', 200);
+            return $response->withJson($data, $code);
+        } catch (\DomainException $e) {
+            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

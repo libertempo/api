@@ -16,15 +16,23 @@ final class JournalDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      *************************************************/
 
     /**
-     * Teste la méthode getById
-     */
-    public function testGetById()
+    * Teste la méthode getById avec un id non trouvé
+    */
+    public function testGetByIdNotFound()
     {
-        $this->newTestedInstance($this->connector);
-
         $this->exception(function () {
-            $this->testedInstance->delete([]);
-        })->isInstanceOf(\RuntimeException::class);
+            $this->newTestedInstance($this->connector)->getById(0);
+        });
+    }
+
+    /**
+    * Teste la méthode getById avec un id trouvé
+    */
+    public function testGetByIdFound()
+    {
+        $this->exception(function () {
+            $this->newTestedInstance($this->connector)->getById(0);
+        });
     }
 
     /**

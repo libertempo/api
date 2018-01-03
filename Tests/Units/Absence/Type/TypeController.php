@@ -1,16 +1,26 @@
 <?php
-namespace LibertAPI\Tests\Units\Planning;
+namespace LibertAPI\Tests\Units\Absence\Type;
 
 /**
- * Classe de test du contrôleur de planning
+ * Classe de test du contrôleur des type d'absence
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.1
+ * @since 0.5
  */
-final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestController
+final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestController
 {
+    /**
+     * @var \LibertAPI\Tools\Libraries\ARepository Mock du repository associé
+     */
+    protected $repository;
+
+    /**
+     * @var \LibertAPI\Tools\Libraries\AEntite Mock de l'entité associée
+     */
+    protected $entite;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +28,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\LibertAPI\Planning\PlanningRepository();
+        $this->repository = new \mock\LibertAPI\Absence\Type\TypeRepository();
     }
 
     /**
@@ -26,36 +36,17 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     protected function initEntite()
     {
-        $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Planning\PlanningEntite();
-        $this->entite->getMockController()->getId = 42;
-        $this->entite->getMockController()->getName = 12;
-        $this->entite->getMockController()->getStatus = 12;
-    }
-
-    /**
-     * Teste la méthode get d'une liste avec des droits insuffisants
-     */
-    public function testGetListMissingRight()
-    {
-        $this->mockGenerator->orphanize('__construct');
-        $uri = new \mock\Slim\Http\Uri();
-        $this->calling($uri)->getPath = '';
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->request)->getUri = $uri;
-        $this->calling($this->repository)->getList = function () {
-            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->getList();
-
-        $this->assertFail($response, 403);
+        $this->entite = new \LibertAPI\Absence\Type\TypeEntite([
+            'id' => 42,
+            'type' => 'thieft',
+            'libelle' => 'GTA',
+            'libelleCourt' => 'vice'
+        ]);
     }
 
     protected function getOne()
     {
-        return $this->testedInstance->get($this->request, $this->response, ['planningId' => 99]);
+        return $this->testedInstance->get($this->request, $this->response, ['typeId' => 99]);
     }
 
     protected function getList()
@@ -75,7 +66,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         // Le framework fait du traitement, un mauvais json est simplement null
         $this->request->getMockController()->getParsedBody = null;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
         $response = $this->testedInstance->post($this->request, $this->response, []);
 
         $this->assertFail($response, 400);
@@ -91,7 +81,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
         $response = $this->testedInstance->post($this->request, $this->response, []);
 
         $this->assertFail($response, 412);
@@ -107,7 +96,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
             throw new \DomainException('Status doit être un int');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
         $response = $this->testedInstance->post($this->request, $this->response, []);
 
         $this->assertFail($response, 412);
@@ -122,7 +110,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         $this->router->getMockController()->pathFor = '';
         $this->repository->getMockController()->postOne = 42;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
         $response = $this->testedInstance->post($this->request, $this->response, []);
         $data = $this->getJsonDecoded($response->getBody());
 
@@ -143,6 +130,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         $this->repository->getMockController()->postOne = function () {
             throw new \Exception('');
         };
+
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $response = $this->testedInstance->post($this->request, $this->response, []);
@@ -162,8 +150,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         // Le framework fait du traitement, un mauvais json est simplement null
         $this->request->getMockController()->getParsedBody = null;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
 
         $this->assertFail($response, 400);
     }
@@ -178,8 +165,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
             throw new \DomainException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
 
         $this->boolean($response->isNotFound())->isTrue();
     }
@@ -195,7 +181,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
         $this->assertError($response);
     }
 
@@ -211,8 +197,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
 
         $this->assertFail($response, 412);
     }
@@ -228,8 +213,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
             throw new \DomainException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
 
         $this->assertFail($response, 412);
     }
@@ -246,7 +230,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
         $this->assertError($response);
     }
 
@@ -259,8 +243,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = '';
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
 
         $data = $this->getJsonDecoded($response->getBody());
 
@@ -285,8 +268,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
             throw new \DomainException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->delete($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->delete($this->request, $this->response, ['typeId' => 99]);
 
         $this->boolean($response->isNotFound())->isTrue();
     }
@@ -299,10 +281,11 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         $this->repository->getMockController()->getOne = function () {
             throw new \LogicException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $response = $this->testedInstance->delete($this->request, $this->response, ['planningId' => 99]);
-        $this->assertError($response);
+        $this->exception(function () {
+            $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+            $this->testedInstance->delete($this->request, $this->response, ['typeId' => 99]);
+        })->isInstanceOf('\Exception');
     }
 
     /**
@@ -312,14 +295,14 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     {
         $this->repository->getMockController()->getOne = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->delete($this->request, $this->response, ['planningId' => 99]);
+        $response = $this->testedInstance->delete($this->request, $this->response, ['typeId' => 99]);
         $data = $this->getJsonDecoded($response->getBody());
 
         $this->integer($response->getStatusCode())->isIdenticalTo(200);
         $this->array($data)
             ->integer['code']->isIdenticalTo(200)
             ->string['status']->isIdenticalTo('success')
+            ->string['message']->isIdenticalTo('')
             ->array['data']->isNotEmpty()
         ;
     }

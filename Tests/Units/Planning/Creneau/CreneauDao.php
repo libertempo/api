@@ -17,57 +17,6 @@ final class CreneauDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      * GET
      *************************************************/
 
-    /**
-     * Teste la méthode getById avec un id non trouvé
-     */
-    public function testGetByIdNotFound()
-    {
-        $this->calling($this->result)->fetch = [];
-        $dao = new _Dao($this->connector);
-
-        $get = $dao->getById(99);
-
-        $this->array($get)->isEmpty();
-    }
-
-    /**
-     * Teste la méthode getById avec un id trouvé
-     */
-    public function testGetByIdFound()
-    {
-        $this->calling($this->result)->fetch = ['a'];
-        $dao = new _Dao($this->connector);
-
-        $get = $dao->getById(99);
-
-        $this->array($get)->isNotEmpty();
-    }
-
-    /**
-     * Teste la méthode getList avec des critères non pertinents
-     */
-    public function testGetListNotFound()
-    {
-        $this->calling($this->result)->fetchAll = [];
-        $dao = new _Dao($this->connector);
-
-        $get = $dao->getList([]);
-
-        $this->array($get)->isEmpty();
-    }
-
-    /**
-    * Teste la méthode getList avec des critères pertinents
-     */
-    public function testGetListFound()
-    {
-        $this->calling($this->result)->fetchAll = [['a']];
-        $dao = new _Dao($this->connector);
-
-        $get = $dao->getList([]);
-
-        $this->array($get[0])->isNotEmpty();
-    }
 
     /*************************************************
      * POST
@@ -114,5 +63,18 @@ final class CreneauDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
         ], 22);
 
         $this->variable($put)->isNull();
+    }
+
+    /**
+     * Teste la méthode delete quand tout est ok
+     */
+    public function testDeleteOk()
+    {
+        $this->calling($this->result)->rowCount = 1;
+        $this->newTestedInstance($this->connector);
+
+        $res = $this->testedInstance->delete(7);
+
+        $this->variable($res)->isNull();
     }
 }

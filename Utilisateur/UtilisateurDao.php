@@ -13,6 +13,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 {
     public function getById($id)
     {
+        throw new \RuntimeException('Action is forbidden');
     }
 
     /**

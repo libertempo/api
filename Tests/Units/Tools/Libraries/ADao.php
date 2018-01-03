@@ -47,4 +47,68 @@ abstract class ADao extends \Atoum
      */
     protected $result;
 
+    /**
+     * Teste la méthode getById avec un id non trouvé
+     */
+    public function testGetByIdNotFound()
+    {
+        $this->calling($this->result)->fetch = [];
+        $this->newTestedInstance($this->connector);
+
+        $get = $this->testedInstance->getById(99);
+
+        $this->array($get)->isEmpty();
+    }
+
+    /**
+     * Teste la méthode getById avec un id trouvé
+     */
+    public function testGetByIdFound()
+    {
+        $this->calling($this->result)->fetch = ['a'];
+        $this->newTestedInstance($this->connector);
+
+        $get = $this->testedInstance->getById(99);
+
+        $this->array($get)->isNotEmpty();
+    }
+
+    /**
+     * Teste la méthode getList avec des critères non pertinents
+     */
+    public function testGetListNotFound()
+    {
+        $this->calling($this->result)->fetchAll = [];
+        $this->newTestedInstance($this->connector);
+
+        $get = $this->testedInstance->getList([]);
+
+        $this->array($get)->isEmpty();
+    }
+
+    /**
+     * Teste la méthode getList avec des critères pertinents
+     */
+    public function testGetListFound()
+    {
+        $this->calling($this->result)->fetchAll = [['a']];
+        $this->newTestedInstance($this->connector);
+
+        $get = $this->testedInstance->getList([]);
+
+        $this->array($get[0])->isNotEmpty();
+    }
+
+    /**
+     * Teste la méthode delete quand tout est ok
+     */
+    public function testDeleteOk()
+    {
+        $this->calling($this->result)->rowCount = 1;
+        $this->newTestedInstance($this->connector);
+
+        $res = $this->testedInstance->delete(7);
+
+        $this->integer($res)->isIdenticalTo(1);
+    }
 }
