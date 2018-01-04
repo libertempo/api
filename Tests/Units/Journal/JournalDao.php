@@ -35,32 +35,6 @@ final class JournalDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
         });
     }
 
-    /**
-     * Teste la méthode getList avec des critères non pertinents
-     */
-    public function testGetListNotFound()
-    {
-        $this->calling($this->result)->fetchAll = [];
-        $dao = $this->newTestedInstance($this->connector);
-
-        $get = $dao->getList([]);
-
-        $this->array($get)->isEmpty();
-    }
-
-    /**
-     * Teste la méthode getList avec des critères pertinents
-     */
-    public function testGetListFound()
-    {
-        $this->calling($this->result)->fetchAll = [['a']];
-        $dao = $this->newTestedInstance($this->connector);
-
-        $get = $dao->getList([]);
-
-        $this->array($get[0])->isNotEmpty();
-    }
-
     /*************************************************
      * POST
      *************************************************/

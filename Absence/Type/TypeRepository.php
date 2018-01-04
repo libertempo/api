@@ -14,10 +14,6 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
     /**
      * {@inheritDoc}
      */
