@@ -108,4 +108,17 @@ final class JournalDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
             $this->testedInstance->delete([]);
         })->isInstanceOf(\RuntimeException::class);
     }
+
+    protected function getStorageContent()
+    {
+        return [
+            'log_id' => 81,
+            'log_p_num' => 1213,
+            'log_user_login_par' => 'Baloo',
+            'log_user_login_pour' => 'Mowgli',
+            'log_etat' => 'gere',
+            'log_comment' => 'nope',
+            'log_date' => '2017-12-01',
+        ];
+    }
 }

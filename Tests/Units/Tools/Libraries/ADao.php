@@ -1,6 +1,8 @@
 <?php
 namespace LibertAPI\Tests\Units\Tools\Libraries;
 
+use LibertAPI\Tools\Libraries\AEntite;
+
 /**
  * Classe commune de test du DAO
  *
@@ -55,9 +57,9 @@ abstract class ADao extends \Atoum
         $this->calling($this->result)->fetch = [];
         $this->newTestedInstance($this->connector);
 
-        $get = $this->testedInstance->getById(99);
-
-        $this->array($get)->isEmpty();
+        $this->exception(function () {
+            $this->testedInstance->getById(99);
+        })->isInstanceOf(\DomainException::class);
     }
 
     /**
@@ -65,12 +67,12 @@ abstract class ADao extends \Atoum
      */
     public function testGetByIdFound()
     {
-        $this->calling($this->result)->fetch = ['a'];
+        $this->calling($this->result)->fetch = $this->getStorageContent();
         $this->newTestedInstance($this->connector);
 
         $get = $this->testedInstance->getById(99);
 
-        $this->array($get)->isNotEmpty();
+        $this->object($get)->isInstanceOf(AEntite::class);
     }
 
     /**
@@ -81,9 +83,9 @@ abstract class ADao extends \Atoum
         $this->calling($this->result)->fetchAll = [];
         $this->newTestedInstance($this->connector);
 
-        $get = $this->testedInstance->getList([]);
-
-        $this->array($get)->isEmpty();
+        $this->exception(function () {
+            $this->testedInstance->getList([]);
+        })->isInstanceOf(\UnexpectedValueException::class);
     }
 
     /**
@@ -91,13 +93,18 @@ abstract class ADao extends \Atoum
      */
     public function testGetListFound()
     {
-        $this->calling($this->result)->fetchAll = [['a']];
+        $this->calling($this->result)->fetchAll = [$this->getStorageContent()];
         $this->newTestedInstance($this->connector);
 
         $get = $this->testedInstance->getList([]);
 
-        $this->array($get[0])->isNotEmpty();
+        $this->array($get)->isNotEmpty();
+        array_map(function ($entite) {
+            $this->object($entite)->isInstanceOf(AEntite::class);
+        }, $get);
     }
+
+    abstract protected function getStorageContent();
 
     /**
      * Teste la méthode delete quand tout est ok

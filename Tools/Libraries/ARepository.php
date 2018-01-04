@@ -1,8 +1,6 @@
 <?php
 namespace LibertAPI\Tools\Libraries;
 
-use LibertAPI\Tools\Exceptions\MissingArgumentException;
-
 /**
  * Garant de la cohérence métier de l'entité en relation.
  * Autrement dit, c'est lui qui va chercher les données (dépendances comprises),

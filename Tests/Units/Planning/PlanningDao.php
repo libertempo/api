@@ -48,12 +48,14 @@ final class PlanningDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
         $this->variable($put)->isNull();
     }
 
-
-    private $storageContent = [
-        'planning_id' => 72,
-        'name' => 'name',
-        'status' => 59,
-    ];
+    protected function getStorageContent()
+    {
+        return [
+            'planning_id' => 42,
+            'name' => 'name',
+            'status' => 59,
+        ];
+    }
 
     private $entiteContent = [
         'id' => 72,

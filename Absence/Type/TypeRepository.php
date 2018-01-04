@@ -19,52 +19,6 @@ class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
      *************************************************/
 
     /**
-     * @inheritDoc
-     */
-    public function getOne($id)
-    {
-        $id = (int) $id;
-        $data = $this->dao->getById($id);
-        if (empty($data)) {
-            throw new \DomainException('Type#' . $id . ' is not a valid resource');
-        }
-
-        return new TypeEntite($this->getDataDao2Entite($data));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getList(array $parametres)
-    {
-        $data = $this->dao->getList($this->getParamsConsumer2Dao($parametres));
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = [];
-        foreach ($data as $value) {
-            $entite = new TypeEntite($this->getDataDao2Entite($value));
-            $entites[$entite->getId()] = $entite;
-        }
-
-        return $entites;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getDataDao2Entite(array $dataDao)
-    {
-        return [
-            'id' => $dataDao['ta_id'],
-            'type' => $dataDao['ta_type'],
-            'libelle' => $dataDao['ta_libelle'],
-            'libelleCourt' => $dataDao['ta_short_libelle'],
-        ];
-    }
-
-    /**
      * {@inheritDoc}
      */
     final protected function getParamsConsumer2Dao(array $paramsConsumer)
@@ -88,26 +42,6 @@ class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
             $results['gt'] = $filterInt($paramsConsumer['start-before']);
         }
         return $results;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getEntite2DataDao(AEntite $entite)
-    {
-        return [
-            'type' => $entite->getType(),
-            'libelle' => $entite->getLibelle(),
-            'libelleCourt' => $entite->getLibelleCourt(),
-        ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getListRequired()
-    {
-        return ['type', 'libelle', 'libelleCourt'];
     }
 
     /**

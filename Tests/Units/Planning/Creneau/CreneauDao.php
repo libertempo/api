@@ -46,15 +46,35 @@ final class CreneauDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
         $this->variable($put)->isNull();
     }
 
-    private $storageContent = [
-        'creneau_id' => 42,
-        'planning_id' => 12,
-        'jour_id' => 7,
-        'type_semaine' => 23,
-        'type_periode' => 2,
-        'debut' => 63,
-        'fin' => 55,
-    ];
+    /*************************************************
+     * DELETE
+     *************************************************/
+
+    /**
+     * Teste la méthode delete quand tout est ok
+     */
+    public function testDeleteOk()
+    {
+        $this->calling($this->result)->rowCount = 1;
+        $this->newTestedInstance($this->connector);
+
+        $res = $this->testedInstance->delete(7);
+
+        $this->variable($res)->isNull();
+    }
+
+    protected function getStorageContent()
+    {
+        return [
+            'creneau_id' => 42,
+            'planning_id' => 12,
+            'jour_id' => 7,
+            'type_semaine' => 23,
+            'type_periode' => 2,
+            'debut' => 63,
+            'fin' => 55,
+        ];
+    }
 
     private $entiteContent = [
         'id' => 42,
