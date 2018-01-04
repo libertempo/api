@@ -20,7 +20,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getById($id)
+    public function getById(int $id) : array
     {
         $this->queryBuilder->select('*');
         $this->setWhere(['id' => $id]);
@@ -50,7 +50,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getList(array $parametres)
+    public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('*');
         $this->setWhere($parametres);
@@ -154,7 +154,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function delete($id)
+    public function delete(int $id) : int
     {
         $this->queryBuilder->delete($this->getTableName());
         $this->setWhere(['ta_id' => $id]);
@@ -180,7 +180,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getTableName()
+    final protected function getTableName() : string
     {
         return 'conges_type_absence';
     }

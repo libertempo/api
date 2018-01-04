@@ -74,12 +74,11 @@ final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
      */
     public function testDeleteOk()
     {
-        $this->calling($this->result)->rowCount = 1;
         $this->newTestedInstance($this->connector);
 
-        $res = $this->testedInstance->delete(7);
-
-        $this->variable($res)->isNull();
+        $this->exception(function () {
+            $this->testedInstance->delete(7);
+        });
     }
 
     protected function getStorageContent()

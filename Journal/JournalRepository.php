@@ -21,7 +21,7 @@ class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function getOne($id)
+    public function getOne(int $id) : AEntite
     {
         throw new \RuntimeException('Journal#' . $id . ' is not a callable resource');
     }

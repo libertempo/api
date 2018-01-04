@@ -24,7 +24,7 @@ class PlanningRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function getOne(int $id) : \LibertAPI\Tools\Libraries\AEntite
+    public function getOne(int $id) : AEntite
     {
         $id = (int) $id;
         $data = $this->dao->getById($id);

@@ -195,6 +195,7 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function delete(int $id) : int
     {
+        throw new \RuntimeException('Forbidden action');
     }
 
     /**
