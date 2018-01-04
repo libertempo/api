@@ -22,7 +22,7 @@ final class JournalRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
 
     protected function initEntite()
     {
-        $this->entite = new JournalEntite([]);
+        $this->entite = new \LibertAPI\Journal\JournalEntite([]);
     }
 
     /*************************************************
