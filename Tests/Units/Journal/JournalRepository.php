@@ -1,8 +1,6 @@
 <?php
 namespace LibertAPI\Tests\Units\Journal;
 
-use LibertAPI\Journal\JournalEntite;
-
 /**
  * Classe de test du repository de journal
  *
