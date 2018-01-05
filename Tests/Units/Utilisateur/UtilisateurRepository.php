@@ -1,7 +1,6 @@
 <?php
 namespace LibertAPI\Tests\Units\Utilisateur;
 
-use LibertAPI\Utilisateur\UtilisateurEntite;
 use LibertAPI\Utilisateur\UtilisateurRepository as _Repository;
 use LibertAPI\Tools\Libraries\AEntite;
 
@@ -95,7 +94,7 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     public function testFind()
     {
-        $this->calling($this->dao)->getList = ['Aladdin' => new UtilisateurEntite([
+        $this->calling($this->dao)->getList = ['Aladdin' => new \LibertAPI\Utilisateur\UtilisateurEntite([
             'id' => 'Aladdin',
             'u_login' => 'Aladdin',
             'u_passwd' => 'OpenSesame',
@@ -115,7 +114,7 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
             'token' => '',
             'date_last_access' => 3,
         ]),
-        'Sinbad' => new UtilisateurEntite([
+        'Sinbad' => new \LibertAPI\Utilisateur\UtilisateurEntite([
             'id' => 'Sinbad',
             'u_login' => 'Sinbad',
             'u_nom' => 'Sinbad',
