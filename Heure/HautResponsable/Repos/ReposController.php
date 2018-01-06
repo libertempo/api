@@ -19,6 +19,13 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class ReposController extends \LibertAPI\Tools\Libraries\AController
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    {
+    }
+
     /*************************************************
      * GET
      *************************************************/
@@ -52,32 +59,19 @@ final class ReposController extends \LibertAPI\Tools\Libraries\AController
      */
     private function getOne(IResponse $response, $id, $heureId)
     {
-        $code = -1;
-        $data = [];
         try {
-            $heure = $this->repository->getOne($id, $heureId);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'statut' => 'success',
-                'message' => '',
-                'data' => $this->buildData($heure),
-            ];
-
-            return $response->withJson($data, $code);
+            $responseResource = $this->repository->getOne($id, $heureId);
         } catch (\DomainException $e) {
-            $code = 404;
-            $data = [
-                'code' => $code,
-                'statut' => 'error',
-                'message' => 'Not Found',
-                'data' => 'Element « heure#' . $id . ' » is not a valid resource',
-            ];
-
-            return $response->withJson($data, $code);
+            return $this->getResponseNotFound($response, 'Element « heure#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->buildData($responseResource),
+            200
+        );
     }
 
     /**
@@ -96,25 +90,21 @@ final class ReposController extends \LibertAPI\Tools\Libraries\AController
         $code = -1;
         $data = [];
         try {
-            $heures = $this->repository->getList(['heureStatut' => $heureStatut, 'employe' => $employe]);
-            $entites = [];
-            foreach ($heures as $heure) {
-                $entites[] = $this->buildData($heure);
-            }
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'statut' => 'success',
-                'message' => '',
-                'data' => $entites,
-            ];
-
-            return $response->withJson($data, $code);
+            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
+            $responseResources = $this->repository->getList(
+                $request->getQueryParams()
+            );
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+        $entites = [];
+        foreach ($responseResources as $responseResource) {
+            $entites[] = $this->buildData($heure);
+        }
+
+        return $this->getResponseSuccess($response, $entites, 200);
     }
 
     /**

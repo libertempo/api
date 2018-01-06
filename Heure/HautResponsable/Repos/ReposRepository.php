@@ -1,7 +1,6 @@
 <?php
 namespace LibertAPI\Heure\HautResponsable\Repos;
 
-use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Libraries\AEntite;
 
 /**
@@ -86,11 +85,58 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
             );
         };
         $results = [];
-        if (!empty($paramsConsumer['heureStatut'])) {
-            $results['statut'] = $filterInt($paramsConsumer['heureStatut']);
+        if (!empty($paramsConsumer['limit'])) {
+            $results['limit'] = $filterInt($paramsConsumer['limit']);
+        }
+        if (!empty($paramsConsumer['start-after'])) {
+            $results['lt'] = $filterInt($paramsConsumer['start-after']);
+
+        }
+        if (!empty($paramsConsumer['start-before'])) {
+            $results['gt'] = $filterInt($paramsConsumer['start-before']);
+        }
+        if (!empty($paramsConsumer['statut'])) {
+            $results['statut'] = $filterInt($paramsConsumer['statut']);
+        }
+        if (!empty($paramsConsumer['login'])) {
+            $results['u_login'] = (string) $paramsConsumer['login'];
         }
 
         return $results;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getEntite2DataDao(AEntite $entite)
+    {
+        return [
+            'login' => $entite->getEmployeId(),
+            'debut' => $entite->getDebut(),
+            'fin' => $entite->getFin(),
+            'duree' => $entite->getDuree(),
+            'typePeriode' => $entite->getTypePeriode(),
+            'statut' => $entite->getStatut(),
+            'commentaire' => $entite->getCommentaire(),
+            'commentaireRefus' => $entite->getCommentaireRefus(),
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getListRequired()
+    {
+        return [
+            'login', 
+            'debut', 
+            'fin', 
+            'duree', 
+            'typePeriode', 
+            'statut', 
+            'commentaire', 
+            'commentaireRefus'
+        ];
     }
 
     /*************************************************
@@ -114,13 +160,6 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
     {
     }
 
-    /**
-     * @inheritDoc
-     */
-    final protected function getEntite2DataDao(AEntite $entite)
-    {
-    }
-
     /*************************************************
      * PUT
      *************************************************/
@@ -141,5 +180,11 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     public function deleteOne(AEntite $entite)
     {
+        try {
+            $entite->reset();
+            $this->dao->delete($entite->getId());
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
