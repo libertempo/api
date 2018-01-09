@@ -23,15 +23,15 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
      *
      * @param int $planningId Contrainte de recherche sur le planning
      */
-    public function getOne($id, $heureStatut = null)
+    public function getOne($id)
     {
         $id = (int) $id;
-        $data = $this->dao->getById($id, $heureStatut);
+        $data = $this->dao->getById($id);
         if (empty($data)) {
-            throw new \DomainException('Heure#' . $id . ' with status#' . $heureStatut . ' is not a valid resource');
+            throw new \DomainException('Heure#' . $id . ' is not a valid resource');
         }
 
-        return new CreneauEntite($this->getDataDao2Entite($data));
+        return new ReposEntite($this->getDataDao2Entite($data));
     }
 
     /**
@@ -39,7 +39,6 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     public function getList(array $parametres)
     {
-        /* retourner une collection pour avoir le total, hors limite forcée (utile pour la pagination) */
         $data = $this->dao->getList($this->getParamsConsumer2Dao($parametres));
         if (empty($data)) {
             throw new \UnexpectedValueException('No resource match with these parameters');
@@ -67,8 +66,8 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
             'duree' => $dataDao['duree'],
             'statut' => $dataDao['statut'],
             'typePeriode' => $dataDao['typePeriode'],
-            'commentaire' => $dataDao['commentaire'],
-            'commentaireRefus' => $dataDao['commentaire_refus'],
+            'commentaire' => $dataDao['comment'],
+            'commentaireRefus' => $dataDao['comment_refus'],
         ];
     }
 
@@ -95,13 +94,6 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
         if (!empty($paramsConsumer['start-before'])) {
             $results['gt'] = $filterInt($paramsConsumer['start-before']);
         }
-        if (!empty($paramsConsumer['statut'])) {
-            $results['statut'] = $filterInt($paramsConsumer['statut']);
-        }
-        if (!empty($paramsConsumer['login'])) {
-            $results['u_login'] = (string) $paramsConsumer['login'];
-        }
-
         return $results;
     }
 
@@ -138,42 +130,6 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
             'commentaireRefus'
         ];
     }
-
-    /*************************************************
-     * POST
-     *************************************************/
-
-    /**
-     * Poste une liste de ressource
-     *
-     * @param array $data Tableau de données à poster
-     * @param AEntite $entite [Vide par définition]
-     */
-    public function postList(array $data, AEntite $entite)
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function postOne(array $data, AEntite $entite)
-    {
-    }
-
-    /*************************************************
-     * PUT
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function putOne(array $data, AEntite $entite)
-    {
-    }
-
-    /*************************************************
-     * DELETE
-     *************************************************/
 
     /**
      * @inheritDoc

@@ -1,6 +1,7 @@
 <?php
 namespace LibertAPI\Heure\HautResponsable\Repos;
 
+use LibertAPI\Tools\Interfaces;
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
@@ -18,6 +19,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * Ne devrait contacter que Heure\Repository
  */
 final class ReposController extends \LibertAPI\Tools\Libraries\AController
+implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
     /**
      * {@inheritDoc}
@@ -87,8 +89,6 @@ final class ReposController extends \LibertAPI\Tools\Libraries\AController
      */
     private function getList(IRequest $request, IResponse $response, $employe, $heureStatut)
     {
-        $code = -1;
-        $data = [];
         try {
             $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $responseResources = $this->repository->getList(

@@ -8,10 +8,7 @@ namespace LibertAPI\Heure\HautResponsable\Repos;
  * @author Wouldsmina <wouldsmina@gmail.com>
  *
  * @since 0.6
- * @see \LibertAPI\Tests\Units\Heure\RH\Repos
- *
- * Ne devrait être contacté que par le Planning\Creneau\Repository
- * Ne devrait contacter personne
+ * @see \LibertAPI\Tests\Units\Heure\RH\ReposEntitie
  */
 
 class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
