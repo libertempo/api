@@ -10,7 +10,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Wouldsmina <wouldsmina@gmail.com>
  *
  * @since 0.6
- * @see \Tests\Units\Heure\RH\Repos
+ * @see \Tests\Units\Heure\HautResponsable\Repos
  */
 class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
@@ -28,7 +28,7 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
         $id = (int) $id;
         $data = $this->dao->getById($id);
         if (empty($data)) {
-            throw new \DomainException('Heure#' . $id . ' is not a valid resource');
+            throw new \DomainException('Repos#' . $id . ' is not a valid resource');
         }
 
         return new ReposEntite($this->getDataDao2Entite($data));
@@ -46,7 +46,7 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
 
         $entites = [];
         foreach ($data as $value) {
-            $entite = new HeureEntite($this->getDataDao2Entite($value));
+            $entite = new ReposEntite($this->getDataDao2Entite($value));
             $entites[$entite->getId()] = $entite;
         }
 
@@ -65,7 +65,7 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
             'fin' => $dataDao['fin'],
             'duree' => $dataDao['duree'],
             'statut' => $dataDao['statut'],
-            'typePeriode' => $dataDao['typePeriode'],
+            'typePeriode' => $dataDao['type_periode'],
             'commentaire' => $dataDao['comment'],
             'commentaireRefus' => $dataDao['comment_refus'],
         ];
@@ -119,16 +119,7 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     protected function getListRequired()
     {
-        return [
-            'login', 
-            'debut', 
-            'fin', 
-            'duree', 
-            'typePeriode', 
-            'statut', 
-            'commentaire', 
-            'commentaireRefus'
-        ];
+        return ['login', 'debut', 'fin'];
     }
 
     /**

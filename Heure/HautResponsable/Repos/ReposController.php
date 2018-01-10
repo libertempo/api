@@ -15,8 +15,6 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @since 0.6
  * @see \Tests\Units\Heure\Repos
  *
- * Ne devrait être contacté que par le routeur
- * Ne devrait contacter que Heure\Repository
  */
 final class ReposController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
@@ -42,11 +40,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
-        if (!isset($arguments['heureId'])) {
+        if (!isset($arguments['reposId'])) {
             return $this->getList($request, $response, $arguments['employe'], (int) $arguments['statut']);
         }
 
-        return $this->getOne($response, (int) $arguments['heureId']);
+        return $this->getOne($response, (int) $arguments['reposId']);
     }
 
     /**
@@ -59,12 +57,12 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      * @return IResponse, 404 si l'élément n'est pas trouvé, 200 sinon
      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
-    private function getOne(IResponse $response, $id, $heureId)
+    private function getOne(IResponse $response, $id, $reposId)
     {
         try {
-            $responseResource = $this->repository->getOne($id, $heureId);
+            $responseResource = $this->repository->getOne($id, $reposId);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « heure#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « repos#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -77,17 +75,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     }
 
     /**
-     * Retourne un tableau d'heure
+     * Retourne un tableau d'heure de repos
      *
      * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
-     * @param int $heureStatut Contrainte de recherche sur le statut
+     * @param int $reposStatut Contrainte de recherche sur le statut
      * @param int $employe Contrainte de recherche sur l'employé
      *
      * @return IResponse
      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
-    private function getList(IRequest $request, IResponse $response, $employe, $heureStatut)
+    private function getList(IRequest $request, IResponse $response, $employe, $reposStatut)
     {
         try {
             $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
@@ -101,7 +99,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
         $entites = [];
         foreach ($responseResources as $responseResource) {
-            $entites[] = $this->buildData($heure);
+            $entites[] = $this->buildData($responseResource);
         }
 
         return $this->getResponseSuccess($response, $entites, 200);
@@ -110,11 +108,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param HeureEntite $entite heure
+     * @param ReposEntite $entite repos
      *
      * @return array
      */
-    private function buildData(HeureEntite $entite)
+    private function buildData(ReposEntite $entite)
     {
         return [
             'id' => $entite->getId(),
@@ -129,4 +127,89 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function post(IRequest $request, IResponse $response, array $routeArguments)
+    {
+        $body = $request->getParsedBody();
+        if (null === $body) {
+            return $this->getResponseBadRequest($response, 'Body request is not a json content');
+        }
+
+        try {
+            $reposId = $this->repository->postOne($body, new ReposEntite([]));
+        } catch (MissingArgumentException $e) {
+            return $this->getResponseMissingArgument($response);
+        } catch (\DomainException $e) {
+            return $this->getResponseBadDomainArgument($response, $e);
+        } catch (\Exception $e) {
+            return $this->getResponseError($response, $e);
+        }
+
+        return $this->getResponseSuccess(
+            $response,
+            $this->router->pathFor('getReposDetail', [
+                'reposId' => $reposId
+            ]),
+            201
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function put(IRequest $request, IResponse $response, array $arguments)
+    {
+        $body = $request->getParsedBody();
+        if (null === $body) {
+            return $this->getResponseBadRequest($response, 'Body request is not a json content');
+        }
+
+        $id = (int) $arguments['reposId'];
+        try {
+            $resource = $this->repository->getOne($id);
+        } catch (\DomainException $e) {
+            return $this->getResponseNotFound($response, 'Element « repos#' . $id . ' » is not a valid resource');
+        } catch (\Exception $e) {
+            return $this->getResponseError($response, $e);
+        }
+
+        try {
+            $this->repository->putOne($body, $resource);
+        } catch (MissingArgumentException $e) {
+            return $this->getResponseMissingArgument($response);
+        } catch (\DomainException $e) {
+            return $this->getResponseBadDomainArgument($response, $e);
+        } catch (\Exception $e) {
+            return $this->getResponseError($response, $e);
+        }
+
+        return $this->getResponseSuccess($response, '', 204);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete(IRequest $request, IResponse $response, array $arguments)
+    {
+        $id = (int) $arguments['reposId'];
+        try {
+            $resource = $this->repository->getOne($id);
+            $this->repository->deleteOne($resource);
+            $code = 200;
+            $data = [
+                'code' => $code,
+                'status' => 'success',
+                'message' => '',
+                'data' => '',
+            ];
+
+            return $response->withJson($data, $code);
+        } catch (\DomainException $e) {
+            return $this->getResponseNotFound($response, 'Element « repos#' . $id . ' » is not a valid resource');
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 }

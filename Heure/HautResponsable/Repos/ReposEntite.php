@@ -8,7 +8,7 @@ namespace LibertAPI\Heure\HautResponsable\Repos;
  * @author Wouldsmina <wouldsmina@gmail.com>
  *
  * @since 0.6
- * @see \LibertAPI\Tests\Units\Heure\RH\ReposEntitie
+ * @see \LibertAPI\Tests\Units\Heure\HautResponsable\ReposEntitie
  */
 
 class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
@@ -20,7 +20,7 @@ class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
      */
     public function getId()
     {
-        return (int) $this->getFreshData('heureId');
+        return (int) $this->getFreshData('Id');
     }
 
     /**
@@ -30,7 +30,7 @@ class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
      */
     public function getEmployeId()
     {
-        return $this->getFreshData('employeId');
+        return $this->getFreshData('employe');
     }
 
     /**

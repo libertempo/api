@@ -9,8 +9,6 @@ namespace LibertAPI\Heure\HautResponsable\Repos;
  *
  * @since 0.6
  *
- * Ne devrait être contacté que par Heure\HR\Repository
- * Ne devrait contacter personne
  */
 class ReposDao extends \LibertAPI\Tools\Libraries\ADao
 {
@@ -21,7 +19,7 @@ class ReposDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      *
-     * @param int $heureId Contrainte de recherche sur les heures
+     * @param int $id Contrainte de recherche sur les heures de repos
      */
     public function getById($id)
     {
@@ -59,10 +57,6 @@ class ReposDao extends \LibertAPI\Tools\Libraries\ADao
             $this->queryBuilder->andWhere('id_heure = :id');
             $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
         }
-        if (!empty($parametres['heure_statut'])) {
-            $this->queryBuilder->andWhere('statut = :heure_statut');
-            $this->queryBuilder->setParameter(':heure_statut', (int) $parametres['statut']);
-        }
         if (!empty($parametres['lt'])) {
             $this->queryBuilder->andWhere('id_heure < :lt');
             $this->queryBuilder->setParameter(':lt', (int) $parametres['lt']);
@@ -80,8 +74,8 @@ class ReposDao extends \LibertAPI\Tools\Libraries\ADao
      */
     private function setValues(array $values)
     {
-        $this->queryBuilder->setValue('login', ':login');
-        $this->queryBuilder->setParameter(':login', $values['login']);
+        $this->queryBuilder->setValue('login', ':employe');
+        $this->queryBuilder->setParameter(':employe', $values['employe']);
         $this->queryBuilder->setValue('debut', ':debut');
         $this->queryBuilder->setParameter(':debut', $values['debut']);
         $this->queryBuilder->setValue('fin', ':fin');
@@ -123,6 +117,45 @@ class ReposDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function put(array $data, $id)
     {
+        $this->queryBuilder->update($this->getTableName());
+        $this->setSet($data);
+        $this->queryBuilder->where('id_heure = :id');
+        $this->queryBuilder->setParameter(':id', $id);
+
+        $this->queryBuilder->execute();
+    }
+
+    private function setSet(array $parametres)
+    {
+        if (!empty($parametres['employe'])) {
+            $this->queryBuilder->set('login', ':employe');
+            $this->queryBuilder->setParameter(':employe', $parametres['employe']);
+        }
+        if (!empty($parametres['debut'])) {
+            $this->queryBuilder->set('debut', ':debut');
+            // @TODO : changer le schema
+            $this->queryBuilder->setParameter(':debut', $parametres['debut']);
+        }
+        if (!empty($parametres['fin'])) {
+            $this->queryBuilder->set('fin', ':fin');
+            $this->queryBuilder->setParameter(':fin', $parametres['fin']);
+        }
+        if (!empty($parametres['duree'])) {
+            $this->queryBuilder->set('duree', ':duree');
+            $this->queryBuilder->setParameter(':duree', $parametres['duree']);
+        }
+        if (!empty($parametres['typePeriode'])) {
+            $this->queryBuilder->set('type_periode', ':typePeriode');
+            $this->queryBuilder->setParameter(':typePeriode', $parametres['typePeriode']);
+        }
+        if (!empty($parametres['commentaire'])) {
+            $this->queryBuilder->set('comment', ':commentaire');
+            $this->queryBuilder->setParameter(':commentaire', $parametres['commentaire']);
+        }
+        if (!empty($parametres['commentaireRefus'])) {
+            $this->queryBuilder->set('comment_refus', ':commentaireRefus');
+            $this->queryBuilder->setParameter(':commentaireRefus', $parametres['commentaireRefus']);
+        }
     }
 
     /*************************************************
