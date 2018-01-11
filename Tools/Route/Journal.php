@@ -10,7 +10,6 @@
 
 /* Routes sur le journal */
 $app->group('/journal', function () {
-    $journalNS = '\LibertAPI\Journal\JournalController';
     /* Collection */
-    $this->get('', $journalNS .  ':get')->setName('getJournalListe');
+    $this->get('', 'controller:get')->setName('getJournalListe');
 });
