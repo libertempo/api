@@ -26,7 +26,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
         $this->setWhere(['id' => $id]);
         $res = $this->queryBuilder->execute();
 
-        $data = $res->fetch(\PDO::FETCH_ASSOC);;
+        $data = $res->fetch(\PDO::FETCH_ASSOC);
         if (empty($data)) {
             throw new \DomainException('#' . $id . ' is not a valid resource');
         }

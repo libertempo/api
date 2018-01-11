@@ -23,6 +23,7 @@ abstract class ARepository extends \Atoum
 
     public function beforeTestMethod($method)
     {
+        parent::beforeTestMethod($method);
         $this->initDao();
         $this->initEntite();
     }
