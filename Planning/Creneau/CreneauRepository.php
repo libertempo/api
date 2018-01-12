@@ -26,49 +26,7 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     public function getOne($id, $planningId = -1)
     {
-        $id = (int) $id;
-        $data = $this->dao->getById($id, $planningId);
-        if (empty($data)) {
-            throw new \DomainException('Creneau#' . $id . ' is not a valid resource');
-        }
-
-        return new CreneauEntite($this->getDataDao2Entite($data));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getList(array $parametres)
-    {
-        /* retourner une collection pour avoir le total, hors limite forcée (utile pour la pagination) */
-        $data = $this->dao->getList($this->getParamsConsumer2Dao($parametres));
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = [];
-        foreach ($data as $value) {
-            $entite = new CreneauEntite($this->getDataDao2Entite($value));
-            $entites[$entite->getId()] = $entite;
-        }
-
-        return $entites;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getDataDao2Entite(array $dataDao)
-    {
-        return [
-            'id' => $dataDao['creneau_id'],
-            'planningId' => $dataDao['planning_id'],
-            'jourId' => $dataDao['jour_id'],
-            'typeSemaine' => $dataDao['type_semaine'],
-            'typePeriode' => $dataDao['type_periode'],
-            'debut' => $dataDao['debut'],
-            'fin' => $dataDao['fin'],
-        ];
+        return $this->dao->getById((int) $id, $planningId);
     }
 
     /**
@@ -125,29 +83,6 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
         $this->dao->commit();
 
         return $postIds;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getEntite2DataDao(AEntite $entite)
-    {
-        return [
-            'planning_id' => $entite->getPlanningId(),
-            'jour_id' => $entite->getJourId(),
-            'type_semaine' => $entite->getTypeSemaine(),
-            'type_periode' => $entite->getTypePeriode(),
-            'debut' => $entite->getDebut(),
-            'fin' => $entite->getFin(),
-        ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getListRequired()
-    {
-        return ['planningId', 'jourId', 'typeSemaine', 'typePeriode', 'debut', 'fin'];
     }
 
     /*************************************************

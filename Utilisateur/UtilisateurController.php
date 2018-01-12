@@ -1,5 +1,5 @@
 <?php
-namespace App\Components\Utilisateur;
+namespace LibertAPI\Utilisateur;
 
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
@@ -109,11 +109,11 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param Entite $entite Utilisateur
+     * @param UtilisateurEntite $entite Utilisateur
      *
      * @return array
      */
-    private function buildData(Entite $entite)
+    private function buildData(UtilisateurEntite $entite)
     {
         return [
             'id' => $entite->getId(),

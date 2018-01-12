@@ -1,6 +1,8 @@
 <?php
 namespace LibertAPI\Journal;
 
+use LibertAPI\Tools\Libraries\AEntite;
+
 /**
  * {@inheritDoc}
  *
@@ -36,7 +38,34 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
         }
         $res = $this->queryBuilder->execute();
 
-        return $res->fetchAll(\PDO::FETCH_ASSOC);
+        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            throw new \UnexpectedValueException('No resource match with these parameters');
+        }
+
+        $entites = [];
+        foreach ($data as $value) {
+            $entite = new JournalEntite($this->getStorage2Entite($value));
+            $entites[$entite->getId()] = $entite;
+        }
+
+        return $entites;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getStorage2Entite(array $dataDao)
+    {
+        return [
+            'id' => $dataDao['log_id'],
+            'numeroPeriode' => $dataDao['log_p_num'],
+            'utilisateurActeur' => $dataDao['log_user_login_par'],
+            'utilisateurObjet' => $dataDao['log_user_login_pour'],
+            'etat' => $dataDao['log_etat'],
+            'commentaire' => $dataDao['log_comment'],
+            'date' => $dataDao['log_date'],
+        ];
     }
 
     /*************************************************
@@ -46,7 +75,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function post(array $data)
+    public function post(AEntite $entite)
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -58,7 +87,15 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function put(array $data, $id)
+    public function put(AEntite $entite)
+    {
+        throw new \RuntimeException('Action is forbidden');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getEntite2Storage(AEntite $entite)
     {
         throw new \RuntimeException('Action is forbidden');
     }
