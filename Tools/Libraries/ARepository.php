@@ -38,9 +38,9 @@ abstract class ARepository
      * @return \LibertAPI\Tools\Libraries\AEntite
      * @throws \DomainException Si $id n'est pas dans le domaine de définition
      */
-    public function getOne($id) : \LibertAPI\Tools\Libraries\AEntite
+    public function getOne(int $id) : \LibertAPI\Tools\Libraries\AEntite
     {
-        return $this->dao->getById((int) $id);
+        return $this->dao->getById($id);
     }
 
     /**

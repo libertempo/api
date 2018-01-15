@@ -46,7 +46,7 @@ abstract class ADao
      * @return AEntite
      * @throws \DomainException si $id n'est pas dans le domaine de définition
      */
-    abstract public function getById(int $id) : array;
+    abstract public function getById(int $id) : AEntite;
 
     /**
      * Effectue le mapping des éléments venant de la DAO pour qu'ils soient compréhensibles pour l'Entité

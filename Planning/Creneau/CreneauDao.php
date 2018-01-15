@@ -25,7 +25,7 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      *
      * @param int $planningId Contrainte de recherche sur le planning
      */
-    public function getById(int $id, $planningId = null) : array
+    public function getById(int $id, $planningId = null) : AEntite
     {
         $this->queryBuilder->select('*');
         $this->setWhere(['id' => $id, 'planning_id' => $planningId]);

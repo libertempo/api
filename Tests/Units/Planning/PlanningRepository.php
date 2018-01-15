@@ -22,7 +22,7 @@ final class PlanningRepository extends \LibertAPI\Tests\Units\Tools\Libraries\AR
 
     protected function initEntite()
     {
-        $this->entite = new \LibertAPI\Planning\PlanningEntite([]);
+        $this->entite = new \LibertAPI\Planning\PlanningEntite(['id' => 42]);
     }
 
     /*************************************************

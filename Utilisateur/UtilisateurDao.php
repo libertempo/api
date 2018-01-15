@@ -13,7 +13,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 {
-    public function getById(int $id) : array
+    public function getById(int $id) : AEntite
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -47,7 +47,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getList(array $parametres)
+    public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('*, u_login AS id');
         $this->setWhere($parametres);
@@ -74,6 +74,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function post(AEntite $entite) : int
     {
+        throw new \RuntimeException('Not implemented');
     }
 
     /**

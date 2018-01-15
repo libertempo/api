@@ -23,7 +23,7 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getById(int $id) : array
+    public function getById(int $id) : AEntite
     {
         $this->queryBuilder->select('*');
         $this->setWhere(['id' => $id]);

@@ -54,7 +54,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getParamsConsumer2Dao(array $paramsConsumer)
+    final protected function getParamsConsumer2Dao(array $paramsConsumer) : array
     {
         $results = [];
         if (!empty($paramsConsumer['login'])) {

@@ -45,8 +45,10 @@ final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
 
     public function testPost()
     {
-        $dao = new _Dao($this->connector);
-        $this->variable($dao->post(new UtilisateurEntite($this->entiteContent)))->isNull();
+        $this->exception(function () {
+            $dao = new _Dao($this->connector);
+            $this->variable($dao->post(new UtilisateurEntite($this->entiteContent)));
+        })->isInstanceOf(\RuntimeException::class);
     }
 
     /*************************************************

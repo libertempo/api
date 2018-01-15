@@ -20,7 +20,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getById(int $id) : array
+    public function getById(int $id) : AEntite
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -69,7 +69,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function post(AEntite $entite)
+    public function post(AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }

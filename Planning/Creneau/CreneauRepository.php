@@ -24,9 +24,9 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
      *
      * @param int $planningId Contrainte de recherche sur le planning
      */
-    public function getOne(int $id, $planningId = -1) : \LibertAPI\Tools\Libraries\AEntite
+    public function getOne(int $id, $planningId = -1) : AEntite
     {
-        return $this->dao->getById((int) $id, $planningId);
+        return $this->dao->getById($id, $planningId);
     }
 
     /**
@@ -62,12 +62,8 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
         $this->dao->beginTransaction();
         foreach ($data as $creneau) {
             try {
-                $postIds[] = $this->postOne($creneau, $entite);
-                /*
-                 * Le plus cool aurait été de cloner l'objet de base,
-                 * mais le clonage de mock est nul, donc on reset pour la boucle
-                 */
-                $entite->reset();
+                $cloneEntite = clone $entite;
+                $postIds[] = $this->postOne($creneau, $cloneEntite);
             } catch (\Exception $e) {
                 $this->dao->rollback();
                 throw $e;
