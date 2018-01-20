@@ -54,10 +54,6 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     {
         $this->queryBuilder->select('*');
         $this->setWhere($parametres);
-        if (!empty($parametres['limit'])) {
-            $this->queryBuilder->setFirstResult(0);
-            $this->queryBuilder->setMaxResults((int) $parametres['limit']);
-        }
         $res = $this->queryBuilder->execute();
 
         $data = $res->fetchAll(\PDO::FETCH_ASSOC);
@@ -171,21 +167,13 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
      * Définit les filtres à appliquer à la requête
      *
      * @param array $parametres
-     * @example [filter => [], lt => 23, limit => 4]
+     * @example [filter => []]
      */
     private function setWhere(array $parametres)
     {
         if (!empty($parametres['id'])) {
             $this->queryBuilder->andWhere('ta_id = :id');
             $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
-        }
-        if (!empty($parametres['lt'])) {
-            $this->queryBuilder->andWhere('planning_id < :lt');
-            $this->queryBuilder->setParameter(':lt', (int) $parametres['lt']);
-        }
-        if (!empty($parametres['gt'])) {
-            $this->queryBuilder->andWhere('planning_id > :gt');
-            $this->queryBuilder->setParameter(':gt', (int) $parametres['gt']);
         }
     }
 
