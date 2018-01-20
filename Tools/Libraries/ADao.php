@@ -61,7 +61,7 @@ abstract class ADao
      * Retourne une liste de ressource correspondant à des critères
      *
      * @param array $parametres
-     * @example [filter => [], lt => 23, limit => 4]
+     * @example [filter => []]
      *
      * @return array, vide si les critères ne sont pas pertinents
      */

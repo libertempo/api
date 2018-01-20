@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Planning;
+namespace LibertAPI\Groupe;
 
 use LibertAPI\Tools\Libraries\AEntite;
 
@@ -9,12 +9,12 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.1
+ * @since 0.7
  *
- * Ne devrait être contacté que par PlanningRepository
+ * Ne devrait être contacté que par GroupeRepository
  * Ne devrait contacter personne
  */
-class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
+class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
 {
     /*************************************************
      * GET
@@ -34,7 +34,7 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
             throw new \DomainException('#' . $id . ' is not a valid resource');
         }
 
-        return new PlanningEntite($this->getStorage2Entite($data));
+        return new GroupeEntite($this->getStorage2Entite($data));
     }
 
     /**
@@ -43,9 +43,10 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     final protected function getStorage2Entite(array $dataDao)
     {
         return [
-            'id' => $dataDao['planning_id'],
-            'name' => $dataDao['name'],
-            'status' => $dataDao['status'],
+            'id' => $dataDao['g_gid'],
+            'name' => $dataDao['g_groupename'],
+            'comment' => $dataDao['g_comment'],
+            'double_validation' => 'Y' === $dataDao['g_double_valid']
         ];
     }
 
@@ -65,7 +66,7 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
 
         $entites = [];
         foreach ($data as $value) {
-            $entite = new PlanningEntite($this->getStorage2Entite($value));
+            $entite = new GroupeEntite($this->getStorage2Entite($value));
             $entites[$entite->getId()] = $entite;
         }
 
@@ -95,9 +96,11 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     private function setValues(array $values)
     {
-        $this->queryBuilder->setValue('name', ':name');
+        $this->queryBuilder->setValue('g_groupename', ':name');
         $this->queryBuilder->setParameter(':name', $values['name']);
-        $this->queryBuilder->setValue('status', $values['status']);
+        $this->queryBuilder->setValue('g_comment', $values['comment']);
+        $this->queryBuilder->setValue('g_double_valid', $values['double_validation']);
+
     }
 
     /*************************************************
@@ -111,7 +114,7 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     {
         $this->queryBuilder->update($this->getTableName());
         $this->setSet($this->getEntite2Storage($entite));
-        $this->queryBuilder->where('planning_id = :id');
+        $this->queryBuilder->where('g_gid = :id');
         $this->queryBuilder->setParameter(':id', $entite->getId());
 
         $this->queryBuilder->execute();
@@ -124,19 +127,24 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     {
         return [
             'name' => $entite->getName(),
-            'status' => $entite->getStatus(),
+            'comment' => $entite->getComment(),
+            'double_validation' => 'Y' === $entite->isDoubleValidated()
         ];
     }
 
     private function setSet(array $parametres)
     {
         if (!empty($parametres['name'])) {
-            $this->queryBuilder->set('name', ':name');
+            $this->queryBuilder->set('g_groupename', ':name');
             $this->queryBuilder->setParameter(':name', $parametres['name']);
         }
-        if (!empty($parametres['status'])) {
-            $this->queryBuilder->set('status', ':status');
-            $this->queryBuilder->setParameter(':status', $parametres['status']);
+        if (!empty($parametres['comment'])) {
+            $this->queryBuilder->set('g_comment', ':comment');
+            $this->queryBuilder->setParameter(':comment', $parametres['comment']);
+        }
+        if (!empty($parametres['double_validation'])) {
+            $this->queryBuilder->set('g_double_valid', ':double_validation');
+            $this->queryBuilder->setParameter(':double_validation', $parametres['double_validation']);
         }
     }
 
@@ -165,7 +173,7 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     private function setWhere(array $parametres)
     {
         if (!empty($parametres['id'])) {
-            $this->queryBuilder->andWhere('planning_id = :id');
+            $this->queryBuilder->andWhere('g_gid = :id');
             $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
         }
     }
@@ -175,6 +183,6 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      */
     final protected function getTableName()
     {
-        return 'planning';
+        return 'conges_groupe';
     }
 }
