@@ -10,10 +10,10 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Tests\Units\Planning\Repository
+ * @see \LibertAPI\Tests\Units\Planning\PlanningRepository
  *
- * Ne devrait être contacté que par le Planning\Controller
- * Ne devrait contacter que le Planning\Entite, Planning\Dao
+ * Ne devrait être contacté que par le PlanningController
+ * Ne devrait contacter que le PlanningEntite, PlanningDao
  */
 class PlanningRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
@@ -26,25 +26,8 @@ class PlanningRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function getParamsConsumer2Dao(array $paramsConsumer)
     {
-        $filterInt = function ($var) {
-            return filter_var(
-                $var,
-                FILTER_VALIDATE_INT,
-                ['options' => ['min_range' => 1]]
-            );
-        };
-        $results = [];
-        if (!empty($paramsConsumer['limit'])) {
-            $results['limit'] = $filterInt($paramsConsumer['limit']);
-        }
-        if (!empty($paramsConsumer['start-after'])) {
-            $results['lt'] = $filterInt($paramsConsumer['start-after']);
-
-        }
-        if (!empty($paramsConsumer['start-before'])) {
-            $results['gt'] = $filterInt($paramsConsumer['start-before']);
-        }
-        return $results;
+        unset($paramsConsumer);
+        return [];
     }
 
 

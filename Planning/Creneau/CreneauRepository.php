@@ -34,16 +34,9 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function getParamsConsumer2Dao(array $paramsConsumer)
     {
-        $filterInt = function ($var) {
-            return filter_var(
-                $var,
-                FILTER_VALIDATE_INT,
-                ['options' => ['min_range' => 1]]
-            );
-        };
         $results = [];
         if (!empty($paramsConsumer['planningId'])) {
-            $results['planning_id'] = $filterInt($paramsConsumer['planningId']);
+            $results['planning_id'] = (int) $paramsConsumer['planningId'];
         }
 
         return $results;
