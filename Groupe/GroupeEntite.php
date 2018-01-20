@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Planning;
+namespace LibertAPI\Groupe;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 
@@ -9,13 +9,13 @@ use LibertAPI\Tools\Exceptions\MissingArgumentException;
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.1
- * @see \LibertAPI\Tests\Units\Planning\PlanningEntite
+ * @since 0.7
+ * @see \LibertAPI\Tests\Units\Groupe\GroupeEntite
  *
- * Ne devrait être contacté que par le Planning\Repository
+ * Ne devrait être contacté que par le Groupe\GroupeRepository
  * Ne devrait contacter personne
  */
-class PlanningEntite extends \LibertAPI\Tools\Libraries\AEntite
+class GroupeEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ name
@@ -28,13 +28,23 @@ class PlanningEntite extends \LibertAPI\Tools\Libraries\AEntite
     }
 
     /**
-     * Retourne la donnée la plus à jour du champ status
+     * Retourne la donnée la plus à jour du champ comment
      *
-     * @return int
+     * @return string
      */
-    public function getStatus()
+    public function getComment()
     {
-        return (int) $this->getFreshData('status');
+        return $this->getFreshData('comment');
+    }
+
+    /**
+     * Retourne la donnée la plus à jour du champ de double validation
+     *
+     * @return bool
+     */
+    public function isDoubleValidated()
+    {
+        return (bool) $this->getFreshData('double_validation');
     }
 
     /**
@@ -46,7 +56,8 @@ class PlanningEntite extends \LibertAPI\Tools\Libraries\AEntite
             throw new MissingArgumentException('');
         }
         $this->setName($data['name']);
-        $this->setStatus($data['status']);
+        $this->setComment($data['comment']);
+        $this->withDoubleValidation($data['double_validation']);
 
         $erreurs = $this->getErreurs();
         if (!empty($erreurs)) {
@@ -79,7 +90,7 @@ class PlanningEntite extends \LibertAPI\Tools\Libraries\AEntite
      */
     private function getListRequired()
     {
-        return ['name', 'status'];
+        return ['name', 'comment', 'double_validation'];
     }
 
     /**
@@ -100,22 +111,39 @@ class PlanningEntite extends \LibertAPI\Tools\Libraries\AEntite
         $this->dataUpdated['name'] = $name;
     }
 
-
     /**
-     * Tente l'insertion d'une donnée en tant que champ « status »
+     * Tente l'insertion d'une donnée en tant que champ « comment »
+     * Il ne s'agit que d'une aide pour l'utilisateur
      *
      * Stocke une erreur si la donnée ne colle pas au domaine
      *
-     * @param string $status
+     * @param string $comment
      */
-    private function setStatus($status)
+    private function setComment($comment)
     {
-        // domaine de status ?
-        if (empty($status)) {
-            $this->setErreur('status', 'Le champ est vide');
+        if (empty($comment)) {
+            $this->setErreur('comment', 'Le champ est vide');
             return;
         }
 
-        $this->dataUpdated['status'] = $status;
+        $this->dataUpdated['comment'] = $comment;
+    }
+
+    /**
+     * Tente l'insertion d'une donnée en tant que champ « comment »
+     * Il ne s'agit que d'une aide pour l'utilisateur
+     *
+     * Stocke une erreur si la donnée ne colle pas au domaine
+     *
+     * @param string $doubleValidation enum (Y, N)
+     */
+    private function withDoubleValidation($doubleValidation)
+    {
+        if (empty($doubleValidation)) {
+            $this->setErreur('double_validation', 'Le champ est vide');
+            return;
+        }
+
+        $this->dataUpdated['double_validation'] = 'Y' === $doubleValidation;
     }
 }
