@@ -49,7 +49,6 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
      * @param int $planningId Contrainte de recherche sur le planning
      *
      * @return IResponse, 404 si l'élément n'est pas trouvé, 200 sinon
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     private function getOne(IResponse $response, $id, $planningId)
     {
