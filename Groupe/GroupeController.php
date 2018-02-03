@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Planning;
+namespace LibertAPI\Groupe;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Interfaces;
@@ -7,18 +7,18 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
 /**
- * Contrôleur de plannings
+ * Contrôleur de groupes
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.1
- * @see \LibertAPI\Tests\Units\Planning\PlanningController
+ * @since 0.7
+ * @see \Tests\Units\GroupeController
  *
  * Ne devrait être contacté que par le routeur
- * Ne devrait contacter que le PlanningRepository
+ * Ne devrait contacter que le GroupeRepository
  */
-final class PlanningController extends \LibertAPI\Tools\Libraries\AController
+final class GroupeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
     /**
@@ -26,11 +26,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
-        $rights = [
-            'getList' => $utilisateur->isResponsable() || $utilisateur->isHautReponsable(),
-        ];
-
-        if (isset($rights[$order]) && !$rights[$order]) {
+        unset($order);
+        if (!$utilisateur->isAdmin()) {
             throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
         }
     }
@@ -40,11 +37,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
-        if (!isset($arguments['planningId'])) {
+        if (!isset($arguments['groupeId'])) {
             return $this->getList($request, $response);
         }
 
-        return $this->getOne($response, (int) $arguments['planningId']);
+        return $this->getOne($response, (int) $arguments['groupeId']);
     }
 
     /**
@@ -60,7 +57,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         try {
             $planning = $this->repository->getOne($id);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -73,7 +70,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     }
 
     /**
-     * Retourne un tableau de plannings
+     * Retourne un tableau de groupes
      *
      * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
@@ -84,7 +81,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         try {
             $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
-            $plannings = $this->repository->getList(
+            $groupes = $this->repository->getList(
                 $request->getQueryParams()
             );
         } catch (\UnexpectedValueException $e) {
@@ -95,8 +92,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
             return $this->getResponseError($response, $e);
         }
         $entites = [];
-        foreach ($plannings as $planning) {
-            $entites[] = $this->buildData($planning);
+        foreach ($groupes as $groupe) {
+            $entites[] = $this->buildData($groupe);
         }
 
         return $this->getResponseSuccess($response, $entites, 200);
@@ -105,16 +102,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param PlanningEntite $entite Planning
+     * @param GroupeEntite $entite Groupe
      *
      * @return array
      */
-    private function buildData(PlanningEntite $entite)
+    private function buildData(GroupeEntite $entite)
     {
         return [
             'id' => $entite->getId(),
             'name' => $entite->getName(),
-            'status' => $entite->getStatus(),
+            'comment' => $entite->getComment(),
+            'double_validation' => $entite->isDoubleValidated()
         ];
     }
 
@@ -129,7 +127,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $planningId = $this->repository->postOne($body, new PlanningEntite([]));
+            $groupeId = $this->repository->postOne($body, new GroupeEntite([]));
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -140,8 +138,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         return $this->getResponseSuccess(
             $response,
-            $this->router->pathFor('getPlanningDetail', [
-                'planningId' => $planningId
+            $this->router->pathFor('getGroupeDetail', [
+                'groupeId' => $groupeId
             ]),
             201
         );
@@ -157,17 +155,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
             return $this->getResponseBadRequest($response, 'Body request is not a json content');
         }
 
-        $id = (int) $arguments['planningId'];
+        $id = (int) $arguments['groupeId'];
         try {
-            $planning = $this->repository->getOne($id);
+            $groupe = $this->repository->getOne($id);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
 
         try {
-            $this->repository->putOne($body, $planning);
+            $this->repository->putOne($body, $groupe);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -184,12 +182,12 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     public function delete(IRequest $request, IResponse $response, array $arguments)
     {
-        $id = (int) $arguments['planningId'];
+        $id = (int) $arguments['groupeId'];
         try {
-            $planning = $this->repository->getOne($id);
-            $this->repository->deleteOne($planning);
+            $groupe = $this->repository->getOne($id);
+            $this->repository->deleteOne($groupe);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }

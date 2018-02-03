@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Absence\Type;
+namespace LibertAPI\Groupe;
 
 use LibertAPI\Tools\Libraries\AEntite;
 
@@ -9,9 +9,12 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.5
+ * @since 0.7
+ *
+ * Ne devrait être contacté que par GroupeRepository
+ * Ne devrait contacter personne
  */
-class TypeDao extends \LibertAPI\Tools\Libraries\ADao
+class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
 {
     /*************************************************
      * GET
@@ -31,7 +34,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
             throw new \DomainException('#' . $id . ' is not a valid resource');
         }
 
-        return new TypeEntite($this->getStorage2Entite($data));
+        return new GroupeEntite($this->getStorage2Entite($data));
     }
 
     /**
@@ -40,10 +43,10 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     final protected function getStorage2Entite(array $dataDao)
     {
         return [
-            'id' => $dataDao['ta_id'],
-            'type' => $dataDao['ta_type'],
-            'libelle' => $dataDao['ta_libelle'],
-            'libelleCourt' => $dataDao['ta_short_libelle'],
+            'id' => $dataDao['g_gid'],
+            'name' => $dataDao['g_groupename'],
+            'comment' => $dataDao['g_comment'],
+            'double_validation' => 'Y' === $dataDao['g_double_valid']
         ];
     }
 
@@ -63,7 +66,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
 
         $entites = [];
         foreach ($data as $value) {
-            $entite = new TypeEntite($this->getStorage2Entite($value));
+            $entite = new GroupeEntite($this->getStorage2Entite($value));
             $entites[$entite->getId()] = $entite;
         }
 
@@ -93,12 +96,11 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
      */
     private function setValues(array $values)
     {
-        $this->queryBuilder->setValue('ta_type', ':type');
-        $this->queryBuilder->setParameter(':type', $values['type']);
-        $this->queryBuilder->setValue('ta_libelle', ':libelle');
-        $this->queryBuilder->setParameter(':libelle', $values['libelle']);
-        $this->queryBuilder->setValue('ta_short_libelle', ':libelleCourt');
-        $this->queryBuilder->setParameter(':libelleCourt', $values['libelleCourt']);
+        $this->queryBuilder->setValue('g_groupename', ':name');
+        $this->queryBuilder->setParameter(':name', $values['name']);
+        $this->queryBuilder->setValue('g_comment', $values['comment']);
+        $this->queryBuilder->setValue('g_double_valid', $values['double_validation']);
+
     }
 
     /*************************************************
@@ -112,7 +114,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     {
         $this->queryBuilder->update($this->getTableName());
         $this->setSet($this->getEntite2Storage($entite));
-        $this->queryBuilder->where('ta_id = :id');
+        $this->queryBuilder->where('g_gid = :id');
         $this->queryBuilder->setParameter(':id', $entite->getId());
 
         $this->queryBuilder->execute();
@@ -124,26 +126,25 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     final protected function getEntite2Storage(AEntite $entite)
     {
         return [
-            'type' => $entite->getType(),
-            'libelle' => $entite->getLibelle(),
-            'libelleCourt' => $entite->getLibelleCourt(),
+            'name' => $entite->getName(),
+            'comment' => $entite->getComment(),
+            'double_validation' => 'Y' === $entite->isDoubleValidated()
         ];
     }
 
     private function setSet(array $parametres)
     {
-        if (!empty($parametres['type'])) {
-            $this->queryBuilder->set('ta_type', ':type');
-            $this->queryBuilder->setParameter(':type', $parametres['type']);
+        if (!empty($parametres['name'])) {
+            $this->queryBuilder->set('g_groupename', ':name');
+            $this->queryBuilder->setParameter(':name', $parametres['name']);
         }
-        if (!empty($parametres['libelle'])) {
-            $this->queryBuilder->set('ta_libelle', ':libelle');
-            // @TODO : changer le schema
-            $this->queryBuilder->setParameter(':libelle', $parametres['libelle']);
+        if (!empty($parametres['comment'])) {
+            $this->queryBuilder->set('g_comment', ':comment');
+            $this->queryBuilder->setParameter(':comment', $parametres['comment']);
         }
-        if (!empty($parametres['libelleCourt'])) {
-            $this->queryBuilder->set('ta_short_libelle', ':libelleCourt');
-            $this->queryBuilder->setParameter(':libelleCourt', $parametres['libelleCourt']);
+        if (!empty($parametres['double_validation'])) {
+            $this->queryBuilder->set('g_double_valid', ':double_validation');
+            $this->queryBuilder->setParameter(':double_validation', $parametres['double_validation']);
         }
     }
 
@@ -157,7 +158,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     public function delete($id)
     {
         $this->queryBuilder->delete($this->getTableName());
-        $this->setWhere(['ta_id' => $id]);
+        $this->setWhere(['id' => $id]);
         $res = $this->queryBuilder->execute();
 
         return $res->rowCount();
@@ -172,7 +173,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     private function setWhere(array $parametres)
     {
         if (!empty($parametres['id'])) {
-            $this->queryBuilder->andWhere('ta_id = :id');
+            $this->queryBuilder->andWhere('g_gid = :id');
             $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
         }
     }
@@ -182,6 +183,6 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
      */
     final protected function getTableName()
     {
-        return 'conges_type_absence';
+        return 'conges_groupe';
     }
 }

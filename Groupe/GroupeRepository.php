@@ -1,5 +1,5 @@
 <?php
-namespace LibertAPI\Planning;
+namespace LibertAPI\Groupe;
 
 use LibertAPI\Tools\Libraries\AEntite;
 
@@ -9,13 +9,13 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.1
+ * @since 0.7
  * @see \LibertAPI\Tests\Units\Planning\PlanningRepository
  *
- * Ne devrait être contacté que par le PlanningController
- * Ne devrait contacter que le PlanningEntite, PlanningDao
+ * Ne devrait être contacté que par le GroupeController
+ * Ne devrait contacter que le GroupeEntite, GroupeDao
  */
-class PlanningRepository extends \LibertAPI\Tools\Libraries\ARepository
+class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
     /*************************************************
      * GET

@@ -59,7 +59,6 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
      * @param int $id ID de l'élément
      *
      * @return IResponse, 404 si l'élément n'est pas trouvé, 200 sinon
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     private function getOne(IResponse $response, $id)
     {

@@ -46,7 +46,6 @@ abstract class ARepository
      * Retourne une liste de ressource correspondant à des critères
      *
      * @param array $parametres
-     * @example [offset => 4, start-after => 23, filter => 'name::chapo|status::1,3']
      *
      * @return array [$objetId => $objet]
      */
@@ -62,7 +61,6 @@ abstract class ARepository
      * Essentiel pour séparer / traduire les contextes Client / DAO
      *
      * @param array $paramsConsumer Paramètres reçus
-     * @example [offset => 4, start-after => 23, filter => 'name::chapo|status::1,3']
      *
      * @return array
      */

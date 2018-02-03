@@ -23,6 +23,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
+        // uniquement accessible par l'admin ?
     }
 
     /**
@@ -44,7 +45,6 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      * @param int $id ID de l'élément
      *
      * @return IResponse, 404 si l'élément n'est pas trouvé, 200 sinon
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     private function getOne(IResponse $response, $id)
     {

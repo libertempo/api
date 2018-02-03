@@ -11,7 +11,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  *
  * @since 0.1
  *
- * Ne devrait être contacté que par Planning\Repository
+ * Ne devrait être contacté que par PlanningRepository
  * Ne devrait contacter personne
  */
 class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
@@ -56,10 +56,6 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
     {
         $this->queryBuilder->select('*');
         $this->setWhere($parametres);
-        if (!empty($parametres['limit'])) {
-            $this->queryBuilder->setFirstResult(0);
-            $this->queryBuilder->setMaxResults((int) $parametres['limit']);
-        }
         $res = $this->queryBuilder->execute();
 
         $data = $res->fetchAll(\PDO::FETCH_ASSOC);
@@ -164,21 +160,13 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      * Définit les filtres à appliquer à la requête
      *
      * @param array $parametres
-     * @example [filter => [], lt => 23, limit => 4]
+     * @example [filter => []]
      */
     private function setWhere(array $parametres)
     {
         if (!empty($parametres['id'])) {
             $this->queryBuilder->andWhere('planning_id = :id');
             $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
-        }
-        if (!empty($parametres['lt'])) {
-            $this->queryBuilder->andWhere('planning_id < :lt');
-            $this->queryBuilder->setParameter(':lt', (int) $parametres['lt']);
-        }
-        if (!empty($parametres['gt'])) {
-            $this->queryBuilder->andWhere('planning_id > :gt');
-            $this->queryBuilder->setParameter(':gt', (int) $parametres['gt']);
         }
     }
 

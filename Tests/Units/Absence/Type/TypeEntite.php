@@ -1,10 +1,8 @@
 <?php
 namespace LibertAPI\Tests\Units\Absence\Type;
 
-use \LibertAPI\Planning\PlanningEntite as _Entite;
-
 /**
- * Classe de test du modèle de planning
+ * Classe de test de l'entité de type d'absence
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
