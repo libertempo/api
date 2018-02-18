@@ -61,11 +61,11 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
             throw new \UnexpectedValueException('No resource match with these parameters');
         }
 
-        $entites = [];
-        foreach ($data as $value) {
-            $entite = new TypeEntite($this->getStorage2Entite($value));
-            $entites[$entite->getId()] = $entite;
-        }
+        $entites = array_map(function ($value) {
+                return new TypeEntite($this->getStorage2Entite($value));
+            },
+            $data
+        );
 
         return $entites;
     }

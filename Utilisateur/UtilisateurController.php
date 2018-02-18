@@ -97,10 +97,7 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        $entites = [];
-        foreach ($utilisateurs as $utilisateur) {
-            $entites[] = $this->buildData($utilisateur);
-        }
+        $entites = array_map([$this, 'buildData'], $utilisateurs);
 
         return $this->getResponseSuccess($response, $entites, 200);
     }

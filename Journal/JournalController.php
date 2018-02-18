@@ -34,7 +34,6 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
      * @param array $arguments Arguments de route
      *
      * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     public function get(IRequest $request, IResponse $response, array $arguments)
     {
@@ -46,13 +45,9 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
-
-        $entites = [];
-        foreach ($resources as $resource) {
-            $entites[] = $this->buildData($resource);
-        }
+        $entites = array_map([$this, 'buildData'], $resources);
 
         return $this->getResponseSuccess($response, $entites, 200);
     }

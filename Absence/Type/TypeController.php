@@ -84,10 +84,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        $entites = [];
-        foreach ($responseResources as $responseResource) {
-            $entites[] = $this->buildData($responseResource);
-        }
+        $entites = array_map([$this, 'buildData'], $responseResources);
 
         return $this->getResponseSuccess($response, $entites, 200);
     }
