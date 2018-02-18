@@ -63,9 +63,7 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
     public function testGetFound()
     {
         $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->repository)->getList = [
-            42 => $this->entite,
-        ];
+        $this->calling($this->repository)->getList = [$this->entite,];
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $data = $this->getJsonDecoded($response->getBody());
@@ -106,8 +104,7 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
-        $this->exception(function () {
-            $this->testedInstance->get($this->request, $this->response, []);
-        })->isInstanceOf('\Exception');
+        $response = $this->testedInstance->get($this->request, $this->response, []);
+        $this->assertError($response);
     }
 }

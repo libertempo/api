@@ -35,7 +35,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
     public function getList(array $parametres)
     {
         $this->queryBuilder->select('users.*, users.u_login AS id');
-        $this->queryBuilder->join('current', 'conges_users', 'users');
+        $this->queryBuilder->innerJoin('current', 'conges_users', 'users', 'current.gr_login = u_login');
         $this->setWhere($parametres);
         $res = $this->queryBuilder->execute();
 
@@ -44,11 +44,9 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
             throw new \UnexpectedValueException('No resource match with these parameters');
         }
 
-        $entites = [];
-        foreach ($data as $value) {
-            $entite = new UtilisateurEntite($this->getStorage2Entite($value));
-            $entites[$entite->getId()] = $entite;
-        }
+        $entites = array_map(function ($value) {
+            return new UtilisateurEntite($this->getStorage2Entite($value));
+        }, $data);
 
         return $entites;
     }
