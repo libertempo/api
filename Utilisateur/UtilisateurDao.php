@@ -31,7 +31,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
             'isResp' => $dataDao['u_is_resp'] === 'Y',
             'isAdmin' => $dataDao['u_is_admin'] === 'Y',
             'isHr' => $dataDao['u_is_hr'] === 'Y',
-            'isActive' => $dataDao['u_is_active'] === 'Y',
+            'isActif' => $dataDao['u_is_active'] === 'Y',
             'seeAll' => $dataDao['u_see_all'] === 'Y',
             'password' => $dataDao['u_passwd'],
             'quotite' => $dataDao['u_quotite'],
@@ -160,6 +160,10 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
         if (!empty($parametres['gt_date_last_access'])) {
             $this->queryBuilder->andWhere('date_last_access >= :gt_date_last_access');
             $this->queryBuilder->setParameter(':gt_date_last_access', $parametres['gt_date_last_access']);
+        }
+        if (!empty($parametres['is_active'])) {
+            $this->queryBuilder->andWhere('u_is_active = :actif');
+            $this->queryBuilder->setParameter(':actif', ($parametres['is_active']) ? 'Y' : 'N');
         }
     }
 
