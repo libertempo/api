@@ -20,7 +20,7 @@ final class GroupeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARep
 
     protected function initEntite()
     {
-        $this->entite = new \LibertAPI\Groupe\GroupeEntite([]);
+        $this->entite = new \LibertAPI\Groupe\GroupeEntite(['id' => 123]);
     }
 
     /*************************************************

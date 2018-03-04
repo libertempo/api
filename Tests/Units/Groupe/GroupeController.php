@@ -1,6 +1,8 @@
 <?php
 namespace LibertAPI\Tests\Units\Groupe;
 
+use Psr\Http\Message\ResponseInterface as IResponse;
+
 /**
  * Classe de test du contrôleur de groupe
  *
@@ -54,12 +56,12 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
         $this->assertFail($response, 403);
     }
 
-    protected function getOne()
+    protected function getOne() : IResponse
     {
         return $this->testedInstance->get($this->request, $this->response, ['groupeId' => 99]);
     }
 
-    protected function getList()
+    protected function getList() : IResponse
     {
         return $this->testedInstance->get($this->request, $this->response, []);
     }

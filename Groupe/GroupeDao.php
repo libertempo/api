@@ -23,7 +23,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getById($id)
+    public function getById(int $id) : AEntite
     {
         $this->queryBuilder->select('*');
         $this->setWhere(['id' => $id]);
@@ -53,7 +53,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getList(array $parametres)
+    public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('*');
         $this->setWhere($parametres);
@@ -80,7 +80,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function post(AEntite $entite)
+    public function post(AEntite $entite) : int
     {
         $this->queryBuilder->insert($this->getTableName());
         $this->setValues($this->getEntite2Storage($entite));
@@ -155,7 +155,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function delete($id)
+    public function delete(int $id) : int
     {
         $this->queryBuilder->delete($this->getTableName());
         $this->setWhere(['id' => $id]);
@@ -181,7 +181,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getTableName()
+    final protected function getTableName() : string
     {
         return 'conges_groupe';
     }
