@@ -95,7 +95,6 @@ final class UtilisateurDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
             'u_is_admin' => 'Y',
             'u_is_hr' => 'N',
             'u_is_active' => 'Y',
-            'u_see_all' => 'Y',
             'u_passwd' => 'Sésame Ouvre toi',
             'u_quotite' => '21220',
             'u_email' => 'aladdin@example.org',
