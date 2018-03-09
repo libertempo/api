@@ -64,11 +64,6 @@ class UtilisateurEntite extends \LibertAPI\Tools\Libraries\AEntite
         return (int) $this->getFreshData('isActif');
     }
 
-    public function canSeeAll()
-    {
-        return (int) $this->getFreshData('seeAll');
-    }
-
     public function getMotDePasse()
     {
         return $this->getFreshData('password');
