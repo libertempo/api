@@ -159,6 +159,10 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
             $this->queryBuilder->andWhere('date_last_access >= :gt_date_last_access');
             $this->queryBuilder->setParameter(':gt_date_last_access', $parametres['gt_date_last_access']);
         }
+        if (!empty($parametres['is_active'])) {
+            $this->queryBuilder->andWhere('u_is_active = :actif');
+            $this->queryBuilder->setParameter(':actif', ($parametres['is_active']) ? 'Y' : 'N');
+        }
     }
 
     /**

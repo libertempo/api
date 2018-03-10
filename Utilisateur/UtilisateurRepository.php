@@ -69,6 +69,9 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         if (!empty($paramsConsumer['gt_date_last_access'])) {
             $results['gt_date_last_access'] = (string) $paramsConsumer['gt_date_last_access'];
         }
+        if (!empty($paramsConsumer['isActif'])) {
+            $results['is_active'] = $paramsConsumer['isActif'];
+        }
         return $results;
     }
 

@@ -50,6 +50,7 @@ implements Interfaces\IGetable
             $utilisateur = $this->repository->find([
                 'login' => $login,
                 'password' => $password,
+                'isActif' => true,
             ]);
             $utilisateurUpdated = $this->repository->regenerateToken($utilisateur);
         } catch (\UnexpectedValueException $e) {
