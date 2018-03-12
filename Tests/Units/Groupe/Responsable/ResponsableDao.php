@@ -81,7 +81,7 @@ final class ResponsableDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->delete([]);
+            $this->testedInstance->delete(0);
         })->isInstanceOf(\RuntimeException::class);
     }
 

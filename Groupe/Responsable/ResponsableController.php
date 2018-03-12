@@ -25,7 +25,7 @@ implements Interfaces\IGetable
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, UtilisateurEntite $utilisateur)
+    protected function ensureAccessUser(string $order, UtilisateurEntite $utilisateur)
     {
         unset($order);
         if (!$utilisateur->isAdmin()) {

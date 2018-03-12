@@ -35,10 +35,10 @@ abstract class ARepository
      *
      * @param int $id Id potentiel de ressource
      *
-     * @return \LibertAPI\Tools\Libraries\AEntite
+     * @return AEntite
      * @throws \DomainException Si $id n'est pas dans le domaine de définition
      */
-    public function getOne(int $id) : \LibertAPI\Tools\Libraries\AEntite
+    public function getOne(int $id) : AEntite
     {
         return $this->dao->getById($id);
     }

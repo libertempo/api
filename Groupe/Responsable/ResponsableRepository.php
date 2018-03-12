@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Groupe\Responsable;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -21,7 +21,7 @@ class ResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function getOne($id)
+    public function getOne(int $id) : AEntite
     {
         throw new \RuntimeException('#' . $id . ' is not a callable resource');
     }
@@ -29,7 +29,7 @@ class ResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getParamsConsumer2Dao(array $paramsConsumer)
+    final protected function getParamsConsumer2Dao(array $paramsConsumer) : array
     {
         unset($paramsConsumer);
         return [];
