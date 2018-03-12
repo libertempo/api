@@ -32,6 +32,10 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         $this->entite->getMockController()->getStatus = 12;
     }
 
+    /*************************************************
+     * GET
+     *************************************************/
+
     /**
      * Teste la méthode get d'une liste avec des droits insuffisants
      */

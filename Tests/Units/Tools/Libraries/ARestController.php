@@ -99,9 +99,7 @@ abstract class ARestController extends AController
     public function testGetListFound()
     {
         $this->request->getMockController()->getQueryParams = [];
-        $this->repository->getMockController()->getList = [
-            42 => $this->entite,
-        ];
+        $this->repository->getMockController()->getList = [$this->entite,];
         $this->newTestedInstance($this->repository, $this->router, $this->currentAdmin);
 
         $response = $this->getList();
