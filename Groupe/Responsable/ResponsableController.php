@@ -74,7 +74,6 @@ implements Interfaces\IGetable
             'isAdmin' => $entite->isAdmin(),
             'isHr' => $entite->isHautReponsable(),
             'isActif' => $entite->isActif(),
-            'seeAll' => $entite->canSeeAll(),
             'password' => $entite->getMotDePasse(),
             'quotite' => $entite->getQuotite(),
             'email' => $entite->getMail(),
