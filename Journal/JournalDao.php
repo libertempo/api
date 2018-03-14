@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Journal;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -89,7 +89,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getEntite2Storage(AEntite $entite)
+    final protected function getEntite2Storage(AEntite $entite) : array
     {
         throw new \RuntimeException('Action is forbidden');
     }

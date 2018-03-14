@@ -98,7 +98,7 @@ abstract class ADao
      *
      * @return array
      */
-    abstract protected function getEntite2Storage(AEntite $entite);
+    abstract protected function getEntite2Storage(AEntite $entite) : array;
 
     /*************************************************
      * DELETE

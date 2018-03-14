@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Groupe\Responsable;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -56,7 +56,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
      *
      * Duplication de la fonction dans UtilisateurDao (Cf. decisions.md #2018-02-17)
      */
-    final protected function getStorage2Entite(array $dataDao)
+    final protected function getStorage2Entite(array $dataDao) : array
     {
         return [
             'id' => $dataDao['id'],
@@ -107,7 +107,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getEntite2Storage(AEntite $entite)
+    final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [];
     }

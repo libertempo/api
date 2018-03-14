@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Units\Tools\Libraries;
 
 use Psr\Http\Message\ResponseInterface as IResponse;

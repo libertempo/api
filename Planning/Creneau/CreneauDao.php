@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Planning\Creneau;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -146,7 +146,7 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getEntite2Storage(AEntite $entite)
+    final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [
             'planning_id' => $entite->getPlanningId(),

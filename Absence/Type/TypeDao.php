@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Absence\Type;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -121,7 +121,7 @@ class TypeDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getEntite2Storage(AEntite $entite)
+    final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [
             'type' => $entite->getType(),

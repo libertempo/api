@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Utilisateur;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -93,7 +93,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getEntite2Storage(AEntite $entite)
+    final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [
             //'u_login' => $entite->getLogin(), // PK ne doit pas être vu par la DAO
