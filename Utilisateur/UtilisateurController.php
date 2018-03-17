@@ -21,7 +21,7 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
     }
 
@@ -43,7 +43,7 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
      * @return IResponse
      * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
-    public function get(IRequest $request, IResponse $response, array $arguments)
+    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         if (!isset($arguments['utilisateurId'])) {
             return $this->getList($request, $response);

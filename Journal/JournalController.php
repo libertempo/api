@@ -35,7 +35,7 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
      *
      * @return IResponse
      */
-    public function get(IRequest $request, IResponse $response, array $arguments)
+    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         unset($arguments);
         try {

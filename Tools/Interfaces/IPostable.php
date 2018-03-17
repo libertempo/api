@@ -18,5 +18,5 @@ interface IPostable
      *
      * @return IResponse
      */
-    public function post(IRequest $request, IResponse $response, array $routeArguments);
+    public function post(IRequest $request, IResponse $response, array $routeArguments) : IResponse;
 }

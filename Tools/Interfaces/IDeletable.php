@@ -18,5 +18,5 @@ interface IDeletable
      *
      * @return IResponse
      */
-    public function delete(IRequest $request, IResponse $response, array $routeArguments);
+    public function delete(IRequest $request, IResponse $response, array $routeArguments) : IResponse;
 }

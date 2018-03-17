@@ -18,5 +18,5 @@ interface IPutable
      *
      * @return IResponse
      */
-    public function put(IRequest $request, IResponse $response, array $routeArguments);
+    public function put(IRequest $request, IResponse $response, array $routeArguments) : IResponse;
 }
