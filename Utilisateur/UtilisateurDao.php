@@ -141,25 +141,32 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
      */
     private function setWhere(array $parametres)
     {
+        $whereCriteria = [];
         if (!empty($parametres['u_login'])) {
             $this->queryBuilder->andWhere('u_login = :id');
-            $this->queryBuilder->setParameter(':id', $parametres['u_login']);
+            $whereCriteria[':id'] = $parametres['u_login'];
         }
         if (!empty($parametres['u_passwd'])) {
-            $this->queryBuilder->andWhere('u_passwd = :password');
-            $this->queryBuilder->setParameter(':password', $parametres['u_passwd']);
+            // @TODO: on vise la compat' dans la migration de #12,
+            // mais il faudra à terme enlever md5
+            $this->queryBuilder->andWhere('u_passwd = :passwordMd5 OR u_passwd = :passwordBlow');
+            $whereCriteria[':passwordMd5'] = md5($parametres['u_passwd']);
+            $whereCriteria[':passwordBlow'] = password_hash($parametres['u_passwd'], PASSWORD_BCRYPT);
         }
         if (!empty($parametres['token'])) {
             $this->queryBuilder->andWhere('token = :token');
-            $this->queryBuilder->setParameter(':token', $parametres['token']);
+            $whereCriteria[':token'] = $parametres['token'];
         }
         if (!empty($parametres['gt_date_last_access'])) {
             $this->queryBuilder->andWhere('date_last_access >= :gt_date_last_access');
-            $this->queryBuilder->setParameter(':gt_date_last_access', $parametres['gt_date_last_access']);
+            $whereCriteria[':gt_date_last_access'] = $parametres['gt_date_last_access'];
         }
         if (!empty($parametres['is_active'])) {
             $this->queryBuilder->andWhere('u_is_active = :actif');
-            $this->queryBuilder->setParameter(':actif', ($parametres['is_active']) ? 'Y' : 'N');
+            $whereCriteria[':actif'] = ($parametres['is_active']) ? 'Y' : 'N';
+        }
+        if (!empty($whereCriteria)) {
+            $this->queryBuilder->setParameters($whereCriteria);
         }
     }
 
