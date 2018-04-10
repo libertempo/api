@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Groupe\Responsable;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -24,7 +24,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getById($id)
+    public function getById(int $id) : AEntite
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -32,7 +32,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getList(array $parametres)
+    public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('users.*, users.u_login AS id');
         $this->queryBuilder->innerJoin('current', 'conges_users', 'users', 'current.gr_login = u_login');
@@ -56,7 +56,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
      *
      * Duplication de la fonction dans UtilisateurDao (Cf. decisions.md #2018-02-17)
      */
-    final protected function getStorage2Entite(array $dataDao)
+    final protected function getStorage2Entite(array $dataDao) : array
     {
         return [
             'id' => $dataDao['id'],
@@ -87,7 +87,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function post(AEntite $entite)
+    public function post(AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -107,7 +107,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getEntite2Storage(AEntite $entite)
+    final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [];
     }
@@ -119,7 +119,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function delete($id)
+    public function delete(int $id) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -141,7 +141,7 @@ class ResponsableDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getTableName()
+    final protected function getTableName() : string
     {
         return 'conges_groupe_resp';
     }

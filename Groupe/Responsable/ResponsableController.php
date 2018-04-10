@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Groupe\Responsable;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
@@ -25,7 +25,7 @@ implements Interfaces\IGetable
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, UtilisateurEntite $utilisateur)
+    protected function ensureAccessUser(string $order, UtilisateurEntite $utilisateur)
     {
         unset($order);
         if (!$utilisateur->isAdmin()) {
@@ -36,7 +36,7 @@ implements Interfaces\IGetable
     /**
      * {@inheritDoc}
      */
-    public function get(IRequest $request, IResponse $response, array $arguments)
+    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         unset($arguments);
         try {

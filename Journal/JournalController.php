@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Journal;
 
 use Psr\Http\Message\ServerRequestInterface as IRequest;
@@ -18,7 +18,7 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
     }
 
@@ -35,7 +35,7 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
      *
      * @return IResponse
      */
-    public function get(IRequest $request, IResponse $response, array $arguments)
+    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         unset($arguments);
         try {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Planning\Creneau;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
@@ -25,14 +25,14 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public function get(IRequest $request, IResponse $response, array $arguments)
+    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         if (!isset($arguments['creneauId'])) {
             return $this->getList($response, (int) $arguments['planningId']);
@@ -113,7 +113,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     /**
      * {@inheritDoc}
      */
-    public function post(IRequest $request, IResponse $response, array $arguments)
+    public function post(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         $body = $request->getParsedBody();
         if (null === $body) {
@@ -151,7 +151,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     /**
      * {@inheritDoc}
      */
-    public function put(IRequest $request, IResponse $response, array $arguments)
+    public function put(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         $body = $request->getParsedBody();
         if (null === $body) {

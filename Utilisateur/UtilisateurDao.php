@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Utilisateur;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -13,7 +13,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 {
-    public function getById($id)
+    public function getById(int $id) : AEntite
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -21,7 +21,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getStorage2Entite(array $dataDao)
+    final protected function getStorage2Entite(array $dataDao) : array
     {
         return [
             'id' => $dataDao['id'],
@@ -47,7 +47,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getList(array $parametres)
+    public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('*, u_login AS id');
         $this->setWhere($parametres);
@@ -72,8 +72,9 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function post(AEntite $entite)
+    public function post(AEntite $entite) : int
     {
+        throw new \RuntimeException('Not implemented');
     }
 
     /**
@@ -92,7 +93,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getEntite2Storage(AEntite $entite)
+    final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [
             //'u_login' => $entite->getLogin(), // PK ne doit pas être vu par la DAO
@@ -130,8 +131,9 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
      * DELETE
      *************************************************/
 
-    public function delete($id)
+    public function delete(int $id) : int
     {
+        throw new \Exception('Not implemented');
     }
 
     /**
@@ -166,7 +168,7 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getTableName()
+    final protected function getTableName() : string
     {
         return 'conges_users';
     }

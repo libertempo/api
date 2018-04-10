@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Utilisateur;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -54,7 +54,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getParamsConsumer2Dao(array $paramsConsumer)
+    final protected function getParamsConsumer2Dao(array $paramsConsumer) : array
     {
         $results = [];
         if (!empty($paramsConsumer['login'])) {
@@ -79,8 +79,9 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
      * POST
      *************************************************/
 
-    public function postOne(array $data, AEntite $entite)
+    public function postOne(array $data, AEntite $entite) : int
     {
+        throw new \Exception('Not implemented');
     }
 
     /*************************************************
