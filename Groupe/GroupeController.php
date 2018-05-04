@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Groupe;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
@@ -24,7 +24,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * {@inheritDoc}
      */
-    protected function ensureAccessUser($order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
         unset($order);
         if (!$utilisateur->isAdmin()) {
@@ -35,7 +35,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * {@inheritDoc}
      */
-    public function get(IRequest $request, IResponse $response, array $arguments)
+    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         if (!isset($arguments['groupeId'])) {
             return $this->getList($request, $response);
@@ -116,7 +116,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * {@inheritDoc}
      */
-    public function post(IRequest $request, IResponse $response, array $routeArguments)
+    public function post(IRequest $request, IResponse $response, array $routeArguments) : IResponse
     {
         $body = $request->getParsedBody();
         if (null === $body) {
@@ -145,7 +145,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * {@inheritDoc}
      */
-    public function put(IRequest $request, IResponse $response, array $arguments)
+    public function put(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         $body = $request->getParsedBody();
         if (null === $body) {
@@ -177,7 +177,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * {@inheritDoc}
      */
-    public function delete(IRequest $request, IResponse $response, array $arguments)
+    public function delete(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         $id = (int) $arguments['groupeId'];
         try {

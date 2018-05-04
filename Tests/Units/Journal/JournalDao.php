@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Units\Journal;
 
 use LibertAPI\Journal\JournalEntite;
@@ -81,7 +81,7 @@ final class JournalDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->delete([]);
+            $this->testedInstance->delete(218);
         })->isInstanceOf(\RuntimeException::class);
     }
 

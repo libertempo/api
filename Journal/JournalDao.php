@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Journal;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -20,7 +20,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getById($id)
+    public function getById(int $id) : AEntite
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -28,7 +28,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function getList(array $parametres)
+    public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('*');
         $this->setWhere($parametres);
@@ -69,7 +69,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function post(AEntite $entite)
+    public function post(AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -89,7 +89,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getEntite2Storage(AEntite $entite)
+    final protected function getEntite2Storage(AEntite $entite) : array
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -101,7 +101,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    public function delete($id)
+    public function delete(int $id) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -123,7 +123,7 @@ class JournalDao extends \LibertAPI\Tools\Libraries\ADao
     /**
      * @inheritDoc
      */
-    final protected function getTableName()
+    final protected function getTableName() : string
     {
         return 'conges_logs';
     }

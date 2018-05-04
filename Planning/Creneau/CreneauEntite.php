@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Planning\Creneau;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
