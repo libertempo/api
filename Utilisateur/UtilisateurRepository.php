@@ -61,7 +61,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
             $results['u_login'] = (string) $paramsConsumer['login'];
         }
         if (!empty($paramsConsumer['password'])) {
-            $results['u_passwd'] = md5($paramsConsumer['password']);
+            $results['u_passwd'] = $paramsConsumer['password'];
         }
         if (!empty($paramsConsumer['token'])) {
             $results['token'] = (string) $paramsConsumer['token'];
