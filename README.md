@@ -77,8 +77,9 @@ Suivant les règles de l'architecture REST, les routes disponibles à ce jour so
 * `GET|PUT|DELETE /absence/type/{id}`
 * `GET /groupe`
 * `GET /groupe/{id}`
-* `GET /groupe/{id}/responsable`
+* `GET /groupe/{id}/employe`
 * `GET /groupe/{id}/grand_responsable`
+* `GET /groupe/{id}/responsable`
 * `GET /journal`
 * `GET|POST /planning`
 * `GET|PUT|DELETE /planning/{id}`
