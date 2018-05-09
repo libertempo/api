@@ -13,6 +13,9 @@ $app->group('/groupe', function () {
 
         /* Dependances de groupe : responsable */
         $this->get('/responsable', 'controller:get')->setName('getGroupeResponsableListe');
+
+        /* Dependances de groupe : grand responsable */
+        $this->get('/grand_responsable', 'controller:get')->setName('getGroupeGrandResponsableListe');
     });
 
     /* Collection */
