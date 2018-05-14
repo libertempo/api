@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Groupe;
+namespace LibertAPI\JourFerie;
 
 use LibertAPI\Tools\Libraries\AEntite;
 
@@ -9,12 +9,12 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.7
+ * @since 1.0
  *
- * Ne devrait être contacté que par GroupeRepository
+ * Ne devrait être contacté que par JourFerieRepository
  * Ne devrait contacter personne
  */
-class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
+class JourFerieDao extends \LibertAPI\Tools\Libraries\ADao
 {
     /*************************************************
      * GET
@@ -25,16 +25,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function getById(int $id) : AEntite
     {
-        $this->queryBuilder->select('*');
-        $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetch(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \DomainException('#' . $id . ' is not a valid resource');
-        }
-
-        return new GroupeEntite($this->getStorage2Entite($data));
+        throw new \RuntimeException('Action is forbidden');
     }
 
     /**
@@ -43,10 +34,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
     final protected function getStorage2Entite(array $dataDao)
     {
         return [
-            'id' => $dataDao['g_gid'],
-            'name' => $dataDao['g_groupename'],
-            'comment' => $dataDao['g_comment'],
-            'double_validation' => 'Y' === $dataDao['g_double_valid']
+            'date' => $dataDao['jf_date'],
         ];
     }
 
@@ -82,25 +70,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function post(AEntite $entite) : int
     {
-        $this->queryBuilder->insert($this->getTableName());
-        $this->setValues($this->getEntite2Storage($entite));
-        $this->queryBuilder->execute();
-
-        return $this->storageConnector->lastInsertId();
-    }
-
-    /**
-     * Définit les values à insérer
-     *
-     * @param array $values
-     */
-    private function setValues(array $values)
-    {
-        $this->queryBuilder->setValue('g_groupename', ':name');
-        $this->queryBuilder->setParameter(':name', $values['name']);
-        $this->queryBuilder->setValue('g_comment', $values['comment']);
-        $this->queryBuilder->setValue('g_double_valid', $values['double_validation']);
-
+        throw new \RuntimeException('Action is forbidden');
     }
 
     /*************************************************
@@ -112,12 +82,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function put(AEntite $entite)
     {
-        $this->queryBuilder->update($this->getTableName());
-        $this->setSet($this->getEntite2Storage($entite));
-        $this->queryBuilder->where('g_gid = :id');
-        $this->queryBuilder->setParameter(':id', $entite->getId());
-
-        $this->queryBuilder->execute();
+        throw new \RuntimeException('Action is forbidden');
     }
 
     /**
@@ -126,26 +91,8 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
     final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [
-            'name' => $entite->getName(),
-            'comment' => $entite->getComment(),
-            'double_validation' => 'Y' === $entite->isDoubleValidated()
+            'jf_date' => $entite->getDate(),
         ];
-    }
-
-    private function setSet(array $parametres)
-    {
-        if (!empty($parametres['name'])) {
-            $this->queryBuilder->set('g_groupename', ':name');
-            $this->queryBuilder->setParameter(':name', $parametres['name']);
-        }
-        if (!empty($parametres['comment'])) {
-            $this->queryBuilder->set('g_comment', ':comment');
-            $this->queryBuilder->setParameter(':comment', $parametres['comment']);
-        }
-        if (!empty($parametres['double_validation'])) {
-            $this->queryBuilder->set('g_double_valid', ':double_validation');
-            $this->queryBuilder->setParameter(':double_validation', $parametres['double_validation']);
-        }
     }
 
     /*************************************************
@@ -157,11 +104,7 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
      */
     public function delete(int $id) : int
     {
-        $this->queryBuilder->delete($this->getTableName());
-        $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
-
-        return $res->rowCount();
+        throw new \RuntimeException('Action is forbidden');
     }
 
     /**
@@ -183,6 +126,6 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
      */
     final protected function getTableName() : string
     {
-        return 'conges_groupe';
+        return 'conges_jours_feries';
     }
 }

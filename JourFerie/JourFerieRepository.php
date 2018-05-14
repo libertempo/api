@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Groupe;
+namespace LibertAPI\JourFerie;
 
 use LibertAPI\Tools\Libraries\AEntite;
 
@@ -9,13 +9,12 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.7
- * @see \LibertAPI\Tests\Units\Planning\PlanningRepository
+ * @since 1.0
  *
- * Ne devrait être contacté que par le GroupeController
- * Ne devrait contacter que le GroupeEntite, GroupeDao
+ * Ne devrait être contacté que par le JourFerieController
+ * Ne devrait contacter que le JourFerieEntite, JourFerieDao
  */
-class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
+class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
     /*************************************************
      * GET
