@@ -30,10 +30,13 @@ class JourFerieDao extends \LibertAPI\Tools\Libraries\ADao
 
     /**
      * @inheritDoc
+     * @TODO : cette méthode le montre, JourFerie n'est pas une entité, mais un value object.
+     * L'id n'est donc pas nécessaire, et l'arbo habituelle est remise en cause
      */
     final protected function getStorage2Entite(array $dataDao)
     {
         return [
+            'id' => uniqid(),
             'date' => $dataDao['jf_date'],
         ];
     }
@@ -53,7 +56,7 @@ class JourFerieDao extends \LibertAPI\Tools\Libraries\ADao
         }
 
         $entites = array_map(function ($value) {
-                return new GroupeEntite($this->getStorage2Entite($value));
+                return new JourFerieEntite($this->getStorage2Entite($value));
             },
             $data
         );

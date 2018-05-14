@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Groupe;
+namespace LibertAPI\JourFerie;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 
@@ -9,13 +9,12 @@ use LibertAPI\Tools\Exceptions\MissingArgumentException;
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.7
- * @see \LibertAPI\Tests\Units\Groupe\GroupeEntite
+ * @since 1.0
  *
- * Ne devrait être contacté que par le GroupeDao
+ * Ne devrait être contacté que par le JourFerieDao
  * Ne devrait contacter personne
  */
-class GroupeEntite extends \LibertAPI\Tools\Libraries\AEntite
+class JourFerieEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ date

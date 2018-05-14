@@ -39,16 +39,13 @@ implements Interfaces\IGetable
         return $this->getList($request, $response);
     }
 
-    /*
     /**
      * Retourne un tableau de jours fériés
      *
      * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
-     *
-     * @return IResponse
      */
-    private function getList(IRequest $request, IResponse $response)
+    private function getList(IRequest $request, IResponse $response) : IResponse
     {
         try {
             $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
@@ -69,18 +66,11 @@ implements Interfaces\IGetable
 
     /**
      * Construit le « data » du json
-     *
-     * @param GroupeEntite $entite Groupe
-     *
-     * @return array
      */
-    private function buildData(GroupeEntite $entite)
+    private function buildData(JourFerieEntite $entite) : array
     {
         return [
-            'id' => $entite->getId(),
-            'name' => $entite->getName(),
-            'comment' => $entite->getComment(),
-            'double_validation' => $entite->isDoubleValidated()
+            'date' => $entite->getDate(),
         ];
     }
 }

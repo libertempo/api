@@ -54,7 +54,7 @@ class UtilisateurEntite extends \LibertAPI\Tools\Libraries\AEntite
         return (int) $this->getFreshData('isAdmin');
     }
 
-    public function isHautReponsable()
+    public function isHautResponsable()
     {
         return (int) $this->getFreshData('isHr');
     }
