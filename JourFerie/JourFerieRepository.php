@@ -39,11 +39,7 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     public function deleteOne(AEntite $entite)
     {
-        try {
-            $this->dao->delete($entite->getId());
-            $entite->reset();
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $this->dao->delete($entite->getId());
+        $entite->reset();
     }
 }

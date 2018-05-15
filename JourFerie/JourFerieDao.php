@@ -118,10 +118,6 @@ class JourFerieDao extends \LibertAPI\Tools\Libraries\ADao
      */
     private function setWhere(array $parametres)
     {
-        if (!empty($parametres['id'])) {
-            $this->queryBuilder->andWhere('g_gid = :id');
-            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
-        }
     }
 
     /**

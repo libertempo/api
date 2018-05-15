@@ -27,7 +27,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
     {
         $rights = [
-            'getList' => $utilisateur->isResponsable() || $utilisateur->isHautReponsable() || $utilisateur->isAdmin(),
+            'getList' => $utilisateur->isResponsable() || $utilisateur->isHautResponsable() || $utilisateur->isAdmin(),
         ];
 
         if (isset($rights[$order]) && !$rights[$order]) {
