@@ -50,9 +50,4 @@ final class JourFerieDao extends \LibertAPI\Tests\Units\Tools\Libraries\ADao
             'jf_date' => '2018-05-14',
         ];
     }
-
-    private $entiteContent = [
-        'id' => 42,
-        'date' => '2018-05-14',
-    ];
 }

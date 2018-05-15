@@ -33,7 +33,7 @@ final class JourFerieController extends \LibertAPI\Tests\Units\Tools\Libraries\A
             'date' => '2018-06-12',
         ]);
     }
-    
+
     /**
      * Teste la méthode get d'un détail trouvé
      */

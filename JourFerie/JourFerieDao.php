@@ -55,7 +55,8 @@ class JourFerieDao extends \LibertAPI\Tools\Libraries\ADao
             throw new \UnexpectedValueException('No resource match with these parameters');
         }
 
-        $entites = array_map(function ($value) {
+        $entites = array_map(
+            function ($value) {
                 return new JourFerieEntite($this->getStorage2Entite($value));
             },
             $data
@@ -118,6 +119,7 @@ class JourFerieDao extends \LibertAPI\Tools\Libraries\ADao
      */
     private function setWhere(array $parametres)
     {
+        unset($parametres);
     }
 
     /**

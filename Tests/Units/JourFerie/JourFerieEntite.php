@@ -17,7 +17,6 @@ final class JourFerieEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEnti
     public function testConstructWithId()
     {
         $id = 3;
-        $comment = 'this is a comment';
 
         $this->newTestedInstance(['id' => $id, 'date' => 'date']);
 
