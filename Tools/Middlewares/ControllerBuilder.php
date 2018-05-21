@@ -16,11 +16,11 @@ final class ControllerBuilder extends \LibertAPI\Tools\AMiddleware
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
         $container = $this->getContainer();
-        $special = ['HelloWorld'];
-        $storage = $container->storageConnector;
-        $router = $container->router;
+        $reserved = ['HelloWorld'];
+        $storage = $container->get('storageConnector');
+        $router = $container->get('router');
         $ressourcePath = str_replace('|', '\\', $request->getAttribute('nomRessources'));
-        if (in_array($ressourcePath, $special, true)) {
+        if (in_array($ressourcePath, $reserved, true)) {
             return $next($request, $response);
         }
 
@@ -36,13 +36,13 @@ final class ControllerBuilder extends \LibertAPI\Tools\AMiddleware
                     $ressourcePath,
                     $storage,
                     $router,
-                    $container->currentUser
+                    $container->get('currentUser')
                 );
             }
-            $container['controller'] = $controller;
+            $container->set('controller', $controller);
         } catch (\DomainException $e) {
             return call_user_func(
-                $container->notFoundHandler,
+                $container->get('notFoundHandler'),
                 $request,
                 $response
             );

@@ -19,7 +19,7 @@ final class Identificator extends \LibertAPI\Tools\AMiddleware
     {
         $container = $this->getContainer();
         $repoUtilisateur = new Utilisateur\UtilisateurRepository(
-            new Utilisateur\UtilisateurDao($container->storageConnector)
+            new Utilisateur\UtilisateurDao($container->get('storageConnector'))
         );
         $openedRoutes = ['Authentification', 'HelloWorld'];
         $ressourcePath = $request->getAttribute('nomRessources');
@@ -29,12 +29,12 @@ final class Identificator extends \LibertAPI\Tools\AMiddleware
              // Ping de last_access
             $repoUtilisateur->updateDateLastAccess($this->utilisateur);
 
-            $container['currentUser'] = $this->utilisateur;
+            $container->set('currentUser', $this->utilisateur);
             return $next($request, $response);
         }
 
         return call_user_func(
-            $container->unauthorizedHandler,
+            $container->get('unauthorizedHandler'),
             $request,
             $response
         );

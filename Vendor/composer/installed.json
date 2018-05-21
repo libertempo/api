@@ -1022,6 +1022,44 @@
         ]
     },
     {
+        "name": "php-di/slim-bridge",
+        "version": "2.0.0",
+        "version_normalized": "2.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHP-DI/Slim-Bridge.git",
+            "reference": "df3c116bedb325c88c01991605380b0fd77b97ed"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHP-DI/Slim-Bridge/zipball/df3c116bedb325c88c01991605380b0fd77b97ed",
+            "reference": "df3c116bedb325c88c01991605380b0fd77b97ed",
+            "shasum": ""
+        },
+        "require": {
+            "php": "~7.0",
+            "php-di/invoker": "^2.0.0",
+            "php-di/php-di": "^6.0.0",
+            "slim/slim": "^3.9.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~6.0"
+        },
+        "time": "2018-02-24T10:54:47+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "DI\\Bridge\\Slim\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "PHP-DI integration in Slim"
+    },
+    {
         "name": "pimple/pimple",
         "version": "v3.2.3",
         "version_normalized": "3.2.3.0",
