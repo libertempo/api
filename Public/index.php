@@ -5,6 +5,7 @@
  */
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use LibertAPI\Tools\Middlewares;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_PATH', dirname(__DIR__) . DS);
@@ -17,7 +18,14 @@ require_once TOOLS_PATH . 'Handlers.php';
 
 $app = new \Slim\App($container);
 
-require_once TOOLS_PATH . 'Middlewares.php';
+/*
+ * /!\ Les Middlewares sont executés en mode PILE : le premier de la liste est lancé en dernier
+ */
+$app->add(new Middlewares\ControllerBuilder($app));
+$app->add(new Middlewares\Identificator($app));
+$app->add(new Middlewares\DBConnector($app));
+$app->add(new Middlewares\ResourceFormatter($app));
+$app->add(new Middlewares\HeadersChecker($app));
 
 $app->get('/hello_world', function(IRequest $request, IResponse $response) {
     return $response->withJson('Hi there !');
