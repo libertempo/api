@@ -81,6 +81,7 @@ Suivant les règles de l'architecture REST, les routes disponibles à ce jour so
 * `GET /groupe/{id}/grand_responsable`
 * `GET /groupe/{id}/responsable`
 * `GET /journal`
+* `GET /jour_ferie`
 * `GET|POST /planning`
 * `GET|PUT|DELETE /planning/{id}`
 * `GET|POST /planning/{id}/creneau`
