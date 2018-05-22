@@ -1,10 +1,16 @@
 <?php
 
 use Psr\Container\ContainerInterface as C;
+use DI\Container;
+use Invoker\CallableResolver;
+use Slim\Http\Headers;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use function DI\get;
 use function DI\create;
+use function DI\autowire;
 
 return [
     // Settings that can be customized by users
@@ -16,6 +22,7 @@ return [
     'settings.addContentLengthHeader' => true,
     'settings.routerCacheFile' => false,
 
+    // Defaults settings
     'settings' => [
         'httpVersion' => get('settings.httpVersion'),
         'responseChunkSize' => get('settings.responseChunkSize'),
@@ -25,6 +32,25 @@ return [
         'addContentLengthHeader' => get('settings.addContentLengthHeader'),
         'routerCacheFile' => get('settings.routerCacheFile'),
     ],
+    'router' => create(Slim\Router::class)
+        ->method('setContainer', get(Container::class))
+        ->method('setCacheFile', get('settings.routerCacheFile')),
+    Slim\Router::class => get('router'),
+    'callableResolver' => autowire(CallableResolver::class),
+    'environment' => function () {
+        return new Slim\Http\Environment($_SERVER);
+    },
+    'request' => function (C $c) {
+        return Request::createFromEnvironment($c->get('environment'));
+    },
+    'response' => function (C $c) {
+        $headers = new Headers(['Content-Type' => 'application/json; charset=UTF-8']);
+        $response = new Response(200, $headers);
+        return $response->withProtocolVersion($c->get('settings')['httpVersion']);
+    },
+    'foundHandler' => create(\Slim\Handlers\Strategies\RequestResponse::class),
+
+    // LibertAPI
     'badRequestHandler' => function (C $c) {
         $code = 400;
         $response = $c->get('response');

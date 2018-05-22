@@ -8,7 +8,6 @@
 /* Routes sur le planning et associés */
 $app->group('/planning', function () {
     $this->group('/{planningId:[0-9]+}', function () {
-        ddd(func_get_args());
         /* Detail */
         $this->get('', ['controller', 'get'])->setName('getPlanningDetail');
         $this->put('', ['controller', 'put'])->setName('putPlanningDetail');

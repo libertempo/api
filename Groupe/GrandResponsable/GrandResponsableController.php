@@ -36,7 +36,7 @@ implements Interfaces\IGetable
     /**
      * {@inheritDoc}
      */
-    public function get(IRequest $request, IResponse $response, array $arguments = []) : IResponse
+    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         unset($arguments);
         try {

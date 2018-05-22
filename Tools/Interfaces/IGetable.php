@@ -18,5 +18,5 @@ interface IGetable
      *
      * @return IResponse
      */
-    public function get(IRequest $request, IResponse $response, array $routeArguments = []) : IResponse;
+    public function get(IRequest $request, IResponse $response, array $routeArguments) : IResponse;
 }

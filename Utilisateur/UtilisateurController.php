@@ -36,7 +36,7 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
      /**
       * {@inheritDoc}
       */
-    public function get(IRequest $request, IResponse $response, array $arguments = []) : IResponse
+    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         if (!isset($arguments['utilisateurId'])) {
             return $this->getList($request, $response);
