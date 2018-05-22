@@ -15,6 +15,23 @@ use LibertAPI\Tools\Libraries\AEntite;
 class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
     /**
+     * @inheritDoc
+     */
+    public function getById(int $id) : AEntite
+    {
+        $this->queryBuilder->select('*');
+        $this->setWhere(['id' => $id]);
+        $res = $this->queryBuilder->execute();
+
+        $data = $res->fetch(\PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            throw new \DomainException('#' . $id . ' is not a valid resource');
+        }
+
+        return new TypeEntite($this->getStorage2Entite($data));
+    }
+    
+    /**
      * {@inheritDoc}
      */
     final protected function getParamsConsumer2Dao(array $paramsConsumer) : array

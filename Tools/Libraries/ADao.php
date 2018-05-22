@@ -45,6 +45,7 @@ abstract class ADao
      *
      * @return AEntite
      * @throws \DomainException si $id n'est pas dans le domaine de définition
+     * FAIT !
      */
     abstract public function getById(int $id) : AEntite;
 
@@ -117,6 +118,7 @@ abstract class ADao
      * Retourne le nom de la table
      *
      * @return string
+     * FAIT !
      */
     abstract protected function getTableName() : string;
 

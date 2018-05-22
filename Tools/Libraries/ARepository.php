@@ -59,6 +59,16 @@ abstract class ARepository
     }
 
     /**
+     * Retourne une ressource unique
+     *
+     * @param int $id Id potentiel de ressource
+     *
+     * @return AEntite
+     * @throws \DomainException si $id n'est pas dans le domaine de définition
+     */
+    abstract public function getById(int $id) : AEntite;
+
+    /**
      * Retourne une liste de ressource correspondant à des critères
      *
      * @param array $parametres

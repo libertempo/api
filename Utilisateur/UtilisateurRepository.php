@@ -37,6 +37,11 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
      * GET
      *************************************************/
 
+    public function getById(int $id) : AEntite
+    {
+        throw new \RuntimeException('Action is forbidden');
+    }
+
     /**
      * Retourne une ressource correspondant à des critères
      *

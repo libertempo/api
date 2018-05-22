@@ -23,6 +23,14 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
+    public function getById(int $id) : AEntite
+    {
+        throw new \RuntimeException('Action is forbidden');
+    }
+
+    /**
+     * @inheritDoc
+     */
     final protected function getParamsConsumer2Dao(array $paramsConsumer) : array
     {
         unset($paramsConsumer);

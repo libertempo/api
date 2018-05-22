@@ -30,6 +30,23 @@ class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
         return [];
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getById(int $id) : AEntite
+    {
+        $this->queryBuilder->select('*');
+        $this->setWhere(['id' => $id]);
+        $res = $this->queryBuilder->execute();
+
+        $data = $res->fetch(\PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            throw new \DomainException('#' . $id . ' is not a valid resource');
+        }
+
+        return new GroupeEntite($this->getStorage2Entite($data));
+    }
+
 
     /*************************************************
      * DELETE

@@ -31,6 +31,25 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
 
     /**
      * @inheritDoc
+     *
+     * @param int $planningId Contrainte de recherche sur le planning
+     */
+    public function getById(int $id, $planningId = null) : AEntite
+    {
+        $this->queryBuilder->select('*');
+        $this->setWhere(['id' => $id, 'planning_id' => $planningId]);
+        $res = $this->queryBuilder->execute();
+
+        $data = $res->fetch(\PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            throw new \DomainException('#' . $id . ' is not a valid resource');
+        }
+
+        return new CreneauEntite($this->getStorage2Entite($data));
+    }
+
+    /**
+     * @inheritDoc
      */
     final protected function getParamsConsumer2Dao(array $paramsConsumer) : array
     {
