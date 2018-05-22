@@ -70,4 +70,12 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     {
         throw new \RuntimeException('Action is forbidden');
     }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getTableName() : string
+    {
+        return 'conges_groupe_grd_resp';
+    }
 }

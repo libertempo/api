@@ -19,11 +19,6 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
     private $application;
 
     /**
-     * @var \Doctrine\DBAL\Connection Mock du connecteur
-     */
-    protected $connector;
-
-    /**
      * @var \Doctrine\DBAL\Statement Mock du curseur de résultat
      */
     private $statement;
@@ -36,8 +31,6 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         $this->mockGenerator->shuntParentClassCalls();
         $this->statement = new \mock\Doctrine\DBAL\Statement();
         $this->mockGenerator->orphanize('__construct');
-        $this->mockGenerator->shuntParentClassCalls();
-        $this->connector = new \mock\Doctrine\DBAL\Connection();
         $this->connector->getMockController()->query = $this->statement;
         $this->mockGenerator->orphanize('__construct');
         $this->application = new \mock\LibertAPI\Tools\Libraries\Application($this->connector);

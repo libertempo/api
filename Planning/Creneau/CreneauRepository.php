@@ -84,4 +84,12 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
     public function deleteOne(AEntite $entite)
     {
     }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getTableName() : string
+    {
+        return 'planning_creneau';
+    }
 }

@@ -47,4 +47,12 @@ class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
             throw $e;
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getTableName() : string
+    {
+        return 'conges_groupe';
+    }
 }

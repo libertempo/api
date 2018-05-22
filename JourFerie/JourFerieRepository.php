@@ -42,4 +42,12 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
         $this->dao->delete($entite->getId());
         $entite->reset();
     }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getTableName() : string
+    {
+        return 'conges_jours_feries';
+    }
 }

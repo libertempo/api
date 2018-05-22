@@ -28,7 +28,7 @@ abstract class ARepository
         $this->dao = $dao;
         $this->storageConnector = $storageConnector;
         $this->queryBuilder = $storageConnector->createQueryBuilder();
-        //$this->queryBuilder->from($this->getTableName(), 'current');
+        $this->queryBuilder->from($this->getTableName(), 'current');
     }
 
     /**
@@ -130,8 +130,30 @@ abstract class ARepository
 
     /**
      * Retourne le nom de la table
-     *
-     * @return string
      */
-    //abstract protected function getTableName() : string;
+    abstract protected function getTableName() : string;
+
+    /**
+     * Initie une transaction
+     */
+    public function beginTransaction() : bool
+    {
+        return $this->storageConnector->beginTransaction();
+    }
+
+    /**
+     * Valide une transaction
+     */
+    public function commit() : bool
+    {
+        return $this->storageConnector->commit();
+    }
+
+    /**
+     * Annule une transaction
+     */
+    public function rollback() : bool
+    {
+        return $this->storageConnector->rollBack();
+    }
 }

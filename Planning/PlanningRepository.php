@@ -43,4 +43,12 @@ class PlanningRepository extends \LibertAPI\Tools\Libraries\ARepository
             throw $e;
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getTableName() : string
+    {
+        return 'planning';
+    }
 }
