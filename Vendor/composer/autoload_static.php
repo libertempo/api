@@ -54,7 +54,6 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
             'Doctrine\\Common\\Inflector\\' => 26,
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
-            'DI\\Bridge\\Slim\\' => 15,
             'DI\\' => 3,
         ),
     );
@@ -135,10 +134,6 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
         'Doctrine\\Common\\Annotations\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
-        ),
-        'DI\\Bridge\\Slim\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/php-di/slim-bridge/src',
         ),
         'DI\\' => 
         array (
