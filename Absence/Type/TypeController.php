@@ -29,12 +29,12 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * {@inheritDoc}
      */
-    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
+    public function get(IRequest $request, IResponse $response, array $arguments = []) : IResponse
     {
+        ddd('je passe ici', $arguments);
         if (!isset($arguments['typeId'])) {
             return $this->getList($request, $response);
         }
-
         return $this->getOne($response, (int) $arguments['typeId']);
     }
 

@@ -33,17 +33,10 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
         && ce que ces droits permettre de voir (l'utilisateur peut-il voir HR / admin ?)
      */
 
-    /**
-     * Execute l'ordre HTTP GET
-     *
-     * @param IRequest $request Requête Http
-     * @param IResponse $response Réponse Http
-     * @param array $arguments Arguments de route
-     *
-     * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
-     */
-    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
+     /**
+      * {@inheritDoc}
+      */
+    public function get(IRequest $request, IResponse $response, array $arguments = []) : IResponse
     {
         if (!isset($arguments['utilisateurId'])) {
             return $this->getList($request, $response);

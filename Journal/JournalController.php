@@ -26,16 +26,10 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
      * GET
      *************************************************/
 
-    /**
-     * Execute l'ordre HTTP GET
-     *
-     * @param IRequest $request Requête Http
-     * @param IResponse $response Réponse Http
-     * @param array $arguments Arguments de route
-     *
-     * @return IResponse
-     */
-    public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
+     /**
+      * {@inheritDoc}
+      */
+    public function get(IRequest $request, IResponse $response, array $arguments = []) : IResponse
     {
         unset($arguments);
         try {
