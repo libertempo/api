@@ -92,4 +92,7 @@ return [
                 ->withJson($data);
         };
     },
+    Doctrine\DBAL\Driver\Connection::class => function (C $c) {
+        return $c->get('storageConnector');
+    },
 ];
