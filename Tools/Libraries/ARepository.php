@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tools\Libraries;
 
+use Doctrine\DBAL\Driver;
+
 /**
  * Garant de la cohérence métier de l'entité en relation.
  * Autrement dit, c'est lui qui va chercher les données (dépendances comprises),
@@ -21,10 +23,23 @@ abstract class ARepository
      */
     protected $dao;
 
-    public function __construct(ADao $dao)
+    public function __construct(ADao $dao, Driver\Connection $storageConnector)
     {
         $this->dao = $dao;
+        $this->storageConnector = $storageConnector;
+        $this->queryBuilder = $storageConnector->createQueryBuilder();
+        //$this->queryBuilder->from($this->getTableName(), 'current');
     }
+
+    /**
+    * @var Driver\Connection Connecteur à la BDD
+    */
+    protected $storageConnector;
+
+    /**
+    * @var Query\QueryBuilder
+    */
+    protected $queryBuilder;
 
     /*************************************************
      * GET
@@ -112,4 +127,11 @@ abstract class ARepository
      * @param AEntite $entite
      */
     abstract public function deleteOne(AEntite $entite);
+
+    /**
+     * Retourne le nom de la table
+     *
+     * @return string
+     */
+    //abstract protected function getTableName() : string;
 }

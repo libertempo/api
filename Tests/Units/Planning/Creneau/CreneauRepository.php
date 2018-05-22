@@ -35,7 +35,7 @@ final class CreneauRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
      */
     public function testPostListException()
     {
-        $repository = $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
         $entite = new \LibertAPI\Planning\Creneau\CreneauEntite([]);
         $this->calling($this->dao)->post = function () {
             throw new \LogicException('');
@@ -49,8 +49,8 @@ final class CreneauRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
             'fin' => 92,
         ];
 
-        $this->exception(function () use ($repository, $data, $entite) {
-            $repository->postList([$data], $entite);
+        $this->exception(function () use ($data, $entite) {
+            $this->testedInstance->postList([$data], $entite);
         })->isInstanceOf('\LogicException');
     }
 
@@ -59,7 +59,7 @@ final class CreneauRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
      */
     public function testPostListOk()
     {
-        $repository = $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
         $entite = new \mock\LibertAPI\Planning\Creneau\CreneauEntite([]);
         $entite->getMockController()->populate = '';
         $entite->getMockController()->getPlanningId = 3;
@@ -82,7 +82,7 @@ final class CreneauRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         $this->dao->getMockController()->post[2] = 9;
 
 
-        $post = $repository->postList($data, $entite);
+        $post = $this->testedInstance->postList($data, $entite);
 
         foreach ($post as $postId) {
             $this->integer($postId);

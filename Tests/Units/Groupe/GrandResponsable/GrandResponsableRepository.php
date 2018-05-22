@@ -33,7 +33,7 @@ final class GrandResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libr
     public function testGetOne()
     {
         $this->calling($this->dao)->getById = [];
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->getOne(99);
@@ -50,7 +50,7 @@ final class GrandResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libr
      */
     public function testPostOne()
     {
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->postOne([], $this->entite);
@@ -66,7 +66,7 @@ final class GrandResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libr
      */
     public function testPutOne()
     {
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->putOne([], $this->entite);
@@ -82,7 +82,7 @@ final class GrandResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libr
      */
     public function testDeleteOne()
     {
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->deleteOne($this->entite);

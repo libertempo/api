@@ -1,8 +1,6 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Units\Planning;
 
-use \LibertAPI\Planning\PlanningRepository as _Repository;
-
 /**
  * Classe de test du repository de planning
  *
@@ -37,10 +35,10 @@ final class PlanningRepository extends \LibertAPI\Tests\Units\Tools\Libraries\AR
         $this->dao->getMockController()->delete = function () {
             throw new \LogicException('');
         };
-        $repository = new _Repository($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
-        $this->exception(function () use ($repository) {
-            $repository->deleteOne($this->entite);
+        $this->exception(function () {
+            $this->testedInstance->deleteOne($this->entite);
         })->isInstanceOf('\LogicException');
     }
 
@@ -50,9 +48,9 @@ final class PlanningRepository extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testDeleteOk()
     {
         $this->dao->getMockController()->delete = 4;
-        $repository = new _Repository($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
-        $this->variable($repository->deleteOne($this->entite))->isNull();
+        $this->variable($this->testedInstance->deleteOne($this->entite))->isNull();
     }
 
     protected function getEntiteContent()

@@ -35,7 +35,7 @@ final class TypeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARepos
         $this->dao->getMockController()->delete = function () {
             throw new \LogicException('');
         };
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->deleteOne(new \LibertAPI\Absence\Type\TypeEntite(['id' => 49]));
@@ -48,7 +48,7 @@ final class TypeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARepos
     public function testDeleteOk()
     {
         $this->dao->getMockController()->delete = 4;
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
         $entite = new \LibertAPI\Absence\Type\TypeEntite(['id' => 49]);
 
         $this->variable($this->testedInstance->deleteOne($entite))->isNull();

@@ -35,7 +35,7 @@ final class JourFerieRepository extends \LibertAPI\Tests\Units\Tools\Libraries\A
         $this->dao->getMockController()->delete = function () {
             throw new \LogicException('');
         };
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->deleteOne($this->entite);
@@ -49,7 +49,7 @@ final class JourFerieRepository extends \LibertAPI\Tests\Units\Tools\Libraries\A
     public function testDeleteOk()
     {
         $this->dao->getMockController()->delete = 4;
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->variable($this->testedInstance->deleteOne($this->entite))->isNull();
     }

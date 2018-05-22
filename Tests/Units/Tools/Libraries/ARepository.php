@@ -13,6 +13,28 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 abstract class ARepository extends \Atoum
 {
+    public function beforeTestMethod($method)
+    {
+        parent::beforeTestMethod($method);
+        $this->initDao();
+        $this->initEntite();
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->result = new \mock\Doctrine\DBAL\Statement();
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->queryBuilder = new \mock\Doctrine\DBAL\Query\QueryBuilder();
+        $this->calling($this->queryBuilder)->execute = $this->result;
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->connector = new \mock\Doctrine\DBAL\Connection();
+        $this->calling($this->connector)->createQueryBuilder = $this->queryBuilder;
+    }
+
+    abstract protected function initDao();
+
+    abstract protected function initEntite();
+
     /**
      * @var \LibertAPI\Tools\Libraries\ADao
      */
@@ -23,16 +45,20 @@ abstract class ARepository extends \Atoum
      */
     protected $entite;
 
-    public function beforeTestMethod($method)
-    {
-        parent::beforeTestMethod($method);
-        $this->initDao();
-        $this->initEntite();
-    }
+    /**
+     * @var \Doctrine\DBAL\Connection Mock du connecteur
+     */
+    protected $connector;
 
-    abstract protected function initDao();
+    /**
+     * @var \Doctrine\DBAL\Query\QueryBuilder Mock du queryBuilder
+     */
+    protected $queryBuilder;
 
-    abstract protected function initEntite();
+    /**
+     * @var \Doctrine\DBAL\Statement Curseur de résultats
+     */
+    protected $result;
 
     /*************************************************
      * GET
@@ -44,9 +70,9 @@ abstract class ARepository extends \Atoum
     public function testGetOne()
     {
         $this->dao->getMockController()->getById = $this->entite;
-        $repository = $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
-        $entite = $repository->getOne(42);
+        $entite = $this->testedInstance->getOne(42);
 
         $this->object($entite)->isInstanceOf(AEntite::class);
     }
@@ -57,9 +83,9 @@ abstract class ARepository extends \Atoum
     public function testGetList()
     {
         $this->calling($this->dao)->getList = [42 => $this->entite];
-        $repository = $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
-        $entites = $repository->getList([]);
+        $entites = $this->testedInstance->getList([]);
 
         $this->array($entites)->hasKey(42);
         $this->object($entites[42]);
@@ -70,10 +96,10 @@ abstract class ARepository extends \Atoum
      */
     public function testPostOne()
     {
-        $repository = $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
         $this->calling($this->dao)->post = 768;
 
-        $post = $repository->postOne($this->getEntiteContent(), $this->entite);
+        $post = $this->testedInstance->postOne($this->getEntiteContent(), $this->entite);
 
         $this->integer($post)->isIdenticalTo(768);
     }
@@ -83,9 +109,9 @@ abstract class ARepository extends \Atoum
      */
     public function testPutOne()
     {
-        $repository = $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
-        $put = $repository->putOne($this->getEntiteContent(), $this->entite);
+        $put = $this->testedInstance->putOne($this->getEntiteContent(), $this->entite);
 
         $this->variable($put)->isNull();
     }

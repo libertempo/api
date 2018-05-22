@@ -1,7 +1,6 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Units\Utilisateur;
 
-use LibertAPI\Utilisateur\UtilisateurRepository as _Repository;
 use LibertAPI\Tools\Libraries\AEntite;
 
 /**
@@ -22,7 +21,7 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
     /**
      * @var \Doctrine\DBAL\Connection Mock du connecteur
      */
-    private $connector;
+    protected $connector;
 
     /**
      * @var \Doctrine\DBAL\Statement Mock du curseur de résultat
@@ -65,9 +64,9 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     public function testSetApplicationOnce()
     {
-        $repository = new _Repository($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
-        $this->variable($repository->setApplication($this->application))->isNull();
+        $this->variable($this->testedInstance->setApplication($this->application))->isNull();
     }
 
     /**
@@ -75,13 +74,13 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     public function testSetApplicationTwice()
     {
-        $repository = new _Repository($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
-        $this->exception(function () use ($repository) {
-            $repository->setApplication($this->application);
+        $this->exception(function () {
+            $this->testedInstance->setApplication($this->application);
             $application2 = new \mock\LibertAPI\Tools\Libraries\Application($this->connector);
-            $repository->setApplication($application2);
-            $repository->getList([]);
+            $this->testedInstance->setApplication($application2);
+            $this->testedInstance->getList([]);
         })->isInstanceOf('\LogicException');
     }
 
@@ -132,9 +131,9 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
             'token' => '',
             'date_last_access' => 134,
         ]),];
-        $repository = new _Repository($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
-        $entite = $repository->find([]);
+        $entite = $this->testedInstance->find([]);
 
         $this->object($entite)->isInstanceOf(\LibertAPI\Tools\Libraries\AEntite::class);
     }
@@ -147,8 +146,8 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
     public function testPostOne()
     {
         $this->exception(function () {
-            $repo = new _Repository($this->dao);
-            $repo->postOne([], $this->entite);
+            $this->newTestedInstance($this->dao, $this->connector);
+            $this->testedInstance->postOne([], $this->entite);
         });
     }
 
@@ -158,10 +157,10 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
 
     public function testUpdateDateLastAccess()
     {
-        $repo = new _Repository($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
         $this->entite->getMockController()->getToken = 'Tartuffe';
 
-        $repo->updateDateLastAccess($this->entite);
+        $this->testedInstance->updateDateLastAccess($this->entite);
 
         $this->mock($this->entite)->call('updateDateLastAccess')->once();
         $this->mock($this->dao)->call('put')->once();
@@ -173,12 +172,12 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     public function testRegenerateTokenWithTokenInstanceEmpty()
     {
-        $repository = new _Repository($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
         $this->application->getMockController()->getTokenInstance = '';
-        $repository->setApplication($this->application);
+        $this->testedInstance->setApplication($this->application);
 
-        $this->exception(function () use ($repository) {
-            $repository->regenerateToken($this->entite);
+        $this->exception(function () {
+            $this->testedInstance->regenerateToken($this->entite);
         })->isInstanceOf('\RuntimeException');
     }
 
@@ -187,28 +186,28 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     public function testRegenerateTokenBadDomain()
     {
-        $repository = new _Repository($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
         $this->application->getMockController()->getTokenInstance = 'vi veri veniversum vivus vici';
-        $repository->setApplication($this->application);
+        $this->testedInstance->setApplication($this->application);
         $this->entite->getMockController()->populateToken = function () {
             throw new \DomainException('');
         };
 
-        $this->exception(function () use ($repository) {
-            $repository->regenerateToken($this->entite);
+        $this->exception(function () {
+            $this->testedInstance->regenerateToken($this->entite);
         })->isInstanceOf('\DomainException');
     }
 
     public function testRegenerateTokenOk()
     {
-        $repository = new _Repository($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
         $this->application->getMockController()->getTokenInstance = 'vi veri veniversum vivus vici';
-        $repository->setApplication($this->application);
+        $this->testedInstance->setApplication($this->application);
         $this->entite->getMockController()->populateToken = '';
         $this->entite->getMockController()->getToken = 'Pedro l\'asticot';
         $this->dao->getMockController()->put = '';
 
-        $entite = $repository->regenerateToken($this->entite);
+        $entite = $this->testedInstance->regenerateToken($this->entite);
 
         $this->object($entite)->isInstanceOf(AEntite::class);
     }
@@ -219,7 +218,9 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
 
     public function testDeleteOne()
     {
-        $this->variable((new _Repository($this->dao))->deleteOne($this->entite))->isNull();
+        $this->newTestedInstance($this->dao, $this->connector);
+
+        $this->variable($this->testedInstance->deleteOne($this->entite))->isNull();
     }
 
     protected function getEntiteContent()

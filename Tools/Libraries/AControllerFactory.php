@@ -40,7 +40,8 @@ abstract class AControllerFactory
         $repoClass = '\LibertAPI\Utilisateur\UtilisateurRepository';
 
         $repo = new $repoClass(
-            new $daoClass($storageConnector)
+            new $daoClass($storageConnector),
+            $storageConnector
         );
         // TODO : Application est un injectable, supprimer la création ici
         $repo->setApplication(new Application($storageConnector));
@@ -73,7 +74,8 @@ abstract class AControllerFactory
 
         return new $controllerClass(
             new $repoClass(
-                new $daoClass($storageConnector)
+                new $daoClass($storageConnector),
+                $storageConnector
             ),
             $router,
             $currentUser

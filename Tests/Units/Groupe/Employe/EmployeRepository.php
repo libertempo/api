@@ -33,7 +33,7 @@ final class EmployeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
     public function testGetOne()
     {
         $this->calling($this->dao)->getById = [];
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->getOne(99);
@@ -50,7 +50,7 @@ final class EmployeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
      */
     public function testPostOne()
     {
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->postOne([], $this->entite);
@@ -66,7 +66,7 @@ final class EmployeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
      */
     public function testPutOne()
     {
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->putOne([], $this->entite);
@@ -82,7 +82,7 @@ final class EmployeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
      */
     public function testDeleteOne()
     {
-        $this->newTestedInstance($this->dao);
+        $this->newTestedInstance($this->dao, $this->connector);
 
         $this->exception(function () {
             $this->testedInstance->deleteOne($this->entite);
