@@ -37,10 +37,47 @@ class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getParamsConsumer2Dao(array $paramsConsumer) : array
+    public function _getList(array $parametres) : array
+    {
+        $this->queryBuilder->select('*');
+        $this->setWhere($parametres);
+        $res = $this->queryBuilder->execute();
+
+        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            throw new \UnexpectedValueException('No resource match with these parameters');
+        }
+
+        $entites = array_map(function ($value) {
+            return new JournalEntite($this->getStorage2Entite($value));
+        }, $data);
+
+        return $entites;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getParamsConsumer2Storage(array $paramsConsumer) : array
     {
         unset($paramsConsumer);
         return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getStorage2Entite(array $dataStorage)
+    {
+        return [
+            'id' => $dataStorage['log_id'],
+            'numeroPeriode' => $dataStorage['log_p_num'],
+            'utilisateurActeur' => $dataStorage['log_user_login_par'],
+            'utilisateurObjet' => $dataStorage['log_user_login_pour'],
+            'etat' => $dataStorage['log_etat'],
+            'commentaire' => $dataStorage['log_comment'],
+            'date' => $dataStorage['log_date'],
+        ];
     }
 
     /*************************************************
@@ -51,6 +88,14 @@ class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
      * @inheritDoc
      */
     public function postOne(array $data, AEntite $entite)
+    {
+        throw new \RuntimeException('Action is forbidden');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function _post(AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -67,6 +112,22 @@ class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
         throw new \RuntimeException('Action is forbidden');
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function _put(AEntite $entite)
+    {
+        throw new \RuntimeException('Action is forbidden');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getEntite2Storage(AEntite $entite) : array
+    {
+        throw new \RuntimeException('Action is forbidden');
+    }
+
     /*************************************************
      * DELETE
      *************************************************/
@@ -75,6 +136,14 @@ class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
      * @inheritDoc
      */
     public function deleteOne(AEntite $entite)
+    {
+        throw new \RuntimeException('Action is forbidden');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function _delete(int $id) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
