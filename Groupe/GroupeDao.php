@@ -16,79 +16,6 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function getById(int $id) : AEntite
-    {
-        $this->queryBuilder->select('*');
-        $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetch(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \DomainException('#' . $id . ' is not a valid resource');
-        }
-
-        return new GroupeEntite($this->getStorage2Entite($data));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getStorage2Entite(array $dataDao)
-    {
-        return [
-            'id' => $dataDao['g_gid'],
-            'name' => $dataDao['g_groupename'],
-            'comment' => $dataDao['g_comment'],
-            'double_validation' => 'Y' === $dataDao['g_double_valid']
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getList(array $parametres) : array
-    {
-        $this->queryBuilder->select('*');
-        $this->setWhere($parametres);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = array_map(function ($value) {
-                return new GroupeEntite($this->getStorage2Entite($value));
-            },
-            $data
-        );
-
-        return $entites;
-    }
-
-    /*************************************************
-     * POST
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function post(AEntite $entite) : int
-    {
-        $this->queryBuilder->insert($this->getTableName());
-        $this->setValues($this->getEntite2Storage($entite));
-        $this->queryBuilder->execute();
-
-        return $this->storageConnector->lastInsertId();
-    }
-
     /**
      * Définit les values à insérer
      *
@@ -101,35 +28,6 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
         $this->queryBuilder->setValue('g_comment', $values['comment']);
         $this->queryBuilder->setValue('g_double_valid', $values['double_validation']);
 
-    }
-
-    /*************************************************
-     * PUT
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function put(AEntite $entite)
-    {
-        $this->queryBuilder->update($this->getTableName());
-        $this->setSet($this->getEntite2Storage($entite));
-        $this->queryBuilder->where('g_gid = :id');
-        $this->queryBuilder->setParameter(':id', $entite->getId());
-
-        $this->queryBuilder->execute();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getEntite2Storage(AEntite $entite) : array
-    {
-        return [
-            'name' => $entite->getName(),
-            'comment' => $entite->getComment(),
-            'double_validation' => 'Y' === $entite->isDoubleValidated()
-        ];
     }
 
     private function setSet(array $parametres)
@@ -148,22 +46,6 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
         }
     }
 
-    /*************************************************
-     * DELETE
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function delete(int $id) : int
-    {
-        $this->queryBuilder->delete($this->getTableName());
-        $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
-
-        return $res->rowCount();
-    }
-
     /**
      * Définit les filtres à appliquer à la requête
      *
@@ -178,11 +60,4 @@ class GroupeDao extends \LibertAPI\Tools\Libraries\ADao
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    final protected function getTableName() : string
-    {
-        return 'conges_groupe';
-    }
 }

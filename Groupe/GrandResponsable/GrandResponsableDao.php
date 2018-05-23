@@ -51,34 +51,6 @@ class GrandResponsableDao extends \LibertAPI\Tools\Libraries\ADao
         return $entites;
     }
 
-    /**
-     * @inheritDoc
-     *
-     * Duplication de la fonction dans UtilisateurDao (Cf. decisions.md #2018-02-17)
-     */
-    final protected function getStorage2Entite(array $dataDao) : array
-    {
-        return [
-            'id' => $dataDao['id'],
-            'login' => $dataDao['u_login'],
-            'nom' => $dataDao['u_nom'],
-            'prenom' => $dataDao['u_prenom'],
-            'isResp' => $dataDao['u_is_resp'] === 'Y',
-            'isAdmin' => $dataDao['u_is_admin'] === 'Y',
-            'isHr' => $dataDao['u_is_hr'] === 'Y',
-            'isActive' => $dataDao['u_is_active'] === 'Y',
-            'seeAll' => $dataDao['u_see_all'] === 'Y',
-            'password' => $dataDao['u_passwd'],
-            'quotite' => $dataDao['u_quotite'],
-            'email' => $dataDao['u_email'],
-            'numeroExercice' => $dataDao['u_num_exercice'],
-            'planningId' => $dataDao['planning_id'],
-            'heureSolde' => $dataDao['u_heure_solde'],
-            'dateInscription' => $dataDao['date_inscription'],
-            'token' => $dataDao['token'],
-            'dateLastAccess' => $dataDao['date_last_access'],
-        ];
-    }
 
     /*************************************************
      * POST
