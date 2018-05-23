@@ -16,78 +16,6 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function getById(int $id) : AEntite
-    {
-        $this->queryBuilder->select('*');
-        $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetch(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \DomainException('#' . $id . ' is not a valid resource');
-        }
-
-        return new PlanningEntite($this->getStorage2Entite($data));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getStorage2Entite(array $dataDao)
-    {
-        return [
-            'id' => $dataDao['planning_id'],
-            'name' => $dataDao['name'],
-            'status' => $dataDao['status'],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getList(array $parametres) : array
-    {
-        $this->queryBuilder->select('*');
-        $this->setWhere($parametres);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = [];
-        foreach ($data as $value) {
-            $entite = new PlanningEntite($this->getStorage2Entite($value));
-            $entites[$entite->getId()] = $entite;
-        }
-
-        return $entites;
-    }
-
-    /*************************************************
-     * POST
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function post(AEntite $entite) : int
-    {
-        $this->queryBuilder->insert($this->getTableName());
-        $this->setValues($this->getEntite2Storage($entite));
-        $this->queryBuilder->execute();
-
-        return $this->storageConnector->lastInsertId();
-    }
-
     /**
      * Définit les values à insérer
      *
@@ -104,29 +32,6 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      * PUT
      *************************************************/
 
-    /**
-     * @inheritDoc
-     */
-    public function put(AEntite $entite)
-    {
-        $this->queryBuilder->update($this->getTableName());
-        $this->setSet($this->getEntite2Storage($entite));
-        $this->queryBuilder->where('planning_id = :id');
-        $this->queryBuilder->setParameter(':id', $entite->getId());
-
-        $this->queryBuilder->execute();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getEntite2Storage(AEntite $entite) : array
-    {
-        return [
-            'name' => $entite->getName(),
-            'status' => $entite->getStatus(),
-        ];
-    }
 
     private function setSet(array $parametres)
     {
@@ -144,17 +49,7 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
      * DELETE
      *************************************************/
 
-    /**
-     * @inheritDoc
-     */
-    public function delete(int $id) : int
-    {
-        $this->queryBuilder->delete($this->getTableName());
-        $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
 
-        return $res->rowCount();
-    }
 
     /**
      * Définit les filtres à appliquer à la requête
@@ -168,13 +63,5 @@ class PlanningDao extends \LibertAPI\Tools\Libraries\ADao
             $this->queryBuilder->andWhere('planning_id = :id');
             $this->queryBuilder->setParameter(':id', $parametres['id']);
         }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getTableName() : string
-    {
-        return 'planning';
     }
 }

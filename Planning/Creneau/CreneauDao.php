@@ -20,63 +20,6 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      * GET
      *************************************************/
 
-    /**
-     * @inheritDoc
-     *
-     * @param int $planningId Contrainte de recherche sur le planning
-     */
-    public function getById(int $id, $planningId = null) : AEntite
-    {
-        $this->queryBuilder->select('*');
-        $this->setWhere(['id' => $id, 'planning_id' => $planningId]);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetch(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \DomainException('#' . $id . ' is not a valid resource');
-        }
-
-        return new CreneauEntite($this->getStorage2Entite($data));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getStorage2Entite(array $dataDao)
-    {
-        return [
-            'id' => $dataDao['creneau_id'],
-            'planningId' => $dataDao['planning_id'],
-            'jourId' => $dataDao['jour_id'],
-            'typeSemaine' => $dataDao['type_semaine'],
-            'typePeriode' => $dataDao['type_periode'],
-            'debut' => $dataDao['debut'],
-            'fin' => $dataDao['fin'],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getList(array $parametres) : array
-    {
-        $this->queryBuilder->select('*');
-        $this->setWhere($parametres);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = [];
-        foreach ($data as $value) {
-            $entite = new CreneauEntite($this->getStorage2Entite($value));
-            $entites[$entite->getId()] = $entite;
-        }
-
-        return $entites;
-    }
 
     /**
      * Définit les filtres à appliquer à la requête
@@ -99,17 +42,7 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
      * POST
      *************************************************/
 
-    /**
-     * @inheritDoc
-     */
-    public function post(AEntite $entite) : int
-    {
-        $this->queryBuilder->insert($this->getTableName());
-        $this->setValues($this->getEntite2Storage($entite));
-        $this->queryBuilder->execute();
 
-        return $this->storageConnector->lastInsertId();
-    }
 
     /**
      * Définit les values à insérer
@@ -126,37 +59,6 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
         $this->queryBuilder->setValue('fin', $values['fin']);
     }
 
-    /*************************************************
-     * PUT
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function put(AEntite $entite)
-    {
-        $this->queryBuilder->update($this->getTableName());
-        $this->queryBuilder->where('creneau_id = :id');
-        $this->queryBuilder->setParameter(':id', $entite->getId());
-        $this->setSet($this->getEntite2Storage($entite));
-
-        $this->queryBuilder->execute();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getEntite2Storage(AEntite $entite) : array
-    {
-        return [
-            'planning_id' => $entite->getPlanningId(),
-            'jour_id' => $entite->getJourId(),
-            'type_semaine' => $entite->getTypeSemaine(),
-            'type_periode' => $entite->getTypePeriode(),
-            'debut' => $entite->getDebut(),
-            'fin' => $entite->getFin(),
-        ];
-    }
 
     private function setSet(array $parametres)
     {
@@ -184,25 +86,5 @@ class CreneauDao extends \LibertAPI\Tools\Libraries\ADao
             $this->queryBuilder->set('fin', ':fin');
             $this->queryBuilder->setParameter(':fin', $parametres['fin']);
         }
-    }
-
-    /*************************************************
-     * DELETE
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function delete(int $id) : int
-    {
-        throw new \RuntimeException('Forbidden action');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getTableName() : string
-    {
-        return 'planning_creneau';
     }
 }
