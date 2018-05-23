@@ -59,7 +59,54 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    final protected function getParamsConsumer2Dao(array $paramsConsumer) : array
+    public function _getList(array $parametres) : array
+    {
+        $this->queryBuilder->select('*, u_login AS id');
+        $this->setWhere($parametres);
+        $res = $this->queryBuilder->execute();
+        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
+
+        if (empty($data)) {
+            throw new \UnexpectedValueException('No resource match with these parameters');
+        }
+
+        $entites = array_map(function ($value) {
+            return new UtilisateurEntite($this->getStorage2Entite($value));
+        }, $data);
+
+        return $entites;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getStorage2Entite(array $dataStorage) : array
+    {
+        return [
+            'id' => $dataStorage['id'],
+            'login' => $dataStorage['u_login'],
+            'nom' => $dataStorage['u_nom'],
+            'prenom' => $dataStorage['u_prenom'],
+            'isResp' => $dataStorage['u_is_resp'] === 'Y',
+            'isAdmin' => $dataStorage['u_is_admin'] === 'Y',
+            'isHr' => $dataStorage['u_is_hr'] === 'Y',
+            'isActive' => $dataStorage['u_is_active'] === 'Y',
+            'password' => $dataStorage['u_passwd'],
+            'quotite' => $dataStorage['u_quotite'],
+            'email' => $dataStorage['u_email'],
+            'numeroExercice' => $dataStorage['u_num_exercice'],
+            'planningId' => $dataStorage['planning_id'],
+            'heureSolde' => $dataStorage['u_heure_solde'],
+            'dateInscription' => $dataStorage['date_inscription'],
+            'token' => $dataStorage['token'],
+            'dateLastAccess' => $dataStorage['date_last_access'],
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getParamsConsumer2Storage(array $paramsConsumer) : array
     {
         $results = [];
         if (!empty($paramsConsumer['login'])) {
@@ -89,12 +136,58 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         throw new \Exception('Not implemented');
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function _post(AEntite $entite) : int
+    {
+        throw new \RuntimeException('Not implemented');
+    }
+
     /*************************************************
      * PUT
      *************************************************/
 
     public function putOne(array $data, AEntite $entite)
     {
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function _put(AEntite $entite)
+    {
+        $this->queryBuilder->update($this->getTableName());
+        $this->setSet($this->getEntite2Storage($entite));
+        $this->queryBuilder->where('u_login = :id');
+        $this->queryBuilder->setParameter(':id', $entite->getId());
+
+        $this->queryBuilder->execute();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function getEntite2Storage(AEntite $entite) : array
+    {
+        return [
+            //'u_login' => $entite->getLogin(), // PK ne doit pas être vu par le stockage
+            /*'u_nom' => $entite->getJourId(),
+            'u_prenom' => $entite->getTypeSemaine(),
+            'u_is_resp' => $entite->getTypePeriode(),
+            'u_is_admin' => $entite->getDebut(),
+            'u_is_hr' => $entite->getFin(),
+            'u_is_active' => $entite->getFin(),
+            'u_passwd' => $entite->getFin(),
+            'u_quotite' => $entite->getFin(),
+            'u_email' => $entite->getFin(),
+            'u_num_exercice' => $entite->getFin(),
+            'planning_id' => $entite->getFin(),
+            'u_heure_solde' => $entite->getFin(),
+            'date_inscription' => $entite->getFin(),*/
+            'token' => $entite->getToken(),
+            'date_last_access' => $entite->getDateLastAccess(),
+        ];
     }
 
     /**
@@ -107,7 +200,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     public function updateDateLastAccess(UtilisateurEntite $entite)
     {
         $entite->updateDateLastAccess();
-        $this->dao->put($entite);
+        $this->_put($entite);
     }
 
     /**
@@ -128,7 +221,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         try {
             $entite->populateToken($this->buildToken($instanceToken));
             $entite->updateDateLastAccess();
-            $this->dao->put($entite);
+            $this->_put($entite);
 
             return $entite;
         } catch (\Exception $e) {
@@ -154,6 +247,11 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
 
     public function deleteOne(AEntite $entite)
     {
+    }
+
+    public function _delete(int $id) : int
+    {
+        throw new \Exception('Not implemented');
     }
 
     /**

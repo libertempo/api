@@ -13,107 +13,10 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
 {
-    public function getById(int $id) : AEntite
-    {
-        throw new \RuntimeException('Action is forbidden');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getStorage2Entite(array $dataDao) : array
-    {
-        return [
-            'id' => $dataDao['id'],
-            'login' => $dataDao['u_login'],
-            'nom' => $dataDao['u_nom'],
-            'prenom' => $dataDao['u_prenom'],
-            'isResp' => $dataDao['u_is_resp'] === 'Y',
-            'isAdmin' => $dataDao['u_is_admin'] === 'Y',
-            'isHr' => $dataDao['u_is_hr'] === 'Y',
-            'isActive' => $dataDao['u_is_active'] === 'Y',
-            'password' => $dataDao['u_passwd'],
-            'quotite' => $dataDao['u_quotite'],
-            'email' => $dataDao['u_email'],
-            'numeroExercice' => $dataDao['u_num_exercice'],
-            'planningId' => $dataDao['planning_id'],
-            'heureSolde' => $dataDao['u_heure_solde'],
-            'dateInscription' => $dataDao['date_inscription'],
-            'token' => $dataDao['token'],
-            'dateLastAccess' => $dataDao['date_last_access'],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getList(array $parametres) : array
-    {
-        $this->queryBuilder->select('*, u_login AS id');
-        $this->setWhere($parametres);
-        $res = $this->queryBuilder->execute();
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = array_map(function ($value) {
-            return new UtilisateurEntite($this->getStorage2Entite($value));
-        }, $data);
-
-        return $entites;
-    }
-
     /*************************************************
      * POST
      *************************************************/
 
-    /**
-     * @inheritDoc
-     */
-    public function post(AEntite $entite) : int
-    {
-        throw new \RuntimeException('Not implemented');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function put(AEntite $entite)
-    {
-        $this->queryBuilder->update($this->getTableName());
-        $this->setSet($this->getEntite2Storage($entite));
-        $this->queryBuilder->where('u_login = :id');
-        $this->queryBuilder->setParameter(':id', $entite->getId());
-
-        $this->queryBuilder->execute();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getEntite2Storage(AEntite $entite) : array
-    {
-        return [
-            //'u_login' => $entite->getLogin(), // PK ne doit pas être vu par la DAO
-            /*'u_nom' => $entite->getJourId(),
-            'u_prenom' => $entite->getTypeSemaine(),
-            'u_is_resp' => $entite->getTypePeriode(),
-            'u_is_admin' => $entite->getDebut(),
-            'u_is_hr' => $entite->getFin(),
-            'u_is_active' => $entite->getFin(),
-            'u_passwd' => $entite->getFin(),
-            'u_quotite' => $entite->getFin(),
-            'u_email' => $entite->getFin(),
-            'u_num_exercice' => $entite->getFin(),
-            'planning_id' => $entite->getFin(),
-            'u_heure_solde' => $entite->getFin(),
-            'date_inscription' => $entite->getFin(),*/
-            'token' => $entite->getToken(),
-            'date_last_access' => $entite->getDateLastAccess(),
-        ];
-    }
 
     private function setSet(array $parametres)
     {
@@ -130,11 +33,6 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
     /*************************************************
      * DELETE
      *************************************************/
-
-    public function delete(int $id) : int
-    {
-        throw new \Exception('Not implemented');
-    }
 
     /**
      * Définit les values à insérer
@@ -170,13 +68,5 @@ class UtilisateurDao extends \LibertAPI\Tools\Libraries\ADao
         if (!empty($whereCriteria)) {
             $this->queryBuilder->setParameters($whereCriteria);
         }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    final protected function getTableName() : string
-    {
-        return 'conges_users';
     }
 }
