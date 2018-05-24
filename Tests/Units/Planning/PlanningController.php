@@ -244,7 +244,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testPutPutOneFallback()
     {
-        $this->request->getMockController()->getParsedBody = [];
+        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
         $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \LogicException('');
@@ -260,7 +260,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testPutOk()
     {
-        $this->request->getMockController()->getParsedBody = [];
+        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
         $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = '';
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
@@ -275,6 +275,15 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
             ->string['status']->isIdenticalTo('success')
             ->string['data']->isIdenticalTo('')
         ;
+    }
+
+    protected function getEntiteContent() : array
+    {
+        return [
+            'id' => 72,
+            'name' => 'name',
+            'status' => 59,
+        ];
     }
 
     /*************************************************

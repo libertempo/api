@@ -133,7 +133,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         throw new \RuntimeException('Action is forbidden');
     }
 
-    public function putOne(array $data, AEntite $entite)
+    public function putOne(AEntite $entite)
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -227,7 +227,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     public function updateDateLastAccess(UtilisateurEntite $entite)
     {
         $entite->updateDateLastAccess();
-        $this->_put($entite);
+        $this->putOne($entite);
     }
 
     /**
@@ -248,7 +248,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         try {
             $entite->populateToken($this->buildToken($instanceToken));
             $entite->updateDateLastAccess();
-            $this->_put($entite);
+            $this->putOne($entite);
 
             return $entite;
         } catch (\Exception $e) {

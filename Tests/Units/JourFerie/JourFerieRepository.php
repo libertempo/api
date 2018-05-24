@@ -41,7 +41,7 @@ final class JourFerieRepository extends \LibertAPI\Tests\Units\Tools\Libraries\A
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->putOne([], new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
         })->isInstanceOf(\RuntimeException::class);
     }
 

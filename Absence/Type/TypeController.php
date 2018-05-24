@@ -155,7 +155,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $this->repository->putOne($body, $resource);
+            $resource->populate($body);
+            $this->repository->putOne($resource);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

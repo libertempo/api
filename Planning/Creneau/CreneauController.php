@@ -169,7 +169,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
         }
 
         try {
-            $this->repository->putOne($body, $creneau);
+            $creneau->populate($body);
+            $this->repository->putOne($creneau);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

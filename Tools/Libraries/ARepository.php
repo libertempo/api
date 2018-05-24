@@ -141,12 +141,10 @@ abstract class ARepository
     /**
      * Met à jour une ressource unique
      *
-     * @param array $data Données à mettre à jour
-     * @param AEntite $entite
+     * @param AEntite $entite mise à jour
      */
-    public function putOne(array $data, AEntite $entite)
+    public function putOne(AEntite $entite)
     {
-        $entite->populate($data);
         $this->queryBuilder->update($this->getTableName());
         $this->setSet($this->getEntite2Storage($entite));
         $this->setWhere(['id', $entite->getId()]);

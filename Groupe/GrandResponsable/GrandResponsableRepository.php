@@ -100,7 +100,7 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function putOne(array $data, AEntite $entite)
+    public function putOne(AEntite $entite)
     {
         throw new \RuntimeException('Action is forbidden');
     }

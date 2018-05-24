@@ -20,7 +20,7 @@ final class EmployeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
     }
 
     /**
-     * Duplication de la fonction dans UtilisateurDao (Cf. decisions.md #2018-02-17)
+     * Duplication de la fonction dans UtilisateurRepository (Cf. decisions.md #2018-02-17)
      */
     final protected function getStorageContent() : array
     {
@@ -60,7 +60,7 @@ final class EmployeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->putOne([], new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
         })->isInstanceOf(\RuntimeException::class);
     }
 

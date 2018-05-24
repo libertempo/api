@@ -80,7 +80,7 @@ abstract class ARepository extends \Atoum
         $this->calling($this->queryBuilder)->execute = true;
         $this->calling($this->connector)->lastInsertId = 9182;
 
-        $this->variable($this->testedInstance->putOne([], new \mock\LibertAPI\Tools\Libraries\AEntite([])))->isNull();
+        $this->variable($this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([])))->isNull();
     }
 
     public function testDeleteOne()
