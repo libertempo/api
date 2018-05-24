@@ -53,15 +53,6 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         })->isInstanceOf(\RuntimeException::class);
     }
 
-    public function testPutOne()
-    {
-        $this->newTestedInstance($this->connector);
-
-        $this->exception(function () {
-            $this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
-        })->isInstanceOf(\RuntimeException::class);
-    }
-
     public function testDeleteOne()
     {
         $this->newTestedInstance($this->connector);
