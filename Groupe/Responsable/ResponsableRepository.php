@@ -35,7 +35,7 @@ class ResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     {
         $this->queryBuilder->select('users.*, users.u_login AS id');
         $this->queryBuilder->innerJoin('current', 'conges_users', 'users', 'current.gr_login = u_login');
-        $this->setWhere($parametres);
+        $this->setWhere($this->getParamsConsumer2Storage($parametres));
         $res = $this->queryBuilder->execute();
 
         $data = $res->fetchAll(\PDO::FETCH_ASSOC);

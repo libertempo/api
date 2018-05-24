@@ -2,6 +2,7 @@
 namespace LibertAPI\Tools\Libraries;
 
 use Doctrine\DBAL\Driver;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * Garant de la cohérence métier de l'entité en relation.
@@ -31,7 +32,7 @@ abstract class ARepository
     protected $storageConnector;
 
     /**
-    * @var Query\QueryBuilder
+    * @var QueryBuilder
     */
     protected $queryBuilder;
 
@@ -56,7 +57,7 @@ abstract class ARepository
 
         $entiteClass = $this->getEntiteClass();
 
-        return new  $entiteClass($this->getStorage2Entite($data));
+        return new $entiteClass($this->getStorage2Entite($data));
     }
 
     /**
@@ -70,7 +71,7 @@ abstract class ARepository
     public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('*');
-        $this->setWhere($parametres);
+        $this->setWhere($this->getParamsConsumer2Storage($parametres));
         $res = $this->queryBuilder->execute();
 
         $data = $res->fetchAll(\PDO::FETCH_ASSOC);
@@ -128,7 +129,7 @@ abstract class ARepository
         $this->setValues($this->getEntite2Storage($entite));
         $this->queryBuilder->execute();
 
-        return $this->storageConnector->lastInsertId();
+        return (int) $this->storageConnector->lastInsertId();
     }
 
     /**
@@ -194,7 +195,7 @@ abstract class ARepository
     /**
      * Initie une transaction
      */
-    private function beginTransaction() : bool
+    final protected function beginTransaction() : bool
     {
         return $this->storageConnector->beginTransaction();
     }
@@ -202,7 +203,7 @@ abstract class ARepository
     /**
      * Valide une transaction
      */
-    private function commit() : bool
+    final protected function commit() : bool
     {
         return $this->storageConnector->commit();
     }
@@ -210,7 +211,7 @@ abstract class ARepository
     /**
      * Annule une transaction
      */
-    private function rollback() : bool
+    final protected function rollback() : bool
     {
         return $this->storageConnector->rollBack();
     }

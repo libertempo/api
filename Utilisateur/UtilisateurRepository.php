@@ -63,7 +63,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('*, u_login AS id');
-        $this->setWhere($parametres);
+        $this->setWhere($this->getParamsConsumer2Storage($parametres));
         $res = $this->queryBuilder->execute();
         $data = $res->fetchAll(\PDO::FETCH_ASSOC);
 

@@ -70,7 +70,6 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      * @param IResponse $response Réponse Http
      *
      * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     private function getList(IRequest $request, IResponse $response)
     {
