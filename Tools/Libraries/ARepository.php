@@ -181,7 +181,7 @@ abstract class ARepository
     public function deleteOne(AEntite $entite) : int
     {
         $this->queryBuilder->delete($this->getTableName());
-        $this->setWhere(['ta_id' => $entite->getId()]);
+        $this->setWhere(['id' => $entite->getId()]);
         $res = $this->queryBuilder->execute();
         $entite->reset();
 
@@ -196,7 +196,7 @@ abstract class ARepository
     /**
      * Initie une transaction
      */
-    public function beginTransaction() : bool
+    private function beginTransaction() : bool
     {
         return $this->storageConnector->beginTransaction();
     }
@@ -204,7 +204,7 @@ abstract class ARepository
     /**
      * Valide une transaction
      */
-    public function commit() : bool
+    private function commit() : bool
     {
         return $this->storageConnector->commit();
     }
@@ -212,7 +212,7 @@ abstract class ARepository
     /**
      * Annule une transaction
      */
-    public function rollback() : bool
+    private function rollback() : bool
     {
         return $this->storageConnector->rollBack();
     }

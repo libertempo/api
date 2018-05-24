@@ -2,6 +2,7 @@
 namespace LibertAPI\Groupe\GrandResponsable;
 
 use LibertAPI\Tools\Libraries\AEntite;
+use \LibertAPI\Utilisateur\UtilisateurEntite;
 
 /**
  * {@inheritDoc}
@@ -38,10 +39,16 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
         }
 
         $entites = array_map(function ($value) {
-            return new UtilisateurEntite($this->getStorage2Entite($value));
+            $entiteClass = $this->getEntiteClass();
+            return new $entiteClass($this->getStorage2Entite($value));
         }, $data);
 
         return $entites;
+    }
+
+    final protected function getEntiteClass() : string
+    {
+        return UtilisateurEntite::class;
     }
 
     /**
@@ -85,7 +92,7 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function postOne(array $data, AEntite $entite)
+    public function postOne(array $data, AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -109,7 +116,23 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function deleteOne(AEntite $entite)
+    final protected function setValues(array $values)
+    {
+        unset($values);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function setSet(array $parametres)
+    {
+        unset($parametres);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteOne(AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }

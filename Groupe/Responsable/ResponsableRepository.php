@@ -2,6 +2,7 @@
 namespace LibertAPI\Groupe\Responsable;
 
 use LibertAPI\Tools\Libraries\AEntite;
+use \LibertAPI\Utilisateur\UtilisateurEntite;
 
 /**
  * {@inheritDoc}
@@ -24,7 +25,7 @@ class ResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
 
     final protected function getEntiteClass() : string
     {
-        return ResponsableEntite::class;
+        return UtilisateurEntite::class;
     }
 
     /**
@@ -43,7 +44,8 @@ class ResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
         }
 
         $entites = array_map(function ($value) {
-            return new UtilisateurEntite($this->getStorage2Entite($value));
+            $entiteClass = $this->getEntiteClass();
+            return new $entiteClass($this->getStorage2Entite($value));
         }, $data);
 
         return $entites;

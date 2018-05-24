@@ -2,6 +2,7 @@
 namespace LibertAPI\Groupe\Employe;
 
 use LibertAPI\Tools\Libraries\AEntite;
+use \LibertAPI\Utilisateur\UtilisateurEntite;
 
 /**
  * {@inheritDoc}
@@ -23,7 +24,7 @@ class EmployeRepository extends \LibertAPI\Tools\Libraries\ARepository
 
     final protected function getEntiteClass() : string
     {
-        return EmployeEntite::class;
+        return UtilisateurEntite::class;
     }
 
     /**
@@ -51,7 +52,8 @@ class EmployeRepository extends \LibertAPI\Tools\Libraries\ARepository
         }
 
         $entites = array_map(function ($value) {
-            return new UtilisateurEntite($this->getStorage2Entite($value));
+            $entiteClass = $this->getEntiteClass();
+            return new $entiteClass($this->getStorage2Entite($value));
         }, $data);
 
         return $entites;

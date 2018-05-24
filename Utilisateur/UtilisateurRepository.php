@@ -130,12 +130,12 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
 
     public function postOne(array $data, AEntite $entite) : int
     {
-        throw new \Exception('Not implemented');
+        throw new \RuntimeException('Action is forbidden');
     }
 
     public function putOne(array $data, AEntite $entite)
     {
-        throw new \Exception('Not implemented');
+        throw new \RuntimeException('Action is forbidden');
     }
 
     /**
