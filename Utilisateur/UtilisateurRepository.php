@@ -33,11 +33,12 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         $this->application = $application;
     }
 
-    /*************************************************
-     * GET
-     *************************************************/
+    final protected function getEntiteClass() : string
+    {
+        return UtilisateurEntite::class;
+    }
 
-    public function getById(int $id) : AEntite
+    public function getOne(int $id) : AEntite
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -59,7 +60,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _getList(array $parametres) : array
+    public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('*, u_login AS id');
         $this->setWhere($parametres);
@@ -127,11 +128,12 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         return $results;
     }
 
-    /*************************************************
-     * POST
-     *************************************************/
-
     public function postOne(array $data, AEntite $entite) : int
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    public function putOne(array $data, AEntite $entite)
     {
         throw new \Exception('Not implemented');
     }
@@ -139,30 +141,55 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _post(AEntite $entite) : int
+    final protected function setValues(array $values)
     {
-        throw new \RuntimeException('Not implemented');
+        unset($values);
     }
 
-    /*************************************************
-     * PUT
-     *************************************************/
-
-    public function putOne(array $data, AEntite $entite)
+    final protected function setSet(array $parametres)
     {
+        if (!empty($parametres['token'])) {
+            $this->queryBuilder->set('token', ':token');
+            $this->queryBuilder->setParameter(':token', $parametres['token']);
+        }
+        if (!empty($parametres['date_last_access'])) {
+            $this->queryBuilder->set('date_last_access', ':date_last_access');
+            $this->queryBuilder->setParameter(':date_last_access', $parametres['date_last_access']);
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function _put(AEntite $entite)
+    final protected function setWhere(array $parametres)
     {
-        $this->queryBuilder->update($this->getTableName());
-        $this->setSet($this->getEntite2Storage($entite));
-        $this->queryBuilder->where('u_login = :id');
-        $this->queryBuilder->setParameter(':id', $entite->getId());
-
-        $this->queryBuilder->execute();
+        $whereCriteria = [];
+        if (!empty($parametres['u_login'])) {
+            $this->queryBuilder->andWhere('u_login = :id');
+            $whereCriteria[':id'] = $parametres['u_login'];
+        }
+        if (!empty($parametres['u_passwd'])) {
+            // @TODO: on vise la compat' dans la migration de #12,
+            // mais il faudra à terme enlever md5
+            $this->queryBuilder->andWhere('u_passwd = :passwordMd5 OR u_passwd = :passwordBlow');
+            $whereCriteria[':passwordMd5'] = md5($parametres['u_passwd']);
+            $whereCriteria[':passwordBlow'] = password_hash($parametres['u_passwd'], PASSWORD_BCRYPT);
+        }
+        if (!empty($parametres['token'])) {
+            $this->queryBuilder->andWhere('token = :token');
+            $whereCriteria[':token'] = $parametres['token'];
+        }
+        if (!empty($parametres['gt_date_last_access'])) {
+            $this->queryBuilder->andWhere('date_last_access >= :gt_date_last_access');
+            $whereCriteria[':gt_date_last_access'] = $parametres['gt_date_last_access'];
+        }
+        if (!empty($parametres['is_active'])) {
+            $this->queryBuilder->andWhere('u_is_active = :actif');
+            $whereCriteria[':actif'] = ($parametres['is_active']) ? 'Y' : 'N';
+        }
+        if (!empty($whereCriteria)) {
+            $this->queryBuilder->setParameters($whereCriteria);
+        }
     }
 
     /**
@@ -241,17 +268,9 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         return password_hash($instanceToken, \PASSWORD_BCRYPT);
     }
 
-    /*************************************************
-     * DELETE
-     *************************************************/
-
-    public function deleteOne(AEntite $entite)
+    public function deleteOne(AEntite $entite) : int
     {
-    }
-
-    public function _delete(int $id) : int
-    {
-        throw new \Exception('Not implemented');
+        throw new \RuntimeException('Action is forbidden');
     }
 
     /**

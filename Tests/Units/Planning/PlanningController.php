@@ -316,7 +316,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testDeleteOk()
     {
         $this->repository->getMockController()->getOne = $this->entite;
-        $this->repository->getMockController()->deleteOne = '';
+        $this->repository->getMockController()->deleteOne = 89172;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $response = $this->testedInstance->delete($this->request, $this->response, ['planningId' => 99]);

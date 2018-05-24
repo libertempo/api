@@ -14,10 +14,6 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
     /**
      * @inheritDoc
      */
@@ -29,9 +25,23 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function getById(int $id) : AEntite
+    public function getList(array $parametres) : array
     {
-        throw new \RuntimeException('Action is forbidden');
+        $this->queryBuilder->select('users.*, users.u_login AS id');
+        $this->queryBuilder->innerJoin('current', 'conges_users', 'users', 'current.ggr_login = u_login');
+        $this->setWhere($parametres);
+        $res = $this->queryBuilder->execute();
+
+        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            throw new \UnexpectedValueException('No resource match with these parameters');
+        }
+
+        $entites = array_map(function ($value) {
+            return new UtilisateurEntite($this->getStorage2Entite($value));
+        }, $data);
+
+        return $entites;
     }
 
     /**
@@ -46,7 +56,7 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      *
-     * Duplication de la fonction dans UtilisateurDao (Cf. decisions.md #2018-02-17)
+     * Duplication de la fonction dans UtilisateurRepository (Cf. decisions.md #2018-02-17)
      */
     final protected function getStorage2Entite(array $dataStorage) : array
     {
@@ -72,10 +82,6 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
         ];
     }
 
-    /*************************************************
-     * POST
-     *************************************************/
-
     /**
      * @inheritDoc
      */
@@ -83,10 +89,6 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     {
         throw new \RuntimeException('Action is forbidden');
     }
-
-    /*************************************************
-     * PUT
-     *************************************************/
 
     /**
      * @inheritDoc
@@ -96,9 +98,13 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
         throw new \RuntimeException('Action is forbidden');
     }
 
-    /*************************************************
-     * DELETE
-     *************************************************/
+    /**
+     * @inheritDoc
+     */
+    final protected function getEntite2Storage(AEntite $entite) : array
+    {
+        return [];
+    }
 
     /**
      * @inheritDoc
@@ -106,6 +112,17 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     public function deleteOne(AEntite $entite)
     {
         throw new \RuntimeException('Action is forbidden');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function setWhere(array $parametres)
+    {
+        if (!empty($parametres['id'])) {
+            $this->queryBuilder->andWhere('ggr_gid = :id');
+            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
+        }
     }
 
     /**

@@ -18,9 +18,7 @@ final class Identificator extends \LibertAPI\Tools\AMiddleware
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
         $container = $this->getContainer();
-        $repoUtilisateur = new Utilisateur\UtilisateurRepository(
-            new Utilisateur\UtilisateurDao($container->storageConnector)
-        );
+        $repoUtilisateur = new Utilisateur\UtilisateurRepository($container->storageConnector));
         $openedRoutes = ['Authentification', 'HelloWorld'];
         $ressourcePath = $request->getAttribute('nomRessources');
         if (in_array($ressourcePath, $openedRoutes, true)) {
@@ -50,6 +48,7 @@ final class Identificator extends \LibertAPI\Tools\AMiddleware
             $this->utilisateur = $repository->find([
                 'token' => $token,
                 'gt_date_last_access' => $this->getDateLastAccessAuthorized()
+                'isActif' => true,
             ]);
             return $this->utilisateur instanceof AEntite;
         } catch (\UnexpectedValueException $e) {

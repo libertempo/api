@@ -36,11 +36,7 @@ abstract class AControllerFactory
             throw new \DomainException('Unknown component');
         }
 
-        $daoClass = '\LibertAPI\Utilisateur\UtilisateurDao';
-        $repoClass = '\LibertAPI\Utilisateur\UtilisateurRepository';
-
-        $repo = new $repoClass(
-            new $daoClass($storageConnector),
+        $repo = new \LibertAPI\Utilisateur\UtilisateurRepository(
             $storageConnector
         );
         // TODO : Application est un injectable, supprimer la création ici
@@ -69,14 +65,10 @@ abstract class AControllerFactory
 
         $paths = explode('\\', $ressourcePath);
         $end = array_pop($paths);
-        $daoClass = '\LibertAPI\\' . $ressourcePath . '\\' . $end . 'Dao';
         $repoClass = '\LibertAPI\\' . $ressourcePath . '\\' . $end . 'Repository';
 
         return new $controllerClass(
-            new $repoClass(
-                new $daoClass($storageConnector),
-                $storageConnector
-            ),
+            new $repoClass($storageConnector),
             $router,
             $currentUser
         );

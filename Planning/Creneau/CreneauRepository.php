@@ -15,60 +15,17 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
     /**
      * @inheritDoc
-     *
-     * @param int $planningId Contrainte de recherche sur le planning
      */
-    public function getOne(int $id, $planningId = -1) : AEntite
+    public function getOne(int $id) : AEntite
     {
-        return $this->_getById($id, $planningId);
+        throw new \RuntimeException('#' . $id . ' is not a callable resource');
     }
 
-    /**
-     * @inheritDoc
-     *
-     * @param int $planningId Contrainte de recherche sur le planning
-     */
-    public function getById(int $id, $planningId = null) : AEntite
+    final protected function getEntiteClass() : string
     {
-        $this->queryBuilder->select('*');
-        $this->setWhere(['id' => $id, 'planning_id' => $planningId]);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetch(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \DomainException('#' . $id . ' is not a valid resource');
-        }
-
-        return new CreneauEntite($this->getStorage2Entite($data));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function _getList(array $parametres) : array
-    {
-        $this->queryBuilder->select('*');
-        $this->setWhere($parametres);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = [];
-        foreach ($data as $value) {
-            $entite = new CreneauEntite($this->getStorage2Entite($value));
-            $entites[$entite->getId()] = $entite;
-        }
-
-        return $entites;
+        return CreneauEntite::class;
     }
 
     /**
@@ -99,11 +56,6 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
             'fin' => $dataStorage['fin'],
         ];
     }
-
-    /*************************************************
-     * POST
-     *************************************************/
-
     /**
      * Poste une liste de ressource
      *
@@ -135,18 +87,6 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _post(AEntite $entite) : int
-    {
-        $this->queryBuilder->insert($this->getTableName());
-        $this->setValues($this->getEntite2Storage($entite));
-        $this->queryBuilder->execute();
-
-        return $this->storageConnector->lastInsertId();
-    }
-
-    /**
-     * @inheritDoc
-     */
     final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [
@@ -162,29 +102,65 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _put(AEntite $entite)
+    final protected function setValues(array $values)
     {
-        $this->queryBuilder->update($this->getTableName());
-        $this->queryBuilder->where('creneau_id = :id');
-        $this->queryBuilder->setParameter(':id', $entite->getId());
-        $this->setSet($this->getEntite2Storage($entite));
+        $this->queryBuilder->setValue('planning_id', (int) $values['planning_id']);
+        $this->queryBuilder->setValue('jour_id', (int) $values['jour_id']);
+        $this->queryBuilder->setValue('type_semaine', $values['type_semaine']);
+        $this->queryBuilder->setValue('type_periode', $values['type_periode']);
+        $this->queryBuilder->setValue('debut', $values['debut']);
+        $this->queryBuilder->setValue('fin', $values['fin']);
+    }
 
-        $this->queryBuilder->execute();
+    final protected function setSet(array $parametres)
+    {
+        if (!empty($parametres['planning_id'])) {
+            $this->queryBuilder->set('planning_id', ':planning_id');
+            $this->queryBuilder->setParameter(':planning_id', $parametres['planning_id']);
+        }
+        if (!empty($parametres['jour_id'])) {
+            $this->queryBuilder->set('jour_id', ':jour_id');
+            $this->queryBuilder->setParameter(':jour_id', (int) $parametres['jour_id']);
+        }
+        if (!empty($parametres['type_semaine'])) {
+            $this->queryBuilder->set('type_semaine', ':type_semaine');
+            $this->queryBuilder->setParameter(':type_semaine', $parametres['type_semaine']);
+        }
+        if (!empty($parametres['type_periode'])) {
+            $this->queryBuilder->set('type_periode', ':type_periode');
+            $this->queryBuilder->setParameter(':type_periode', $parametres['type_periode']);
+        }
+        if (!empty($parametres['debut'])) {
+            $this->queryBuilder->set('debut', ':debut');
+            $this->queryBuilder->setParameter(':debut', $parametres['debut']);
+        }
+        if (!empty($parametres['fin'])) {
+            $this->queryBuilder->set('fin', ':fin');
+            $this->queryBuilder->setParameter(':fin', $parametres['fin']);
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function deleteOne(AEntite $entite)
+    final protected function setWhere(array $parametres)
     {
+        if (!empty($parametres['id'])) {
+            $this->queryBuilder->andWhere('creneau_id = :id');
+            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
+        }
+        if (!empty($parametres['planning_id'])) {
+            $this->queryBuilder->andWhere('planning_id = :planningId');
+            $this->queryBuilder->setParameter(':planningId', (int) $parametres['planning_id']);
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function _delete(int $id) : int
+    public function deleteOne(AEntite $entite) : int
     {
-        throw new \RuntimeException('Forbidden action');
+        throw new \RuntimeException('Action is forbidden');
     }
 
     /**

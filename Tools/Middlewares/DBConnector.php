@@ -23,10 +23,7 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
                 $configuration->db->mot_de_passe,
                 [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8\';']
             );
-            $connexion = DBAL\DriverManager::getConnection([
-                    'pdo' => $dbh
-                ]
-            );
+            $connexion = DBAL\DriverManager::getConnection(['pdo' => $dbh]);
             $container['storageConnector'] = $connexion;
 
             return $next($request, $response);

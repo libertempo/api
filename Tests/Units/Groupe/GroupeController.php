@@ -314,7 +314,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     public function testDeleteOk()
     {
         $this->repository->getMockController()->getOne = $this->entite;
-        $this->repository->getMockController()->deleteOne = '';
+        $this->repository->getMockController()->deleteOne = 123;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $response = $this->testedInstance->delete($this->request, $this->response, ['groupeId' => 99]);

@@ -17,25 +17,9 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function getById(int $id) : AEntite
+    final protected function getEntiteClass() : string
     {
-        $this->queryBuilder->select('*');
-        $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetch(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \DomainException('#' . $id . ' is not a valid resource');
-        }
-
-        return new GroupeEntite($this->getStorage2Entite($data));
+        return GroupeEntite::class;
     }
 
     /**
@@ -63,49 +47,39 @@ class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _getList(array $parametres) : array
+    final protected function setValues(array $values)
     {
-        $this->queryBuilder->select('*');
-        $this->setWhere($parametres);
-        $res = $this->queryBuilder->execute();
+        $this->queryBuilder->setValue('g_groupename', ':name');
+        $this->queryBuilder->setParameter(':name', $values['name']);
+        $this->queryBuilder->setValue('g_comment', $values['comment']);
+        $this->queryBuilder->setValue('g_double_valid', $values['double_validation']);
+    }
 
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
+    final protected function setSet(array $parametres)
+    {
+        if (!empty($parametres['name'])) {
+            $this->queryBuilder->set('g_groupename', ':name');
+            $this->queryBuilder->setParameter(':name', $parametres['name']);
         }
-
-        $entites = array_map(function ($value) {
-                return new GroupeEntite($this->getStorage2Entite($value));
-            },
-            $data
-        );
-
-        return $entites;
+        if (!empty($parametres['comment'])) {
+            $this->queryBuilder->set('g_comment', ':comment');
+            $this->queryBuilder->setParameter(':comment', $parametres['comment']);
+        }
+        if (!empty($parametres['double_validation'])) {
+            $this->queryBuilder->set('g_double_valid', ':double_validation');
+            $this->queryBuilder->setParameter(':double_validation', $parametres['double_validation']);
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function _post(AEntite $entite) : int
+    final protected function setWhere(array $parametres)
     {
-        $this->queryBuilder->insert($this->getTableName());
-        $this->setValues($this->getEntite2Storage($entite));
-        $this->queryBuilder->execute();
-
-        return $this->storageConnector->lastInsertId();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function _put(AEntite $entite)
-    {
-        $this->queryBuilder->update($this->getTableName());
-        $this->setSet($this->getEntite2Storage($entite));
-        $this->queryBuilder->where('g_gid = :id');
-        $this->queryBuilder->setParameter(':id', $entite->getId());
-
-        $this->queryBuilder->execute();
+        if (!empty($parametres['id'])) {
+            $this->queryBuilder->andWhere('g_gid = :id');
+            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
+        }
     }
 
     /**
@@ -118,35 +92,6 @@ class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
             'comment' => $entite->getComment(),
             'double_validation' => 'Y' === $entite->isDoubleValidated()
         ];
-    }
-
-    /*************************************************
-     * DELETE
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     */
-    public function deleteOne(AEntite $entite)
-    {
-        try {
-            $this->_delete($entite->getId());
-            $entite->reset();
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function _delete(int $id) : int
-    {
-        $this->queryBuilder->delete($this->getTableName());
-        $this->setWhere(['id' => $id]);
-        $res = $this->queryBuilder->execute();
-
-        return $res->rowCount();
     }
 
     /**

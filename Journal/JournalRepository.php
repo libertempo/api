@@ -14,45 +14,17 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
     /**
      * @inheritDoc
      */
     public function getOne(int $id) : AEntite
     {
-        throw new \RuntimeException('Journal#' . $id . ' is not a callable resource');
+        throw new \RuntimeException('#' . $id . ' is not a callable resource');
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getById(int $id) : AEntite
+    final protected function getEntiteClass() : string
     {
-        throw new \RuntimeException('Action is forbidden');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function _getList(array $parametres) : array
-    {
-        $this->queryBuilder->select('*');
-        $this->setWhere($parametres);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = array_map(function ($value) {
-            return new JournalEntite($this->getStorage2Entite($value));
-        }, $data);
-
-        return $entites;
+        return JournalEntite::class;
     }
 
     /**
@@ -80,29 +52,13 @@ class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
         ];
     }
 
-    /*************************************************
-     * POST
-     *************************************************/
-
     /**
      * @inheritDoc
      */
-    public function postOne(array $data, AEntite $entite)
+    public function postOne(array $data, AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function _post(AEntite $entite) : int
-    {
-        throw new \RuntimeException('Action is forbidden');
-    }
-
-    /*************************************************
-     * PUT
-     *************************************************/
 
     /**
      * @inheritDoc
@@ -115,27 +71,31 @@ class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _put(AEntite $entite)
-    {
-        throw new \RuntimeException('Action is forbidden');
-    }
-
-    /**
-     * @inheritDoc
-     */
     final protected function getEntite2Storage(AEntite $entite) : array
     {
         throw new \RuntimeException('Action is forbidden');
     }
 
-    /*************************************************
-     * DELETE
-     *************************************************/
+    /**
+     * @inheritDoc
+     */
+    final protected function setValues(array $values)
+    {
+        unset($values);
+    }
 
     /**
      * @inheritDoc
      */
-    public function deleteOne(AEntite $entite)
+    final protected function setSet(array $parametres)
+    {
+        unset($parametres);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteOne(AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -143,9 +103,12 @@ class JournalRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _delete(int $id) : int
+    final protected function setWhere(array $parametres)
     {
-        throw new \RuntimeException('Action is forbidden');
+        if (!empty($parametres['id'])) {
+            $this->queryBuilder->andWhere('log_id = :id');
+            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
+        }
     }
 
     /**

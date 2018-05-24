@@ -18,14 +18,8 @@ use Doctrine\DBAL\Driver;
  */
 abstract class ARepository
 {
-    /**
-     * @var ADao $dao Data Access Object
-     */
-    protected $dao;
-
-    public function __construct(ADao $dao, Driver\Connection $storageConnector)
+    public function __construct(Driver\Connection $storageConnector)
     {
-        $this->dao = $dao;
         $this->storageConnector = $storageConnector;
         $this->queryBuilder = $storageConnector->createQueryBuilder();
         $this->queryBuilder->from($this->getTableName(), 'current');
@@ -41,10 +35,6 @@ abstract class ARepository
     */
     protected $queryBuilder;
 
-    /*************************************************
-     * GET
-     *************************************************/
-
     /**
      * Retourne une ressource unique
      *
@@ -55,47 +45,73 @@ abstract class ARepository
      */
     public function getOne(int $id) : AEntite
     {
-        return $this->dao->getById($id);
-    }
+        $this->queryBuilder->select('*');
+        $this->setWhere(['id' => $id]);
+        $res = $this->queryBuilder->execute();
 
-    /**
-     * Retourne une ressource unique
-     *
-     * @param int $id Id potentiel de ressource
-     *
-     * @return AEntite
-     * @throws \DomainException si $id n'est pas dans le domaine de définition
-     */
-    abstract public function getById(int $id) : AEntite;
+        $data = $res->fetch(\PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            throw new \DomainException('#' . $id . ' is not a valid resource');
+        }
+
+        $entiteClass = $this->getEntiteClass();
+
+        return new  $entiteClass($this->getStorage2Entite($data));
+    }
 
     /**
      * Retourne une liste de ressource correspondant à des critères
      *
      * @param array $parametres
      *
-     * @return array [$objetId => $objet]
+     * @return array [$objet]
      * @throws \UnexpectedValueException Si les critères ne sont pas pertinents
      */
     public function getList(array $parametres) : array
     {
-        return $this->dao->getList($this->getParamsConsumer2Dao($parametres));
+        $this->queryBuilder->select('*');
+        $this->setWhere($parametres);
+        $res = $this->queryBuilder->execute();
+
+        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            throw new \UnexpectedValueException('No resource match with these parameters');
+        }
+
+        $entiteClass = $this->getEntiteClass();
+
+        $entites = array_map(
+            function ($value) use ($entiteClass) {
+                return new $entiteClass($this->getStorage2Entite($value));
+            },
+            $data
+        );
+
+        return $entites;
     }
+
+    abstract protected function getEntiteClass() : string;
+
+    /**
+     * Effectue le mapping des éléments venant du stockage pour qu'ils soient compréhensibles pour l'Entité
+     *
+     * @param array $dataStorage
+     *
+     * @return array
+     */
+    abstract protected function getStorage2Entite(array $dataStorage);
 
     /**
      * Effectue le mapping des recherches du consommateur de l'API pour qu'elles
-     * soient traitables par la DAO
+     * soient traitables par le stockage
      *
-     * Essentiel pour séparer / traduire les contextes Client / DAO
+     * Essentiel pour séparer / traduire les contextes Client / stockage
      *
      * @param array $paramsConsumer Paramètres reçus
      *
      * @return array
      */
-    abstract protected function getParamsConsumer2Dao(array $paramsConsumer) : array;
-
-    /*************************************************
-     * POST
-     *************************************************/
+    abstract protected function getParamsConsumer2Storage(array $paramsConsumer) : array;
 
     /**
      * Poste une ressource unique
@@ -105,15 +121,22 @@ abstract class ARepository
      *
      * @return int Id de la ressource nouvellement insérée
      */
-    public function postOne(array $data, AEntite $entite)
+    public function postOne(array $data, AEntite $entite) : int
     {
         $entite->populate($data);
-        return $this->dao->post($entite);
+        $this->queryBuilder->insert($this->getTableName());
+        $this->setValues($this->getEntite2Storage($entite));
+        $this->queryBuilder->execute();
+
+        return $this->storageConnector->lastInsertId();
     }
 
-    /*************************************************
-     * PUT
-     *************************************************/
+    /**
+     * Définit les values à insérer
+     *
+     * @param array $values
+     */
+    abstract protected function setValues(array $values);
 
     /**
      * Met à jour une ressource unique
@@ -124,19 +147,46 @@ abstract class ARepository
     public function putOne(array $data, AEntite $entite)
     {
         $entite->populate($data);
-        $this->dao->put($entite);
+        $this->queryBuilder->update($this->getTableName());
+        $this->setSet($this->getEntite2Storage($entite));
+        $this->setWhere(['id', $entite->getId()]);
+
+        $this->queryBuilder->execute();
     }
 
-    /*************************************************
-     * DELETE
-     *************************************************/
+    abstract protected function setSet(array $parametres);
+
+    /**
+     * Définit les filtres à appliquer à la requête
+     *
+     * @param array $parametres
+     * @example [filter => []]
+     */
+    abstract protected function setWhere(array $parametres);
+
+    /**
+     * Effectue le mapping des éléments venant de l'entité pour qu'ils soient compréhensibles pour le stockage
+     *
+     * @param AEntite $entite
+     *
+     * @return array
+     */
+    abstract protected function getEntite2Storage(AEntite $entite) : array;
 
     /**
      * Détruit une ressource unique
      *
      * @param AEntite $entite
      */
-    abstract public function deleteOne(AEntite $entite);
+    public function deleteOne(AEntite $entite) : int
+    {
+        $this->queryBuilder->delete($this->getTableName());
+        $this->setWhere(['ta_id' => $entite->getId()]);
+        $res = $this->queryBuilder->execute();
+        $entite->reset();
+
+        return $res->rowCount();
+    }
 
     /**
      * Retourne le nom de la table

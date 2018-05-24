@@ -16,16 +16,17 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
     /**
      * @inheritDoc
      */
-    public function getById(int $id) : AEntite
+    public function getOne(int $id) : AEntite
     {
-        throw new \RuntimeException('Action is forbidden');
+        throw new \RuntimeException('#' . $id . ' is not a callable resource');
+    }
+
+    final protected function getEntiteClass() : string
+    {
+        return JourFerieEntite::class;
     }
 
     /**
@@ -53,31 +54,7 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _getList(array $parametres) : array
-    {
-        $this->queryBuilder->select('*');
-        $this->setWhere($parametres);
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = array_map(
-            function ($value) {
-                return new JourFerieEntite($this->getStorage2Entite($value));
-            },
-            $data
-        );
-
-        return $entites;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function _post(AEntite $entite) : int
+    public function postOne(array $data, AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -85,7 +62,7 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _put(AEntite $entite)
+    public function putOne(array $data, AEntite $entite)
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -100,25 +77,36 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
         ];
     }
 
-    /*************************************************
-     * DELETE
-     *************************************************/
-
     /**
      * @inheritDoc
      */
-    public function deleteOne(AEntite $entite)
+    final protected function setValues(array $values)
     {
-        $this->_delete($entite->getId());
-        $entite->reset();
+        unset($values);
     }
 
     /**
      * @inheritDoc
      */
-    public function _delete(int $id) : int
+    final protected function setSet(array $parametres)
+    {
+        unset($parametres);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteOne(AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final protected function setWhere(array $parametres)
+    {
+        unset($parametres);
     }
 
     /**

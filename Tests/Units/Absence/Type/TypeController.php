@@ -296,6 +296,7 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
     public function testDeleteOk()
     {
         $this->repository->getMockController()->getOne = $this->entite;
+        $this->calling($this->repository)->deleteOne = 34;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
         $response = $this->testedInstance->delete($this->request, $this->response, ['typeId' => 99]);
         $data = $this->getJsonDecoded($response->getBody());

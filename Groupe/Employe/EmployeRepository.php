@@ -13,10 +13,6 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class EmployeRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
     /**
      * @inheritDoc
      */
@@ -25,12 +21,9 @@ class EmployeRepository extends \LibertAPI\Tools\Libraries\ARepository
         throw new \RuntimeException('#' . $id . ' is not a callable resource');
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getById(int $id) : AEntite
+    final protected function getEntiteClass() : string
     {
-        throw new \RuntimeException('Action is forbidden');
+        return EmployeEntite::class;
     }
 
     /**
@@ -45,7 +38,7 @@ class EmployeRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _getList(array $parametres) : array
+    public function getList(array $parametres) : array
     {
         $this->queryBuilder->select('users.*, users.u_login AS id');
         $this->queryBuilder->innerJoin('current', 'conges_users', 'users', 'current.gu_login = u_login');
@@ -67,7 +60,7 @@ class EmployeRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      *
-     * Duplication de la fonction dans UtilisateurDao (Cf. decisions.md #2018-02-17)
+     * Duplication de la fonction dans UtilisateurRepository (Cf. decisions.md #2018-02-17)
      */
     final protected function getStorage2Entite(array $dataStorage) : array
     {
@@ -93,29 +86,13 @@ class EmployeRepository extends \LibertAPI\Tools\Libraries\ARepository
         ];
     }
 
-    /*************************************************
-     * POST
-     *************************************************/
-
     /**
      * @inheritDoc
      */
-    public function postOne(array $data, AEntite $entite)
+    public function postOne(array $data, AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function _post(AEntite $entite) : int
-    {
-        throw new \RuntimeException('Action is forbidden');
-    }
-
-    /*************************************************
-     * PUT
-     *************************************************/
 
     /**
      * @inheritDoc
@@ -128,27 +105,31 @@ class EmployeRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _put(AEntite $entite)
-    {
-        throw new \RuntimeException('Action is forbidden');
-    }
-
-    /**
-     * @inheritDoc
-     */
     final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [];
     }
 
-    /*************************************************
-     * DELETE
-     *************************************************/
+    /**
+     * @inheritDoc
+     */
+    final protected function setValues(array $values)
+    {
+        unset($values);
+    }
 
     /**
      * @inheritDoc
      */
-    public function deleteOne(AEntite $entite)
+    final protected function setSet(array $parametres)
+    {
+        unset($parametres);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function deleteOne(AEntite $entite) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -156,9 +137,12 @@ class EmployeRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function _delete(int $id) : int
+    final protected function setWhere(array $parametres)
     {
-        throw new \RuntimeException('Action is forbidden');
+        if (!empty($parametres['id'])) {
+            $this->queryBuilder->andWhere('gu_gid = :id');
+            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
+        }
     }
 
     /**
