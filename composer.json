@@ -34,6 +34,7 @@
     },
     "require-dev": {
         "atoum/atoum": "3.0.0",
-        "atoum/reports-extension": "3.0.1"
+        "atoum/reports-extension": "3.0.1",
+        "codacy/coverage": "1.4.1"
     }
 }

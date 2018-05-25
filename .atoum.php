@@ -17,6 +17,6 @@ $extension = new reports\extension($script);
 $extension->addToRunner($runner);
 
 $clover = new \mageekguy\atoum\reports\sonar\clover();
-$writer = new \mageekguy\atoum\writers\file('./sonar-clover.xml');
+$writer = new \mageekguy\atoum\writers\file('./coverage-clover.xml');
 $clover->addWriter($writer);
 $runner->addReport($clover);
