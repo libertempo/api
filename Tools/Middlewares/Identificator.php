@@ -17,14 +17,13 @@ final class Identificator extends \LibertAPI\Tools\AMiddleware
 {
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
-        $container = $this->getApp()->getContainer();
+        $container = $this->getContainer();
         $repoUtilisateur = new Utilisateur\UtilisateurRepository(
             new Utilisateur\UtilisateurDao($container->storageConnector)
         );
-        // @TODO: doublon de middleware, à changer.
-        $openRoutes = ['Authentification', 'HelloWorld'];
+        $openedRoutes = ['Authentification', 'HelloWorld'];
         $ressourcePath = $request->getAttribute('nomRessources');
-        if (in_array($ressourcePath, $openRoutes, true)) {
+        if (in_array($ressourcePath, $openedRoutes, true)) {
             return $next($request, $response);
         } elseif ($this->isIdentificationOK($request, $repoUtilisateur)) {
              // Ping de last_access

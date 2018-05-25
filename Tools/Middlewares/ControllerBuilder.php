@@ -15,7 +15,7 @@ final class ControllerBuilder extends \LibertAPI\Tools\AMiddleware
 {
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
-        $container = $this->getApp()->getContainer();
+        $container = $this->getContainer();
         $special = ['HelloWorld'];
         $storage = $container->storageConnector;
         $router = $container->router;

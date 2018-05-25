@@ -21,7 +21,7 @@ final class HeadersChecker extends \LibertAPI\Tools\AMiddleware
             return $next($request, $response);
         }
         return call_user_func(
-            $this->getApp()->getContainer()->badRequestHandler,
+            $this->getContainer()->badRequestHandler,
             $request,
             $response
         );

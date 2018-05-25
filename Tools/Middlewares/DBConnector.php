@@ -14,6 +14,7 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
 {
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
+        $container = $this->getContainer();
         try {
             $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
             $dbh = new \PDO(
@@ -26,13 +27,12 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
                     'pdo' => $dbh
                 ]
             );
-            $this->getApp()->getContainer()['storageConnector'] = $connexion;
+            $container['storageConnector'] = $connexion;
 
             return $next($request, $response);
-        /* Fallback */
         } catch (\Exception $e) {
             return call_user_func(
-                $this->getApp()->getContainer()->errorHandler,
+                $container->errorHandler,
                 $request,
                 $response,
                 $e

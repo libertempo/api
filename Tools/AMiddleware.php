@@ -12,14 +12,14 @@ abstract class AMiddleware
 {
     public function __construct(App $app)
     {
-        $this->app = $app;
+        $this->container = $app->getContainer();
     }
 
-    private $app;
+    private $container;
 
-    protected function getApp()
+    protected function getContainer()
     {
-        return $this->app;
+        return $this->container;
     }
 
     abstract public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse;
