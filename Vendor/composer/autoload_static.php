@@ -7,13 +7,27 @@ namespace Composer\Autoload;
 class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
 {
     public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+        '23e8a7f9c01bb4867f96d2a4f5a221b1' => __DIR__ . '/..' . '/atoum/reports-extension/configuration.php',
         '6bc45d0537e6858fd179bdbc31d62c79' => __DIR__ . '/..' . '/raveren/kint/Kint.class.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'm' => 
+        array (
+            'mageekguy\\atoum\\reports\\' => 24,
+        ),
+        'T' => 
+        array (
+            'Twig\\' => 5,
+        ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Component\\Filesystem\\' => 29,
             'Slim\\' => 5,
         ),
         'P' => 
@@ -42,6 +56,26 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
     );
 
     public static $prefixDirsPsr4 = array (
+        'mageekguy\\atoum\\reports\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/atoum/reports-extension/classes',
+        ),
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'Symfony\\Component\\Filesystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/filesystem',
+        ),
         'Slim\\' => 
         array (
             0 => __DIR__ . '/..' . '/slim/slim/Slim',
@@ -81,6 +115,13 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
     );
 
     public static $prefixesPsr0 = array (
+        'T' => 
+        array (
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
         'P' => 
         array (
             'Pimple' => 

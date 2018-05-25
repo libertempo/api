@@ -1,0 +1,30 @@
+{
+    "name": "atoum/reports-extension",
+    "type": "library",
+    "description": "atoum Reports extension",
+    "keywords": ["TDD", "atoum", "test", "unit testing", "reports", "atoum-extension"],
+    "homepage": "http://www.atoum.org",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "jubianchi",
+            "email": "contact@jubianchi.fr"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {
+        "php": "^5.4.0 || ^7.0.0",
+        "twig/twig": "^1.18 | ^2.0",
+        "symfony/filesystem": "^2.6 | ^3.0 | ^4.0",
+        "atoum/atoum": "^2.9 || ^3.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2"
+    },
+    "autoload": {
+        "psr-4": {
+            "mageekguy\\atoum\\reports\\": "classes"
+        },
+        "files": ["configuration.php"]
+    }
+}
