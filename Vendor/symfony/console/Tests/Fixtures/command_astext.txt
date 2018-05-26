@@ -1,7 +1,9 @@
-MbString åpplicätion
-
 <comment>Usage:</comment>
-  command [options] [arguments]
+  namespace:name
+  name
+
+<comment>Arguments:</comment>
+  <info>command</info>               The command to execute
 
 <comment>Options:</comment>
   <info>-h, --help</info>            Display this help message
@@ -12,8 +14,5 @@ MbString åpplicätion
   <info>-n, --no-interaction</info>  Do not ask any interactive question
   <info>-v|vv|vvv, --verbose</info>  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 
-<comment>Available commands:</comment>
-  <info>help</info>            Displays help for a command
-  <info>list</info>            Lists commands
- <comment>descriptor</comment>
-  <info>descriptor:åèä</info>  command åèä description
+<comment>Help:</comment>
+ help

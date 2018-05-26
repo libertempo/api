@@ -31,6 +31,9 @@ class DescriptorHelper extends Helper
      */
     private $descriptors = array();
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this
@@ -75,7 +78,7 @@ class DescriptorHelper extends Helper
      * @param string              $format
      * @param DescriptorInterface $descriptor
      *
-     * @return $this
+     * @return DescriptorHelper
      */
     public function register($format, DescriptorInterface $descriptor)
     {

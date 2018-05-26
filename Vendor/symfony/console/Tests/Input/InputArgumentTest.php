@@ -11,10 +11,9 @@
 
 namespace Symfony\Component\Console\Tests\Input;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputArgument;
 
-class InputArgumentTest extends TestCase
+class InputArgumentTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
@@ -38,12 +37,21 @@ class InputArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException        \InvalidArgumentException
-     * @expectedExceptionMessage Argument mode "-1" is not valid.
+     * @dataProvider provideInvalidModes
      */
-    public function testInvalidModes()
+    public function testInvalidModes($mode)
     {
-        new InputArgument('foo', '-1');
+        $this->setExpectedException('InvalidArgumentException', sprintf('Argument mode "%s" is not valid.', $mode));
+
+        new InputArgument('foo', $mode);
+    }
+
+    public function provideInvalidModes()
+    {
+        return array(
+            array('ANOTHER_ONE'),
+            array(-1),
+        );
     }
 
     public function testIsArray()

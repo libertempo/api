@@ -11,12 +11,11 @@
 
 namespace Symfony\Component\Console\Tests\Input;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\StringInput;
 
-class StringInputTest extends TestCase
+class StringInputTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getTokenizeData
@@ -51,7 +50,7 @@ class StringInputTest extends TestCase
             array('"quoted"', array('quoted'), '->tokenize() parses quoted arguments'),
             array("'quoted'", array('quoted'), '->tokenize() parses quoted arguments'),
             array("'a\rb\nc\td'", array("a\rb\nc\td"), '->tokenize() parses whitespace chars in strings'),
-            array("'a'\r'b'\n'c'\t'd'", array('a', 'b', 'c', 'd'), '->tokenize() parses whitespace chars between args as spaces'),
+            array("'a'\r'b'\n'c'\t'd'", array('a','b','c','d'), '->tokenize() parses whitespace chars between args as spaces'),
             array('\"quoted\"', array('"quoted"'), '->tokenize() parses escaped-quoted arguments'),
             array("\'quoted\'", array('\'quoted\''), '->tokenize() parses escaped-quoted arguments'),
             array('-a', array('-a'), '->tokenize() parses short options'),

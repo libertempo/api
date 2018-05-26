@@ -25,14 +25,21 @@ use Symfony\Component\Console\Exception\RuntimeException;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-abstract class Input implements InputInterface, StreamableInputInterface
+abstract class Input implements InputInterface
 {
+    /**
+     * @var InputDefinition
+     */
     protected $definition;
-    protected $stream;
     protected $options = array();
     protected $arguments = array();
     protected $interactive = true;
 
+    /**
+     * Constructor.
+     *
+     * @param InputDefinition $definition A InputDefinition instance
+     */
     public function __construct(InputDefinition $definition = null)
     {
         if (null === $definition) {
@@ -44,7 +51,9 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Binds the current Input instance with the given arguments and options.
+     *
+     * @param InputDefinition $definition A InputDefinition instance
      */
     public function bind(InputDefinition $definition)
     {
@@ -61,7 +70,9 @@ abstract class Input implements InputInterface, StreamableInputInterface
     abstract protected function parse();
 
     /**
-     * {@inheritdoc}
+     * Validates the input.
+     *
+     * @throws RuntimeException When not enough arguments are given
      */
     public function validate()
     {
@@ -78,7 +89,9 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if the input is interactive.
+     *
+     * @return bool Returns true if the input is interactive
      */
     public function isInteractive()
     {
@@ -86,7 +99,9 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the input interactivity.
+     *
+     * @param bool $interactive If the input should be interactive
      */
     public function setInteractive($interactive)
     {
@@ -94,7 +109,9 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the argument values.
+     *
+     * @return array An array of argument values
      */
     public function getArguments()
     {
@@ -102,7 +119,13 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the argument value for a given argument name.
+     *
+     * @param string $name The argument name
+     *
+     * @return mixed The argument value
+     *
+     * @throws InvalidArgumentException When argument given doesn't exist
      */
     public function getArgument($name)
     {
@@ -114,7 +137,12 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets an argument value by name.
+     *
+     * @param string $name  The argument name
+     * @param string $value The argument value
+     *
+     * @throws InvalidArgumentException When argument given doesn't exist
      */
     public function setArgument($name, $value)
     {
@@ -126,7 +154,11 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns true if an InputArgument object exists by name or position.
+     *
+     * @param string|int $name The InputArgument name or position
+     *
+     * @return bool true if the InputArgument object exists, false otherwise
      */
     public function hasArgument($name)
     {
@@ -134,7 +166,9 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the options values.
+     *
+     * @return array An array of option values
      */
     public function getOptions()
     {
@@ -142,7 +176,13 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the option value for a given option name.
+     *
+     * @param string $name The option name
+     *
+     * @return mixed The option value
+     *
+     * @throws InvalidArgumentException When option given doesn't exist
      */
     public function getOption($name)
     {
@@ -150,11 +190,16 @@ abstract class Input implements InputInterface, StreamableInputInterface
             throw new InvalidArgumentException(sprintf('The "%s" option does not exist.', $name));
         }
 
-        return array_key_exists($name, $this->options) ? $this->options[$name] : $this->definition->getOption($name)->getDefault();
+        return isset($this->options[$name]) ? $this->options[$name] : $this->definition->getOption($name)->getDefault();
     }
 
     /**
-     * {@inheritdoc}
+     * Sets an option value by name.
+     *
+     * @param string      $name  The option name
+     * @param string|bool $value The option value
+     *
+     * @throws InvalidArgumentException When option given doesn't exist
      */
     public function setOption($name, $value)
     {
@@ -166,7 +211,11 @@ abstract class Input implements InputInterface, StreamableInputInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns true if an InputOption object exists by name.
+     *
+     * @param string $name The InputOption name
+     *
+     * @return bool true if the InputOption object exists, false otherwise
      */
     public function hasOption($name)
     {
@@ -183,21 +232,5 @@ abstract class Input implements InputInterface, StreamableInputInterface
     public function escapeToken($token)
     {
         return preg_match('{^[\w-]+$}', $token) ? $token : escapeshellarg($token);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setStream($stream)
-    {
-        $this->stream = $stream;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getStream()
-    {
-        return $this->stream;
     }
 }

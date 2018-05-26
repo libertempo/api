@@ -44,8 +44,10 @@ class ArgvInput extends Input
     private $parsed;
 
     /**
-     * @param array|null           $argv       An array of parameters from the CLI (in the argv format)
-     * @param InputDefinition|null $definition A InputDefinition instance
+     * Constructor.
+     *
+     * @param array           $argv       An array of parameters from the CLI (in the argv format)
+     * @param InputDefinition $definition A InputDefinition instance
      */
     public function __construct(array $argv = null, InputDefinition $definition = null)
     {
@@ -67,7 +69,7 @@ class ArgvInput extends Input
     }
 
     /**
-     * {@inheritdoc}
+     * Processes command line arguments.
      */
     protected function parse()
     {
@@ -91,7 +93,7 @@ class ArgvInput extends Input
     /**
      * Parses a short option.
      *
-     * @param string $token The current token
+     * @param string $token The current token.
      */
     private function parseShortOption($token)
     {
@@ -145,10 +147,7 @@ class ArgvInput extends Input
         $name = substr($token, 2);
 
         if (false !== $pos = strpos($name, '=')) {
-            if (0 === strlen($value = substr($name, $pos + 1))) {
-                array_unshift($this->parsed, $value);
-            }
-            $this->addLongOption(substr($name, 0, $pos), $value);
+            $this->addLongOption(substr($name, 0, $pos), substr($name, $pos + 1));
         } else {
             $this->addLongOption($name, null);
         }
@@ -177,12 +176,7 @@ class ArgvInput extends Input
 
         // unexpected argument
         } else {
-            $all = $this->definition->getArguments();
-            if (count($all)) {
-                throw new RuntimeException(sprintf('Too many arguments, expected arguments "%s".', implode('" "', array_keys($all))));
-            }
-
-            throw new RuntimeException(sprintf('No arguments expected, got "%s".', $token));
+            throw new RuntimeException('Too many arguments.');
         }
     }
 
@@ -219,16 +213,23 @@ class ArgvInput extends Input
 
         $option = $this->definition->getOption($name);
 
+        // Convert empty values to null
+        if (!isset($value[0])) {
+            $value = null;
+        }
+
         if (null !== $value && !$option->acceptValue()) {
             throw new RuntimeException(sprintf('The "--%s" option does not accept a value.', $name));
         }
 
-        if (in_array($value, array('', null), true) && $option->acceptValue() && count($this->parsed)) {
+        if (null === $value && $option->acceptValue() && count($this->parsed)) {
             // if option accepts an optional or mandatory argument
             // let's see if there is one provided
             $next = array_shift($this->parsed);
-            if ((isset($next[0]) && '-' !== $next[0]) || in_array($next, array('', null), true)) {
+            if (isset($next[0]) && '-' !== $next[0]) {
                 $value = $next;
+            } elseif (empty($next)) {
+                $value = '';
             } else {
                 array_unshift($this->parsed, $next);
             }
@@ -239,8 +240,8 @@ class ArgvInput extends Input
                 throw new RuntimeException(sprintf('The "--%s" option requires a value.', $name));
             }
 
-            if (!$option->isArray() && !$option->isValueOptional()) {
-                $value = true;
+            if (!$option->isArray()) {
+                $value = $option->isValueOptional() ? $option->getDefault() : true;
             }
         }
 
@@ -252,7 +253,9 @@ class ArgvInput extends Input
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the first argument from the raw parameters (not parsed).
+     *
+     * @return string The value of the first argument or null otherwise
      */
     public function getFirstArgument()
     {
@@ -266,22 +269,26 @@ class ArgvInput extends Input
     }
 
     /**
-     * {@inheritdoc}
+     * Returns true if the raw parameters (not parsed) contain a value.
+     *
+     * This method is to be used to introspect the input parameters
+     * before they have been validated. It must be used carefully.
+     *
+     * @param string|array $values     The value(s) to look for in the raw parameters (can be an array)
+     * @param bool         $onlyParams Only check real parameters, skip those following an end of options (--) signal
+     *
+     * @return bool true if the value is contained in the raw parameters
      */
     public function hasParameterOption($values, $onlyParams = false)
     {
         $values = (array) $values;
 
         foreach ($this->tokens as $token) {
-            if ($onlyParams && '--' === $token) {
+            if ($onlyParams && $token === '--') {
                 return false;
             }
             foreach ($values as $value) {
-                // Options with values:
-                //   For long options, test for '--option=' at beginning
-                //   For short options, test for '-o' at beginning
-                $leading = 0 === strpos($value, '--') ? $value.'=' : $value;
-                if ($token === $value || '' !== $leading && 0 === strpos($token, $leading)) {
+                if ($token === $value || 0 === strpos($token, $value.'=')) {
                     return true;
                 }
             }
@@ -291,7 +298,16 @@ class ArgvInput extends Input
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the value of a raw option (not parsed).
+     *
+     * This method is to be used to introspect the input parameters
+     * before they have been validated. It must be used carefully.
+     *
+     * @param string|array $values     The value(s) to look for in the raw parameters (can be an array)
+     * @param mixed        $default    The default value to return if no result is found
+     * @param bool         $onlyParams Only check real parameters, skip those following an end of options (--) signal
+     *
+     * @return mixed The option value
      */
     public function getParameterOption($values, $default = false, $onlyParams = false)
     {
@@ -300,20 +316,17 @@ class ArgvInput extends Input
 
         while (0 < count($tokens)) {
             $token = array_shift($tokens);
-            if ($onlyParams && '--' === $token) {
+            if ($onlyParams && $token === '--') {
                 return false;
             }
 
             foreach ($values as $value) {
-                if ($token === $value) {
+                if ($token === $value || 0 === strpos($token, $value.'=')) {
+                    if (false !== $pos = strpos($token, '=')) {
+                        return substr($token, $pos + 1);
+                    }
+
                     return array_shift($tokens);
-                }
-                // Options with values:
-                //   For long options, test for '--option=' at beginning
-                //   For short options, test for '-o' at beginning
-                $leading = 0 === strpos($value, '--') ? $value.'=' : $value;
-                if ('' !== $leading && 0 === strpos($token, $leading)) {
-                    return substr($token, strlen($leading));
                 }
             }
         }
@@ -333,7 +346,7 @@ class ArgvInput extends Input
                 return $match[1].$this->escapeToken($match[2]);
             }
 
-            if ($token && '-' !== $token[0]) {
+            if ($token && $token[0] !== '-') {
                 return $this->escapeToken($token);
             }
 
