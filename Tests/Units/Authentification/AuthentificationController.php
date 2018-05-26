@@ -72,7 +72,6 @@ final class AuthentificationController extends \LibertAPI\Tests\Units\Tools\Libr
      */
     public function testGetWrongPassword()
     {
-        $token = 'abcde';
         $this->entite->getMockController()->isPasswordMatching = false;
         $this->repository->getMockController()->find = $this->entite;
         $this->request->getMockController()->getHeaderLine = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
