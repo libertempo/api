@@ -75,7 +75,7 @@ class ResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
             'isResp' => $dataStorage['u_is_resp'] === 'Y',
             'isAdmin' => $dataStorage['u_is_admin'] === 'Y',
             'isHr' => $dataStorage['u_is_hr'] === 'Y',
-            'isActive' => $dataStorage['u_is_active'] === 'Y',
+            'isActif' => $dataStorage['u_is_active'] === 'Y',
             'seeAll' => $dataStorage['u_see_all'] === 'Y',
             'password' => $dataStorage['u_passwd'],
             'quotite' => $dataStorage['u_quotite'],
