@@ -13,10 +13,7 @@ $script->bootstrapFile(__DIR__ . '/.bootstrap.atoum.php');
 
 $script->addDefaultReport();
 
-$extension = new reports\extension($script);
-$extension->addToRunner($runner);
-
-$clover = new \mageekguy\atoum\reports\sonar\clover();
-$writer = new \mageekguy\atoum\writers\file('./coverage-clover.xml');
+$clover = new \mageekguy\atoum\reports\asynchronous\clover();
+$writer = new \mageekguy\atoum\writers\file('./clover.xml');
 $clover->addWriter($writer);
 $runner->addReport($clover);

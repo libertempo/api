@@ -13,4 +13,4 @@ notifications:
 script: Vendor/Bin/atoum -ulr
 
 after_script:
-  - php Vendor/Bin/codacycoverage clover coverage-clover.xml
+  - php Vendor/Bin/codacycoverage clover clover.xml
