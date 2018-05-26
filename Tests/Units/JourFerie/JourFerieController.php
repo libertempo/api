@@ -71,4 +71,12 @@ final class JourFerieController extends \LibertAPI\Tests\Units\Tools\Libraries\A
     {
         return $this->testedInstance->get($this->request, $this->response, []);
     }
+
+    final protected function getEntiteContent() : array
+    {
+        return [
+            'id' => uniqid(),
+            'jf_date' => '2018-05-14',
+        ];
+    }
 }

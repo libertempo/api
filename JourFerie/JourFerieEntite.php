@@ -11,7 +11,7 @@ use LibertAPI\Tools\Exceptions\MissingArgumentException;
  *
  * @since 1.0
  *
- * Ne devrait être contacté que par le JourFerieDao
+ * Ne devrait être contacté que par le JourFerieRepository
  * Ne devrait contacter personne
  */
 class JourFerieEntite extends \LibertAPI\Tools\Libraries\AEntite
