@@ -73,22 +73,7 @@ Les réponses de l'API se font sous la spécification jsend. Autrement dit :
 ```
 
 # Routes disponibles
-Suivant les règles de l'architecture REST, les routes disponibles à ce jour sont :
-* `GET|POST /absence/type`
-* `GET|PUT|DELETE /absence/type/{id}`
-* `GET /groupe`
-* `GET /groupe/{id}`
-* `GET /groupe/{id}/employe`
-* `GET /groupe/{id}/grand_responsable`
-* `GET /groupe/{id}/responsable`
-* `GET /journal`
-* `GET /jour_ferie`
-* `GET|POST /planning`
-* `GET|PUT|DELETE /planning/{id}`
-* `GET|POST /planning/{id}/creneau`
-* `GET|DELETE /planning/{id}/creneau/{id}`
-* `GET /utilisateur`
-* `GET /utilisateur/{id}`
+Voir [Swagger](https://app.swaggerhub.com/apis/Libertempo/api) pour une documentation exhaustive.
 
 # Versions
 
