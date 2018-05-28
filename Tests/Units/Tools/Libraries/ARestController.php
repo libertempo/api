@@ -147,4 +147,6 @@ abstract class ARestController extends AController
     }
 
     abstract protected function getList() : IResponse;
+
+    abstract protected function getEntiteContent() : array;
 }
