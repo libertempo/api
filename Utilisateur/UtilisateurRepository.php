@@ -91,7 +91,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
             'isResp' => $dataStorage['u_is_resp'] === 'Y',
             'isAdmin' => $dataStorage['u_is_admin'] === 'Y',
             'isHr' => $dataStorage['u_is_hr'] === 'Y',
-            'isActive' => $dataStorage['u_is_active'] === 'Y',
+            'isActif' => $dataStorage['u_is_active'] === 'Y',
             'password' => $dataStorage['u_passwd'],
             'quotite' => $dataStorage['u_quotite'],
             'email' => $dataStorage['u_email'],
@@ -112,9 +112,6 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         $results = [];
         if (!empty($paramsConsumer['login'])) {
             $results['u_login'] = (string) $paramsConsumer['login'];
-        }
-        if (!empty($paramsConsumer['password'])) {
-            $results['u_passwd'] = $paramsConsumer['password'];
         }
         if (!empty($paramsConsumer['token'])) {
             $results['token'] = (string) $paramsConsumer['token'];
@@ -172,13 +169,6 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         if (!empty($parametres['u_login'])) {
             $this->queryBuilder->andWhere('u_login = :id');
             $whereCriteria[':id'] = $parametres['u_login'];
-        }
-        if (!empty($parametres['u_passwd'])) {
-            // @TODO: on vise la compat' dans la migration de #12,
-            // mais il faudra à terme enlever md5
-            $this->queryBuilder->andWhere('u_passwd = :passwordMd5 OR u_passwd = :passwordBlow');
-            $whereCriteria[':passwordMd5'] = md5($parametres['u_passwd']);
-            $whereCriteria[':passwordBlow'] = password_hash($parametres['u_passwd'], PASSWORD_BCRYPT);
         }
         if (!empty($parametres['token'])) {
             $this->queryBuilder->andWhere('token = :token');
