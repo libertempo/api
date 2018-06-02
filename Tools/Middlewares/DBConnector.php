@@ -15,25 +15,16 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
         $container = $this->getContainer();
-        try {
-            $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
-            $dbh = new \PDO(
-                'mysql:host=' . $configuration->db->serveur . ';dbname=' . $configuration->db->base,
-                $configuration->db->utilisateur,
-                $configuration->db->mot_de_passe,
-                [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8\';']
-            );
-            $connexion = DBAL\DriverManager::getConnection(['pdo' => $dbh]);
-            $container['storageConnector'] = $connexion;
+        $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
+        $dbh = new \PDO(
+            'mysql:host=' . $configuration->db->serveur . ';dbname=' . $configuration->db->base,
+            $configuration->db->utilisateur,
+            $configuration->db->mot_de_passe,
+            [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8\';']
+        );
+        $connexion = DBAL\DriverManager::getConnection(['pdo' => $dbh]);
+        $container->set('storageConnector', $connexion);
 
-            return $next($request, $response);
-        } catch (\Exception $e) {
-            return call_user_func(
-                $container->errorHandler,
-                $request,
-                $response,
-                $e
-            );
-        }
+        return $next($request, $response);
     }
 }

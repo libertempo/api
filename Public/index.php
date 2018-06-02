@@ -6,6 +6,7 @@
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use LibertAPI\Tools\Middlewares;
+use DI\ContainerBuilder;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_PATH', dirname(__DIR__) . DS);
@@ -13,10 +14,10 @@ define('TOOLS_PATH', ROOT_PATH . 'Tools' . DS);
 define('ROUTE_PATH', TOOLS_PATH . 'Route' . DS);
 
 require_once ROOT_PATH . 'Vendor' . DS . 'autoload.php';
-$container = [];
-require_once TOOLS_PATH . 'Handlers.php';
 
-$app = new \Slim\App($container);
+$containerBuilder = new ContainerBuilder;
+$containerBuilder->addDefinitions(ROOT_PATH . 'di-config.php');
+$app = new \Slim\App($containerBuilder->build());
 
 /*
  * /!\ Les Middlewares sont executés en mode PILE : le premier de la liste est lancé en dernier

@@ -18,7 +18,7 @@ final class Identificator extends \LibertAPI\Tools\AMiddleware
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
         $container = $this->getContainer();
-        $repoUtilisateur = new Utilisateur\UtilisateurRepository($container->storageConnector);
+        $repoUtilisateur = new Utilisateur\UtilisateurRepository($container->get('storageConnector'));
         $openedRoutes = ['Authentification', 'HelloWorld'];
         $ressourcePath = $request->getAttribute('nomRessources');
         if (in_array($ressourcePath, $openedRoutes, true)) {
@@ -27,12 +27,12 @@ final class Identificator extends \LibertAPI\Tools\AMiddleware
              // Ping de last_access
             $repoUtilisateur->updateDateLastAccess($this->utilisateur);
 
-            $container['currentUser'] = $this->utilisateur;
+            $container->set('currentUser', $this->utilisateur);
             return $next($request, $response);
         }
 
         return call_user_func(
-            $container->unauthorizedHandler,
+            $container->get('unauthorizedHandler'),
             $request,
             $response
         );

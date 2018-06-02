@@ -34,7 +34,6 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         if (!isset($arguments['typeId'])) {
             return $this->getList($request, $response);
         }
-
         return $this->getOne($response, (int) $arguments['typeId']);
     }
 
