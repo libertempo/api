@@ -52,17 +52,18 @@ return [
 
     // LibertAPI
     'badRequestHandler' => function (C $c) {
-        $code = 400;
-        $response = $c->get('response');
-        $responseUpd = $response->withStatus($code);
-        $data = [
-            'code' => $code,
-            'status' => 'fail',
-            'message' => $responseUpd->getReasonPhrase(),
-            'data' => 'Request Content-Type and Accept must be set on application/json only',
-        ];
+        return function (IRequest $request, IResponse $response) {
+            $code = 400;
+            $responseUpd = $response->withStatus($code);
+            $data = [
+                'code' => $code,
+                'status' => 'fail',
+                'message' => $responseUpd->getReasonPhrase(),
+                'data' => 'Request Content-Type and Accept must be set on application/json only',
+            ];
 
-        return $responseUpd->withJson($data);
+            return $responseUpd->withJson($data);
+        };
     },
     'unauthorizedHandler' => function (C $c) {
         $code = 401;
