@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Authentification;
+namespace LibertAPI\Tools\Controllers;
 
-use LibertAPI\Tools\Libraries\ARepository;
-use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Utilisateur\UtilisateurRepository;
+use Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
@@ -14,12 +14,11 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @author Wouldsmina
  *
  * @since 0.2
- * @see \Tests\Units\Authentification\AuthentificationController
  */
 final class AuthentificationController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    public function __construct(ARepository $repository, IRouter $router)
+    public function __construct(\LibertAPI\Utilisateur\UtilisateurRepository $repository, IRouter $router)
     {
         $this->repository = $repository;
         $this->router = $router;

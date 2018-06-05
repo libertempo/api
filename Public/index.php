@@ -22,7 +22,6 @@ $app = new \Slim\App($containerBuilder->build());
 /*
  * /!\ Les Middlewares sont executés en mode PILE : le premier de la liste est lancé en dernier
  */
-$app->add(new Middlewares\ControllerBuilder($app));
 $app->add(new Middlewares\Identificator($app));
 $app->add(new Middlewares\DBConnector($app));
 $app->add(new Middlewares\ResourceFormatter($app));

@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Tests\Units\Authentification;
+namespace LibertAPI\Tests\Units\Tools\Controllers;
 
 /**
- * Classe de test du contrôleur de planning
+ * Classe de test du contrôleur d'authentification
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina

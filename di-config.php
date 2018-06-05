@@ -8,6 +8,10 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Tools\Controllers\AuthentificationController;
+use LibertAPI\Utilisateur\UtilisateurRepository;
+use LibertAPI\Tools\Libraries\Application;
 use function DI\get;
 use function DI\create;
 use function DI\autowire;
@@ -51,6 +55,12 @@ return [
     'foundHandler' => create(\Slim\Handlers\Strategies\RequestResponse::class),
 
     // LibertAPI
+    AuthentificationController::class => function (C $c) {
+        $repo = $c->get(UtilisateurRepository::class);
+        $repo->setApplication($c->get(Application::class));
+        return new AuthentificationController($repo, $c->get(IRouter::class));
+    },
+    IRouter::class => get('router'),
     'badRequestHandler' => function (C $c) {
         return function (IRequest $request, IResponse $response) {
             $code = 400;
