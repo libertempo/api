@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Tests\Units\Groupe\Responsable;
+namespace LibertAPI\Tests\Units\Tools\Controllers;
 
 use LibertAPI\Utilisateur\UtilisateurEntite;
 
@@ -11,7 +11,7 @@ use LibertAPI\Utilisateur\UtilisateurEntite;
  *
  * @since 0.7
  */
-final class ResponsableController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
+final class ResponsableGroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
      * @var UtilisateurEntite Standardisation d'un rôle admin

@@ -1,8 +1,10 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Utilisateur;
+namespace LibertAPI\Tools\Controllers;
 
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Utilisateur;
 
 /**
  * Contrôleur d'utilisateurs
@@ -18,11 +20,10 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    public function __construct(Utilisateur\UtilisateurRepository $repository, IRouter $router)
     {
+        $this->repository = $repository;
+        $this->router = $router;
     }
 
     /*************************************************
@@ -98,11 +99,11 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param UtilisateurEntite $entite Utilisateur
+     * @param Utilisateur\UtilisateurEntite $entite Utilisateur
      *
      * @return array
      */
-    private function buildData(UtilisateurEntite $entite)
+    private function buildData(Utilisateur\UtilisateurEntite $entite)
     {
         return [
             'id' => $entite->getId(),

@@ -22,9 +22,11 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
         }
         switch ($ressourcePath) {
             case 'Absence|Type':
+            case 'Utilisateur':
                 return $next($request, $response);
             case 'Groupe':
             case 'Groupe|GrandResponsable':
+            case 'Groupe|Responsable':
                 if (!$container->get('currentUser')->isAdmin()) {
                     return call_user_func(
                         $container->get('forbiddenHandler'),

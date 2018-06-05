@@ -37,26 +37,6 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
         ]);
     }
 
-    /**
-     * Teste la méthode get d'une liste avec des droits insuffisants
-     */
-    public function testGetListMissingRight()
-    {
-        $this->mockGenerator->orphanize('__construct');
-        $uri = new \mock\Slim\Http\Uri();
-        $this->calling($uri)->getPath = '';
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->request)->getUri = $uri;
-        $this->calling($this->repository)->getList = function () {
-            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->getList();
-
-        $this->assertFail($response, 403);
-    }
-
     protected function getOne() : IResponse
     {
         return $this->testedInstance->get($this->request, $this->response, ['groupeId' => 99]);

@@ -34,7 +34,7 @@ final class GrandResponsableGroupeController extends \LibertAPI\Tests\Units\Tool
     {
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
-        $this->repository = new \mock\LibertAPI\Groupe\Responsable\ResponsableRepository();
+        $this->repository = new \mock\LibertAPI\Groupe\GrandResponsable\GrandResponsableRepository();
     }
 
     /**

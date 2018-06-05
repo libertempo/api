@@ -56,7 +56,7 @@ implements Interfaces\IGetable
      *
      * @return array
      */
-    private function buildData(Utilisateur\Entite $entite)
+    private function buildData(Utilisateur\UtilisateurEntite $entite)
     {
         return [
             'id' => $entite->getId(),

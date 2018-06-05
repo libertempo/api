@@ -2,6 +2,7 @@
 
 use LibertAPI\Tools\Controllers\GroupeController;
 use LibertAPI\Tools\Controllers\GrandResponsableGroupeController;
+use LibertAPI\Tools\Controllers\ResponsableGroupeController;
 
 /*
  * Doit être importé après la création de $app. Ne créé rien.
@@ -16,7 +17,7 @@ $app->group('/groupe', function () {
         $this->get('', [GroupeController::class, 'get'])->setName('getGroupeDetail');
 
         /* Dependances de groupe : responsable */
-        $this->get('/responsable', ['controller', 'get'])->setName('getGroupeResponsableListe');
+        $this->get('/responsable', [ResponsableGroupeController::class, 'get'])->setName('getGroupeResponsableListe');
 
         /* Dependances de groupe : grand responsable */
         $this->get('/grand_responsable', [GrandResponsableGroupeController::class, 'get'])->setName('getGroupeGrandResponsableListe');

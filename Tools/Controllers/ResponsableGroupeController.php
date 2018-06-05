@@ -1,11 +1,13 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Groupe\Responsable;
+namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Utilisateur\UtilisateurEntite;
+use LibertAPI\Groupe\Responsable;
 
 /**
  * Contrôleur de responsable de groupes
@@ -14,23 +16,17 @@ use LibertAPI\Utilisateur\UtilisateurEntite;
  * @author Wouldsmina
  *
  * @since 0.7
- * @see \Tests\Units\GroupeController
  *
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le ResponsableRepository
  */
-final class ResponsableController extends \LibertAPI\Tools\Libraries\AController
+final class ResponsableGroupeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function ensureAccessUser(string $order, UtilisateurEntite $utilisateur)
+    public function __construct(Responsable\ResponsableRepository $repository, IRouter $router)
     {
-        unset($order);
-        if (!$utilisateur->isAdmin()) {
-            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
-        }
+        $this->repository = $repository;
+        $this->router = $router;
     }
 
     /**
@@ -40,14 +36,11 @@ implements Interfaces\IGetable
     {
         unset($arguments);
         try {
-            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $groupes = $this->repository->getList(
                 $request->getQueryParams()
             );
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
-        } catch (\LibertAPI\Tools\Exceptions\MissingRightException $e) {
-            return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
