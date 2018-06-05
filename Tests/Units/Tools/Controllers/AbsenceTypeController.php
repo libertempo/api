@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Tests\Units\Absence\Type;
+namespace LibertAPI\Tests\Units\Tools\Controllers;
 
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \LibertAPI\Tools\Exceptions\UnknownResourceException;
@@ -12,7 +12,7 @@ use \LibertAPI\Tools\Exceptions\UnknownResourceException;
  *
  * @since 0.5
  */
-final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestController
+final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestController
 {
     /**
      * @var \LibertAPI\Tools\Libraries\ARepository Mock du repository associé

@@ -1,11 +1,13 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Absence\Type;
+namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Interfaces;
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Absence\Type;
 
 /**
  * Contrôleur de type d'absence
@@ -14,17 +16,14 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @author Wouldsmina
  *
  * @since 0.5
- * @see \Tests\Units\Absence\Type\TypeController
  */
-final class TypeController extends \LibertAPI\Tools\Libraries\AController
+final class AbsenceTypeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    public function __construct(Type\TypeRepository $repository, IRouter $router)
     {
-        // uniquement accessible par l'admin ?
+        $this->repository = $repository;
+        $this->router = $router;
     }
 
     /**
@@ -74,7 +73,6 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $responseResources = $this->repository->getList(
                 $request->getQueryParams()
             );
@@ -91,11 +89,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param TypeEntite $entite Type
+     * @param Type\TypeEntite $entite Type
      *
      * @return array
      */
-    private function buildData(TypeEntite $entite)
+    private function buildData(Type\TypeEntite $entite)
     {
         return [
             'id' => $entite->getId(),
@@ -173,7 +171,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        
+
         return $this->getResponseSuccess($response, '', 200);
     }
 }

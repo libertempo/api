@@ -32,6 +32,7 @@ abstract class AController
 
     /**
      * @var AEntite
+     * @TODO: à supprimer quand tous auront le leur
      */
     protected $currentUser;
 
@@ -41,16 +42,6 @@ abstract class AController
         $this->router = $router;
         $this->currentUser = $currentUser;
     }
-
-    /**
-     * Vérifie les bons droits de l'utilisateur pour accéder à l'ordre demandé
-     *
-     * @param string $order Ordre dont on veut vérifier les droits
-     * @param \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur Utilisateur courant
-     *
-     * @throws \LibertAPI\Tools\Exceptions\MissingRightException if rights aren't enought to execute action
-     */
-    abstract protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur);
 
     /**
      * Retourne une réponse de succès normalisée

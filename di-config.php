@@ -76,17 +76,18 @@ return [
         };
     },
     'unauthorizedHandler' => function (C $c) {
-        $code = 401;
-        $response = $c->get('response');
-        $responseUpd = $response->withStatus($code);
-        $data = [
-            'code' => $code,
-            'status' => 'fail',
-            'message' => $responseUpd->getReasonPhrase(),
-            'data' => 'Bad API Key',
-        ];
+        return function (IRequest $request, IResponse $response) {
+            $code = 401;
+            $responseUpd = $response->withStatus($code);
+            $data = [
+                'code' => $code,
+                'status' => 'fail',
+                'message' => $responseUpd->getReasonPhrase(),
+                'data' => 'Bad API Key',
+            ];
 
-        return $response->withJson($data, 401);
+            return $response->withJson($data, 401);
+        };
     },
     'notFoundHandler' => function () {
         return function (IRequest $request, IResponse $response) {
