@@ -15,6 +15,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
         $ressourcePath = $request->getAttribute('nomRessources');
+        $container = $this->getContainer();
         $openedRoutes = ['Authentification', 'HelloWorld'];
         if (in_array($ressourcePath, $openedRoutes, true)) {
             return $next($request, $response);
@@ -22,11 +23,19 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
         switch ($ressourcePath) {
             case 'Absence|Type';
                 return $next($request, $response);
-                break;
+            case 'Groupe';
+                if (!$container->get('currentUser')->isAdmin()) {
+                    return call_user_func(
+                        $container->get('forbiddenHandler'),
+                        $request,
+                        $response
+       );
+                }
+
+                return $next($request, $response);
             default:
                 ddd($ressourcePath);
         }
-        
     }
 }
 

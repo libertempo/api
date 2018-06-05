@@ -75,6 +75,20 @@ return [
             return $responseUpd->withJson($data);
         };
     },
+    'forbiddenHandler' => function (C $c) {
+        return function (IRequest $request, IResponse $response) {
+            $code = 403;
+            $responseUpd = $response->withStatus($code);
+            $data = [
+                'code' => $code,
+                'status' => 'fail',
+                'message' => $responseUpd->getReasonPhrase(),
+                'data' => 'User has not access to «' . $request->getUri()->getPath() . '» resource',
+            ];
+
+            return $response->withJson($data, $code);
+        };
+    },
     'unauthorizedHandler' => function (C $c) {
         return function (IRequest $request, IResponse $response) {
             $code = 401;
@@ -86,7 +100,7 @@ return [
                 'data' => 'Bad API Key',
             ];
 
-            return $response->withJson($data, 401);
+            return $response->withJson($data, $code);
         };
     },
     'notFoundHandler' => function () {

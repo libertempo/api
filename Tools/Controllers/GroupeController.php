@@ -1,11 +1,13 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Groupe;
+namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Groupe;
 
 /**
  * Contrôleur de groupes
@@ -14,7 +16,6 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @author Wouldsmina
  *
  * @since 0.7
- * @see \Tests\Units\GroupeController
  *
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le GroupeRepository
@@ -22,15 +23,10 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 final class GroupeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    public function __construct(Groupe\GroupeRepository $repository, IRouter $router)
     {
-        unset($order);
-        if (!$utilisateur->isAdmin()) {
-            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
-        }
+        $this->repository = $repository;
+        $this->router = $router;
     }
 
     /**
@@ -81,7 +77,6 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $groupes = $this->repository->getList(
                 $request->getQueryParams()
             );
@@ -100,11 +95,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param GroupeEntite $entite Groupe
+     * @param Groupe\GroupeEntite $entite Groupe
      *
      * @return array
      */
-    private function buildData(GroupeEntite $entite)
+    private function buildData(Groupe\GroupeEntite $entite)
     {
         return [
             'id' => $entite->getId(),

@@ -1,4 +1,7 @@
 <?php declare(strict_types = 1);
+
+use LibertAPI\Tools\Controllers\GroupeController;
+
 /*
  * Doit être importé après la création de $app. Ne créé rien.
  *
@@ -9,7 +12,7 @@
 $app->group('/groupe', function () {
     $this->group('/{groupeId:[0-9]+}', function () {
         /* Detail */
-        $this->get('', ['controller', 'get'])->setName('getGroupeDetail');
+        $this->get('', [GroupeController::class, 'get'])->setName('getGroupeDetail');
 
         /* Dependances de groupe : responsable */
         $this->get('/responsable', ['controller', 'get'])->setName('getGroupeResponsableListe');
@@ -22,5 +25,5 @@ $app->group('/groupe', function () {
     });
 
     /* Collection */
-    $this->get('', ['controller', 'get'])->setName('getGroupeListe');
+    $this->get('', [GroupeController::class, 'get'])->setName('getGroupeListe');
 });

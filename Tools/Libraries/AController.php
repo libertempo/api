@@ -32,7 +32,7 @@ abstract class AController
 
     /**
      * @var AEntite
-     * @TODO: à supprimer quand tous auront le leur
+     * @TODO: à supprimer quand tous auront le leur : ne laisser ici que le router, les autres étendront
      */
     protected $currentUser;
 
@@ -90,6 +90,7 @@ abstract class AController
      * @param IRequest $request Requête Http
      *
      * @return IResponse
+     * @TODO: à supprimer ?!
      */
     final protected function getResponseForbidden(IResponse $response, IRequest $request) : IResponse
     {
