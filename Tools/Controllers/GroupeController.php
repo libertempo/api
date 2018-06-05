@@ -82,8 +82,6 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
             );
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
-        } catch (\LibertAPI\Tools\Exceptions\MissingRightException $e) {
-            return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }

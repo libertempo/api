@@ -83,7 +83,7 @@ return [
                 'code' => $code,
                 'status' => 'fail',
                 'message' => $responseUpd->getReasonPhrase(),
-                'data' => 'User has not access to «' . $request->getUri()->getPath() . '» resource',
+                'data' => 'User has not access to « ' . $request->getUri()->getPath() . ' » resource',
             ];
 
             return $response->withJson($data, $code);
