@@ -1,20 +1,21 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Planning;
+namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Planning;
 
 /**
- * Contrôleur de plannings
+ * Contrôleur de planning
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \LibertAPI\Tests\Units\Planning\PlanningController
  *
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le PlanningRepository
@@ -22,18 +23,10 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 final class PlanningController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    public function __construct(Planning\PlanningRepository $repository, IRouter $router)
     {
-        $rights = [
-            'getList' => $utilisateur->isResponsable() || $utilisateur->isHautResponsable() || $utilisateur->isAdmin(),
-        ];
-
-        if (isset($rights[$order]) && !$rights[$order]) {
-            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
-        }
+        $this->repository = $repository;
+        $this->router = $router;
     }
 
     /**
@@ -84,14 +77,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $plannings = $this->repository->getList(
                 $request->getQueryParams()
             );
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
-        } catch (\LibertAPI\Tools\Exceptions\MissingRightException $e) {
-            return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -103,11 +93,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param PlanningEntite $entite Planning
+     * @param Planning\PlanningEntite $entite Planning
      *
      * @return array
      */
-    private function buildData(PlanningEntite $entite)
+    private function buildData(Planning\PlanningEntite $entite)
     {
         return [
             'id' => $entite->getId(),

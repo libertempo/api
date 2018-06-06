@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Tests\Units\Planning;
+namespace LibertAPI\Tests\Units\Tools\Controllers;
 
 use Psr\Http\Message\ResponseInterface as IResponse;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;

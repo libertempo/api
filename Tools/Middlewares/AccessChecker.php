@@ -16,20 +16,20 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
     {
         $ressourcePath = $request->getAttribute('nomRessources');
         $container = $this->getContainer();
-        $openedRoutes = ['Authentification', 'HelloWorld'];
-        if (in_array($ressourcePath, $openedRoutes, true)) {
-            return $next($request, $response);
-        }
+
         switch ($ressourcePath) {
             case 'Absence|Type':
             case 'Utilisateur':
             case 'Journal':
+            case 'Authentification':
+            case 'HelloWorld':
                 return $next($request, $response);
             case 'Groupe':
             case 'Groupe|GrandResponsable':
             case 'Groupe|Responsable':
             case 'Groupe|Employe':
-                if (!$container->get('currentUser')->isAdmin()) {
+                $user = $container->get('currentUser');
+                if (!$user->isAdmin()) {
                     return call_user_func(
                         $container->get('forbiddenHandler'),
                         $request,
@@ -39,7 +39,19 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
 
                 return $next($request, $response);
             case 'JourFerie':
-                if (!$container->get('currentUser')->isHautResponsable()) {
+                $user = $container->get('currentUser');
+                if (!$user->isHautResponsable()) {
+                    return call_user_func(
+                        $container->get('forbiddenHandler'),
+                        $request,
+                        $response
+       );
+                }
+
+                return $next($request, $response);
+            case 'Planning':
+                $user = $container->get('currentUser');
+                if (!$user->isResponsable() && !$user->isHautResponsable() && !$user->isAdmin()) {
                     return call_user_func(
                         $container->get('forbiddenHandler'),
                         $request,

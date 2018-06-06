@@ -1,4 +1,7 @@
 <?php declare(strict_types = 1);
+
+use LibertAPI\Tools\Controllers\PlanningController;
+
 /*
  * Doit être importé après la création de $app. Ne créé rien.
  *
@@ -9,9 +12,9 @@
 $app->group('/planning', function () {
     $this->group('/{planningId:[0-9]+}', function () {
         /* Detail */
-        $this->get('', ['controller', 'get'])->setName('getPlanningDetail');
-        $this->put('', ['controller', 'put'])->setName('putPlanningDetail');
-        $this->delete('', ['controller', 'delete'])->setName('deletePlanningDetail');
+        $this->get('', [PlanningController::class, 'get'])->setName('getPlanningDetail');
+        $this->put('', [PlanningController::class, 'put'])->setName('putPlanningDetail');
+        $this->delete('', [PlanningController::class, 'delete'])->setName('deletePlanningDetail');
 
         /* Dependances de plannings */
         $this->group('/creneau', function () {
@@ -27,6 +30,6 @@ $app->group('/planning', function () {
     });
 
     /* Collection */
-    $this->get('', ['controller', 'get'])->setName('getPlanningListe');
-    $this->post('', ['controller', 'post'])->setName('postPlanningListe');
+    $this->get('', [PlanningController::class, 'get'])->setName('getPlanningListe');
+    $this->post('', [PlanningController::class, 'post'])->setName('postPlanningListe');
 });
