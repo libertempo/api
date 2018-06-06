@@ -1,12 +1,12 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Planning\Creneau;
+namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
-use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use LibertAPI\Tools\Interfaces;
-
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Planning\Creneau;
 
 /**
  * Contrôleur des creneaux de plannings
@@ -15,19 +15,17 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * @author Wouldsmina
  *
  * @since 0.1
- * @see \Tests\Units\Planning\Controller
  *
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le Planning\Repository
  */
-final class CreneauController extends \LibertAPI\Tools\Libraries\AController
+final class PlanningCreneauController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    public function __construct(Creneau\CreneauRepository $repository, IRouter $router)
     {
+        $this->repository = $repository;
+        $this->router = $router;
     }
 
     /**
@@ -93,11 +91,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     /**
      * Construit le « data » du json
      *
-     * @param CreneauEntite $entite Créneau de planning
+     * @param Creneau\CreneauEntite $entite Créneau de planning
      *
      * @return array
      */
-    private function buildData(CreneauEntite $entite)
+    private function buildData(Creneau\CreneauEntite $entite)
     {
         return [
             'id' => $entite->getId(),
@@ -125,7 +123,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
         $planningId = (int) $arguments['planningId'];
 
         try {
-            $creneauxIds = $this->repository->postList($body);
+            $creneauxIds = $this->repository->postList($body, new Creneau\CreneauEntite([]));
             $dataMessage = [];
             foreach ($creneauxIds as $id) {
                 $dataMessage[] = $this->router->pathFor('getPlanningCreneauDetail', [
@@ -160,9 +158,16 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
 
         $id = (int) $arguments['creneauId'];
         try {
-            $this->repository->putOne($id, $body);
-        } catch (\UnknownResourceException $e) {
+            $creneau = $this->repository->getOne($id);
+        } catch (\DomainException $e) {
             return $this->getResponseNotFound($response, 'Element « creneau#' . $id . ' » is not a valid resource');
+        } catch (\Exception $e) {
+            return $this->getResponseError($response, $e);
+        }
+
+        try {
+            $creneau->populate($body);
+            $this->repository->putOne($creneau);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Tests\Units\Planning\Creneau;
+namespace LibertAPI\Tests\Units\Tools\Controllers;
 
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  *
  * @since 0.1
  */
-final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestController
+final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestController
 {
     protected function initRepository()
     {
@@ -150,6 +150,37 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
     }
 
     /**
+     * Teste la méthode put avec un détail non trouvé (id en Bad domaine)
+     */
+    public function testPutNotFound()
+    {
+        $this->request->getMockController()->getParsedBody = [];
+        $this->repository->getMockController()->getOne = function () {
+            throw new \DomainException('');
+        };
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
+
+        $this->boolean($response->isNotFound())->isTrue();
+    }
+
+    /**
+     * Teste le fallback de la méthode getOne du put
+     */
+    public function testPutGetOneFallback()
+    {
+        $this->request->getMockController()->getParsedBody = [];
+        $this->repository->getMockController()->getOne = function () {
+            throw new \LogicException('');
+        };
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+
+        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
+        $this->assertError($response);
+    }
+
+    /**
      * Teste la méthode put avec un argument de body manquant
      */
     public function testPutMissingRequiredArg()
@@ -190,6 +221,7 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
+        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \LogicException('');
         };
@@ -205,7 +237,8 @@ final class CreneauController extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = $this->entite;
+        $this->repository->getMockController()->getOne = $this->entite;
+        $this->repository->getMockController()->putOne = '';
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);

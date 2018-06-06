@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 
 use LibertAPI\Tools\Controllers\PlanningController;
+use LibertAPI\Tools\Controllers\PlanningCreneauController;
 
 /*
  * Doit être importé après la création de $app. Ne créé rien.
@@ -19,13 +20,13 @@ $app->group('/planning', function () {
         /* Dependances de plannings */
         $this->group('/creneau', function () {
             /* Detail creneaux */
-            $this->get('/{creneauId:[0-9]+}', ['controller', 'get'])->setName('getPlanningCreneauDetail');
-            $this->put('/{creneauId:[0-9]+}', ['controller', 'put'])->setName('putPlanningCreneauDetail');
+            $this->get('/{creneauId:[0-9]+}', [PlanningCreneauController::class, 'get'])->setName('getPlanningCreneauDetail');
+            $this->put('/{creneauId:[0-9]+}', [PlanningCreneauController::class, 'put'])->setName('putPlanningCreneauDetail');
             //$this->delete('/{creneauId:[0-9]+}', $creneauNS . ':delete')->setName('deletePlanningCreneauDetail');
 
             /* Collection creneaux */
-            $this->get('', ['controller', 'get'])->setName('getPlanningCreneauListe');
-            $this->post('', ['controller', 'post'])->setName('postPlanningCreneauListe');
+            $this->get('', [PlanningCreneauController::class, 'get'])->setName('getPlanningCreneauListe');
+            $this->post('', [PlanningCreneauController::class, 'post'])->setName('postPlanningCreneauListe');
         });
     });
 
