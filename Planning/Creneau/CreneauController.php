@@ -124,7 +124,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
         $planningId = (int) $arguments['planningId'];
 
         try {
-            $creneauxIds = $this->repository->postList($body, new CreneauEntite([]));
+            $creneauxIds = $this->repository->postList($body);
             $dataMessage = [];
             foreach ($creneauxIds as $id) {
                 $dataMessage[] = $this->router->pathFor('getPlanningCreneauDetail', [

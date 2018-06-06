@@ -32,7 +32,7 @@ final class JourFerieRepository extends \LibertAPI\Tests\Units\Tools\Libraries\A
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->postOne([], new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->postOne($this->getConsumerContent());
         })->isInstanceOf(\RuntimeException::class);
     }
 
@@ -43,6 +43,12 @@ final class JourFerieRepository extends \LibertAPI\Tests\Units\Tools\Libraries\A
         $this->exception(function () {
             $this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
         })->isInstanceOf(\RuntimeException::class);
+    }
+
+    protected function getConsumerContent() : array
+    {
+        return [
+        ];
     }
 
     public function testDeleteOne()

@@ -124,7 +124,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $groupeId = $this->repository->postOne($body, new GroupeEntite([]));
+            $groupeId = $this->repository->postOne($body);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

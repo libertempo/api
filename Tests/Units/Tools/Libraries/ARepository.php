@@ -71,7 +71,8 @@ abstract class ARepository extends \Atoum
         $this->calling($this->queryBuilder)->execute = true;
         $this->calling($this->connector)->lastInsertId = 9182;
 
-        $this->integer($this->testedInstance->postOne([], new \mock\LibertAPI\Tools\Libraries\AEntite([])))->isIdenticalTo(9182);
+        $this->integer($this->testedInstance->postOne($this->getConsumerContent()))
+            ->isIdenticalTo(9182);
     }
 
     public function testPutOne()
@@ -82,6 +83,8 @@ abstract class ARepository extends \Atoum
 
         $this->variable($this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([])))->isNull();
     }
+
+    abstract protected function getConsumerContent() : array;
 
     public function testDeleteOne()
     {

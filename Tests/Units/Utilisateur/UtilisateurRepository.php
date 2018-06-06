@@ -49,8 +49,14 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->postOne([], new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->postOne($this->getConsumerContent());
         })->isInstanceOf(\RuntimeException::class);
+    }
+
+    protected function getConsumerContent() : array
+    {
+        return [
+        ];
     }
 
     public function testDeleteOne()

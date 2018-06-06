@@ -126,7 +126,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $planningId = $this->repository->postOne($body, new PlanningEntite([]));
+            $planningId = $this->repository->postOne($body);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

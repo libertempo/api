@@ -34,6 +34,18 @@ final class CreneauRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         ];
     }
 
+    protected function getConsumerContent() : array
+    {
+        return [
+            'planningId' => 12,
+            'jourId' => 4,
+            'typeSemaine' => 54,
+            'typePeriode' => 191283,
+            'debut' => 921,
+            'fin' => 2139123,
+        ];
+    }
+
     public function testDeleteOne()
     {
         $this->newTestedInstance($this->connector);

@@ -18,6 +18,16 @@ final class TypeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARepos
             'ta_type' => 81,
             'ta_libelle' => 'libelle',
             'ta_short_libelle' => 'li',
+            'type' => 1,
+        ];
+    }
+
+    protected function getConsumerContent() : array
+    {
+        return [
+            'type' => '1',
+            'libelle' => 'Romeo',
+            'libelleCourt' => 'Juliette',
         ];
     }
 }

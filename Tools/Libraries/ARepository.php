@@ -118,12 +118,13 @@ abstract class ARepository
      * Poste une ressource unique
      *
      * @param array $data Données à poster
-     * @param AEntite $entite [Vide par définition]
      *
      * @return int Id de la ressource nouvellement insérée
      */
-    public function postOne(array $data, AEntite $entite) : int
+    public function postOne(array $data) : int
     {
+        $entiteClass = $this->getEntiteClass();
+        $entite = new $entiteClass([]);
         $entite->populate($data);
         $this->queryBuilder->insert($this->getTableName());
         $this->setValues($this->getEntite2Storage($entite));

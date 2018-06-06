@@ -115,7 +115,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $typeId = $this->repository->postOne($body, new TypeEntite([]));
+            $typeId = $this->repository->postOne($body);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

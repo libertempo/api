@@ -125,7 +125,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         return $results;
     }
 
-    public function postOne(array $data, AEntite $entite) : int
+    public function postOne(array $data) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
