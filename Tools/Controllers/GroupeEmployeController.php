@@ -19,7 +19,7 @@ use LibertAPI\Utilisateur\UtilisateurEntite;
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le EmployeRepository
  */
-class GroupeEmployeController extends \LibertAPI\Tools\Libraries\AController
+final class GroupeEmployeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
     public function __construct(Employe\EmployeRepository $repository, IRouter $router)

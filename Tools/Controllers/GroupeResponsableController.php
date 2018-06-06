@@ -19,14 +19,14 @@ use LibertAPI\Groupe\Responsable;
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le ResponsableRepository
  */
-class GroupeResponsableController extends \LibertAPI\Tools\Libraries\AController
+final class GroupeResponsableController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
     public function __construct(Responsable\ResponsableRepository $repository, IRouter $router)
     {
         parent::__construct($repository, $router);
     }
-    
+
     /**
      * {@inheritDoc}
      */
