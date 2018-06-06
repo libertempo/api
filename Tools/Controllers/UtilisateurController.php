@@ -22,8 +22,7 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
 {
     public function __construct(Utilisateur\UtilisateurRepository $repository, IRouter $router)
     {
-        $this->repository = $repository;
-        $this->router = $router;
+        parent::__construct($repository, $router);
     }
 
     /*************************************************

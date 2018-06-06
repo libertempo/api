@@ -14,20 +14,6 @@ use LibertAPI\Utilisateur\UtilisateurEntite;
 final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
-     * @var UtilisateurEntite Standardisation d'un rôle employé
-     */
-    protected $currentEmploye;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function beforeTestMethod($method)
-    {
-        parent::beforeTestMethod($method);
-        $this->currentEmploye = new UtilisateurEntite(['id' => 'user', 'isResp' => false]);
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function initRepository()
@@ -64,7 +50,7 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
     {
         $this->calling($this->request)->getQueryParams = [];
         $this->calling($this->repository)->getList = [$this->entite,];
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $data = $this->getJsonDecoded($response->getBody());
 
@@ -87,7 +73,7 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->calling($this->repository)->getList = function () {
             throw new \UnexpectedValueException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
         $response = $this->testedInstance->get($this->request, $this->response, []);
 
         $this->assertSuccessEmpty($response);
@@ -102,7 +88,7 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
         $this->calling($this->repository)->getList = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $this->assertError($response);

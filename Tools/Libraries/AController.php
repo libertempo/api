@@ -30,17 +30,10 @@ abstract class AController
      */
     protected $router;
 
-    /**
-     * @var AEntite
-     * @TODO: à supprimer quand tous auront le leur : ne laisser ici que le router, les autres étendront
-     */
-    protected $currentUser;
-
-    public function __construct(ARepository $repository, IRouter $router, AEntite $currentUser)
+    public function __construct(ARepository $repository, IRouter $router)
     {
         $this->repository = $repository;
         $this->router = $router;
-        $this->currentUser = $currentUser;
     }
 
     /**
@@ -81,20 +74,6 @@ abstract class AController
     final protected function getResponseBadRequest(IResponse $response, string $message) : IResponse
     {
         return $this->getResponseFail($response, $message, 400);
-    }
-
-    /**
-     * Retourne une réponse 403 normalisée
-     *
-     * @param IResponse $response Réponse Http
-     * @param IRequest $request Requête Http
-     *
-     * @return IResponse
-     * @TODO: à supprimer ?!
-     */
-    final protected function getResponseForbidden(IResponse $response, IRequest $request) : IResponse
-    {
-        return $this->getResponseFail($response, 'User has not access to « ' . $request->getUri()->getPath() . ' » resource', 403);
     }
 
     /**

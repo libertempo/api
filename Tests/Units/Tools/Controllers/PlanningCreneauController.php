@@ -55,7 +55,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
     {
         // Le framework fait du traitement, un mauvais json est simplement null
         $this->request->getMockController()->getParsedBody = null;
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
 
@@ -71,7 +71,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->repository->getMockController()->postList = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
 
@@ -87,7 +87,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->repository->getMockController()->postList = function () {
             throw new \DomainException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
 
@@ -103,7 +103,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->repository->getMockController()->postList = function () {
             throw new \LogicException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
         $this->assertError($response);
@@ -117,7 +117,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->request->getMockController()->getParsedBody = [[]];
         $this->router->getMockController()->pathFor = '';
         $this->repository->getMockController()->postList = [42, 74, 314];
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->post($this->request, $this->response, ['planningId' => 11]);
         $data = $this->getJsonDecoded($response->getBody());
@@ -142,7 +142,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
     {
         // Le framework fait du traitement, un mauvais json est simplement null
         $this->request->getMockController()->getParsedBody = null;
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
@@ -158,7 +158,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->repository->getMockController()->getOne = function () {
             throw new \DomainException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
@@ -174,7 +174,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->repository->getMockController()->getOne = function () {
             throw new \LogicException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
         $this->assertError($response);
@@ -191,7 +191,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->repository->getMockController()->putOne = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
@@ -208,7 +208,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->repository->getMockController()->putOne = function () {
             throw new \DomainException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 
@@ -225,7 +225,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->repository->getMockController()->putOne = function () {
             throw new \LogicException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
         $this->assertError($response);
@@ -239,7 +239,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
         $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = '';
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
 

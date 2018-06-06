@@ -19,8 +19,7 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
 {
     public function __construct(Journal\JournalRepository $repository, IRouter $router)
     {
-        $this->repository = $repository;
-        $this->router = $router;
+        parent::__construct($repository, $router);
     }
 
      /**

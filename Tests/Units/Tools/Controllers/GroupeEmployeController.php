@@ -11,22 +11,8 @@ use LibertAPI\Utilisateur\UtilisateurEntite;
  *
  * @since 1.0
  */
-final class EmployeGroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
+class GroupeEmployeController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
-    /**
-     * @var UtilisateurEntite Standardisation d'un rôle admin
-     */
-    protected $currentAdmin;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function beforeTestMethod($method)
-    {
-        parent::beforeTestMethod($method);
-        $this->currentAdmin = new UtilisateurEntite(['id' => 'user', 'isAdmin' => true]);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -75,7 +61,7 @@ final class EmployeGroupeController extends \LibertAPI\Tests\Units\Tools\Librari
     {
         $this->calling($this->request)->getQueryParams = [];
         $this->calling($this->repository)->getList = [$this->entite,];
-        $this->newTestedInstance($this->repository, $this->router, $this->currentAdmin);
+        $this->newTestedInstance($this->repository, $this->router);
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $data = $this->getJsonDecoded($response->getBody());
 
@@ -98,7 +84,7 @@ final class EmployeGroupeController extends \LibertAPI\Tests\Units\Tools\Librari
         $this->calling($this->repository)->getList = function () {
             throw new \UnexpectedValueException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentAdmin);
+        $this->newTestedInstance($this->repository, $this->router);
         $response = $this->testedInstance->get($this->request, $this->response, []);
 
         $this->assertSuccessEmpty($response);
@@ -113,7 +99,7 @@ final class EmployeGroupeController extends \LibertAPI\Tests\Units\Tools\Librari
         $this->calling($this->repository)->getList = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentAdmin);
+        $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $this->assertError($response);

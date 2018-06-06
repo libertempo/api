@@ -24,8 +24,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
 {
     public function __construct(Creneau\CreneauRepository $repository, IRouter $router)
     {
-        $this->repository = $repository;
-        $this->router = $router;
+        parent::__construct($repository, $router);
     }
 
     /**

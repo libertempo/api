@@ -20,8 +20,7 @@ implements Interfaces\IGetable
 {
     public function __construct(\LibertAPI\Utilisateur\UtilisateurRepository $repository, IRouter $router)
     {
-        $this->repository = $repository;
-        $this->router = $router;
+        parent::__construct($repository, $router);
     }
 
     /**

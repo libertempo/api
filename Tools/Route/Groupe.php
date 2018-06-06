@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 
 use LibertAPI\Tools\Controllers\GroupeController;
-use LibertAPI\Tools\Controllers\GrandResponsableGroupeController;
-use LibertAPI\Tools\Controllers\ResponsableGroupeController;
-use LibertAPI\Tools\Controllers\EmployeGroupeController;
+use LibertAPI\Tools\Controllers\GroupeGrandResponsableController;
+use LibertAPI\Tools\Controllers\GroupeResponsableController;
+use LibertAPI\Tools\Controllers\GroupeEmployeController;
 
 /*
  * Doit être importé après la création de $app. Ne créé rien.
@@ -18,13 +18,13 @@ $app->group('/groupe', function () {
         $this->get('', [GroupeController::class, 'get'])->setName('getGroupeDetail');
 
         /* Dependances de groupe : responsable */
-        $this->get('/responsable', [ResponsableGroupeController::class, 'get'])->setName('getGroupeResponsableListe');
+        $this->get('/responsable', [GroupeResponsableController::class, 'get'])->setName('getGroupeResponsableListe');
 
         /* Dependances de groupe : grand responsable */
-        $this->get('/grand_responsable', [GrandResponsableGroupeController::class, 'get'])->setName('getGroupeGrandResponsableListe');
+        $this->get('/grand_responsable', [GroupeGrandResponsableController::class, 'get'])->setName('getGroupeGrandResponsableListe');
 
         /* Dependances de groupe : employe */
-        $this->get('/employe', [EmployeGroupeController::class, 'get'])->setName('getGroupeEmployeListe');
+        $this->get('/employe', [GroupeEmployeController::class, 'get'])->setName('getGroupeEmployeListe');
     });
 
     /* Collection */

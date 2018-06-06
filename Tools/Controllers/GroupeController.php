@@ -25,8 +25,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 {
     public function __construct(Groupe\GroupeRepository $repository, IRouter $router)
     {
-        $this->repository = $repository;
-        $this->router = $router;
+        parent::__construct($repository, $router);
     }
 
     /**

@@ -5,29 +5,28 @@ use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
-use LibertAPI\Groupe\Employe;
 use LibertAPI\Utilisateur\UtilisateurEntite;
+use LibertAPI\Groupe\Responsable;
 
 /**
- * Contrôleur d'un employé de groupes
+ * Contrôleur de responsable de groupes
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 1.0
+ * @since 0.7
  *
  * Ne devrait être contacté que par le routeur
- * Ne devrait contacter que le EmployeRepository
+ * Ne devrait contacter que le ResponsableRepository
  */
-class EmployeGroupeController extends \LibertAPI\Tools\Libraries\AController
+class GroupeResponsableController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    public function __construct(Employe\EmployeRepository $repository, IRouter $router)
+    public function __construct(Responsable\ResponsableRepository $repository, IRouter $router)
     {
-        $this->repository = $repository;
-        $this->router = $router;
+        parent::__construct($repository, $router);
     }
-
+    
     /**
      * {@inheritDoc}
      */

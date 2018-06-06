@@ -24,8 +24,7 @@ implements Interfaces\IGetable
 {
     public function __construct(JourFerie\JourFerieRepository $repository, IRouter $router)
     {
-        $this->repository = $repository;
-        $this->router = $router;
+        parent::__construct($repository, $router);
     }
 
     /**
