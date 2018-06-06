@@ -1,10 +1,12 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Groupe\Employe;
+namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Groupe\Employe;
 use LibertAPI\Utilisateur\UtilisateurEntite;
 
 /**
@@ -18,18 +20,13 @@ use LibertAPI\Utilisateur\UtilisateurEntite;
  * Ne devrait être contacté que par le routeur
  * Ne devrait contacter que le EmployeRepository
  */
-final class EmployeController extends \LibertAPI\Tools\Libraries\AController
+class EmployeGroupeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function ensureAccessUser(string $order, UtilisateurEntite $utilisateur)
+    public function __construct(Employe\EmployeRepository $repository, IRouter $router)
     {
-        unset($order);
-        if (!$utilisateur->isAdmin()) {
-            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
-        }
+        $this->repository = $repository;
+        $this->router = $router;
     }
 
     /**
@@ -39,14 +36,11 @@ implements Interfaces\IGetable
     {
         unset($arguments);
         try {
-            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $employes = $this->repository->getList(
                 $request->getQueryParams()
             );
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
-        } catch (\LibertAPI\Tools\Exceptions\MissingRightException $e) {
-            return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }

@@ -27,6 +27,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
             case 'Groupe':
             case 'Groupe|GrandResponsable':
             case 'Groupe|Responsable':
+            case 'Groupe|Employe':
                 if (!$container->get('currentUser')->isAdmin()) {
                     return call_user_func(
                         $container->get('forbiddenHandler'),
