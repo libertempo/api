@@ -265,7 +265,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         return password_hash($instanceToken, \PASSWORD_BCRYPT);
     }
 
-    public function deleteOne(AEntite $entite) : int
+    public function deleteOne(int $id) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }

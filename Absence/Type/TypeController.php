@@ -167,21 +167,13 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         $id = (int) $arguments['typeId'];
         try {
-            $resource = $this->repository->getOne($id);
-            $this->repository->deleteOne($resource);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => '',
-            ];
-
-            return $response->withJson($data, $code);
-        } catch (\DomainException $e) {
+            $this->repository->deleteOne($id);
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+        
+        return $this->getResponseSuccess($response, '', 200);
     }
 }

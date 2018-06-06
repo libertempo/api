@@ -179,9 +179,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         $id = (int) $arguments['planningId'];
         try {
-            $planning = $this->repository->getOne($id);
-            $this->repository->deleteOne($planning);
-        } catch (\DomainException $e) {
+            $this->repository->deleteOne($id);
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);

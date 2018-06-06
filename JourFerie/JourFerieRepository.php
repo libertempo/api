@@ -96,7 +96,7 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function deleteOne(AEntite $entite) : int
+    public function deleteOne(int $id) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }

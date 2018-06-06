@@ -182,8 +182,9 @@ abstract class ARepository
      *
      * @param AEntite $entite
      */
-    public function deleteOne(AEntite $entite) : int
+    public function deleteOne(int $id) : int
     {
+        $entite = $this->getOne($id);
         $this->queryBuilder->delete($this->getTableName());
         $this->setWhere(['id' => $entite->getId()]);
         $res = $this->queryBuilder->execute();

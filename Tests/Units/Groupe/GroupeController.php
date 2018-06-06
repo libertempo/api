@@ -2,6 +2,7 @@
 namespace LibertAPI\Tests\Units\Groupe;
 
 use Psr\Http\Message\ResponseInterface as IResponse;
+use LibertAPI\Tools\Exceptions\UnknownResourceException;
 
 /**
  * Classe de test du contrôleur de groupe
@@ -259,8 +260,8 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
      */
     public function testDeleteNotFound()
     {
-        $this->repository->getMockController()->getOne = function () {
-            throw new \DomainException('');
+        $this->repository->getMockController()->deleteOne = function () {
+            throw new UnknownResourceException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
@@ -274,7 +275,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
      */
     public function testDeleteFallback()
     {
-        $this->repository->getMockController()->getOne = function () {
+        $this->repository->getMockController()->deleteOne = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
@@ -288,7 +289,6 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
      */
     public function testDeleteOk()
     {
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->deleteOne = 123;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 

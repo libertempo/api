@@ -176,9 +176,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         $id = (int) $arguments['groupeId'];
         try {
-            $groupe = $this->repository->getOne($id);
-            $this->repository->deleteOne($groupe);
-        } catch (\DomainException $e) {
+            $this->repository->deleteOne($id);
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);

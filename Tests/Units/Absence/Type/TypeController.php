@@ -258,8 +258,8 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
      */
     public function testDeleteNotFound()
     {
-        $this->repository->getMockController()->getOne = function () {
-            throw new \DomainException('');
+        $this->repository->getMockController()->deleteOne = function () {
+            throw new UnknownResourceException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
         $response = $this->testedInstance->delete($this->request, $this->response, ['typeId' => 99]);
@@ -272,14 +272,13 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
      */
     public function testDeleteFallback()
     {
-        $this->repository->getMockController()->getOne = function () {
+        $this->repository->getMockController()->deleteOne = function () {
             throw new \LogicException('');
         };
-
-        $this->exception(function () {
-            $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-            $this->testedInstance->delete($this->request, $this->response, ['typeId' => 99]);
-        })->isInstanceOf('\Exception');
+        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        
+        $response = $this->testedInstance->delete($this->request, $this->response, ['typeId' => 99]);
+        $this->assertError($response);
     }
 
     /**
@@ -287,7 +286,6 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
      */
     public function testDeleteOk()
     {
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->calling($this->repository)->deleteOne = 34;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
         $response = $this->testedInstance->delete($this->request, $this->response, ['typeId' => 99]);
@@ -297,7 +295,7 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
         $this->array($data)
             ->integer['code']->isIdenticalTo(200)
             ->string['status']->isIdenticalTo('success')
-            ->string['message']->isIdenticalTo('')
+            ->string['message']->isIdenticalTo('OK')
             ->array['data']->isNotEmpty()
         ;
     }

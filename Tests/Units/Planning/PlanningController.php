@@ -2,6 +2,7 @@
 namespace LibertAPI\Tests\Units\Planning;
 
 use Psr\Http\Message\ResponseInterface as IResponse;
+use LibertAPI\Tools\Exceptions\UnknownResourceException;
 
 /**
  * Classe de test du contrôleur de planning
@@ -260,8 +261,8 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testDeleteNotFound()
     {
-        $this->repository->getMockController()->getOne = function () {
-            throw new \DomainException('');
+        $this->repository->getMockController()->deleteOne = function () {
+            throw new UnknownResourceException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
@@ -275,7 +276,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testDeleteFallback()
     {
-        $this->repository->getMockController()->getOne = function () {
+        $this->repository->getMockController()->deleteOne = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
@@ -289,7 +290,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testDeleteOk()
     {
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->deleteOne = 89172;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 

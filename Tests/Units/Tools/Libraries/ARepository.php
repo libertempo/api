@@ -90,9 +90,10 @@ abstract class ARepository extends \Atoum
     {
         $this->newTestedInstance($this->connector);
         $this->calling($this->queryBuilder)->execute = $this->result;
+        $this->calling($this->result)->fetch = $this->getStorageContent();
         $this->calling($this->result)->rowCount = 123;
 
-        $this->integer($this->testedInstance->deleteOne(new \mock\LibertAPI\Tools\Libraries\AEntite([])))->isIdenticalTo(123);
+        $this->integer($this->testedInstance->deleteOne(4))->isIdenticalTo(123);
     }
 
     /**
