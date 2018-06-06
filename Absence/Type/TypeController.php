@@ -3,6 +3,7 @@ namespace LibertAPI\Absence\Type;
 
 use LibertAPI\Tools\Interfaces;
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
+use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -145,16 +146,9 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         $id = (int) $arguments['typeId'];
         try {
-            $resource = $this->repository->getOne($id);
-        } catch (\DomainException $e) {
+            $this->repository->putOne($id, $body);
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
-        } catch (\Exception $e) {
-            return $this->getResponseError($response, $e);
-        }
-
-        try {
-            $resource->populate($body);
-            $this->repository->putOne($resource);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

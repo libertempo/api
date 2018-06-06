@@ -21,6 +21,16 @@ final class CreneauRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         })->isInstanceOf(\RuntimeException::class);
     }
 
+    public function testPutOne()
+    {
+        $this->newTestedInstance($this->connector);
+        $this->calling($this->result)->fetch = [];
+
+        $this->exception(function () {
+            $this->testedInstance->putOne(4, []);
+        })->isInstanceOf(\RuntimeException::class);
+    }
+
     final protected function getStorageContent() : array
     {
         return [

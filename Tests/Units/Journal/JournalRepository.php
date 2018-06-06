@@ -46,7 +46,7 @@ final class JournalRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->putOne(8712, []);
         })->isInstanceOf(\RuntimeException::class);
     }
 

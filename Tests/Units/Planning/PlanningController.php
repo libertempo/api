@@ -174,43 +174,11 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     }
 
     /**
-     * Teste la méthode put avec un détail non trouvé (id en Bad domaine)
-     */
-    public function testPutNotFound()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = function () {
-            throw new \DomainException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
-
-        $this->boolean($response->isNotFound())->isTrue();
-    }
-
-    /**
-     * Teste le fallback de la méthode getOne du put
-     */
-    public function testPutGetOneFallback()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = function () {
-            throw new \LogicException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
-        $this->assertError($response);
-    }
-
-    /**
      * Teste la méthode put avec un argument de body manquant
      */
     public function testPutMissingRequiredArg()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = $this->entite;
 
         $this->repository->getMockController()->putOne = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
@@ -228,7 +196,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testPutBadDomain()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \DomainException('');
         };
@@ -245,7 +212,6 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \LogicException('');
         };
@@ -261,8 +227,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->getOne = $this->entite;
-        $this->repository->getMockController()->putOne = '';
+        $this->repository->getMockController()->putOne = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);

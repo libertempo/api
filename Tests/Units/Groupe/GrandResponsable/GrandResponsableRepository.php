@@ -60,7 +60,7 @@ final class GrandResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libr
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->putOne(123, []);
         })->isInstanceOf(\RuntimeException::class);
     }
 

@@ -2,6 +2,7 @@
 namespace LibertAPI\Planning\Creneau;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
+use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use LibertAPI\Tools\Interfaces;
 
 use Psr\Http\Message\ServerRequestInterface as IRequest;
@@ -159,16 +160,9 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
 
         $id = (int) $arguments['creneauId'];
         try {
-            $creneau = $this->repository->getOne($id);
-        } catch (\DomainException $e) {
+            $this->repository->putOne($id, $body);
+        } catch (\UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « creneau#' . $id . ' » is not a valid resource');
-        } catch (\Exception $e) {
-            return $this->getResponseError($response, $e);
-        }
-
-        try {
-            $creneau->populate($body);
-            $this->repository->putOne($creneau);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

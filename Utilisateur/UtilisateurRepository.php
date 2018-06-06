@@ -130,8 +130,10 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         throw new \RuntimeException('Action is forbidden');
     }
 
-    public function putOne(AEntite $entite)
+    public function putOne(int $id, array $data)
     {
+        $entite = $this->getOne($id);
+        $entite->populate($data);
         $this->queryBuilder->update($this->getTableName());
         $this->setSet($this->getEntite2Storage($entite));
         $this->queryBuilder->where('u_login = :id');

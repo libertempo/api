@@ -62,7 +62,7 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function putOne(AEntite $entite)
+    public function putOne(int $id, array $data)
     {
         throw new \RuntimeException('Action is forbidden');
     }

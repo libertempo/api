@@ -21,6 +21,14 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         })->isInstanceOf(\RuntimeException::class);
     }
 
+    public function testPutOne()
+    {
+        $this->newTestedInstance($this->connector);
+        $this->exception(function () {
+            $this->testedInstance->putOne(4, []);
+        })->isInstanceOf(\RuntimeException::class);
+    }
+
     final protected function getStorageContent() : array
     {
         return [

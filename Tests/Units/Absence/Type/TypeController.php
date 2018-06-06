@@ -2,6 +2,7 @@
 namespace LibertAPI\Tests\Units\Absence\Type;
 
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \LibertAPI\Tools\Exceptions\UnknownResourceException;
 
 /**
  * Classe de test du contrôleur des type d'absence
@@ -163,8 +164,8 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
     public function testPutNotFound()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = function () {
-            throw new \DomainException('');
+        $this->repository->getMockController()->putOne = function () {
+            throw new UnknownResourceException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
         $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
@@ -173,27 +174,11 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
     }
 
     /**
-     * Teste le fallback de la méthode getOne du put
-     */
-    public function testPutGetOneFallback()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = function () {
-            throw new \LogicException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
-        $this->assertError($response);
-    }
-
-    /**
      * Teste la méthode put avec un argument de body manquant
      */
     public function testPutMissingRequiredArg()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->getOne = $this->entite;
 
         $this->repository->getMockController()->putOne = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
@@ -210,7 +195,6 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
     public function testPutBadDomain()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \DomainException('');
         };
@@ -226,7 +210,6 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \LogicException('');
         };
@@ -242,7 +225,6 @@ final class TypeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARestC
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = '';
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
         $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);

@@ -60,7 +60,7 @@ final class ResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->putOne(98, []);
         })->isInstanceOf(\RuntimeException::class);
     }
 

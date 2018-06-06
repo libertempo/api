@@ -2,6 +2,7 @@
 namespace LibertAPI\Tests\Units\Tools\Libraries;
 
 use LibertAPI\Tools\Libraries\AEntite;
+use \LibertAPI\Tools\Exceptions\UnknownResourceException;
 
 /**
  * Classe de test des repositories
@@ -37,7 +38,7 @@ abstract class ARepository extends \Atoum
 
         $this->exception(function () {
             $this->testedInstance->getOne(4);
-        })->isInstanceOf(\DomainException::class);
+        })->isInstanceOf(UnknownResourceException::class);
     }
 
     public function testGetListEmpty()
@@ -78,10 +79,9 @@ abstract class ARepository extends \Atoum
     public function testPutOne()
     {
         $this->newTestedInstance($this->connector);
-        $this->calling($this->queryBuilder)->execute = true;
-        $this->calling($this->connector)->lastInsertId = 9182;
+        $this->calling($this->result)->fetch = $this->getStorageContent();
 
-        $this->variable($this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([])))->isNull();
+        $this->variable($this->testedInstance->putOne(55, $this->getConsumerContent()))->isNull();
     }
 
     abstract protected function getConsumerContent() : array;

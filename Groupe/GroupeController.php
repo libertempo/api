@@ -2,6 +2,7 @@
 namespace LibertAPI\Groupe;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
+use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
@@ -154,16 +155,9 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         $id = (int) $arguments['groupeId'];
         try {
-            $groupe = $this->repository->getOne($id);
-        } catch (\DomainException $e) {
+            $this->repository->putOne($id, $body);
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
-        } catch (\Exception $e) {
-            return $this->getResponseError($response, $e);
-        }
-
-        try {
-            $groupe->populate($body);
-            $this->repository->putOne($groupe);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
