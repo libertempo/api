@@ -37,6 +37,16 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
                 }
 
                 return $next($request, $response);
+            case 'JourFerie':
+                if (!$container->get('currentUser')->isHautResponsable()) {
+                    return call_user_func(
+                        $container->get('forbiddenHandler'),
+                        $request,
+                        $response
+       );
+                }
+
+                return $next($request, $response);
             default:
                 ddd($ressourcePath);
         }

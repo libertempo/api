@@ -1,10 +1,12 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\JourFerie;
+namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\JourFerie;
 
 /**
  * Contrôleur de jour férié
@@ -20,15 +22,10 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 final class JourFerieController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    public function __construct(JourFerie\JourFerieRepository $repository, IRouter $router)
     {
-        unset($order);
-        if (!$utilisateur->isHautResponsable()) {
-            throw new \LibertAPI\Tools\Exceptions\MissingRightException('');
-        }
+        $this->repository = $repository;
+        $this->router = $router;
     }
 
     /**
@@ -48,14 +45,11 @@ implements Interfaces\IGetable
     private function getList(IRequest $request, IResponse $response) : IResponse
     {
         try {
-            $this->ensureAccessUser(__FUNCTION__, $this->currentUser);
             $jours = $this->repository->getList(
                 $request->getQueryParams()
             );
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
-        } catch (\LibertAPI\Tools\Exceptions\MissingRightException $e) {
-            return $this->getResponseForbidden($response, $request);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -67,7 +61,7 @@ implements Interfaces\IGetable
     /**
      * Construit le « data » du json
      */
-    private function buildData(JourFerieEntite $entite) : array
+    private function buildData(JourFerie\JourFerieEntite $entite) : array
     {
         return [
             'date' => $entite->getDate(),

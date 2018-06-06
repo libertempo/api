@@ -1,7 +1,6 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tools\Controllers;
 
-use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
