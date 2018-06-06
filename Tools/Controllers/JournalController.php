@@ -1,8 +1,10 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Journal;
+namespace LibertAPI\Tools\Controllers;
 
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \Slim\Interfaces\RouterInterface as IRouter;
+use LibertAPI\Journal;
 
 /**
  * Contrôleur de journal
@@ -15,16 +17,11 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 final class JournalController extends \LibertAPI\Tools\Libraries\AController
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function ensureAccessUser(string $order, \LibertAPI\Utilisateur\UtilisateurEntite $utilisateur)
+    public function __construct(Journal\JournalRepository $repository, IRouter $router)
     {
+        $this->repository = $repository;
+        $this->router = $router;
     }
-
-    /*************************************************
-     * GET
-     *************************************************/
 
      /**
       * {@inheritDoc}
@@ -49,11 +46,11 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param JournalEntite $entite Journal
+     * @param Journal\JournalEntite $entite Journal
      *
      * @return array
      */
-    private function buildData(JournalEntite $entite)
+    private function buildData(Journal\JournalEntite $entite)
     {
         return [
             'id' => $entite->getId(),

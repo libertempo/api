@@ -23,6 +23,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
         switch ($ressourcePath) {
             case 'Absence|Type':
             case 'Utilisateur':
+            case 'Journal':
                 return $next($request, $response);
             case 'Groupe':
             case 'Groupe|GrandResponsable':

@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Tests\Units\Journal;
+namespace LibertAPI\Tests\Units\Tools\Controllers;
 
 use LibertAPI\Utilisateur\UtilisateurEntite;
 
