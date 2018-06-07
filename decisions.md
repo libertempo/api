@@ -1,6 +1,7 @@
 ## 2018-06-07
 * J'ai désormais appliqué le paradigme « package by components » attendu que le « package by feature » soulevait des embûches. En effet, le contrôleur ne fait pas parti d'un composant, il est un moyen d'accès vers lui ; je l'ai donc déplacé dans `Tools`. À l'exception des répertoires d'utilitaires, nous aurons ainsi une vision claire des objectifs du logiciel du premier coup d'œil et une place toute trouvée pour les structures applicatives relatives au différents métiers du soft.
 * Un framework d'injection de dépendances a également fait son entrée. Il nous aidera à supprimer tout un pan de verbosité, facilite le test et nous permettra d'exprimer le plus précisément possible les interactions entre les structures applicatives.
+* Le problème des relations N-N n'en est pas encore un. Pour le moment, j'ai créé des entités pour les représentants de ces associations que l'on utilisera côté client. Si besoin il y a, nous créerons des Aggrégats.
 
 ~ Prytoegrian
 
