@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Units\Tools\Controllers;
 
-use LibertAPI\Utilisateur\UtilisateurEntite;
+use LibertAPI\Groupe\Employe\EmployeEntite;
 
 /**
  * Classe de test du contrôleur d'un employé de groupe
@@ -11,7 +11,7 @@ use LibertAPI\Utilisateur\UtilisateurEntite;
  *
  * @since 1.0
  */
-class GroupeEmployeController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
+final class GroupeEmployeController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
      * {@inheritdoc}
@@ -28,25 +28,10 @@ class GroupeEmployeController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
      */
     protected function initEntite()
     {
-        $this->entite = new \LibertAPI\Utilisateur\UtilisateurEntite([
-            'id' => 816,
-            'login' => 'Spider-man',
-            'nom' => 'Parker',
-            'prenom' => 'Peter',
-            'isResp' => false,
-            'isAdmin' => false,
-            'isHr' => false,
-            'isActif' => true,
-            'seeAll' => 'N',
-            'password' => 'MJ',
-            'quotite' => '10',
-            'email' => 'p.parker@dailybugle.com',
-            'numeroExercice' => 3,
-            'planningId' => 666,
-            'heureSolde' => 1,
-            'dateInscription' => '1-08-1962',
-            'token' => '',
-            'dateLastAccess' => '1-08-2006',
+        $this->entite = new EmployeEntite([
+            'id' => uniqid(),
+            'groupeId' => 97323,
+            'login' => 'Lewis',
         ]);
     }
 
@@ -72,7 +57,7 @@ class GroupeEmployeController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
             ->string['message']->isIdenticalTo('OK')
             //->array['data']->hasSize(1) // TODO: l'asserter atoum en sucre syntaxique est buggé, faire un ticket
         ;
-        $this->array($data['data'][0])->hasKey('id');
+        $this->array($data['data'][0])->hasKey('login');
     }
 
     /**

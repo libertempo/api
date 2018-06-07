@@ -1,15 +1,15 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Tests\Units\Groupe\GrandResponsable;
+namespace LibertAPI\Tests\Units\Groupe\Employe;
 
 /**
- * Classe de test de l'entité de grand responsable de groupe
+ * Classe de test de l'entité de l'employe de groupe
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
  * @since 1.1
  */
-final class GrandResponsableEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEntite
+final class EmployeEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEntite
 {
     /**
      * @inheritDoc
@@ -18,7 +18,7 @@ final class GrandResponsableEntite extends \LibertAPI\Tests\Units\Tools\Librarie
     {
         $id = 23;
         $groupeId = 4;
-        $login = 'Mortimer';
+        $login = 'Boule';
 
         $this->newTestedInstance(['id' => $id, 'groupeId' => $groupeId, 'login' => $login]);
 
@@ -32,7 +32,7 @@ final class GrandResponsableEntite extends \LibertAPI\Tests\Units\Tools\Librarie
      */
     public function testConstructWithoutId()
     {
-        $this->newTestedInstance(['groupeId' => 5, 'login' => 'Black cat']);
+        $this->newTestedInstance(['groupeId' => 5, 'login' => 'Bill']);
 
         $this->variable($this->testedInstance->getId())->isNull();
     }

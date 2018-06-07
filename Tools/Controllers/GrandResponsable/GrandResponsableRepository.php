@@ -21,29 +21,6 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
         throw new \RuntimeException('#' . $id . ' is not a callable resource');
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getList(array $parametres) : array
-    {
-        $this->queryBuilder->select('users.*, users.u_login AS id');
-        $this->queryBuilder->innerJoin('current', 'conges_users', 'users', 'current.ggr_login = u_login');
-        $this->setWhere($this->getParamsConsumer2Storage($parametres));
-        $res = $this->queryBuilder->execute();
-
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = array_map(function ($value) {
-            $entiteClass = $this->getEntiteClass();
-            return new $entiteClass($this->getStorage2Entite($value));
-        }, $data);
-
-        return $entites;
-    }
-
     final protected function getEntiteClass() : string
     {
         return GrandResponsableEntite::class;

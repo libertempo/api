@@ -19,9 +19,6 @@ final class GrandResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libr
         })->isInstanceOf(\RuntimeException::class);
     }
 
-    /**
-     * Duplication de la fonction dans UtilisateurRepository (Cf. decisions.md #2018-02-17)
-     */
     final protected function getStorageContent() : array
     {
         return [

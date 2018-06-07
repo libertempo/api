@@ -11,7 +11,7 @@ use LibertAPI\Groupe\Responsable\ResponsableEntite;
  *
  * @since 0.7
  */
-class GroupeResponsableController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
+final class GroupeResponsableController extends \LibertAPI\Tests\Units\Tools\Libraries\AController
 {
     /**
      * {@inheritdoc}

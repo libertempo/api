@@ -2,7 +2,7 @@
 namespace LibertAPI\Tests\Units\Groupe\Responsable;
 
 /**
- * Classe de test du modèle de responsable de groupe
+ * Classe de test de l'entité de responsable de groupe
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
