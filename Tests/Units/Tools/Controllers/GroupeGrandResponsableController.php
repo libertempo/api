@@ -11,7 +11,7 @@ use LibertAPI\Utilisateur\UtilisateurEntite;
  *
  * @since 1.0
  */
-final class GroupeGrandResponsableController extends GroupeResponsableController
+final class GroupeGrandResponsableController extends GroupeEmployeController
 {
     /**
      * {@inheritdoc}
