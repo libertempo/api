@@ -35,7 +35,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
                         $container->get('forbiddenHandler'),
                         $request,
                         $response
-       );
+                   );
                 }
 
                 return $next($request, $response);
@@ -46,7 +46,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
                         $container->get('forbiddenHandler'),
                         $request,
                         $response
-       );
+                    );
                 }
 
                 return $next($request, $response);
@@ -57,12 +57,12 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
                         $container->get('forbiddenHandler'),
                         $request,
                         $response
-       );
+                   );
                 }
 
                 return $next($request, $response);
             default:
-                ddd($ressourcePath);
+                throw new \RuntimeException('Unknown route');
         }
     }
 }
