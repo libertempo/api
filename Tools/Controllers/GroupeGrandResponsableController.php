@@ -5,7 +5,6 @@ use LibertAPI\Tools\Interfaces;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
-use LibertAPI\Utilisateur\UtilisateurEntite;
 use LibertAPI\Groupe\GrandResponsable;
 
 /**
@@ -50,29 +49,14 @@ implements Interfaces\IGetable
     /**
      * Construit le « data » du json
      *
-     * @param UtilisateurEntite $entite Responsable
+     * @param GrandResponsable\GrandResponsableEntite $entite Responsable
      *
      * @return array
      */
-    private function buildData(UtilisateurEntite $entite)
+    private function buildData(GrandResponsable\GrandResponsableEntite $entite)
     {
         return [
-            'id' => $entite->getId(),
             'login' => $entite->getLogin(),
-            'nom' => $entite->getNom(),
-            'prenom' => $entite->getPrenom(),
-            'isResp' => $entite->isResponsable(),
-            'isAdmin' => $entite->isAdmin(),
-            'isHr' => $entite->isHautResponsable(),
-            'isActif' => $entite->isActif(),
-            'password' => $entite->getMotDePasse(),
-            'quotite' => $entite->getQuotite(),
-            'email' => $entite->getMail(),
-            'numeroExercice' => $entite->getNumeroExercice(),
-            'planningId' => $entite->getPlanningId(),
-            'heureSolde' => $entite->getHeureSolde(),
-            'dateInscription' => $entite->getDateInscription(),
-            'dateLastAccess' => $entite->getDateLastAccess(),
         ];
     }
 }

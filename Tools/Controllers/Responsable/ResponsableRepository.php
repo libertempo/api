@@ -10,7 +10,6 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Wouldsmina
  *
  * @since 0.5
- * @see \LibertAPI\Tests\Units\Groupe\ResponsableRepository
  */
 class ResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
 {

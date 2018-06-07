@@ -25,24 +25,9 @@ final class GrandResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libr
     final protected function getStorageContent() : array
     {
         return [
-            'id' => 'Aladdin',
-            'token' => 'token',
-            'date_last_access' => 'date_last_access',
-            'u_login' => 'Aladdin',
-            'u_prenom' => 'Aladdin',
-            'u_nom' => 'Genie',
-            'u_is_resp' => 'Y',
-            'u_is_admin' => 'Y',
-            'u_is_hr' => 'N',
-            'u_is_active' => 'Y',
-            'u_see_all' => 'Y',
-            'u_passwd' => 'Sésame Ouvre toi',
-            'u_quotite' => '21220',
-            'u_email' => 'aladdin@example.org',
-            'u_num_exercice' => '3',
-            'planning_id' => 12,
-            'u_heure_solde' => 1,
-            'date_inscription' => 123456789,
+            'id' => 'Baloo',
+            'ggr_gid' => '8',
+            'ggr_login' => 'Hurricane',
         ];
     }
 
