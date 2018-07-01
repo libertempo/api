@@ -2,6 +2,7 @@
 namespace LibertAPI\Planning;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
+use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
@@ -126,7 +127,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $planningId = $this->repository->postOne($body, new PlanningEntite([]));
+            $planningId = $this->repository->postOne($body);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -155,17 +156,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         $id = (int) $arguments['planningId'];
-        try {
-            $planning = $this->repository->getOne($id);
-        } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
-        } catch (\Exception $e) {
-            return $this->getResponseError($response, $e);
-        }
 
         try {
-            $planning->populate($body);
-            $this->repository->putOne($planning);
+            $this->repository->putOne($id, $body);
+        } catch (UnknownResourceException $e) {
+            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -184,9 +179,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         $id = (int) $arguments['planningId'];
         try {
-            $planning = $this->repository->getOne($id);
-            $this->repository->deleteOne($planning);
-        } catch (\DomainException $e) {
+            $this->repository->deleteOne($id);
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);

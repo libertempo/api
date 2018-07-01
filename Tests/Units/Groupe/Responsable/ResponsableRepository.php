@@ -51,7 +51,7 @@ final class ResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->postOne([], new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->postOne($this->getConsumerContent());
         })->isInstanceOf(\RuntimeException::class);
     }
 
@@ -60,8 +60,14 @@ final class ResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->putOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->putOne(98, []);
         })->isInstanceOf(\RuntimeException::class);
+    }
+
+    protected function getConsumerContent() : array
+    {
+        return [
+        ];
     }
 
     public function testDeleteOne()
@@ -69,7 +75,7 @@ final class ResponsableRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->deleteOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->deleteOne(987);
         })->isInstanceOf(\RuntimeException::class);
     }
 }

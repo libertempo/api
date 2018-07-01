@@ -92,7 +92,7 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function postOne(array $data, AEntite $entite) : int
+    public function postOne(array $data) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -100,7 +100,7 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function putOne(AEntite $entite)
+    public function putOne(int $id, array $data)
     {
         throw new \RuntimeException('Action is forbidden');
     }
@@ -132,7 +132,7 @@ class GrandResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function deleteOne(AEntite $entite) : int
+    public function deleteOne(int $id) : int
     {
         throw new \RuntimeException('Action is forbidden');
     }

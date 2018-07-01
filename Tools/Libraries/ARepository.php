@@ -3,6 +3,7 @@ namespace LibertAPI\Tools\Libraries;
 
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Query\QueryBuilder;
+use \LibertAPI\Tools\Exceptions\UnknownResourceException;
 
 /**
  * Garant de la cohérence métier de l'entité en relation.
@@ -42,7 +43,7 @@ abstract class ARepository
      * @param int $id Id potentiel de ressource
      *
      * @return AEntite
-     * @throws \DomainException Si $id n'est pas dans le domaine de définition
+     * @throws UnknownResourceException Si $id n'est pas dans le domaine de définition
      */
     public function getOne(int $id) : AEntite
     {
@@ -52,7 +53,7 @@ abstract class ARepository
 
         $data = $res->fetch(\PDO::FETCH_ASSOC);
         if (empty($data)) {
-            throw new \DomainException('#' . $id . ' is not a valid resource');
+            throw new UnknownResourceException('#' . $id . ' is not a valid resource');
         }
 
         $entiteClass = $this->getEntiteClass();
@@ -118,12 +119,13 @@ abstract class ARepository
      * Poste une ressource unique
      *
      * @param array $data Données à poster
-     * @param AEntite $entite [Vide par définition]
      *
      * @return int Id de la ressource nouvellement insérée
      */
-    public function postOne(array $data, AEntite $entite) : int
+    public function postOne(array $data) : int
     {
+        $entiteClass = $this->getEntiteClass();
+        $entite = new $entiteClass([]);
         $entite->populate($data);
         $this->queryBuilder->insert($this->getTableName());
         $this->setValues($this->getEntite2Storage($entite));
@@ -142,10 +144,13 @@ abstract class ARepository
     /**
      * Met à jour une ressource unique
      *
-     * @param AEntite $entite mise à jour
+     * @param int $id ID de la ressource
+     * @param array $data Données à mettre à jour
      */
-    public function putOne(AEntite $entite)
+    public function putOne(int $id, array $data)
     {
+        $entite = $this->getOne($id);
+        $entite->populate($data);
         $this->queryBuilder->update($this->getTableName());
         $this->setSet($this->getEntite2Storage($entite));
         $this->setWhere(['id', $entite->getId()]);
@@ -177,8 +182,9 @@ abstract class ARepository
      *
      * @param AEntite $entite
      */
-    public function deleteOne(AEntite $entite) : int
+    public function deleteOne(int $id) : int
     {
+        $entite = $this->getOne($id);
         $this->queryBuilder->delete($this->getTableName());
         $this->setWhere(['id' => $entite->getId()]);
         $res = $this->queryBuilder->execute();

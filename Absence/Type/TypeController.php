@@ -3,6 +3,7 @@ namespace LibertAPI\Absence\Type;
 
 use LibertAPI\Tools\Interfaces;
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
+use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -115,7 +116,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $typeId = $this->repository->postOne($body, new TypeEntite([]));
+            $typeId = $this->repository->postOne($body);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -145,16 +146,9 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         $id = (int) $arguments['typeId'];
         try {
-            $resource = $this->repository->getOne($id);
-        } catch (\DomainException $e) {
+            $this->repository->putOne($id, $body);
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
-        } catch (\Exception $e) {
-            return $this->getResponseError($response, $e);
-        }
-
-        try {
-            $resource->populate($body);
-            $this->repository->putOne($resource);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -173,21 +167,13 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         $id = (int) $arguments['typeId'];
         try {
-            $resource = $this->repository->getOne($id);
-            $this->repository->deleteOne($resource);
-            $code = 200;
-            $data = [
-                'code' => $code,
-                'status' => 'success',
-                'message' => '',
-                'data' => '',
-            ];
-
-            return $response->withJson($data, $code);
-        } catch (\DomainException $e) {
+            $this->repository->deleteOne($id);
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
-            throw $e;
+            return $this->getResponseError($response, $e);
         }
+        
+        return $this->getResponseSuccess($response, '', 200);
     }
 }

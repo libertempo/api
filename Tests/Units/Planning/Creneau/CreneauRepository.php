@@ -21,6 +21,16 @@ final class CreneauRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         })->isInstanceOf(\RuntimeException::class);
     }
 
+    public function testPutOne()
+    {
+        $this->newTestedInstance($this->connector);
+        $this->calling($this->result)->fetch = [];
+
+        $this->exception(function () {
+            $this->testedInstance->putOne(4, []);
+        })->isInstanceOf(\RuntimeException::class);
+    }
+
     final protected function getStorageContent() : array
     {
         return [
@@ -34,12 +44,24 @@ final class CreneauRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARe
         ];
     }
 
+    protected function getConsumerContent() : array
+    {
+        return [
+            'planningId' => 12,
+            'jourId' => 4,
+            'typeSemaine' => 54,
+            'typePeriode' => 191283,
+            'debut' => 921,
+            'fin' => 2139123,
+        ];
+    }
+
     public function testDeleteOne()
     {
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->deleteOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->deleteOne(111);
         })->isInstanceOf(\RuntimeException::class);
     }
 }

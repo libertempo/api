@@ -21,6 +21,14 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         })->isInstanceOf(\RuntimeException::class);
     }
 
+    public function testPutOne()
+    {
+        $this->newTestedInstance($this->connector);
+        $this->exception(function () {
+            $this->testedInstance->putOne(4, []);
+        })->isInstanceOf(\RuntimeException::class);
+    }
+
     final protected function getStorageContent() : array
     {
         return [
@@ -49,8 +57,14 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->postOne([], new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->postOne($this->getConsumerContent());
         })->isInstanceOf(\RuntimeException::class);
+    }
+
+    protected function getConsumerContent() : array
+    {
+        return [
+        ];
     }
 
     public function testDeleteOne()
@@ -58,7 +72,7 @@ final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries
         $this->newTestedInstance($this->connector);
 
         $this->exception(function () {
-            $this->testedInstance->deleteOne(new \mock\LibertAPI\Tools\Libraries\AEntite([]));
+            $this->testedInstance->deleteOne(345);
         })->isInstanceOf(\RuntimeException::class);
     }
 }
