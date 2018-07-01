@@ -2,6 +2,7 @@
 namespace LibertAPI\Tests\Units\Tools\Controllers;
 
 use Psr\Http\Message\ResponseInterface as IResponse;
+use LibertAPI\Tools\Exceptions\UnknownResourceException;
 
 /**
  * Classe de test du contrôleur de créneau de planning
@@ -155,8 +156,8 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
     public function testPutNotFound()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = function () {
-            throw new \DomainException('');
+        $this->repository->getMockController()->putOne = function () {
+            throw new UnknownResourceException('');
         };
         $this->newTestedInstance($this->repository, $this->router);
 
@@ -166,27 +167,11 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
     }
 
     /**
-     * Teste le fallback de la méthode getOne du put
-     */
-    public function testPutGetOneFallback()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = function () {
-            throw new \LogicException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);
-        $this->assertError($response);
-    }
-
-    /**
      * Teste la méthode put avec un argument de body manquant
      */
     public function testPutMissingRequiredArg()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = $this->entite;
 
         $this->repository->getMockController()->putOne = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
@@ -204,7 +189,6 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
     public function testPutBadDomain()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \DomainException('');
         };
@@ -221,7 +205,6 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = function () {
             throw new \LogicException('');
         };
@@ -237,7 +220,6 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->getOne = $this->entite;
         $this->repository->getMockController()->putOne = '';
         $this->newTestedInstance($this->repository, $this->router);
 
