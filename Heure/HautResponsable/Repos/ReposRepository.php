@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Heure\HautResponsable\Repos;
 
 use LibertAPI\Tools\Libraries\AEntite;
@@ -14,93 +14,98 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
-    /*************************************************
-     * GET
-     *************************************************/
-
-    /**
-     * @inheritDoc
-     *
-     * @param int $planningId Contrainte de recherche sur le planning
-     */
-    public function getOne($id)
+    final protected function getEntiteClass() : string
     {
-        $id = (int) $id;
-        $data = $this->dao->getById($id);
-        if (empty($data)) {
-            throw new \DomainException('Repos#' . $id . ' is not a valid resource');
-        }
-
-        return new ReposEntite($this->getDataDao2Entite($data));
+        return ReposEntite::class;
     }
 
     /**
      * @inheritDoc
      */
-    public function getList(array $parametres)
+    final protected function getParamsConsumer2Storage(array $paramsConsumer) : array
     {
-        $data = $this->dao->getList($this->getParamsConsumer2Dao($parametres));
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = [];
-        foreach ($data as $value) {
-            $entite = new ReposEntite($this->getDataDao2Entite($value));
-            $entites[$entite->getId()] = $entite;
-        }
-
-        return $entites;
+        unset($paramsConsumer);
+        return [];
     }
 
     /**
      * @inheritDoc
      */
-    final protected function getDataDao2Entite(array $dataDao)
+    final protected function getStorage2Entite(array $dataStorage)
     {
         return [
-            'id' => $dataDao['heure_id'],
-            'employe' => $dataDao['login'],
-            'debut' => $dataDao['debut'],
-            'fin' => $dataDao['fin'],
-            'duree' => $dataDao['duree'],
-            'statut' => $dataDao['statut'],
-            'typePeriode' => $dataDao['type_periode'],
-            'commentaire' => $dataDao['comment'],
-            'commentaireRefus' => $dataDao['comment_refus'],
+            'id' => $dataStorage['heure_id'],
+            'employe' => $dataStorage['login'],
+            'debut' => $dataStorage['debut'],
+            'fin' => $dataStorage['fin'],
+            'duree' => $dataStorage['duree'],
+            'statut' => $dataStorage['statut'],
+            'typePeriode' => $dataStorage['type_periode'],
+            'commentaire' => $dataStorage['comment'],
+            'commentaireRefus' => $dataStorage['comment_refus'],
         ];
     }
 
     /**
      * @inheritDoc
      */
-    final protected function getParamsConsumer2Dao(array $paramsConsumer)
+    final protected function setValues(array $values)
     {
-        $filterInt = function ($var) {
-            return filter_var(
-                $var,
-                FILTER_VALIDATE_INT,
-                ['options' => ['min_range' => 1]]
-            );
-        };
-        $results = [];
-        if (!empty($paramsConsumer['limit'])) {
-            $results['limit'] = $filterInt($paramsConsumer['limit']);
-        }
-        if (!empty($paramsConsumer['start-after'])) {
-            $results['lt'] = $filterInt($paramsConsumer['start-after']);
+        $this->queryBuilder->setValue('login', ':employe');
+        $this->queryBuilder->setParameter(':employe', $values['employe']);
+        $this->queryBuilder->setValue('debut', ':debut');
+        $this->queryBuilder->setParameter(':debut', $values['debut']);
+        $this->queryBuilder->setValue('fin', ':fin');
+        $this->queryBuilder->setParameter(':fin', $values['fin']);
+        $this->queryBuilder->setValue('duree', ':duree');
+        $this->queryBuilder->setParameter(':duree', $values['duree']);
+        $this->queryBuilder->setValue('type_periode', ':typePeriode');
+        $this->queryBuilder->setParameter(':typePeriode', $values['typePeriode']);
+        $this->queryBuilder->setValue('statut', ':statut');
+        $this->queryBuilder->setParameter(':statut', $values['statut']);
+        $this->queryBuilder->setValue('comment', ':commentaire');
+        $this->queryBuilder->setParameter(':commentaire', $values['commentaire']);
+        $this->queryBuilder->setValue('comment_refus', ':commentaireRefus');
+        $this->queryBuilder->setParameter(':commentaireRefus', $values['commentaireRefus']);
+    }
 
+    final protected function setSet(array $parametres)
+    {
+        if (!empty($parametres['employe'])) {
+            $this->queryBuilder->set('login', ':employe');
+            $this->queryBuilder->setParameter(':employe', $parametres['employe']);
         }
-        if (!empty($paramsConsumer['start-before'])) {
-            $results['gt'] = $filterInt($paramsConsumer['start-before']);
+        if (!empty($parametres['debut'])) {
+            $this->queryBuilder->set('debut', ':debut');
+            // @TODO : changer le schema
+            $this->queryBuilder->setParameter(':debut', $parametres['debut']);
         }
-        return $results;
+        if (!empty($parametres['fin'])) {
+            $this->queryBuilder->set('fin', ':fin');
+            $this->queryBuilder->setParameter(':fin', $parametres['fin']);
+        }
+        if (!empty($parametres['duree'])) {
+            $this->queryBuilder->set('duree', ':duree');
+            $this->queryBuilder->setParameter(':duree', $parametres['duree']);
+        }
+        if (!empty($parametres['typePeriode'])) {
+            $this->queryBuilder->set('type_periode', ':typePeriode');
+            $this->queryBuilder->setParameter(':typePeriode', $parametres['typePeriode']);
+        }
+        if (!empty($parametres['commentaire'])) {
+            $this->queryBuilder->set('comment', ':commentaire');
+            $this->queryBuilder->setParameter(':commentaire', $parametres['commentaire']);
+        }
+        if (!empty($parametres['commentaireRefus'])) {
+            $this->queryBuilder->set('comment_refus', ':commentaireRefus');
+            $this->queryBuilder->setParameter(':commentaireRefus', $parametres['commentaireRefus']);
+        }
     }
 
     /**
      * @inheritDoc
      */
-    final protected function getEntite2DataDao(AEntite $entite)
+    final protected function getEntite2Storage(AEntite $entite) : array
     {
         return [
             'login' => $entite->getEmployeId(),
@@ -113,25 +118,32 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
             'commentaireRefus' => $entite->getCommentaireRefus(),
         ];
     }
-
     /**
-     * {@inheritDoc}
+     * Définit les filtres à appliquer à la requête
+     *
+     * @param array $parametres
      */
-    protected function getListRequired()
+    final protected function setWhere(array $parametres)
     {
-        return ['login', 'debut', 'fin'];
+        if (!empty($parametres['id'])) {
+            $this->queryBuilder->andWhere('id_heure = :id');
+            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
+        }
+        if (!empty($parametres['lt'])) {
+            $this->queryBuilder->andWhere('id_heure < :lt');
+            $this->queryBuilder->setParameter(':lt', (int) $parametres['lt']);
+        }
+        if (!empty($parametres['gt'])) {
+            $this->queryBuilder->andWhere('id_heure > :gt');
+            $this->queryBuilder->setParameter(':gt', (int) $parametres['gt']);
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function deleteOne(AEntite $entite)
+    final protected function getTableName() : string
     {
-        try {
-            $entite->reset();
-            $this->dao->delete($entite->getId());
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        return 'heure_repos';
     }
 }

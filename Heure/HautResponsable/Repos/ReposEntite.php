@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace LibertAPI\Heure\HautResponsable\Repos;
 
 /**
@@ -13,15 +13,6 @@ namespace LibertAPI\Heure\HautResponsable\Repos;
 
 class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
-    /**
-     * Retourne la donnée la plus à jour du champ heure id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return (int) $this->getFreshData('Id');
-    }
 
     /**
      * Retourne la donnée la plus à jour du champ employeId
