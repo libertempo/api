@@ -108,8 +108,9 @@ class UtilisateurEntite extends \LibertAPI\Tools\Libraries\AEntite
      */
     public function populate(array $data)
     {
-        if (!$this->hasAllRequired($data)) {
-            throw new MissingArgumentException('');
+        $erreurs = $this->getErreurs();
+        if (!empty($erreurs)) {
+            throw new \DomainException(json_encode($erreurs));
         }
     }
 
@@ -147,6 +148,11 @@ class UtilisateurEntite extends \LibertAPI\Tools\Libraries\AEntite
         }
 
         $this->dataUpdated['token'] = $token;
+    }
+
+    public function getData()
+    {
+        return $this->dataUpdated;
     }
 
     /**
