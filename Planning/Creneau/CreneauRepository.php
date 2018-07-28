@@ -18,7 +18,7 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function getOne(int $id) : AEntite
+    public function getOne($id) : AEntite
     {
         throw new \RuntimeException('#' . $id . ' is not a callable resource');
     }

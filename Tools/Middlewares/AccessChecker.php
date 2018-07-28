@@ -20,6 +20,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
         switch ($ressourcePath) {
             case 'Absence|Type':
             case 'Utilisateur':
+            case 'JourFerie':
             case 'Journal':
             case 'Authentification':
             case 'HelloWorld':

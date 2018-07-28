@@ -40,12 +40,12 @@ abstract class ARepository
     /**
      * Retourne une ressource unique
      *
-     * @param int $id Id potentiel de ressource
+     * @param int $id Id potentiel de ressource (Ne peut pas être typecasté tant que utilisateur n'a pas d'id, ou que php7.2 n'est pas activé)
      *
      * @return AEntite
      * @throws UnknownResourceException Si $id n'est pas dans le domaine de définition
      */
-    public function getOne(int $id) : AEntite
+    public function getOne($id) : AEntite
     {
         $this->queryBuilder->select('*');
         $this->setWhere(['id' => $id]);
@@ -144,10 +144,12 @@ abstract class ARepository
     /**
      * Met à jour une ressource unique
      *
-     * @param int $id ID de la ressource
+     * @param int $id ID de la ressource (Ne peut pas être typecasté tant que utilisateur n'a pas d'id, ou que php7.2 n'est pas activé)
      * @param array $data Données à mettre à jour
+     *
+     * @returns AEntite Une entité résultante de l'opération
      */
-    public function putOne(int $id, array $data)
+    public function putOne($id, array $data) : AEntite
     {
         $entite = $this->getOne($id);
         $entite->populate($data);
@@ -156,6 +158,8 @@ abstract class ARepository
         $this->setWhere(['id', $entite->getId()]);
 
         $this->queryBuilder->execute();
+
+        return $entite;
     }
 
     abstract protected function setSet(array $parametres);
