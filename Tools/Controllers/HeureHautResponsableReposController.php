@@ -7,17 +7,17 @@ use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
-use LibertAPI\Absence\Type;
+use LibertAPI\Heure\HautResponsable\Repos;
 
 /**
- * Contrôleur de type d'absence
+ * Contrôleur d'heure de repos du haut responsable
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
- * @author Wouldsmina
+ * @author Wouldsmina <wouldsmina@gmail.com>
  *
- * @since 0.5
+ * @since 1.1.0
  */
-final class AbsenceTypeController extends \LibertAPI\Tools\Libraries\AController
+final class HeureHautResponsableReposController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
     public function __construct(Type\TypeRepository $repository, IRouter $router)
@@ -30,10 +30,10 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
-        if (!isset($arguments['typeId'])) {
+        if (!isset($arguments['reposId'])) {
             return $this->getList($request, $response);
         }
-        return $this->getOne($response, (int) $arguments['typeId']);
+        return $this->getOne($response, (int) $arguments['reposId']);
     }
 
     /**
@@ -49,7 +49,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         try {
             $responseResource = $this->repository->getOne($id);
         } catch (\DomainException $e) {
-            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « repos#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -62,7 +62,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     }
 
     /**
-     * Retourne un tableau de type d'absence
+     * Retourne un tableau d'heure de repos
      *
      * @param IRequest $request Requête Http
      * @param IResponse $response Réponse Http
@@ -96,9 +96,14 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         return [
             'id' => $entite->getId(),
-            'type' => $entite->getType(),
-            'libelle' => $entite->getLibelle(),
-            'libelleCourt' => $entite->getLibelleCourt(),
+            'employe' => $entite->getEmployeId(),
+            'debut' => $entite->getDebut(),
+            'fin' => $entite->getFin(),
+            'duree' => $entite->getduree(),
+            'statut' => $entite->getStatut(),
+            'typePeriode' => $entite->getTypePeriode(),
+            'commentaire' => $entite->getCommentaire(),
+            'commentaireRefus' => $entite->getCommentaireRefus(),
         ];
     }
 
@@ -124,7 +129,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         return $this->getResponseSuccess(
             $response,
-            $this->router->pathFor('getAbsenceTypeDetail', [
+            $this->router->pathFor('getHautResponsableReposDetail', [
                 'typeId' => $typeId
             ]),
             201
@@ -141,11 +146,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
             return $this->getResponseBadRequest($response, 'Body request is not a json content');
         }
 
-        $id = (int) $arguments['typeId'];
+        $id = (int) $arguments['reposId'];
         try {
             $this->repository->putOne($id, $body);
         } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « repos#' . $id . ' » is not a valid resource');
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -162,11 +167,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      */
     public function delete(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
-        $id = (int) $arguments['typeId'];
+        $id = (int) $arguments['reposId'];
         try {
             $this->repository->deleteOne($id);
         } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, 'Element « repos#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
