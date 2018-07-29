@@ -81,7 +81,7 @@ abstract class ARepository extends \Atoum
         $this->newTestedInstance($this->connector);
         $this->calling($this->result)->fetch = $this->getStorageContent();
 
-        $this->variable($this->testedInstance->putOne(55, $this->getConsumerContent()))->isNull();
+        $this->object($this->testedInstance->putOne(55, $this->getConsumerContent()))->isInstanceOf(AEntite::class);
     }
 
     abstract protected function getConsumerContent() : array;

@@ -19,7 +19,7 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function getOne(int $id) : AEntite
+    public function getOne($id) : AEntite
     {
         throw new \RuntimeException('#' . $id . ' is not a callable resource');
     }
@@ -62,7 +62,7 @@ class JourFerieRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function putOne(int $id, array $data)
+    public function putOne($id, array $data) : AEntite
     {
         throw new \RuntimeException('Action is forbidden');
     }

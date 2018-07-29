@@ -206,7 +206,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = '';
+        $this->repository->getMockController()->putOne = $this->entite;
         $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['groupeId' => 99]);

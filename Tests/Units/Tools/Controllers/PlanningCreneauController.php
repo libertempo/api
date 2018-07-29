@@ -220,7 +220,7 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = '';
+        $this->repository->getMockController()->putOne = $this->entite;
         $this->newTestedInstance($this->repository, $this->router);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['creneauId' => 99, 'planningId' => 11]);

@@ -13,22 +13,6 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARepository
 {
-    public function testGetOneEmpty()
-    {
-        $this->newTestedInstance($this->connector);
-        $this->exception(function () {
-            $this->testedInstance->getOne(4);
-        })->isInstanceOf(\RuntimeException::class);
-    }
-
-    public function testPutOne()
-    {
-        $this->newTestedInstance($this->connector);
-        $this->exception(function () {
-            $this->testedInstance->putOne(4, []);
-        })->isInstanceOf(\RuntimeException::class);
-    }
-
     final protected function getStorageContent() : array
     {
         return [
