@@ -48,7 +48,7 @@ class TypeEntite extends \LibertAPI\Tools\Libraries\AEntite
      * S'il n'est pas inséré par le client (préciser les cas),
      * alors c'est que ce n'est pas un type natif
      */
-    public function getTypeNatif() : bool
+    public function isTypeNatif() : bool
     {
         return $this->dataUpdated['typeNatif'] ?? $this->data['typeNatif'] ?? false;
     }
