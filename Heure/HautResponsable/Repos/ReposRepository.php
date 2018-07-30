@@ -34,7 +34,7 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function getStorage2Entite(array $dataStorage)
     {
         return [
-            'id' => $dataStorage['heure_id'],
+            'id' => $dataStorage['id_heure'],
             'employe' => $dataStorage['login'],
             'debut' => $dataStorage['debut'],
             'fin' => $dataStorage['fin'],

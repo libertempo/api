@@ -20,7 +20,7 @@ use LibertAPI\Heure\HautResponsable\Repos;
 final class HeureHautResponsableReposController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
-    public function __construct(Type\TypeRepository $repository, IRouter $router)
+    public function __construct(repos\ReposRepository $repository, IRouter $router)
     {
         parent::__construct($repository, $router);
     }
@@ -88,11 +88,11 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param Type\TypeEntite $entite Type
+     * @param Repos\ReposEntite $entite Repos
      *
      * @return array
      */
-    private function buildData(Type\TypeEntite $entite)
+    private function buildData(Repos\ReposEntite $entite)
     {
         return [
             'id' => $entite->getId(),
@@ -118,7 +118,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $typeId = $this->repository->postOne($body);
+            $reposId = $this->repository->postOne($body);
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
@@ -130,7 +130,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         return $this->getResponseSuccess(
             $response,
             $this->router->pathFor('getHautResponsableReposDetail', [
-                'typeId' => $typeId
+                'reposId' => $reposId
             ]),
             201
         );

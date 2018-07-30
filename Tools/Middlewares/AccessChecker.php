@@ -41,6 +41,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
 
                 return $next($request, $response);
             case 'JourFerie':
+            case 'Heure|HautResponsable|Repos' :
                 $user = $container->get('currentUser');
                 if (!$user->isHautResponsable()) {
                     return call_user_func(

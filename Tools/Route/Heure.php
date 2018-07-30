@@ -6,9 +6,9 @@ $app->group('/heure', function () {
     $this->group('/haut_responsable', function () {
         $this->group('/repos', function () {
             $this->group('/{reposId:[0-9]+}', function () {
-                $this->get('', [HeureHautResponsableReposController::class, 'get'])->setName('getHeureReposDetail');
+                $this->get('', [HeureHautResponsableReposController::class, 'get'])->setName('getHeureHautResponsableReposDetail');
             });
-            $this->get('', [HeureHautResponsableReposController::class, 'get'])->setName('getHeureReposListe');
+            $this->get('', [HeureHautResponsableReposController::class, 'get'])->setName('getHeureHautResponsableReposListe');
         });
     });
 });
