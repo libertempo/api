@@ -2,6 +2,7 @@
 namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Utilisateur\UtilisateurRepository;
+use LibertAPI\Tools\Libraries\StorageConfiguration;
 use Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
@@ -18,10 +19,16 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 final class AuthentificationController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    public function __construct(\LibertAPI\Utilisateur\UtilisateurRepository $repository, IRouter $router)
+    public function __construct(UtilisateurRepository $repository, IRouter $router, StorageConfiguration $configuration)
     {
         parent::__construct($repository, $router);
+        $this->configuration = $configuration;
     }
+
+    /**
+     * @var StorageConfiguration
+     */
+    private $configuration;
 
     /**
      * {@inheritDoc}
