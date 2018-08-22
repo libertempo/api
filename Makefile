@@ -24,3 +24,6 @@ minor:
 
 patch:
 $(call make_version,patch)
+
+test:
+	Vendor/Bin/atoum -ulr
