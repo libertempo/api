@@ -10,9 +10,11 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
 {
     public function isAuthentificationSucceed(IRequest $request) : bool
     {
+        return false;
     }
 
     public function getLogin() : string
     {
+        return '';
     }
 }

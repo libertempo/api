@@ -35,7 +35,7 @@ class AAuthentifierFactoryService extends \Atoum
 
     public function testGetInterneService()
     {
-        $this->calling($this->configuration)->getHowToConnectUser = 'db_conges';
+        $this->calling($this->configuration)->getHowToConnectUser = 'dbconges';
 
         $testedClass = $this->testedClass->getClass();
         $service = $testedClass::getAuthentifier($this->configuration, $this->repository);

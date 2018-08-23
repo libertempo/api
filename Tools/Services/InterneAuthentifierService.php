@@ -6,7 +6,7 @@ use LibertAPI\Tools\Exceptions\BadRequestException;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 
 /**
- * Service d'authentification interne (db_conges)
+ * Service d'authentification interne (dbconges)
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
@@ -44,6 +44,6 @@ class InterneAuthentifierService extends AAuthentifierFactoryService
 
     public function getLogin() : string
     {
-
+        return '';
     }
 }

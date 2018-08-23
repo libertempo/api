@@ -27,7 +27,7 @@ abstract class AAuthentifierFactoryService
         switch ($configuration->getHowToConnectUser()) {
             case 'ldap':
                 return new LdapAuthentifierService($repository);
-            case 'db_conges':
+            case 'dbconges':
                 return new InterneAuthentifierService($repository);
             default:
                 throw new \UnexpectedValueException("Unknown Service");

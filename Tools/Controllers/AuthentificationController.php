@@ -14,6 +14,8 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 /**
  * Contrôleur de l'authentification
  *
+ * Depuis la 1.1, n'est plus testable unitairement (les multiples authentifiers et la fabrique l'empêchent). À tester par des tests de services
+ *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
@@ -54,15 +56,17 @@ implements Interfaces\IGetable
             if (!$authentifier->isAuthentificationSucceed($request)) {
                 throw new AuthentificationFailedException();
             }
+            $utilisateur = $this->repository->find([
+                'login' => $authentifier->getLogin(),
+                'isActif' => true,
+            ]);
         } catch (BadRequestException $e) {
             return $this->getResponseBadRequest($response, 'Authorization header doesn\'t comply to authentication method');
         } catch (AuthentificationFailedException $e) {
             return $this->getResponseNotFound($response, 'No user matches these criteria');
+        } catch (\UnexpectedValueException $e) {
+            return $this->getResponseNotFound($response, 'No user matches these criteria');
         }
-        $utilisateur = $this->repository->find([
-            'login' => $authentifier->getLogin(),
-            'isActif' => true,
-        ]);
 
         $utilisateurUpdated = $this->repository->regenerateToken($utilisateur);
 
