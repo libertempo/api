@@ -1,0 +1,40 @@
+<?php declare(strict_types = 1);
+namespace LibertAPI\Tools\Services;
+
+use LibertAPI\Tools\Libraries\ARepository;
+use Psr\Http\Message\ServerRequestInterface as IRequest;
+
+/**
+ *
+ */
+class InterneAuthentifierService extends AAuthentifierFactoryService
+{
+    public function __construct(ARepository $repository)
+    {
+        parent::__construct($repository);
+    }
+
+    public function isAuthentificationSucceed(IRequest $request) : bool
+    {
+        $authentificationType = 'Basic';
+        $authentification = $request->getHeaderLine('Authorization');
+        if (0 !== stripos($authentification, $authentificationType)) {
+            throw new BadRequestException();
+        }
+
+        $authentification = substr($authentification, strlen($authentificationType) + 1);
+        list($login, $password) = explode(':', base64_decode($authentification));
+
+        $utilisateur = $this->repository->find([
+            'login' => $login,
+            'isActif' => true,
+        ]);
+
+        return $utilisateur->isPasswordMatching($password);
+    }
+
+    public function getLogin() : string
+    {
+
+    }
+}

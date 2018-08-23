@@ -6,9 +6,13 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 /**
  *
  */
-class InterneAuthentificationService extends AAuthentificationFactoryService
+class LdapAuthentifierService extends AAuthentifierFactoryService
 {
     public function isAuthentificationSucceed(IRequest $request) : bool
+    {
+    }
+
+    public function getLogin() : string
     {
     }
 }

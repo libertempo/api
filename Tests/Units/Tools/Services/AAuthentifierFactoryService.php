@@ -11,7 +11,7 @@ use LibertAPI\Tools\Services;
  *
  * @since 1.1
  */
-class AAuthentificationFactoryService extends \Atoum
+class AAuthentifierFactoryService extends \Atoum
 {
     public function beforeTestMethod($method)
     {
@@ -20,6 +20,8 @@ class AAuthentificationFactoryService extends \Atoum
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->configuration = new \mock\LibertAPI\Tools\Libraries\StorageConfiguration();
+        $this->mockGenerator->orphanize('__construct');
+        $this->repository = new \mock\LibertAPI\Tools\Libraries\ARepository();
     }
 
     public function testGetLdapService()
@@ -27,8 +29,8 @@ class AAuthentificationFactoryService extends \Atoum
         $this->calling($this->configuration)->getHowToConnectUser = 'ldap';
 
         $testedClass = $this->testedClass->getClass();
-        $service = $testedClass::getAuthentificationService($this->configuration);
-        $this->object($service)->isInstanceOf(Services\LdapAuthentificationService::class);
+        $service = $testedClass::getAuthentifier($this->configuration, $this->repository);
+        $this->object($service)->isInstanceOf(Services\LdapAuthentifierService::class);
     }
 
     public function testGetInterneService()
@@ -36,8 +38,8 @@ class AAuthentificationFactoryService extends \Atoum
         $this->calling($this->configuration)->getHowToConnectUser = 'db_conges';
 
         $testedClass = $this->testedClass->getClass();
-        $service = $testedClass::getAuthentificationService($this->configuration);
-        $this->object($service)->isInstanceOf(Services\InterneAuthentificationService::class);
+        $service = $testedClass::getAuthentifier($this->configuration, $this->repository);
+        $this->object($service)->isInstanceOf(Services\InterneAuthentifierService::class);
     }
 
     public function testGetUnknownService()
@@ -46,7 +48,7 @@ class AAuthentificationFactoryService extends \Atoum
 
         $this->exception(function () {
             $testedClass = $this->testedClass->getClass();
-            $service = $testedClass::getAuthentificationService($this->configuration);
+            $testedClass::getAuthentifier($this->configuration, $this->repository);
         })->isInstanceOf(\UnexpectedValueException::class);
     }
 
@@ -54,4 +56,9 @@ class AAuthentificationFactoryService extends \Atoum
      * @var LibertAPI\Tools\Libraries\StorageConfiguration Mock de la configuration
      */
     private $configuration;
+
+    /**
+     * @var LibertAPI\Tools\Libraries\ARepository Mock d'un repository lambda
+     */
+    private $repository;
 }
