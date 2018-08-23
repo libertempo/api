@@ -32,18 +32,26 @@ class InterneAuthentifierService extends AAuthentifierFactoryService
         }
 
         $authentification = substr($authentification, strlen($authentificationType) + 1);
-        list($login, $password) = explode(':', base64_decode($authentification));
+        list($this->login, $password) = explode(':', base64_decode($authentification));
 
         $utilisateur = $this->getRepository()->find([
-            'login' => $login,
+            'login' => $this->login,
             'isActif' => true,
         ]);
 
         return $utilisateur->isPasswordMatching($password);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getLogin() : string
     {
-        return '';
+        return $this->login;
     }
+
+    /**
+     * @var string Login de l'utilisateur en cours de connexion
+     */
+    private $login = '';
 }
