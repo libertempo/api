@@ -29,6 +29,11 @@ class StorageConfiguration
         }
     }
 
+    public function isLdapConnection() : bool
+    {
+        return 'ldap' === $this->getHowToConnectUser();
+    }
+
     public function getHowToConnectUser() : string
     {
         return $this->getGroupeAuthentificationValeur('how_to_connect_user');
