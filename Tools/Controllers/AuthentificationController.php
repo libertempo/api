@@ -2,6 +2,7 @@
 namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Utilisateur\UtilisateurRepository;
+use LibertAPI\Tools\Exceptions\BadRequestException;
 use LibertAPI\Tools\Exceptions\AuthentificationFailedException;
 use LibertAPI\Tools\Libraries\StorageConfiguration;
 use LibertAPI\Tools\Services\AAuthentifierFactoryService;

@@ -51,6 +51,11 @@ abstract class AAuthentifierFactoryService
      */
     abstract public function getLogin() : string;
 
+    protected function getRepository() : ARepository
+    {
+        return $this->repository;
+    }
+
     /**
      * @var ARepository Repository utilisateur
      */
