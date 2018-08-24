@@ -31,27 +31,11 @@ implements Interfaces\IGetable
     }
 
     /**
-     * @var StorageConfiguration
-     */
-    private $configuration;
-
-    /**
      * {@inheritDoc}
      */
     public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         try {
-            /*
-            Pour garder ce contrôleur agnostique du métier, on peut créer une factory pour décider de quel service d'authentification on a besoin.
-            Chacun de ces services implémentent le contrat : isAuthentificationSucceed() et l'implémentera selon son besoin :
-                - ldap avec le binome et comparo avec l'annuaire
-                - CAS avec le token
-                - AD avec récupération des variables dans $_serveur
-                - db_conges avec le binome et comparo avec la BDD
-
-            Comment garantit-on le testabilité du contrôleur dans ce cas ?
-            */
-
             $authentifier = AAuthentifierFactoryService::getAuthentifier($this->configuration, $this->repository);
             if (!$authentifier->isAuthentificationSucceed($request)) {
                 throw new AuthentificationFailedException();
@@ -76,4 +60,9 @@ implements Interfaces\IGetable
             200
         );
     }
+
+    /**
+     * @var StorageConfiguration
+     */
+    private $configuration;
 }
