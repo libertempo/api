@@ -99,6 +99,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
             'type' => $entite->getType(),
             'libelle' => $entite->getLibelle(),
             'libelleCourt' => $entite->getLibelleCourt(),
+            'typeNatif' => $entite->isTypeNatif(),
         ];
     }
 
