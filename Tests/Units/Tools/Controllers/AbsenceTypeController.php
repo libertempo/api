@@ -43,7 +43,8 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
             'id' => 42,
             'type' => 'thieft',
             'libelle' => 'GTA',
-            'libelleCourt' => 'vice'
+            'libelleCourt' => 'vice',
+            'typeNatif' => true,
         ]);
     }
 
@@ -246,6 +247,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
             'type' => 'quatre',
             'libelle' => 'chipolata',
             'libelleCourt' => 'cp',
+            'typeNatif' => true,
         ];
     }
 
