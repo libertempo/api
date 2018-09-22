@@ -23,4 +23,4 @@ minor:
 	$(call make_version,minor)
 
 patch:
-$(call make_version,patch)
+	$(call make_version,patch)
