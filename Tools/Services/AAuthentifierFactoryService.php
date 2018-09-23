@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
  * Les clients ne manipulent que des contrats.
  *
  * Si l'on suit Oncle Bob, le test est plus important. La construction des fils aurait pu être restreinte à la fabrique, mais je préfère ouvrir.
- * Compte tenu que ces dernièrs accèdent à l'extérieur, ils *doivent* être vérifiés.
+ * Compte tenu que ces derniers accèdent à l'extérieur, ils *doivent* être vérifiés.
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
@@ -24,7 +24,9 @@ abstract class AAuthentifierFactoryService
      */
     final public static function getAuthentifier(StorageConfiguration $configuration, ARepository $repository) : self
     {
-        switch ($configuration->getHowToConnectUser()) {
+        $authentifier = $configuration->getHowToConnectUser();
+        $authentifier = 'ldap';
+        switch ($authentifier) {
             case 'ldap':
                 return new LdapAuthentifierService($repository);
             case 'dbconges':
