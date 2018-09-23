@@ -22,18 +22,23 @@ abstract class AAuthentifierFactoryService
     /**
      * Retourne la bonne implémentation du service d'authentification en fonction des paramètres transmis
      */
-    final public static function getAuthentifier(StorageConfiguration $configuration, ARepository $repository) : self
+    final public static function getAuthentifier(StorageConfiguration $configuration, ARepository $repository, string $login) : self
     {
         $authentifier = $configuration->getHowToConnectUser();
-        $authentifier = 'ldap';
+        if (self::isAdmin($login) || 'dbconges' === $authentifier) {
+            return new InterneAuthentifierService($repository);
+        }
         switch ($authentifier) {
             case 'ldap':
-                return new LdapAuthentifierService($repository);
-            case 'dbconges':
-                return new InterneAuthentifierService($repository);
+                return new LdapAuthentifierService($repository, new \Adldap\Adldap());
             default:
                 throw new \UnexpectedValueException("Unknown Service");
         }
+    }
+
+    private static function isAdmin(string $login) : bool
+    {
+        return 'admin' === $login;
     }
 
     public function __construct(ARepository $repository)

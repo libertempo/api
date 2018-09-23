@@ -32,6 +32,7 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
         $ldap->addProvider($config);
 
         try {
+            // TODO 2018-09-23 : Comparer le mdp aussi
             $wheres = [
                 $configuration->ldap->login . '=' . $this->login,
                 $configuration->ldap->domaine,
