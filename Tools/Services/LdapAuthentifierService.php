@@ -1,24 +1,25 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tools\Services;
 
-use Psr\Http\Message\ServerRequestInterface as IRequest;
+use \Adldap\AdldapInterface;
 
 /**
+ * Servuce d'authentication via un serveur LDAP
  *
+ * @author Prytoegrian <prytoegrian@protonmail.com>
+ * @author Wouldsmina
+ *
+ * @since 1.3
  */
 class LdapAuthentifierService extends AAuthentifierFactoryService
 {
-    public function isAuthentificationSucceed(IRequest $request) : bool
+    public function __construct(AdldapInterface $ldap)
     {
-        $authentificationType = 'Basic';
-        $authentification = $request->getHeaderLine('Authorization');
-        if (0 !== stripos($authentification, $authentificationType)) {
-            throw new BadRequestException();
-        }
+        $this->ldap = $ldap;
+    }
 
-        $authentification = substr($authentification, strlen($authentificationType) + 1);
-        list($this->login, $password) = explode(':', base64_decode($authentification));
-
+    public function isAuthentificationSucceed(string $login, string $password) : bool
+    {
         $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
 
         $config = [
@@ -28,17 +29,16 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
           'password' => $configuration->ldap->mot_de_passe,
         ];
 
-        $ldap = new \Adldap\Adldap();
-        $ldap->addProvider($config);
+        $this->ldap->addProvider($config);
 
         try {
             // TODO 2018-09-23 : Comparer le mdp aussi
             $wheres = [
-                $configuration->ldap->login . '=' . $this->login,
+                $configuration->ldap->login . '=' . $login,
                 $configuration->ldap->domaine,
             ];
 
-            $provider = $ldap->connect();
+            $provider = $this->ldap->connect();
             $provider->search()->findByDnOrFail(implode(',', $wheres));
 
             // Retourne true obligatoirement. En effet, si on arrive là, c'est qu'il ne s'est produit aucun cas d'échec
@@ -51,15 +51,7 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
     }
 
     /**
-     * {@inheritDoc}
+     * @var AdldapInterface Service LDAP
      */
-    public function getLogin() : string
-    {
-        return $this->login;
-    }
-
-    /**
-     * @var string Login de l'utilisateur en cours de connexion
-     */
-    private $login = '';
+    private $ldap;
 }

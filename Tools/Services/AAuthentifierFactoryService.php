@@ -3,14 +3,12 @@ namespace LibertAPI\Tools\Services;
 
 use LibertAPI\Tools\Libraries\ARepository;
 use LibertAPI\Tools\Libraries\StorageConfiguration;
-use Psr\Http\Message\ServerRequestInterface as IRequest;
 
 /**
  * Fabrique de service d'authentification. C'est elle et elle seule qui a conscience des critières de sélection de tel ou tel service.
  * Les clients ne manipulent que des contrats.
  *
- * Si l'on suit Oncle Bob, le test est plus important. La construction des fils aurait pu être restreinte à la fabrique, mais je préfère ouvrir.
- * Compte tenu que ces derniers accèdent à l'extérieur, ils *doivent* être vérifiés.
+ * À ce jour, je ne passe que user/password. Pour CAS et SSO il faudra passer la requête
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
@@ -30,7 +28,7 @@ abstract class AAuthentifierFactoryService
         }
         switch ($authentifier) {
             case 'ldap':
-                return new LdapAuthentifierService($repository, new \Adldap\Adldap());
+                return new LdapAuthentifierService(new \Adldap\Adldap());
             default:
                 throw new \UnexpectedValueException("Unknown Service");
         }
@@ -41,30 +39,10 @@ abstract class AAuthentifierFactoryService
         return 'admin' === $login;
     }
 
-    public function __construct(ARepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
     /**
      * Contrat standard des services d'authentification
      * @return true si l'authentification s'est bien déroulée
      * @throws BadRequestException Si la requête n'est pas bien formée
      */
-    abstract public function isAuthentificationSucceed(IRequest $request) : bool;
-
-    /**
-     * Retourne le login de l'utilisateur pour être consommé par la DB
-     */
-    abstract public function getLogin() : string;
-
-    protected function getRepository() : ARepository
-    {
-        return $this->repository;
-    }
-
-    /**
-     * @var ARepository Repository utilisateur
-     */
-    private $repository;
+    abstract public function isAuthentificationSucceed(string $login, string $password) : bool;
 }
