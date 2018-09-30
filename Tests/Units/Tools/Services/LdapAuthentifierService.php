@@ -53,7 +53,10 @@ class LdapAuthentifierService extends \Atoum
 
     public function testIsAuthentificationSucceedTrue()
     {
-        $this->calling($this->search)->findByDnOrFail = '';
+        $this->mockGenerator->orphanize('__construct');
+        $model = new \mock\Adldap\Models\Entry();
+        $model->userpassword = 'OpenSesame';
+        $this->calling($this->search)->findByDnOrFail = $model;
         $this->newTestedInstance($this->ldap);
         $succeed = $this->testedInstance->isAuthentificationSucceed('Aladdin', 'OpenSesame');
 

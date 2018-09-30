@@ -4,7 +4,7 @@ namespace LibertAPI\Tools\Services;
 use \Adldap\AdldapInterface;
 
 /**
- * Servuce d'authentication via un serveur LDAP
+ * Service d'authentication via un serveur LDAP
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
@@ -32,16 +32,14 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
         $this->ldap->addProvider($config);
 
         try {
-            // TODO 2018-09-23 : Comparer le mdp aussi
             $wheres = [
                 $configuration->ldap->login . '=' . $login,
                 $configuration->ldap->domaine,
             ];
-
             $provider = $this->ldap->connect();
-            $provider->search()->findByDnOrFail(implode(',', $wheres));
+            $result = $provider->search()->findByDnOrFail(implode(',', $wheres));
 
-            // Retourne true obligatoirement. En effet, si on arrive là, c'est qu'il ne s'est produit aucun cas d'échec
+            return $password === $result->getFirstAttribute('userpassword');
             return true;
         } catch (\Adldap\Auth\BindException $e) {
             return false;

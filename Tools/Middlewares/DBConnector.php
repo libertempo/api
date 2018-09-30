@@ -15,6 +15,7 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
         $container = $this->getContainer();
+        // factoriser l'acces au fichier de config
         $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
         $dbh = new \PDO(
             'mysql:host=' . $configuration->db->serveur . ';dbname=' . $configuration->db->base,

@@ -49,7 +49,7 @@ implements Interfaces\IGetable
                 throw new AuthentificationFailedException();
             }
             $utilisateur = $this->repository->find([
-                'login' => $authentifier->getLogin(),
+                'login' => $login,
                 'isActif' => true,
             ]);
         } catch (BadRequestException $e) {

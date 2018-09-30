@@ -29,6 +29,8 @@ abstract class AAuthentifierFactoryService
         switch ($authentifier) {
             case 'ldap':
                 return new LdapAuthentifierService(new \Adldap\Adldap());
+                // décrire les autres cas pour autoriser les connexions, même avec le mot de passe null
+                // par contre, ldap doit être passé avec le vrai mdp
             default:
                 throw new \UnexpectedValueException("Unknown Service");
         }
@@ -42,7 +44,6 @@ abstract class AAuthentifierFactoryService
     /**
      * Contrat standard des services d'authentification
      * @return true si l'authentification s'est bien déroulée
-     * @throws BadRequestException Si la requête n'est pas bien formée
      */
     abstract public function isAuthentificationSucceed(string $login, string $password) : bool;
 }
