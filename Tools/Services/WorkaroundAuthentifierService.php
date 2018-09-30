@@ -5,14 +5,14 @@ use LibertAPI\Tools\Libraries\ARepository;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 
 /**
- * Service d'authentification interne (dbconges)
+ * Service d'authentification de contournement temporaire de CAS et SSO
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 1.1
+ * @since 1.3
  */
-class InterneAuthentifierService extends AAuthentifierFactoryService
+class WorkaroundAuthentifierService extends AAuthentifierFactoryService
 {
     public function __construct(ARepository $repository)
     {
@@ -25,6 +25,7 @@ class InterneAuthentifierService extends AAuthentifierFactoryService
     public function isAuthentificationSucceed(IRequest $request) : bool
     {
         $this->storeBasicIdentificants($request);
+        $this->setPassword('none');
         $utilisateur = $this->getRepository()->find([
             'login' => $this->getLogin(),
             'isActif' => true,

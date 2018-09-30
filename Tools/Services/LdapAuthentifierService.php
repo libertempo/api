@@ -21,16 +21,8 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
 
     public function isAuthentificationSucceed(IRequest $request) : bool
     {
-        $authentificationType = 'Basic';
-        $authentification = $request->getHeaderLine('Authorization');
-        if (0 !== stripos($authentification, $authentificationType)) {
-            throw new BadRequestException();
-        }
-
-        $authentification = substr($authentification, strlen($authentificationType) + 1);
-        list($login, $password) = explode(':', base64_decode($authentification));
-        $this->setLogin($login);
-        // @TODO 2018-09-30:  Factoriser
+        $this->storeBasicIdentificants($request);
+        // @TODO 2018-09-30 : Factoriser
         $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
 
         $config = [
@@ -50,7 +42,7 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
             $provider = $this->ldap->connect();
             $result = $provider->search()->findByDnOrFail(implode(',', $wheres));
 
-            return $password === $result->getFirstAttribute('userpassword');
+            return $this->getPassword() === $result->getFirstAttribute('userpassword');
             return true;
         } catch (\Adldap\Auth\BindException $e) {
             return false;

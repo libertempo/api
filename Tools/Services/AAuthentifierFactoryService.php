@@ -4,6 +4,7 @@ namespace LibertAPI\Tools\Services;
 use LibertAPI\Tools\Libraries\ARepository;
 use LibertAPI\Tools\Libraries\StorageConfiguration;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
+use LibertAPI\Tools\Exceptions\BadRequestException;
 
 /**
  * Fabrique de service d'authentification. C'est elle et elle seule qui a conscience des critières de sélection de tel ou tel service.
@@ -30,9 +31,11 @@ abstract class AAuthentifierFactoryService
             case 'dbconges':
                 // Construction du repo ici
                return new InterneAuthentifierService($repository);
-            default:
+            case 'cas':
+            case 'sso':
                 // Dans l'intervalle où CAS et SSO ne sont pas fait, workaround, même avec un mdp null /!\
-                // Par contre, LDAP doit être passé avec le vrai mdp (Voir WEB/)
+                return new WorkaroundAuthentifierService($repository);
+            default:
                 throw new \UnexpectedValueException("Unknown Service");
         }
     }
@@ -44,6 +47,24 @@ abstract class AAuthentifierFactoryService
      */
     abstract public function isAuthentificationSucceed(IRequest $request) : bool;
 
+    /**
+     * Store in memory login / password
+     * @throws BadRequestException Si la requête n'est pas bien formée
+     */
+    final protected function storeBasicIdentificants(IRequest $request)
+    {
+        $authentificationType = 'Basic';
+        $authentification = $request->getHeaderLine('Authorization');
+        if (0 !== stripos($authentification, $authentificationType)) {
+            throw new BadRequestException();
+        }
+
+        $authentification = substr($authentification, strlen($authentificationType) + 1);
+        list($login, $password) = explode(':', base64_decode($authentification));
+        $this->setLogin($login);
+        $this->setPassword($password);
+    }
+
     protected function getRepository() : ARepository
     {
         return $this->repository;
@@ -54,13 +75,28 @@ abstract class AAuthentifierFactoryService
         return $this->login;
     }
 
-    protected function setLogin($login)
+    private function setLogin($login)
     {
         $this->login = $login;
+    }
+
+    protected function getPassword() : string
+    {
+        return $this->password;
+    }
+
+    protected function setPassword($password)
+    {
+        $this->password = $password;
     }
 
     /**
      * @var string Login de l'utilisateur en cours de connexion
      */
-    private $login = '';
+    private $login;
+
+    /**
+     * @var string MDP de l'utilisateur en cours de connexion
+     */
+    private $password;
 }
