@@ -27,38 +27,44 @@ class LdapAuthentifierService extends \Atoum
         $this->calling($this->provider)->search = $this->search;
         $this->function->file_get_contents = '';
         $this->function->json_decode = (object) $this->configuration;
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->request = new \mock\Slim\Http\Request();
     }
 
     public function testIsAuthentificationSucceedBindException()
     {
+        $this->calling($this->request)->getHeaderLine = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
         $this->calling($this->ldap)->connect = function () {
             throw new \Adldap\Auth\BindException('');
         };
         $this->newTestedInstance($this->ldap);
-        $succeed = $this->testedInstance->isAuthentificationSucceed('Aladdin', 'OpenSesame');
+        $succeed = $this->testedInstance->isAuthentificationSucceed($this->request);
 
         $this->boolean($succeed)->isFalse();
     }
 
     public function testIsAuthentificationSucceedModelNotFoundException()
     {
+        $this->calling($this->request)->getHeaderLine = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
         $this->calling($this->search)->findByDnOrFail = function () {
             throw new \Adldap\Models\ModelNotFoundException('');
         };
         $this->newTestedInstance($this->ldap);
-        $succeed = $this->testedInstance->isAuthentificationSucceed('Aladdin', 'OpenSesame');
+        $succeed = $this->testedInstance->isAuthentificationSucceed($this->request);
 
         $this->boolean($succeed)->isFalse();
     }
 
     public function testIsAuthentificationSucceedTrue()
     {
+        $this->calling($this->request)->getHeaderLine = 'Basic QWxhZGRpbjpPcGVuU2VzYW1l';
         $this->mockGenerator->orphanize('__construct');
         $model = new \mock\Adldap\Models\Entry();
         $model->userpassword = 'OpenSesame';
         $this->calling($this->search)->findByDnOrFail = $model;
         $this->newTestedInstance($this->ldap);
-        $succeed = $this->testedInstance->isAuthentificationSucceed('Aladdin', 'OpenSesame');
+        $succeed = $this->testedInstance->isAuthentificationSucceed($this->request);
 
         $this->boolean($succeed)->isTrue();
     }
@@ -93,4 +99,9 @@ class LdapAuthentifierService extends \Atoum
 
         ],
     ];
+
+    /**
+     * @var \Slim\Http\Request Mock de la requête HTTP
+     */
+    protected $request;
 }

@@ -36,20 +36,12 @@ implements Interfaces\IGetable
     public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
         try {
-            $authentificationType = 'Basic';
-            $authentification = $request->getHeaderLine('Authorization');
-            if (0 !== stripos($authentification, $authentificationType)) {
-                throw new BadRequestException();
-            }
-
-            $authentification = substr($authentification, strlen($authentificationType) + 1);
-            list($login, $password) = explode(':', base64_decode($authentification));
-            $authentifier = AAuthentifierFactoryService::getAuthentifier($this->configuration, $this->repository, $login);
-            if (!$authentifier->isAuthentificationSucceed($login, $password)) {
+            $authentifier = AAuthentifierFactoryService::getAuthentifier($this->configuration, $this->repository);
+            if (!$authentifier->isAuthentificationSucceed($request)) {
                 throw new AuthentificationFailedException();
             }
             $utilisateur = $this->repository->find([
-                'login' => $login,
+                'login' => $authentifier->getLogin(),
                 'isActif' => true,
             ]);
         } catch (BadRequestException $e) {

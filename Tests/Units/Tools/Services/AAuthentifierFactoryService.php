@@ -29,7 +29,7 @@ class AAuthentifierFactoryService extends \Atoum
         $this->calling($this->configuration)->getHowToConnectUser = 'ldap';
 
         $testedClass = $this->testedClass->getClass();
-        $service = $testedClass::getAuthentifier($this->configuration, $this->repository, 'minus');
+        $service = $testedClass::getAuthentifier($this->configuration, $this->repository);
         $this->object($service)->isInstanceOf(Services\LdapAuthentifierService::class);
     }
 
@@ -38,7 +38,7 @@ class AAuthentifierFactoryService extends \Atoum
         $this->calling($this->configuration)->getHowToConnectUser = 'dbconges';
 
         $testedClass = $this->testedClass->getClass();
-        $service = $testedClass::getAuthentifier($this->configuration, $this->repository, 'cortex');
+        $service = $testedClass::getAuthentifier($this->configuration, $this->repository);
         $this->object($service)->isInstanceOf(Services\InterneAuthentifierService::class);
     }
 
@@ -48,7 +48,7 @@ class AAuthentifierFactoryService extends \Atoum
 
         $this->exception(function () {
             $testedClass = $this->testedClass->getClass();
-            $testedClass::getAuthentifier($this->configuration, $this->repository, 'acme');
+            $testedClass::getAuthentifier($this->configuration, $this->repository);
         })->isInstanceOf(\UnexpectedValueException::class);
     }
 

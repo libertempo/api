@@ -2,6 +2,7 @@
 namespace LibertAPI\Tools\Services;
 
 use \Adldap\AdldapInterface;
+use Psr\Http\Message\ServerRequestInterface as IRequest;
 
 /**
  * Service d'authentication via un serveur LDAP
@@ -18,8 +19,18 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
         $this->ldap = $ldap;
     }
 
-    public function isAuthentificationSucceed(string $login, string $password) : bool
+    public function isAuthentificationSucceed(IRequest $request) : bool
     {
+        $authentificationType = 'Basic';
+        $authentification = $request->getHeaderLine('Authorization');
+        if (0 !== stripos($authentification, $authentificationType)) {
+            throw new BadRequestException();
+        }
+
+        $authentification = substr($authentification, strlen($authentificationType) + 1);
+        list($login, $password) = explode(':', base64_decode($authentification));
+        $this->setLogin($login);
+        // @TODO 2018-09-30:  Factoriser
         $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
 
         $config = [
@@ -33,7 +44,7 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
 
         try {
             $wheres = [
-                $configuration->ldap->login . '=' . $login,
+                $configuration->ldap->login . '=' . $this->getLogin(),
                 $configuration->ldap->domaine,
             ];
             $provider = $this->ldap->connect();
