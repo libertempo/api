@@ -32,7 +32,7 @@ class InterneAuthentifierService extends AAuthentifierFactoryService
         }
 
         $authentification = substr($authentification, strlen($authentificationType) + 1);
-        list($this->login, $password) = explode(':', base64_decode($authentification));
+        list($this->login, $password) = explode(':', base64_decode($authentification), 2);
 
         $utilisateur = $this->getRepository()->find([
             'login' => $this->login,
