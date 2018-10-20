@@ -5,7 +5,7 @@ use \Adldap\AdldapInterface;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 
 /**
- * Service d'authentication via un serveur LDAP
+ * Service d'authentification via un serveur LDAP
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
@@ -22,22 +22,21 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
     public function isAuthentificationSucceed(IRequest $request) : bool
     {
         $this->storeBasicIdentificants($request);
-        // @TODO 2018-09-30 : Factoriser
-        $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
+        $configurationLdap = $request->getAttribute('configurationFileData')->ldap;
 
         $config = [
-          'hosts'    => [$configuration->ldap->serveur, $configuration->ldap->up_serveur],
-          'base_dn'  => $configuration->ldap->base,
-          'username' => $configuration->ldap->utilisateur,
-          'password' => $configuration->ldap->mot_de_passe,
+          'hosts'    => [$configurationLdap->serveur, $configurationLdap->up_serveur],
+          'base_dn'  => $configurationLdap->base,
+          'username' => $configurationLdap->utilisateur,
+          'password' => $configurationLdap->mot_de_passe,
         ];
 
         $this->ldap->addProvider($config);
 
         try {
             $wheres = [
-                $configuration->ldap->login . '=' . $this->getLogin(),
-                $configuration->ldap->domaine,
+                $configurationLdap->login . '=' . $this->getLogin(),
+                $configurationLdap->domaine,
             ];
             $provider = $this->ldap->connect();
             $result = $provider->search()->findByDnOrFail(implode(',', $wheres));

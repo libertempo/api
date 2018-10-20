@@ -25,8 +25,6 @@ class LdapAuthentifierService extends \Atoum
         $this->calling($this->ldap)->addProvider = '';
         $this->calling($this->ldap)->connect = $this->provider;
         $this->calling($this->provider)->search = $this->search;
-        $this->function->file_get_contents = '';
-        $this->function->json_decode = (object) $this->configuration;
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->request = new \mock\Slim\Http\Request();
@@ -83,22 +81,6 @@ class LdapAuthentifierService extends \Atoum
      * @var \Adldap\Query\Factory
      */
     private $search;
-
-    /**
-     * @var array
-     */
-    private $configuration = [
-        'ldap' => [
-            'serveur' => '',
-            'up_serveur' => '',
-            'base' => '',
-            'utilisateur' => '',
-            'mot_de_passe' => '',
-            'login' => '',
-            'domaine' => '',
-
-        ],
-    ];
 
     /**
      * @var \Slim\Http\Request Mock de la requête HTTP
