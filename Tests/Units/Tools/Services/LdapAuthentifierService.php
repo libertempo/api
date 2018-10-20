@@ -26,9 +26,9 @@ class LdapAuthentifierService extends \Atoum
         $this->calling($this->ldap)->connect = $this->provider;
         $this->calling($this->provider)->search = $this->search;
         $this->mockGenerator->orphanize('__construct');
-        $this->mockGenerator->shuntParentClassCalls();
         $this->request = new \mock\Slim\Http\Request();
-        $this->calling($this->request)->getAttribute = (object) $this->configuration;
+        $configuration = json_decode(json_encode($this->configuration));
+        $this->calling($this->request)->getAttribute = $configuration;
     }
 
     public function testIsAuthentificationSucceedBindException()
@@ -95,7 +95,6 @@ class LdapAuthentifierService extends \Atoum
             'mot_de_passe' => '',
             'login' => '',
             'domaine' => '',
-
         ],
     ];
 
