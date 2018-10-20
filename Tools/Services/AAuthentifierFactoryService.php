@@ -29,7 +29,6 @@ abstract class AAuthentifierFactoryService
             case 'ldap':
                 return new LdapAuthentifierService(new \Adldap\Adldap());
             case 'dbconges':
-                // Construction du repo ici
                return new InterneAuthentifierService($repository);
             case 'cas':
             case 'sso':
@@ -43,6 +42,7 @@ abstract class AAuthentifierFactoryService
     /**
      * Contrat standard des services d'authentification
      * @return true si l'authentification s'est bien déroulée
+     * @throws BadRequestException Si la requête n'est pas bien formée
      */
     abstract public function isAuthentificationSucceed(IRequest $request) : bool;
 
