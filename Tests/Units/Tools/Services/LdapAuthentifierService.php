@@ -28,9 +28,7 @@ class LdapAuthentifierService extends \Atoum
         $this->mockGenerator->orphanize('__construct');
         $this->mockGenerator->shuntParentClassCalls();
         $this->request = new \mock\Slim\Http\Request();
-        $this->calling($this->request)->getAttribute = function () {
-            return (object) $this->configuration;
-        };
+        $this->calling($this->request)->getAttribute = (object) $this->configuration;
     }
 
     public function testIsAuthentificationSucceedBindException()

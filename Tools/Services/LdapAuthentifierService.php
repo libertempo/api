@@ -19,9 +19,14 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
         $this->ldap = $ldap;
     }
 
+    /**
+     * @inheritDoc
+     * @require that configuration of ldap is present
+     */
     public function isAuthentificationSucceed(IRequest $request) : bool
     {
         $this->storeBasicIdentificants($request);
+        assert(isset($request->getAttribute('configurationFileData')->ldap));
         $configurationLdap = $request->getAttribute('configurationFileData')->ldap;
 
         $config = [
