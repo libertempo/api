@@ -43,7 +43,7 @@ return [
     Slim\Router::class => get('router'),
     'callableResolver' => autowire(CallableResolver::class),
     'environment' => function (C $c) {
-        $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'), true);
+        $configuration = $c->get('configuration');
         $stage = (!isset($configuration['stage']) || 'development' !== $configuration['stage'])
             ? 'production'
             : 'development';
@@ -52,6 +52,9 @@ return [
         $e->set('stage', $stage);
 
         return $e;
+    },
+    'configuration' => function (C $c) {
+        return json_decode(file_get_contents(ROOT_PATH . 'configuration.json'), true);
     },
     'request' => function (C $c) {
         return Request::createFromEnvironment($c->get('environment'));
@@ -70,44 +73,53 @@ return [
         return new AuthentificationController($repo, $c->get(IRouter::class), $c->get(StorageConfiguration::class));
     },
     IRouter::class => get('router'),
-    'badRequestHandler' => function (C $c) {
+    'badRequestHandler' => function () {
         return function (IRequest $request, IResponse $response) {
             $code = 400;
             $responseUpd = $response->withStatus($code);
+            $messageData = 'Request Content-Type and Accept must be set on application/json only';
+
             $data = [
                 'code' => $code,
                 'status' => 'fail',
                 'message' => $responseUpd->getReasonPhrase(),
-                'data' => 'Request Content-Type and Accept must be set on application/json only',
+                'data' => $messageData,
             ];
+            Rollbar::warning($code . ' ' . $messageData);
 
             return $responseUpd->withJson($data);
         };
     },
-    'forbiddenHandler' => function (C $c) {
+    'forbiddenHandler' => function () {
         return function (IRequest $request, IResponse $response) {
             $code = 403;
             $responseUpd = $response->withStatus($code);
+            $messageData = 'User has not access to « ' . $request->getUri()->getPath() . ' » resource';
+
             $data = [
                 'code' => $code,
                 'status' => 'fail',
                 'message' => $responseUpd->getReasonPhrase(),
-                'data' => 'User has not access to « ' . $request->getUri()->getPath() . ' » resource',
+                'data' => $messageData,
             ];
+            Rollbar::warning($code . ' ' . $messageData);
+
 
             return $response->withJson($data, $code);
         };
     },
-    'unauthorizedHandler' => function (C $c) {
+    'unauthorizedHandler' => function () {
         return function (IRequest $request, IResponse $response) {
             $code = 401;
             $responseUpd = $response->withStatus($code);
+            $messageData = 'Bad API Key';
             $data = [
                 'code' => $code,
                 'status' => 'fail',
                 'message' => $responseUpd->getReasonPhrase(),
-                'data' => 'Bad API Key',
+                'data' => $messageData,
             ];
+            Rollbar::warning($code . ' ' . $messageData);
 
             return $response->withJson($data, $code);
         };
@@ -116,37 +128,65 @@ return [
         return function (IRequest $request, IResponse $response) {
             $code = 404;
             $responseUpd = $response->withStatus($code);
+            $messageData = '« ' . $request->getUri()->getPath() . ' » is not a valid resource';
+            Rollbar::warning($code . ' ' . $messageData);
+
             return $responseUpd->withJson([
                 'code' => $code,
                 'status' => 'fail',
                 'message' => $responseUpd->getReasonPhrase(),
-                'data' => '« ' . $request->getUri()->getPath() . ' » is not a valid resource',
+                'data' => $messageData,
             ]);
         };
     },
-    'errorHandler' => function () {
-        return function (IRequest $request, IResponse $response, \Exception $exception) {
+    'phpErrorHandler' => function (C $c) {
+        return function (IRequest $request, IResponse $response, \Throwable $throwable) use ($c) {
+            return call_user_func(
+                $c->get('baseErrorHandler'),
+                $request,
+                $response,
+                $throwable
+            );
+        };
+    },
+    'errorHandler' => function (C $c) {
+        return function (IRequest $request, IResponse $response, \Exception $exception) use ($c) {
+            return call_user_func(
+                $c->get('baseErrorHandler'),
+                $request,
+                $response,
+                $exception
+            );
+        };
+    },
+    'baseErrorHandler' => function (C $c) {
+        return function (IRequest $request, IResponse $response, \Throwable $throwable) {
+            Rollbar::error($throwable->getMessage());
+
             $code = 500;
             $responseUpd = $response->withStatus($code);
             return $responseUpd->withJson([
                 'code' => $code,
                 'status' => 'error',
                 'message' => $responseUpd->getReasonPhrase(),
-                'data' => $exception->getMessage(),
+                'data' => $throwable->getMessage(),
             ]);
         };
     },
     'notAllowedHandler' => function () {
         return function (IRequest $request, IResponse $response, array $methods) {
+
             $methodString = implode(', ', $methods);
             $code = 405;
             $responseUpd = $response->withStatus($code);
+            $messageData = 'Method on « ' . $request->getUri()->getPath() . ' » must be one of : ' . $methodString;
             $data = [
                 'code' => $code,
                 'status' => 'fail',
                 'message' => $responseUpd->getReasonPhrase(),
-                'data' => 'Method on « ' . $request->getUri()->getPath() . ' » must be one of : ' . $methodString,
+                'data' => $messageData,
             ];
+            Rollbar::warning($code . ' ' . $messageData);
 
             return $responseUpd
                 ->withHeader('Allow', $methodString)
