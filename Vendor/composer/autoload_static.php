@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
+class ComposerStaticInit189eff79396935d3b10a8092d6e64996
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -35,13 +35,22 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
             'SuperClosure\\' => 13,
             'Slim\\' => 5,
         ),
+        'R' => 
+        array (
+            'Rollbar\\' => 8,
+        ),
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
+            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
             'PhpDocReader\\' => 13,
+        ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
         ),
         'L' => 
         array (
@@ -115,9 +124,17 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
         array (
             0 => __DIR__ . '/..' . '/slim/slim/Slim',
         ),
+        'Rollbar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rollbar/rollbar/src',
+        ),
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Psr\\Http\\Message\\' => 
         array (
@@ -134,6 +151,10 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
         'PhpDocReader\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-di/phpdoc-reader/src/PhpDocReader',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'LibertAPI\\' => 
         array (
@@ -540,10 +561,10 @@ class ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit5254fb3dcd0ada989877bc48f5b177e0::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit189eff79396935d3b10a8092d6e64996::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit189eff79396935d3b10a8092d6e64996::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit189eff79396935d3b10a8092d6e64996::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit189eff79396935d3b10a8092d6e64996::$classMap;
 
         }, null, ClassLoader::class);
     }
