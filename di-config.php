@@ -82,12 +82,53 @@ function configurationPersonnelle()
             $repo->setApplication($c->get(Application::class));
             return new AuthentificationController($repo, $c->get(IRouter::class), $c->get(StorageConfiguration::class));
         },
-        'badRequestHandler' => function () {
-            return function (IRequest $request, IResponse $response) {
-                $code = 400;
+        'badRequestHandler' => function (C $c) {
+            return function (IRequest $request, IResponse $response) use ($c) {
+                return call_user_func(
+                    $c->get('clientErrorHandler'),
+                    $request,
+                    $response,
+                    400,
+                    'Request Content-Type and Accept must be set on application/json only'
+                );
+            };
+        },
+        'forbiddenHandler' => function (C $c) {
+            return function (IRequest $request, IResponse $response) use ($c) {
+                return call_user_func(
+                    $c->get('clientErrorHandler'),
+                    $request,
+                    $response,
+                    403,
+                    'User has not access to « ' . $request->getUri()->getPath() . ' » resource'
+                );
+            };
+        },
+        'unauthorizedHandler' => function (C $c) {
+            return function (IRequest $request, IResponse $response) use ($c) {
+                return call_user_func(
+                    $c->get('clientErrorHandler'),
+                    $request,
+                    $response,
+                    401,
+                    'Bad API Key'
+                );
+            };
+        },
+        'notFoundHandler' => function (C $c) {
+            return function (IRequest $request, IResponse $response) use ($c) {
+                return call_user_func(
+                    $c->get('clientErrorHandler'),
+                    $request,
+                    $response,
+                    404,
+                    '« ' . $request->getUri()->getPath() . ' » is not a valid resource'
+                );
+            };
+        },
+        'clientErrorHandler' => function (C $c) {
+            return function (IRequest $request, IResponse $response, int $code, string $messageData) {
                 $responseUpd = $response->withStatus($code);
-                $messageData = 'Request Content-Type and Accept must be set on application/json only';
-
                 $data = [
                     'code' => $code,
                     'status' => 'fail',
@@ -99,59 +140,10 @@ function configurationPersonnelle()
                 return $responseUpd->withJson($data);
             };
         },
-        'forbiddenHandler' => function () {
-            return function (IRequest $request, IResponse $response) {
-                $code = 403;
-                $responseUpd = $response->withStatus($code);
-                $messageData = 'User has not access to « ' . $request->getUri()->getPath() . ' » resource';
-
-                $data = [
-                    'code' => $code,
-                    'status' => 'fail',
-                    'message' => $responseUpd->getReasonPhrase(),
-                    'data' => $messageData,
-                ];
-                Rollbar::warning($code . ' ' . $messageData);
-
-
-                return $response->withJson($data, $code);
-            };
-        },
-        'unauthorizedHandler' => function () {
-            return function (IRequest $request, IResponse $response) {
-                $code = 401;
-                $responseUpd = $response->withStatus($code);
-                $messageData = 'Bad API Key';
-                $data = [
-                    'code' => $code,
-                    'status' => 'fail',
-                    'message' => $responseUpd->getReasonPhrase(),
-                    'data' => $messageData,
-                ];
-                Rollbar::warning($code . ' ' . $messageData);
-
-                return $response->withJson($data, $code);
-            };
-        },
-        'notFoundHandler' => function () {
-            return function (IRequest $request, IResponse $response) {
-                $code = 404;
-                $responseUpd = $response->withStatus($code);
-                $messageData = '« ' . $request->getUri()->getPath() . ' » is not a valid resource';
-                Rollbar::warning($code . ' ' . $messageData);
-
-                return $responseUpd->withJson([
-                    'code' => $code,
-                    'status' => 'fail',
-                    'message' => $responseUpd->getReasonPhrase(),
-                    'data' => $messageData,
-                ]);
-            };
-        },
         'phpErrorHandler' => function (C $c) {
             return function (IRequest $request, IResponse $response, \Throwable $throwable) use ($c) {
                 return call_user_func(
-                    $c->get('baseErrorHandler'),
+                    $c->get('serverErrorHandler'),
                     $request,
                     $response,
                     $throwable
@@ -161,14 +153,14 @@ function configurationPersonnelle()
         'errorHandler' => function (C $c) {
             return function (IRequest $request, IResponse $response, \Exception $exception) use ($c) {
                 return call_user_func(
-                    $c->get('baseErrorHandler'),
+                    $c->get('serverErrorHandler'),
                     $request,
                     $response,
                     $exception
                 );
             };
         },
-        'baseErrorHandler' => function (C $c) {
+        'serverErrorHandler' => function (C $c) {
             return function (IRequest $request, IResponse $response, \Throwable $throwable) {
                 Rollbar::error($throwable->getMessage());
 
@@ -182,24 +174,18 @@ function configurationPersonnelle()
                 ]);
             };
         },
-        'notAllowedHandler' => function () {
-            return function (IRequest $request, IResponse $response, array $methods) {
-
+        'notAllowedHandler' => function (C $c) {
+            return function (IRequest $request, IResponse $response, array $methods) use ($c) {
                 $methodString = implode(', ', $methods);
-                $code = 405;
-                $responseUpd = $response->withStatus($code);
-                $messageData = 'Method on « ' . $request->getUri()->getPath() . ' » must be one of : ' . $methodString;
-                $data = [
-                    'code' => $code,
-                    'status' => 'fail',
-                    'message' => $responseUpd->getReasonPhrase(),
-                    'data' => $messageData,
-                ];
-                Rollbar::warning($code . ' ' . $messageData);
+                $responseUpd = call_user_func(
+                    $c->get('clientErrorHandler'),
+                    $request,
+                    $response,
+                    405,
+                    'Method on « ' . $request->getUri()->getPath() . ' » must be one of : ' . $methodString
+                );
 
-                return $responseUpd
-                    ->withHeader('Allow', $methodString)
-                    ->withJson($data);
+                return $responseUpd->withHeader('Allow', $methodString);
             };
         },
         Doctrine\DBAL\Driver\Connection::class => function (C $c) {
