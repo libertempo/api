@@ -35,13 +35,11 @@ if ('development' == $stage) {
         Rollbar::init([
             'access_token' => $configuration['logger_token'],
             'environment' => $stage,
-            'code_version' => '88',
             'use_error_reporting' => true,
             'allow_exec' => false,
             'included_errno' => E_ALL,
         ]);
         \Rollbar\Rollbar::addCustom('access_key', $configuration['logger_token']);
-
     }
 } else {
     assert_options(ASSERT_ACTIVE, 0);

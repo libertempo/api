@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65242713d5c61361456b36d7e5ac384c",
+    "content-hash": "247c749c0480d9385258f178171bceaa",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -1228,58 +1228,6 @@
                 "simple-cache"
             ],
             "time": "2017-10-23T01:57:42+00:00"
-        },
-        {
-            "name": "raveren/kint",
-            "version": "1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kint-php/kint.git",
-                "reference": "a8549198558560b24e2879c6bac2875de5371483"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kint-php/kint/zipball/a8549198558560b24e2879c6bac2875de5371483",
-                "reference": "a8549198558560b24e2879c6bac2875de5371483",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "Kint.class.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rokas Šleinius",
-                    "homepage": "https://github.com/kint-php"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/kint-php/kint/contributors"
-                }
-            ],
-            "description": "Kint - debugging helper for PHP developers",
-            "homepage": "https://github.com/kint-php/kint",
-            "keywords": [
-                "debug",
-                "kint",
-                "php"
-            ],
-            "abandoned": "kint-php/kint",
-            "time": "2017-01-15T14:23:43+00:00"
         },
         {
             "name": "rollbar/rollbar",
