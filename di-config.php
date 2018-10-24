@@ -162,7 +162,7 @@ function configurationPersonnelle()
         },
         'serverErrorHandler' => function (C $c) {
             return function (IRequest $request, IResponse $response, \Throwable $throwable) {
-                Rollbar::error($throwable->getMessage());
+                Rollbar::error($throwable->getMessage(), ['trace' => substr($throwable->getTraceAsString(), 0, 1000) . '[...]']);
 
                 $code = 500;
                 $responseUpd = $response->withStatus($code);
