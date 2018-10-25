@@ -4,19 +4,19 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit71de656e266ff7650850eecbc3d57098
+class ComposerStaticInit46d5b78efab0ffc537dbaa0a2b827330
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
-        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         'fe62ba7e10580d903cc46d808b5961a4' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/helpers.php',
         'caf31cc6ec7cf2241cb6f12c226c3846' => __DIR__ . '/..' . '/tightenco/collect/src/Collect/Support/alias.php',
         'b33e3d135e5d9e47d845c576147bda89' => __DIR__ . '/..' . '/php-di/php-di/src/functions.php',
@@ -86,6 +86,10 @@ class ComposerStaticInit71de656e266ff7650850eecbc3d57098
             'Invoker\\' => 8,
             'Interop\\Container\\' => 18,
             'Illuminate\\Contracts\\' => 21,
+        ),
+        'H' => 
+        array (
+            'Herloct\\Codeception\\' => 20,
         ),
         'G' => 
         array (
@@ -270,6 +274,10 @@ class ComposerStaticInit71de656e266ff7650850eecbc3d57098
         'Illuminate\\Contracts\\' => 
         array (
             0 => __DIR__ . '/..' . '/illuminate/contracts',
+        ),
+        'Herloct\\Codeception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/herloct/codeception-slim-module/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -1259,10 +1267,10 @@ class ComposerStaticInit71de656e266ff7650850eecbc3d57098
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit71de656e266ff7650850eecbc3d57098::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit71de656e266ff7650850eecbc3d57098::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit71de656e266ff7650850eecbc3d57098::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit71de656e266ff7650850eecbc3d57098::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit46d5b78efab0ffc537dbaa0a2b827330::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit46d5b78efab0ffc537dbaa0a2b827330::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit46d5b78efab0ffc537dbaa0a2b827330::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit46d5b78efab0ffc537dbaa0a2b827330::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "841cdf6ba2c7dac95de46d0eb5ab22a5",
+    "content-hash": "43a1a5d2b7e70c1b74b3f7344b9373bb",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -2527,6 +2527,53 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "herloct/codeception-slim-module",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/herloct/codeception-slim-module.git",
+                "reference": "8767207016d77a147e6ad9b2f75eb7f3fdab17ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/herloct/codeception-slim-module/zipball/8767207016d77a147e6ad9b2f75eb7f3fdab17ba",
+                "reference": "8767207016d77a147e6ad9b2f75eb7f3fdab17ba",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "^2.2",
+                "php": "^5.6 || ^7.0",
+                "slim/slim": "^3.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Herloct\\Codeception\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Herloct",
+                    "email": "herloct@gmail.com"
+                }
+            ],
+            "description": "Codeception Module for Slim 3 Microframework.",
+            "homepage": "https://github.com/herloct/codeception-slim-module",
+            "keywords": [
+                "codeception",
+                "module",
+                "slim"
+            ],
+            "time": "2017-03-04T20:30:56+00:00"
         },
         {
             "name": "myclabs/deep-copy",

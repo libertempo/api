@@ -40,6 +40,7 @@
         "symfony/console": "3.0",
         "symfony/console": "3.3.15",
         "behat/behat": "^3.5",
-        "codeception/codeception": "2.5"
+        "codeception/codeception": "2.5",
+        "herloct/codeception-slim-module": "1.1"
     }
 }
