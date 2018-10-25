@@ -12,7 +12,7 @@ notifications:
     on_failure: always # default: always
 script:
     - make test-unit
-    - if ${TRAVIS_BRANCH} = master; then make test-functional
+    - if [[ "$TRAVIS_BRANCH" == "master" ]]; then make test-functional; fi
 
 after_script:
   - php Vendor/Bin/codacycoverage clover clover.xml
