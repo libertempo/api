@@ -5,9 +5,15 @@ suites:
         path: .
         modules:
             enabled:
+                - \Helper\Api
+                - \Herloct\Codeception\Module\Slim:
+                    container: Tests/Functionals/container.php
                 - REST:
-                    url: http://localhost
-                    depends: PhpBrowser
+                    depends: \Herloct\Codeception\Module\Slim
+                    part: Json
+                    headers:
+                        Accept: application/json
+                        Content-Type: application/json
 
 paths:
     tests: Tests/Functionals

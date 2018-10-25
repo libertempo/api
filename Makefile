@@ -25,5 +25,8 @@ minor:
 patch:
 	$(call make_version,patch)
 
-test:
+test-unit:
 	Vendor/Bin/atoum -ulr
+
+test-functional:
+	Vendor/Bin/codecept run api
