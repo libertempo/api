@@ -1,5 +1,5 @@
-<?php
-class ApiCest
+<?php declare(strict_types = 1);
+class HelloWorldCest
 {
     public function testHelloWorld(ApiTester $i)
     {
@@ -11,5 +11,12 @@ class ApiCest
         $i->seeResponseCodeIs(200);
         $i->seeResponseIsJson();
         $i->seeResponseEquals('"Hi there !"');
+    }
+
+    public function testHelloWorldWithoutHeaders(ApiTester $i)
+    {
+        $i->sendGET('/hello_world');
+
+        $i->seeResponseCodeIs(400);
     }
 }

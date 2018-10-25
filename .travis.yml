@@ -10,7 +10,17 @@ notifications:
       - "irc.tuxfamily.org#Libertempo"
     on_success: never # default: change
     on_failure: always # default: always
-script: make test
+#script: make test
+
+jobs:
+    includes:
+        -
+            # branch est apparemment la branch de base
+            if: branch = master
+            script: make test-functional
+        -
+            if: true
+            script: make test-unit
 
 after_script:
   - php Vendor/Bin/codacycoverage clover clover.xml
