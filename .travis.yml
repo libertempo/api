@@ -10,7 +10,7 @@ notifications:
       - "irc.tuxfamily.org#Libertempo"
     on_success: never # default: change
     on_failure: always # default: always
-script: make test-unit
+script: make test
 
 after_script:
   - php Vendor/Bin/codacycoverage clover clover.xml

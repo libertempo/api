@@ -25,6 +25,8 @@ minor:
 patch:
 	$(call make_version,patch)
 
+test: test-unit test-functional
+
 test-unit:
 	Vendor/Bin/atoum -ulr
 
