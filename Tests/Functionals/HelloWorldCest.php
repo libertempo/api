@@ -1,6 +1,11 @@
 <?php declare(strict_types = 1);
 class HelloWorldCest
 {
+    public function _before(ApiTester $i)
+    {
+        $i->haveHttpHeader('stage', 'ci');
+    }
+
     public function testHelloWorld(ApiTester $i)
     {
         $i->haveHttpHeader('Content-Type', 'application/json');
