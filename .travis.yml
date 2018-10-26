@@ -10,6 +10,8 @@ notifications:
       - "irc.tuxfamily.org#Libertempo"
     on_success: never # default: change
     on_failure: always # default: always
+before_script:
+    - touch ./configuration.json
 script:
     - make test-unit
     # Supprimer prochaine ligne après travail
