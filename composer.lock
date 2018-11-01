@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc68a721f90ac1033a1770f64b4a66e8",
+    "content-hash": "0a81508327a8037cd3a2b0b72f1e4126",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -1511,31 +1511,30 @@
     "packages-dev": [
         {
             "name": "atoum/atoum",
-            "version": "3.0.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/atoum/atoum.git",
-                "reference": "decb381ef771ada37f8850774a9e9770a3da506f"
+                "reference": "c5279d0ecd4e2d53af6b38815db2cafee8fc46b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atoum/atoum/zipball/decb381ef771ada37f8850774a9e9770a3da506f",
-                "reference": "decb381ef771ada37f8850774a9e9770a3da506f",
+                "url": "https://api.github.com/repos/atoum/atoum/zipball/c5279d0ecd4e2d53af6b38815db2cafee8fc46b6",
+                "reference": "c5279d0ecd4e2d53af6b38815db2cafee8fc46b6",
                 "shasum": ""
             },
             "require": {
                 "ext-hash": "*",
                 "ext-json": "*",
-                "ext-session": "*",
                 "ext-tokenizer": "*",
                 "ext-xml": "*",
-                "php": "^5.6.0 || ^7.0.0"
+                "php": "^5.6.0 || ^7.0.0 <7.4.0"
             },
             "replace": {
                 "mageekguy/atoum": "*"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "~1.12"
+                "friendsofphp/php-cs-fixer": "^2"
             },
             "suggest": {
                 "atoum/stubs": "Provides IDE support (like autocompletion) for atoum",
@@ -1591,7 +1590,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2017-02-22T13:05:37+00:00"
+            "time": "2018-03-15T22:46:39+00:00"
         },
         {
             "name": "codacy/coverage",
