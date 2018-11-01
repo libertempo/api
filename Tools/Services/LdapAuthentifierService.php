@@ -47,7 +47,6 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
             $result = $provider->search()->findByDnOrFail(implode(',', $wheres));
 
             return $this->getPassword() === $result->getFirstAttribute('userpassword');
-            return true;
         } catch (\Adldap\Auth\BindException $e) {
             return false;
         } catch (\Adldap\Models\ModelNotFoundException $e) {
