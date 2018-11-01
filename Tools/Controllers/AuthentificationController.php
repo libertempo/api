@@ -37,6 +37,8 @@ implements Interfaces\IGetable
     {
         try {
             $authentifier = AAuthentifierFactoryService::getAuthentifier($this->configuration, $this->repository);
+            // Ajout de la configuration dans ce contexte, pour les authentifiers
+            $request = $request->withAttribute('configurationFileData', $arguments['configurationFileData']);
             if (!$authentifier->isAuthentificationSucceed($request)) {
                 throw new AuthentificationFailedException();
             }
