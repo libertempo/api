@@ -13,7 +13,6 @@ class AuthenticateUserCest
     {
         $i->sendGET('/authentification');
 
-        $i->seeResponseEquals('');
         $i->seeResponseCodeIs(400);
         $i->seeResponseIsJson();
     }
@@ -24,6 +23,7 @@ class AuthenticateUserCest
 
         $i->sendGET('/authentification');
 
+        $i->seeResponseEquals('');
         $i->seeResponseCodeIs(404);
         $i->seeResponseIsJson();
     }
