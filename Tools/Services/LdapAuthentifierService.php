@@ -29,11 +29,16 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
         assert(isset($request->getAttribute('configurationFileData')->ldap));
         $configurationLdap = $request->getAttribute('configurationFileData')->ldap;
 
+        $scheme = parse_url($configurationLdap->serveur, PHP_URL_SCHEME);
+        $hostOne = parse_url($configurationLdap->serveur, PHP_URL_HOST);
+        $hostTwo = parse_url($configurationLdap->up_serveur, PHP_URL_HOST);
+
         $config = [
-          'hosts'    => [$configurationLdap->serveur, $configurationLdap->up_serveur],
+          'hosts'    => [$hostOne, $hostTwo],
           'base_dn'  => $configurationLdap->base,
           'username' => $configurationLdap->utilisateur,
           'password' => $configurationLdap->mot_de_passe,
+          'use_ssl' => isset($scheme) && 's' === substr($scheme, -1, 1),
         ];
 
         $this->ldap->addProvider($config);
