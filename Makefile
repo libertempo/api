@@ -31,5 +31,4 @@ test-unit:
 	Vendor/Bin/atoum -ulr
 
 test-functional:
-
 	Vendor/Bin/codecept run api -f
