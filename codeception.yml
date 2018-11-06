@@ -22,6 +22,6 @@ paths:
     support: Tests/Functionals/_support
 
 settings:
-    shuffle: false
+    shuffle: true
     lint: true
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
