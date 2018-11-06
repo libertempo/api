@@ -13,9 +13,13 @@ final class ConfigurationFileChecker extends \LibertAPI\Tools\AMiddleware
 {
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
-        $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
-        if (0 !== json_last_error()) {
-            throw new \Exception('Configuration file is not JSON');
+        if ('ci' == $request->getHeaderLine('stage', null)) {
+            $configuration = new \stdClass();
+        } else {
+            $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
+            if (0 !== json_last_error()) {
+                throw new \Exception('Configuration file is not JSON');
+            }
         }
         $this->getContainer()->set('configurationFileData', $configuration);
 
