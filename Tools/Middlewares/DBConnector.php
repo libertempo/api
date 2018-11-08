@@ -16,7 +16,7 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
     {
         $container = $this->getContainer();
         if ('ci' === $request->getHeaderLine('stage', null)) {
-            $dbh = new \PDO('sqlite:' . TESTS_FUNCTIONALS_PATH . '/_data/database.sqlite');
+            $dbh = new \PDO('sqlite:' . TESTS_FUNCTIONALS_PATH . '/_data/current.sqlite');
             $dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // ERRMODE_WARNING | ERRMODE_EXCEPTION | ERRMODE_SILENT
         } else {
             $configuration = $container->get('configurationFileData');

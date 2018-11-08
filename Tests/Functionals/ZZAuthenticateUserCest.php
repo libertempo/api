@@ -1,7 +1,10 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Functionals;
 
-class AuthenticateUserCest
+/**
+ * Since this test aren't deterministic (they change token), they a run at the end
+ */
+class ZZAuthenticateUserCest
 {
     public function _before(\ApiTester $i)
     {
@@ -34,7 +37,7 @@ class AuthenticateUserCest
 
         $i->sendGET('/authentification');
 
-        //$i->seeResponseEquals('');
+        $i->seeResponseEquals('');
         $i->seeResponseCodeIs(200);
         $i->seeResponseIsJson();
     }

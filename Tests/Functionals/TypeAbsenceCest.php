@@ -10,10 +10,10 @@ class TypeAbsenceUserCest
         $i->haveHttpHeader('Accept', 'application/json');
     }
 
-    /*
-    public function testListe(ApiTester $i)
+
+    public function testListe(\ApiTester $i)
     {
-        $i->haveHttpHeader('Token', '$2y$10$7kGga5Z8nkKJn8a15h5AGuVp7Is6DcIa5iNY1qU7ybtel0fL94PCi');
+        $i->haveHttpHeader('Token', '$2y$10$2lNXyfseRGRWBwEzX0SVGeVfVmm0Rich75LZnS.rnQ3NEo2JjvtiK');
 
         $i->sendGET('/absence/type');
 
