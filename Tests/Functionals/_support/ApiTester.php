@@ -1,7 +1,5 @@
 <?php
 
-namespace LibertAPI\Tests\Functionals\_support;
-
 /**
  * Inherited Methods
  * @method void wantToTest($text)

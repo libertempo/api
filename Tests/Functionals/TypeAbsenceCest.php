@@ -1,11 +1,9 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Functionals;
 
-use LibertAPI\Tests\Functionals\_support\ApiTester;
-
 class TypeAbsenceUserCest
 {
-    public function _before(ApiTester $i)
+    public function _before(\ApiTester $i)
     {
         $i->haveHttpHeader('stage', 'ci');
         $i->haveHttpHeader('Content-Type', 'application/json');

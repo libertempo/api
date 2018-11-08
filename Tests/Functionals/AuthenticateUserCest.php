@@ -1,18 +1,16 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Functionals;
 
-use LibertAPI\Tests\Functionals\_support\ApiTester;
-
 class AuthenticateUserCest
 {
-    public function _before(ApiTester $i)
+    public function _before(\ApiTester $i)
     {
         $i->haveHttpHeader('stage', 'ci');
         $i->haveHttpHeader('Content-Type', 'application/json');
         $i->haveHttpHeader('Accept', 'application/json');
     }
 
-    public function testConnectionBadHeaders(ApiTester $i)
+    public function testConnectionBadHeaders(\ApiTester $i)
     {
         $i->sendGET('/authentification');
 
@@ -20,7 +18,7 @@ class AuthenticateUserCest
         $i->seeResponseIsJson();
     }
 
-    public function testConnectionBadCredentials(ApiTester $i)
+    public function testConnectionBadCredentials(\ApiTester $i)
     {
         $i->haveHttpHeader('Authorization', 'Basic ' . base64_encode('hr:ragondin'));
 
@@ -30,7 +28,7 @@ class AuthenticateUserCest
         $i->seeResponseIsJson();
     }
 
-    public function testConnectionGoodCredentials(ApiTester $i)
+    public function testConnectionGoodCredentials(\ApiTester $i)
     {
         $i->haveHttpHeader('Authorization', 'Basic ' . base64_encode('hr:hr'));
 

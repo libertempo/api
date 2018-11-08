@@ -1,16 +1,14 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Functionals;
 
-use LibertAPI\Tests\Functionals\_support\ApiTester;
-
 class HelloWorldCest
 {
-    public function _before(ApiTester $i)
+    public function _before(\ApiTester $i)
     {
         $i->haveHttpHeader('stage', 'ci');
     }
 
-    public function testHelloWorld(ApiTester $i)
+    public function testHelloWorld(\ApiTester $i)
     {
         $i->haveHttpHeader('Content-Type', 'application/json');
         $i->haveHttpHeader('Accept', 'application/json');
@@ -22,7 +20,7 @@ class HelloWorldCest
         $i->seeResponseEquals('"Hi there !"');
     }
 
-    public function testHelloWorldWithoutHeaders(ApiTester $i)
+    public function testHelloWorldWithoutHeaders(\ApiTester $i)
     {
         $i->sendGET('/hello_world');
 
