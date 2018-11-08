@@ -1,4 +1,8 @@
 <?php declare(strict_types = 1);
+namespace LibertAPI\Tests\Functionals;
+
+use LibertAPI\Tests\Functionals\_support\ApiTester;
+
 class HelloWorldCest
 {
     public function _before(ApiTester $i)

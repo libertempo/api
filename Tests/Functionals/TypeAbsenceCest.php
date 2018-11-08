@@ -3,7 +3,7 @@ namespace LibertAPI\Tests\Functionals;
 
 use LibertAPI\Tests\Functionals\_support\ApiTester;
 
-class AuthenticateUserCest
+class TypeAbsenceUserCest
 {
     public function _before(ApiTester $i)
     {
@@ -12,15 +12,19 @@ class AuthenticateUserCest
         $i->haveHttpHeader('Accept', 'application/json');
     }
 
-    public function testConnectionBadHeaders(ApiTester $i)
+    /*
+    public function testListe(ApiTester $i)
     {
-        $i->sendGET('/authentification');
+        $i->haveHttpHeader('Token', '$2y$10$7kGga5Z8nkKJn8a15h5AGuVp7Is6DcIa5iNY1qU7ybtel0fL94PCi');
 
-        $i->seeResponseCodeIs(400);
+        $i->sendGET('/absence/type');
+
+        $i->seeResponseEquals('');
+        $i->seeResponseCodeIs(200);
         $i->seeResponseIsJson();
     }
 
-    public function testConnectionBadCredentials(ApiTester $i)
+    /*public function testConnectionBadCredentials(ApiTester $i)
     {
         $i->haveHttpHeader('Authorization', 'Basic ' . base64_encode('hr:ragondin'));
 
@@ -36,8 +40,8 @@ class AuthenticateUserCest
 
         $i->sendGET('/authentification');
 
-        //$i->seeResponseEquals('');
+        $i->seeResponseEquals('');
         $i->seeResponseCodeIs(200);
         $i->seeResponseIsJson();
-    }
+    }*/
 }
