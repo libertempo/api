@@ -3,6 +3,7 @@ namespace LibertAPI\Tests\Units\Tools\Libraries;
 
 use LibertAPI\Utilisateur\UtilisateurEntite;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use \LibertAPI\Tools\Exceptions\UnknownResourceException;
 
 /**
  * Classe de base des tests sur les contrôleurs REST
@@ -58,7 +59,7 @@ abstract class ARestController extends AController
     public function testGetOneNotFound()
     {
         $this->repository->getMockController()->getOne = function () {
-            throw new \DomainException('');
+            throw new UnknownResourceException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
 

@@ -37,8 +37,8 @@ class ZZAuthenticateUserCest
 
         $i->sendGET('/authentification');
 
-        $i->seeResponseEquals('');
         $i->seeResponseCodeIs(200);
         $i->seeResponseIsJson();
+        //$i->seeResponseEquals('');
     }
 }
