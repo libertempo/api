@@ -4,15 +4,8 @@ namespace LibertAPI\Tests\Functionals;
 /**
  * Since theses tests aren't deterministic (they change token), they a run at the end
  */
-class ZZAuthenticateUserCest
+class ZZAuthenticateUserCest extends BaseTestCest
 {
-    public function _before(\ApiTester $i)
-    {
-        $i->haveHttpHeader('stage', 'ci');
-        $i->haveHttpHeader('Content-Type', 'application/json');
-        $i->haveHttpHeader('Accept', 'application/json');
-    }
-
     public function testConnectionBadHeaders(\ApiTester $i)
     {
         $i->sendGET('/authentification');
@@ -27,8 +20,7 @@ class ZZAuthenticateUserCest
 
         $i->sendGET('/authentification');
 
-        $i->seeResponseCodeIs(404);
-        $i->seeResponseIsJson();
+        $this->seeResponseNotFound($i);
     }
 
     public function testConnectionGoodCredentials(\ApiTester $i)
@@ -37,8 +29,6 @@ class ZZAuthenticateUserCest
 
         $i->sendGET('/authentification');
 
-        $i->seeResponseCodeIs(200);
-        $i->seeResponseIsJson();
-        //$i->seeResponseEquals('');
+        $this->seeResponseOK($i);
     }
 }
