@@ -6,7 +6,7 @@ namespace LibertAPI\Tests\Functionals;
  */
 class ZZAuthenticateUserCest extends BaseTestCest
 {
-    public function testConnectionBadHeaders(\ApiTester $i)
+    public function testBadHeaders(\ApiTester $i)
     {
         $i->sendGET('/authentification');
 
@@ -14,7 +14,7 @@ class ZZAuthenticateUserCest extends BaseTestCest
         $i->seeResponseIsJson();
     }
 
-    public function testConnectionBadCredentials(\ApiTester $i)
+    public function testBadCredentials(\ApiTester $i)
     {
         $i->haveHttpHeader('Authorization', 'Basic ' . base64_encode('hr:ragondin'));
 
@@ -23,7 +23,7 @@ class ZZAuthenticateUserCest extends BaseTestCest
         $this->seeResponseNotFound($i);
     }
 
-    public function testConnectionGoodCredentials(\ApiTester $i)
+    public function testGoodCredentials(\ApiTester $i)
     {
         $i->haveHttpHeader('Authorization', 'Basic ' . base64_encode('hr:hr'));
 

@@ -8,7 +8,7 @@ class HelloWorldCest
         $i->haveHttpHeader('stage', 'ci');
     }
 
-    public function testHelloWorld(\ApiTester $i)
+    public function testOk(\ApiTester $i)
     {
         $i->haveHttpHeader('Content-Type', 'application/json');
         $i->haveHttpHeader('Accept', 'application/json');
@@ -20,7 +20,7 @@ class HelloWorldCest
         $i->seeResponseEquals('"Hi there !"');
     }
 
-    public function testHelloWorldWithoutHeaders(\ApiTester $i)
+    public function testWithoutHeaders(\ApiTester $i)
     {
         $i->sendGET('/hello_world');
 

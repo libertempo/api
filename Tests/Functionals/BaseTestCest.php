@@ -13,13 +13,22 @@ class BaseTestCest
 
     final protected function seeResponseOK(\ApiTester $i)
     {
+        //$i->seeResponseEquals('');
         $i->seeResponseIsJson();
         $i->seeResponseCodeIs(200);
     }
 
     final protected function seeResponseNotFound(\ApiTester $i)
     {
+        //$i->seeResponseEquals('');
         $i->seeResponseIsJson();
         $i->seeResponseCodeIs(404);
+    }
+
+    final protected function seeResponseNoContent(\ApiTester $i)
+    {
+        //$i->seeResponseEquals('');
+        $i->seeResponseIsJson();
+        $i->seeResponseCodeIs(204);
     }
 }
