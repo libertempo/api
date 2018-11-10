@@ -52,6 +52,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     {
         try {
             $creneau = $this->repository->getOne($id);
+
         } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
@@ -72,7 +73,6 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
      * @param int $planningId Contrainte de recherche sur le planning
      *
      * @return IResponse
-     * @throws \Exception en cas d'erreur inconnue (fallback, ne doit pas arriver)
      */
     private function getList(IResponse $response, $planningId)
     {
