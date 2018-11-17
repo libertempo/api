@@ -147,7 +147,7 @@ abstract class ARepository
      * @param int $id ID de la ressource (Ne peut pas être typecasté tant que utilisateur n'a pas d'id, ou que php7.2 n'est pas activé)
      * @param array $data Données à mettre à jour
      *
-     * @returns AEntite Une entité résultante de l'opération
+     * @return AEntite Une entité résultante de l'opération
      */
     public function putOne($id, array $data) : AEntite
     {
@@ -184,7 +184,9 @@ abstract class ARepository
     /**
      * Détruit une ressource unique
      *
-     * @param AEntite $entite
+     * @param int $id ID de la ressource
+     *
+     * @return int Nombre de ressource affectée
      */
     public function deleteOne(int $id) : int
     {

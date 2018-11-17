@@ -121,7 +121,7 @@ abstract class AEntite
      *
      * @param string $data
      *
-     * @return string
+     * @return mixed
      */
     final protected function getFreshData(string $data)
     {

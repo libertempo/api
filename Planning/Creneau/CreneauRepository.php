@@ -60,7 +60,6 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
      * Poste une liste de ressource
      *
      * @param array $data Tableau de données à poster
-     * @param AEntite $entite [Vide par définition]
      *
      * @return array Tableau d'id des créneaux nouvellement créés
      * @throws MissingArgumentException Si un élément requis n'est pas présent
