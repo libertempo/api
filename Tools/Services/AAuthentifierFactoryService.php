@@ -69,6 +69,11 @@ abstract class AAuthentifierFactoryService
         return $this->repository;
     }
 
+    protected function setRepository($repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function getLogin() : string
     {
         return $this->login;
@@ -98,4 +103,9 @@ abstract class AAuthentifierFactoryService
      * @var string MDP de l'utilisateur en cours de connexion
      */
     private $password;
+
+    /**
+     * @var ARepository
+     */
+    private $repository;
 }

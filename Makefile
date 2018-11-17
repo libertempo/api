@@ -27,3 +27,6 @@ patch:
 
 test:
 	Vendor/Bin/atoum -ulr
+
+stan:
+	Vendor/Bin/phpstan analyse -l 1 ./

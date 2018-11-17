@@ -16,7 +16,7 @@ class InterneAuthentifierService extends AAuthentifierFactoryService
 {
     public function __construct(ARepository $repository)
     {
-        $this->repository = $repository;
+        $this->setRepository($repository);
     }
 
     /**
