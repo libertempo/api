@@ -36,7 +36,7 @@
     },
     "require-dev": {
         "atoum/atoum": "3.3.0",
-        "codacy/coverage": "1.4.1",
+        "codacy/coverage": "1.4.2",
         "symfony/console": "3.0"
     }
 }
