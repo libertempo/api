@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use LibertAPI\Tools\Middlewares;
 use DI\ContainerBuilder;
+use \Rollbar\Rollbar;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_PATH', dirname(__DIR__) . DS);
@@ -17,17 +18,34 @@ require_once ROOT_PATH . 'Vendor' . DS . 'autoload.php';
 
 $containerBuilder = new ContainerBuilder;
 $containerBuilder->addDefinitions(ROOT_PATH . 'di-config.php');
-$app = new \Slim\App($containerBuilder->build());
+$container = $containerBuilder->build();
+$app = new \Slim\App($container);
 
 /*
  * Commençons simple et posons le paramétrage des assert ici.
  * Précision : une partie est faite côté php.ini (nouvelle norme)
  */
-if ('development' == $app->getContainer()->get('environment')->get('stage')) {
+$stage = $container->get('environment')->get('stage');
+if ('development' == $stage) {
     ini_set('assert.exception', '1');
+    error_reporting(-1);
+    ini_set("display_errors", '1');
+    $configuration = $container->get('configuration');
+    if (!empty($configuration['logger_token'])) {
+        Rollbar::init([
+            'access_token' => $configuration['logger_token'],
+            'environment' => $stage,
+            'use_error_reporting' => true,
+            'allow_exec' => false,
+            'included_errno' => E_ALL,
+        ]);
+        \Rollbar\Rollbar::addCustom('access_key', $configuration['logger_token']);
+    }
 } else {
     assert_options(ASSERT_ACTIVE, 0);
     ini_set('assert.exception', '0');
+    error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
+    ini_set("display_errors", '0');
 }
 
 /*
