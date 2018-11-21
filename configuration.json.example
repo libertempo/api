@@ -21,5 +21,6 @@
         "filtre":"",
         "filtre_recherche":""
     },
-    "stage" : "production"
+    "stage" : "production",
+    "logger_token" :""
 }
