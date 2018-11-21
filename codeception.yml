@@ -1,0 +1,27 @@
+# suite config
+suites:
+    api:
+        actor: ApiTester
+        path: .
+        modules:
+            enabled:
+                - \LibertAPI\Tests\Functionals\_support\Helper\Api
+                - \Herloct\Codeception\Module\Slim:
+                    container: Tests/Functionals/container.php
+                - REST:
+                    depends: \Herloct\Codeception\Module\Slim
+                    part: Json
+                    headers:
+                        Accept: application/json
+                        Content-Type: application/json
+
+paths:
+    tests: Tests/Functionals
+    output: Tests/Functionals/_output
+    data: Tests/Functionals/_data
+    support: Tests/Functionals/_support
+
+settings:
+    shuffle: false
+    lint: true
+error_level: "E_ALL"

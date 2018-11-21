@@ -25,5 +25,11 @@ minor:
 patch:
 	$(call make_version,patch)
 
-test:
+test: test-unit test-functional
+
+test-unit:
 	Vendor/Bin/atoum -ulr
+
+test-functional:
+	cp Tests/Functionals/_data/database.sqlite Tests/Functionals/_data/current.sqlite
+	Vendor/Bin/codecept run api -f

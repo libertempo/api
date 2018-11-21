@@ -10,7 +10,12 @@ notifications:
       - "irc.tuxfamily.org#Libertempo"
     on_success: never # default: change
     on_failure: always # default: always
-script: Vendor/Bin/atoum -ulr
-
+before_script:
+    - touch ./configuration.json
+script:
+    - make test-unit
+    # Supprimer prochaine ligne après travail
+    - if [[ true ]]; then make test-functional; fi
+    - if [[ "$TRAVIS_BRANCH" == "master" ]]; then make test-functional; fi
 after_script:
   - php Vendor/Bin/codacycoverage clover clover.xml

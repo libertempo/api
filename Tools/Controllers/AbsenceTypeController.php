@@ -48,7 +48,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         try {
             $responseResource = $this->repository->getOne($id);
-        } catch (\DomainException $e) {
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);

@@ -1,0 +1,8 @@
+class_name: FunctionalTester
+modules:
+    enabled:
+        - \Helper\Functional
+        - \Herloct\Codeception\Module\Slim:
+              container: tests/_data/container.php
+        - REST:
+              depends: \Herloct\Codeception\Module\Slim

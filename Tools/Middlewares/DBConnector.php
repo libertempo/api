@@ -14,17 +14,37 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
 {
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
-        $container = $this->getContainer();
-        $configuration = $container->get('configurationFileData');
+        $dbh = ('ci' === $request->getHeaderLine('stage', null))
+            ? $this->getTestBase()
+            : $this->getRealBase();
+        $connexion = DBAL\DriverManager::getConnection(['pdo' => $dbh]);
+        $this->getContainer()->set('storageConnector', $connexion);
+
+        return $next($request, $response);
+    }
+
+    private function getTestBase() : \PDO
+    {
+        $dbh = new \PDO('sqlite:' . TESTS_FUNCTIONALS_PATH . '/_data/current.sqlite');
+        $dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // ERRMODE_WARNING | ERRMODE_EXCEPTION | ERRMODE_SILENT
+        /* Push last access date on the fly */
+        $hours = 6 * 3600;
+        $newDate = date('Y-m-d H:i', time() + $hours);
+        $dbh->query('UPDATE `conges_users` SET date_last_access = "' . $newDate . '"');
+
+        return $dbh;
+    }
+
+    private function getRealBase() : \PDO
+    {
+        $configuration = $this->getContainer()->get('configurationFileData');
         $dbh = new \PDO(
             'mysql:host=' . $configuration->db->serveur . ';dbname=' . $configuration->db->base,
             $configuration->db->utilisateur,
             $configuration->db->mot_de_passe,
             [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8\';']
         );
-        $connexion = DBAL\DriverManager::getConnection(['pdo' => $dbh]);
-        $container->set('storageConnector', $connexion);
 
-        return $next($request, $response);
+        return $dbh;
     }
 }
