@@ -49,18 +49,7 @@ function configurationGenerale()
         Slim\Router::class => get('router'),
         'callableResolver' => autowire(CallableResolver::class),
         'environment' => function (C $c) {
-            $configuration = $c->get('configuration');
-            $stage = (!isset($configuration['stage']) || 'development' !== $configuration['stage'])
-                ? 'production'
-                : 'development';
-
-            $e = new Slim\Http\Environment($_SERVER);
-            $e->set('stage', $stage);
-
-            return $e;
-        },
-        'configuration' => function (C $c) {
-            return json_decode(file_get_contents(ROOT_PATH . 'configuration.json'), true);
+            return new Slim\Http\Environment($_SERVER);
         },
         'request' => function (C $c) {
             return Request::createFromEnvironment($c->get('environment'));
