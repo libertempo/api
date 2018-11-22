@@ -16,6 +16,9 @@ default : help
 help:
 	@echo 'help'
 
+install:
+	php composer.phar install
+
 major:
 	$(call make_version,major)
 

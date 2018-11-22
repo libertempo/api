@@ -9,6 +9,13 @@ API Libertempo
 ---
 
 # Initialisation
+L'installation sous sa forme la plus simple se résume à faire :
+```sh
+git clone git@github.com:libertempo/api.git
+cd api
+make install
+```
+
 L'API Libertempo doit être installée comme un domaine à part, autrement dit :
 - api.libertempo.tld
 - api.libertempo.mon-entreprise.tld
@@ -20,6 +27,12 @@ Et non pas comme un sous-répertoire de votre domaine existant :
 C'est préférable pour l'isolation des systèmes (donc la sécurité), en plus d'être plus simple à gérer côté applicatif (plus de certitudes, donc moins de bugs).
 
 Les échanges se font en JSON et nous suivons les codes HTTP standards.
+
+Si cette installation est à but de développement, pensez à exécuter dans le répertoire racine :
+```sh
+make install
+ln -sf `pwd`/Tools/Scripts/post-checkout .git/hooks/post-checkout
+```
 
 # Requête
 En tant qu'architecture REST, les échanges sont *sans-état*, ce qui signifie que le serveur ne stocke pas d'information pour se *souvenir* d'un client et n'induit rien. Cela implique que le client doit fournir toutes les informations nécessaires à la réalisation d'une action, passant tout d'abord par une *connexion*, puis la transmission à chaque requête du *token* reçu suite à cette connexion.
