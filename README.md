@@ -21,6 +21,12 @@ C'est préférable pour l'isolation des systèmes (donc la sécurité), en plus 
 
 Les échanges se font en JSON et nous suivons les codes HTTP standards.
 
+Si cette installation est à but de développement, pensez à exécuter dans le répertoire racine :
+```sh
+make install
+ln -sf `pwd`/Tools/Scripts/post-checkout .git/hooks/post-checkout
+```
+
 # Requête
 En tant qu'architecture REST, les échanges sont *sans-état*, ce qui signifie que le serveur ne stocke pas d'information pour se *souvenir* d'un client et n'induit rien. Cela implique que le client doit fournir toutes les informations nécessaires à la réalisation d'une action, passant tout d'abord par une *connexion*, puis la transmission à chaque requête du *token* reçu suite à cette connexion.
 
