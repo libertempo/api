@@ -36,7 +36,7 @@ final class EnvironmentDefiner extends \LibertAPI\Tools\AMiddleware
         if (!empty($configuration['logger_token'])) {
             Rollbar::init([
                 'access_token' => $configuration['logger_token'],
-                'environment' => $stage,
+                'environment' => 'development',
                 'use_error_reporting' => true,
                 'allow_exec' => false,
                 'included_errno' => E_ALL,
