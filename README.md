@@ -9,6 +9,13 @@ API Libertempo
 ---
 
 # Initialisation
+L'installation sous sa forme la plus simple se résume à faire :
+```sh
+git clone git@github.com:libertempo/api.git
+cd api
+make install
+```
+
 L'API Libertempo doit être installée comme un domaine à part, autrement dit :
 - api.libertempo.tld
 - api.libertempo.mon-entreprise.tld
