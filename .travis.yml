@@ -15,7 +15,7 @@ before_script:
 script:
     - make test-unit
     # Supprimer prochaine ligne après travail
-    - if [[ true ]]; then make test-functional; fi
+    # - if [[ true ]]; then make test-functional; fi
     - if [[ "$TRAVIS_BRANCH" == "master" ]]; then make test-functional; fi
 after_script:
   - php Vendor/Bin/codacycoverage clover clover.xml
