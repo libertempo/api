@@ -2,7 +2,7 @@
 namespace LibertAPI\Tests\Functionals;
 
 /**
- * Since theses tests aren't deterministic (they change token), they a run at the end
+ * Since theses tests aren't deterministic (they change token), they are run at the end
  */
 class ZZAuthenticateUserCest extends BaseTestCest
 {
