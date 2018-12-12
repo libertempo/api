@@ -3,3 +3,5 @@ parameters:
 		- %currentWorkingDirectory%/Vendor/*
 		- %currentWorkingDirectory%/Tools/Route/*
 		- %currentWorkingDirectory%/Tests/*
+	ignoreErrors:
+		- '#Constant ROOT_PATH not found.#'
