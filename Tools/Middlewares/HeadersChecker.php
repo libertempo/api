@@ -13,11 +13,7 @@ final class HeadersChecker extends \LibertAPI\Tools\AMiddleware
 {
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
-        /* /!\ Headers non versionnés */
-        $json = 'application/json';
-        if ($request->getHeaderLine('Accept') === $json
-            && $request->getHeaderLine('Content-Type') === $json
-        ) {
+        if ('application/json' === $request->getHeaderLine('Accept')) {
             return $next($request, $response);
         }
         return call_user_func(
