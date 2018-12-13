@@ -15,7 +15,7 @@ final class EnvironmentDefiner extends \LibertAPI\Tools\AMiddleware
     public function __invoke(IRequest $request, IResponse $response, callable $next) : IResponse
     {
         $configuration = $this->getContainer()->get('configurationFileData');
-        $stage = (!isset($configuration['stage']) || 'development' !== $configuration['stage'])
+        $stage = (!isset($configuration->stage) || 'development' !== $configuration->stage)
             ? 'production'
             : 'development';
         if ('development' == $stage) {
@@ -33,15 +33,16 @@ final class EnvironmentDefiner extends \LibertAPI\Tools\AMiddleware
         error_reporting(-1);
         ini_set("display_errors", '1');
         $configuration = $this->getContainer()->get('configurationFileData');
-        if (!empty($configuration['logger_token'])) {
+        if (!empty($configuration->logger_token)) {
+
             Rollbar::init([
-                'access_token' => $configuration['logger_token'],
+                'access_token' => $configuration->logger_token,
                 'environment' => 'development',
                 'use_error_reporting' => true,
                 'allow_exec' => false,
                 'included_errno' => E_ALL,
             ]);
-            \Rollbar\Rollbar::addCustom('access_key', $configuration['logger_token']);
+            \Rollbar\Rollbar::addCustom('access_key', $configuration->logger_token);
         }
     }
 
