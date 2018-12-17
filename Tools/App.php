@@ -22,6 +22,7 @@ $app->add(new Middlewares\Identificator($app));
 $app->add(new Middlewares\DBConnector($app));
 $app->add(new Middlewares\ResourceFormatter($app));
 $app->add(new Middlewares\HeadersChecker($app));
+$app->add(new Middlewares\EnvironmentDefiner($app));
 $app->add(new Middlewares\ConfigurationFileChecker($app));
 
 $app->get('/hello_world', function(IRequest $request, IResponse $response) {
