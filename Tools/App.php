@@ -8,10 +8,10 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 use LibertAPI\Tools\Middlewares;
 use DI\ContainerBuilder;
 
-define('ROUTE_PATH', TOOLS_PATH . 'Route' . DS);
+define('ROUTE_PATH', TOOLS_PATH . DS . 'Route');
 
 $containerBuilder = new ContainerBuilder;
-$containerBuilder->addDefinitions(ROOT_PATH . 'di-config.php');
+$containerBuilder->addDefinitions(ROOT_PATH . DS . 'di-config.php');
 $app = new \Slim\App($containerBuilder->build());
 
 /*
@@ -29,12 +29,12 @@ $app->get('/hello_world', function(IRequest $request, IResponse $response) {
     return $response->withJson('Hi there !');
 });
 
-require_once ROUTE_PATH . 'Absence.php';
-require_once ROUTE_PATH . 'Authentification.php';
-require_once ROUTE_PATH . 'Groupe.php';
-require_once ROUTE_PATH . 'Journal.php';
-require_once ROUTE_PATH . 'JourFerie.php';
-require_once ROUTE_PATH . 'Planning.php';
-require_once ROUTE_PATH . 'Utilisateur.php';
+require_once ROUTE_PATH . DS. 'Absence.php';
+require_once ROUTE_PATH . DS . 'Authentification.php';
+require_once ROUTE_PATH . DS . 'Groupe.php';
+require_once ROUTE_PATH . DS . 'Journal.php';
+require_once ROUTE_PATH . DS . 'JourFerie.php';
+require_once ROUTE_PATH . DS . 'Planning.php';
+require_once ROUTE_PATH . DS . 'Utilisateur.php';
 
 return $app;

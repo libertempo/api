@@ -28,7 +28,7 @@ final class ConfigurationFileChecker extends \LibertAPI\Tools\AMiddleware
 
     private function getRealConfiguration() : \stdClass
     {
-        $configuration = json_decode(file_get_contents(ROOT_PATH . 'configuration.json'));
+        $configuration = json_decode(file_get_contents(ROOT_PATH . DS . 'configuration.json'));
         if (0 !== json_last_error()) {
             throw new \Exception('Configuration file is not JSON');
         }

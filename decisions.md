@@ -1,3 +1,6 @@
+# 2018-12-17
+* Afin de mieux coller aux résultats de `__DIR__` et `dirname()`, je supprime toutes les slashes finaux des constantes `*_PATH`
+
 # 2018-10-20
 * Il y a de multiples méthodes de connexion à l'application « libertempo » et l'API commence à les absorber petit à petit. Naturellement, j'ai souhaité que cette diversité de connecteurs soit transparente pour la plus grande partie de l'appli possible. J'ai donc mis en place une Fabrique pour que cette dernière fasse seule le choix du connecteur à sélectionner, ses consommateurs manipulant un contrat.
 * À cet effet, le contrôleur d'authentification n'est plus testable unitairement (le statiqu l'en empêche). Je souhaiterais ne pas rester sur un échec et tester cette partie d'une autre manière.

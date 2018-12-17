@@ -25,7 +25,7 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
 
     private function getTestBase() : \PDO
     {
-        $dbh = new \PDO('sqlite:' . TESTS_FUNCTIONALS_PATH . '/_data/current.sqlite');
+        $dbh = new \PDO('sqlite:' . TESTS_FUNCTIONALS_PATH . DS . '_data/current.sqlite');
         $dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // ERRMODE_WARNING | ERRMODE_EXCEPTION | ERRMODE_SILENT
         /* Push last access date on the fly */
         $hours = 6 * 3600;
