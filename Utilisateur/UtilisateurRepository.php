@@ -151,6 +151,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         // @TODO: supprimer cette ligne quand on passera à DBAL > 2.6 : https://github.com/doctrine/dbal/commit/e937f37a8acc117047ff4ed9aec493a1e3de2195
         $this->queryBuilder->resetQueryParts();
         $entite->populate($data);
+
         $this->queryBuilder->update($this->getTableName());
         $this->setSet($this->getEntite2Storage($entite));
         $this->setWhere(['u_login' => $entite->getId()]);
@@ -158,7 +159,6 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
         $this->queryBuilder->execute();
 
         return $entite;
-
     }
 
     /**
@@ -239,8 +239,17 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     public function updateDateLastAccess(UtilisateurEntite $entite) : AEntite
     {
         $entite->updateDateLastAccess();
+        // @TODO: supprimer cette ligne quand on passera à DBAL > 2.6 : https://github.com/doctrine/dbal/commit/e937f37a8acc117047ff4ed9aec493a1e3de2195
+        $this->queryBuilder->resetQueryParts();
+        $this->queryBuilder->setParameters([]);
 
-        return $this->putOne($entite->getId(), ['date_last_access' => $entite->getDateLastAccess()]);
+        $this->queryBuilder->update($this->getTableName());
+        $this->setSet($this->getEntite2Storage($entite));
+        $this->setWhere(['u_login' => $entite->getId()]);
+
+        $this->queryBuilder->execute();
+
+        return $entite;
     }
 
     /**
