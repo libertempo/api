@@ -127,6 +127,14 @@ class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
     }
 
     /**
+     * Retourne la donnée la plus à jour du champ num
+     */
+    public function getNum() : string
+    {
+        return $this->getFreshData('num');
+    }
+
+    /**
      * @inheritDoc
      */
     public function populate(array $data)
