@@ -11,6 +11,16 @@ namespace LibertAPI\Tests\Units\Absence\Periode;
  */
 final class PeriodeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARepository
 {
+    public function testPostOne()
+    {
+        $this->boolean(true)->isTrue;
+    }
+
+    public function testPutOne()
+    {
+        $this->boolean(true)->isTrue;
+    }
+
     protected function getStorageContent() : array
     {
         return [

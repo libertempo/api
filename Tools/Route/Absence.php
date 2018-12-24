@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 
 use LibertAPI\Tools\Controllers\AbsenceTypeController;
+use LibertAPI\Tools\Controllers\AbsencePeriodeController;
 
 /*
  * Doit être importé après la création de $app. Ne créé rien.
@@ -21,5 +22,14 @@ $app->group('/absence', function () {
         /* Collection */
         $this->get('', [AbsenceTypeController::class, 'get'])->setName('getAbsenceTypeListe');
         $this->post('', [AbsenceTypeController::class, 'post'])->setName('postAbsenceTypeListe');
+    });
+
+    /* Route pour une période d'absence */
+    $this->group('/periode', function () {
+        /* Détail */
+        $this->get('/{periodeId:[0-9]+}', [AbsencePeriodeController::class, 'get'])->setName('getAbsencePeriodeDetail');
+        /* Collection */
+        $this->get('', [AbsencePeriodeController::class, 'get'])->setName('getAbsencePeriodeListe');
+
     });
 });

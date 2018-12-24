@@ -57,9 +57,9 @@ class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
     /**
      * Retourne la donnée la plus à jour du champ nombre de jours
      */
-    public function getNombreJours() : string
+    public function getNombreJours() : int
     {
-        return $this->getFreshData('nb_jours');
+        return (int) $this->getFreshData('nb_jours');
     }
 
     /**
