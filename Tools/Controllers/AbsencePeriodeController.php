@@ -95,6 +95,7 @@ implements Interfaces\IGetable
     {
         return [
             'id' => $entite->getId(),
+            'login' => $entite->getLogin(),
             'dateDebut' => $entite->getDateDebut(),
             'demiJourneeDebut' => $entite->getDemiJourneeDebut(),
             'dateFin' => $entite->getDateFin(),

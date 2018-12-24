@@ -34,7 +34,7 @@ class PeriodeRepository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function getStorage2Entite(array $dataStorage)
     {
         return [
-            'id' => $dataStorage['id'],
+            'id' => $dataStorage['p_login'],
             'login' => $dataStorage['p_login'],
             'date_deb' => $dataStorage['p_date_deb'],
             'demi_jour_deb' => $dataStorage['p_demi_jour_deb'],
@@ -50,7 +50,6 @@ class PeriodeRepository extends \LibertAPI\Tools\Libraries\ARepository
             'date_traitement' => $dataStorage['p_date_traitement'],
             'fermeture_id' => $dataStorage['p_fermeture_id'],
             'num' => $dataStorage['p_num'],
-            'type' => $dataStorage['p_type'],
         ];
     }
 

@@ -57,9 +57,9 @@ class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
     /**
      * Retourne la donnée la plus à jour du champ nombre de jours
      */
-    public function getNombreJours() : int
+    public function getNombreJours() : string
     {
-        return (int) $this->getFreshData('nb_jours');
+        return $this->getFreshData('nb_jours');
     }
 
     /**
@@ -89,7 +89,7 @@ class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
     /**
      * Retourne la donnée la plus à jour du champ id d'édition
      */
-    public function getEditionId() : string
+    public function getEditionId() : ?string
     {
         return $this->getFreshData('edition_id');
     }
@@ -97,7 +97,7 @@ class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
     /**
      * Retourne la donnée la plus à jour du champ motif de refus
      */
-    public function getMotifRefus() : string
+    public function getMotifRefus() : ?string
     {
         return $this->getFreshData('motif_refus');
     }
@@ -105,7 +105,7 @@ class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
     /**
      * Retourne la donnée la plus à jour du champ date de demande
      */
-    public function getDateDemande() : string
+    public function getDateDemande() : ?string
     {
         return $this->getFreshData('date_demande');
     }
@@ -113,7 +113,7 @@ class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
     /**
      * Retourne la donnée la plus à jour du champ date traitement
      */
-    public function getDateTraitement() : string
+    public function getDateTraitement() : ?string
     {
         return $this->getFreshData('date_traitement');
     }
@@ -121,7 +121,7 @@ class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
     /**
      * Retourne la donnée la plus à jour du champ id de fermeture
      */
-    public function getFermetureId() : string
+    public function getFermetureId() : ?int
     {
         return $this->getFreshData('fermeture_id');
     }
@@ -163,5 +163,14 @@ class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
         }
 
         $this->dataUpdated['login'] = $login;
+    }
+
+    /**
+     * @inheritDoc
+     * @TODO L'entité période n'a pas de clé primaire en int, donc on surcharge le parent. Mettre une PK en int !
+     */
+    final protected function setId($id)
+    {
+        $this->id = (string) $id;
     }
 }
