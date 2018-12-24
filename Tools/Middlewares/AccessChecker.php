@@ -59,7 +59,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
                         $container->get('forbiddenHandler'),
                         $request,
                         $response
-                   );
+                    );
                 }
 
                 return $next($request, $response);

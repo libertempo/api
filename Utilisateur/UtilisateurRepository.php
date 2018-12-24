@@ -63,7 +63,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
      *
      * @return AEntite
      */
-    public function find(array $parametres)
+    public function find(array $parametres) : AEntite
     {
         $list = $this->getList($parametres);
         return reset($list);
