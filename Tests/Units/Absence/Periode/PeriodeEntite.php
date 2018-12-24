@@ -16,13 +16,12 @@ final class PeriodeEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEntite
      */
     public function testConstructWithId()
     {
-        $id = 3;
         $login = 'Logan';
         $commentaire = 'Je ne suis pas gros !';
 
-        $this->newTestedInstance(['id' => $id, 'login' => $login, 'commentaire' => $commentaire]);
+        $this->newTestedInstance(['id' => $login, 'login' => $login, 'commentaire' => $commentaire]);
 
-        $this->assertConstructWithId($this->testedInstance, $id);
+        $this->string($this->testedInstance->getId())->isIdenticalTo($login);
         $this->string($this->testedInstance->getLogin())->isIdenticalTo($login);
         $this->string($this->testedInstance->getCommentaire())->isIdenticalTo($commentaire);
     }

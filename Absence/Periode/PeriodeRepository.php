@@ -24,8 +24,11 @@ class PeriodeRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function getParamsConsumer2Storage(array $paramsConsumer) : array
     {
-        unset($paramsConsumer);
-        return [];
+        $results = [];
+        if (array_key_exists('login', $paramsConsumer)) {
+            $results['u_login'] = (string) $paramsConsumer['login'];
+        }
+        return $results;
     }
 
     /**
@@ -60,10 +63,12 @@ class PeriodeRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function setValues(array $values)
     {
+        unset($values);
     }
 
     final protected function setSet(array $parametres)
     {
+        unset($parametres);
     }
 
     /**
@@ -83,7 +88,7 @@ class PeriodeRepository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function setWhere(array $parametres)
     {
         if (array_key_exists('id', $parametres)) {
-            $this->queryBuilder->andWhere('login = :id');
+            $this->queryBuilder->andWhere('p_login = :id');
             $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
         }
     }

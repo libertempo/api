@@ -9,8 +9,6 @@ namespace LibertAPI\Absence\Periode;
  *
  * @since 1.1
  * @see \LibertAPI\Tests\Units\Absence\Periode\PeriodeEntite
- *
- * num
  */
 class PeriodeEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
