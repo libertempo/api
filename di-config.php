@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 use Psr\Container\ContainerInterface as C;
 use DI\Container;
@@ -20,7 +20,7 @@ use \Rollbar\Rollbar;
 
 return configurationGenerale() + configurationPersonnelle();
 
-function configurationGenerale()
+function configurationGenerale() : array
 {
     return [
         // Settings that can be customized by users
@@ -59,18 +59,18 @@ function configurationGenerale()
             $response = new Response(200, $headers);
             return $response->withProtocolVersion($c->get('settings')['httpVersion']);
         },
-        'foundHandler' => create(\Slim\Handlers\Strategies\RequestResponse::class),
     ];
 }
 
-function configurationPersonnelle()
+function configurationPersonnelle() : array
+{
+    return configurationHandlers() + configurationLibertempo();
+}
+
+function configurationHandlers() : array
 {
     return [
-        AuthentificationController::class => function (C $c) {
-            $repo = $c->get(UtilisateurRepository::class);
-            $repo->setApplication($c->get(Application::class));
-            return new AuthentificationController($repo, $c->get(IRouter::class), $c->get(StorageConfiguration::class));
-        },
+        'foundHandler' => create(\Slim\Handlers\Strategies\RequestResponse::class),
         'badRequestHandler' => function (C $c) {
             return function (IRequest $request, IResponse $response) use ($c) {
                 return call_user_func(
@@ -176,6 +176,17 @@ function configurationPersonnelle()
 
                 return $responseUpd->withHeader('Allow', $methodString);
             };
+        },
+    ];
+}
+
+function configurationLibertempo() : array
+{
+    return [
+        AuthentificationController::class => function (C $c) {
+            $repo = $c->get(UtilisateurRepository::class);
+            $repo->setApplication($c->get(Application::class));
+            return new AuthentificationController($repo, $c->get(IRouter::class), $c->get(StorageConfiguration::class));
         },
         Doctrine\DBAL\Driver\Connection::class => function (C $c) {
             return $c->get('storageConnector');
