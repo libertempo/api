@@ -19,6 +19,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
 
         switch ($ressourcePath) {
             case 'Absence|Type':
+            case 'Absence|Periode':
             case 'Utilisateur':
             case 'JourFerie':
             case 'Journal':
@@ -58,7 +59,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
                         $container->get('forbiddenHandler'),
                         $request,
                         $response
-                   );
+                    );
                 }
 
                 return $next($request, $response);

@@ -13,6 +13,16 @@ use LibertAPI\Tools\Libraries\AEntite;
  */
 final class UtilisateurRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARepository
 {
+    public function testFindOk()
+    {
+        $this->newTestedInstance($this->connector);
+        $this->calling($this->result)->fetchAll = [$this->getStorageContent()];
+
+        $res = $this->testedInstance->find([]);
+
+        $this->string($res->getId())->isIdenticalTo('Aladdin');
+    }
+
     final protected function getStorageContent() : array
     {
         return [

@@ -30,7 +30,7 @@ patch:
 
 test: test-unit test-functional
 
-test-unit:
+test-unit: ## Lance les tests unitaires
 	Vendor/Bin/atoum -ulr
 
 test-functional:

@@ -63,7 +63,7 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
      *
      * @return AEntite
      */
-    public function find(array $parametres)
+    public function find(array $parametres) : AEntite
     {
         $list = $this->getList($parametres);
         return reset($list);
@@ -72,34 +72,10 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
     /**
      * @inheritDoc
      */
-    public function getList(array $parametres) : array
-    {
-        // @TODO: supprimer cette ligne quand on passera à DBAL > 2.6 : https://github.com/doctrine/dbal/commit/e937f37a8acc117047ff4ed9aec493a1e3de2195
-        $this->queryBuilder->resetQueryParts();
-        $this->queryBuilder->select('*, u_login AS id');
-        $this->queryBuilder->from($this->getTableName(), 'current');
-        $this->setWhere($this->getParamsConsumer2Storage($parametres));
-        $res = $this->queryBuilder->execute();
-        $data = $res->fetchAll(\PDO::FETCH_ASSOC);
-
-        if (empty($data)) {
-            throw new \UnexpectedValueException('No resource match with these parameters');
-        }
-
-        $entites = array_map(function ($value) {
-            return new UtilisateurEntite($this->getStorage2Entite($value));
-        }, $data);
-
-        return $entites;
-    }
-
-    /**
-     * @inheritDoc
-     */
     final protected function getStorage2Entite(array $dataStorage) : array
     {
         return [
-            'id' => $dataStorage['id'],
+            'id' => $dataStorage['u_login'],
             'login' => $dataStorage['u_login'],
             'nom' => $dataStorage['u_nom'],
             'prenom' => $dataStorage['u_prenom'],
