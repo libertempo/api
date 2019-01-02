@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16dc64084dc2cee3a07bedec01dc128b",
+    "content-hash": "ae988a6f6f95dc5f5161cb7a840bd973",
     "packages": [
         {
             "name": "adldap2/adldap2",
-            "version": "v9.1.3",
+            "version": "v9.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Adldap2/Adldap2.git",
-                "reference": "f9ba4003a1350b7cad952d3ad22b24c8d3e0d1af"
+                "reference": "e74bf7e3762b35e828179b11eb100da4a12ff701"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Adldap2/Adldap2/zipball/f9ba4003a1350b7cad952d3ad22b24c8d3e0d1af",
-                "reference": "f9ba4003a1350b7cad952d3ad22b24c8d3e0d1af",
+                "url": "https://api.github.com/repos/Adldap2/Adldap2/zipball/e74bf7e3762b35e828179b11eb100da4a12ff701",
+                "reference": "e74bf7e3762b35e828179b11eb100da4a12ff701",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "ldap",
                 "windows"
             ],
-            "time": "2018-10-08T22:25:07+00:00"
+            "time": "2018-12-06T15:03:32+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -320,7 +320,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.7.15",
+            "version": "5.7.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1337,16 +1337,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.0.14",
+            "version": "v4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "3af63f44ddb45b03af4d172a4ce3e5c58b25fc5b"
+                "reference": "db61258540350725f4beb6b84006e32398acd120"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/3af63f44ddb45b03af4d172a4ce3e5c58b25fc5b",
-                "reference": "3af63f44ddb45b03af4d172a4ce3e5c58b25fc5b",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/db61258540350725f4beb6b84006e32398acd120",
+                "reference": "db61258540350725f4beb6b84006e32398acd120",
                 "shasum": ""
             },
             "require": {
@@ -1355,20 +1355,26 @@
                 "symfony/polyfill-php72": "~1.5"
             },
             "conflict": {
-                "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
+                "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0",
+                "symfony/console": "<3.4"
             },
             "require-dev": {
                 "ext-iconv": "*",
+                "symfony/process": "~3.4|~4.0",
                 "twig/twig": "~1.34|~2.4"
             },
             "suggest": {
                 "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
-                "ext-intl": "To show region name in time zone dump"
+                "ext-intl": "To show region name in time zone dump",
+                "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
             },
+            "bin": [
+                "Resources/bin/var-dump-server"
+            ],
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -1402,20 +1408,20 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-07-26T11:22:46+00:00"
+            "time": "2018-11-25T12:50:42+00:00"
         },
         {
             "name": "tightenco/collect",
-            "version": "v5.7.15",
+            "version": "v5.7.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tightenco/collect.git",
-                "reference": "860d20166ac0fa0be63b66798525fbb1e4a44493"
+                "reference": "799108d67cdc9843ed3569ae2989888826166381"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tightenco/collect/zipball/860d20166ac0fa0be63b66798525fbb1e4a44493",
-                "reference": "860d20166ac0fa0be63b66798525fbb1e4a44493",
+                "url": "https://api.github.com/repos/tightenco/collect/zipball/799108d67cdc9843ed3569ae2989888826166381",
+                "reference": "799108d67cdc9843ed3569ae2989888826166381",
                 "shasum": ""
             },
             "require": {
@@ -1452,7 +1458,7 @@
                 "collection",
                 "laravel"
             ],
-            "time": "2018-11-26T17:03:23+00:00"
+            "time": "2018-12-17T15:11:32+00:00"
         }
     ],
     "packages-dev": [
