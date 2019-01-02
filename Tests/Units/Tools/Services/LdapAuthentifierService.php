@@ -33,7 +33,7 @@ class LdapAuthentifierService extends \Atoum
 
     public function testIsAuthentificationSucceedFalse()
     {
-        $this->calling($this->connection)->bind = false;
+        $this->calling($this->provider->auth())->attempt = false;
         $this->newTestedInstance($this->ldap);
         $succeed = $this->testedInstance->isAuthentificationSucceed($this->request);
 
@@ -42,7 +42,7 @@ class LdapAuthentifierService extends \Atoum
 
     public function testIsAuthentificationSucceedTrue()
     {
-        $this->calling($this->connection)->bind = true;
+        $this->calling($this->provider->auth())->attempt = true;
         $this->newTestedInstance($this->ldap);
         $succeed = $this->testedInstance->isAuthentificationSucceed($this->request);
 
