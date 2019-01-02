@@ -5,6 +5,8 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Utilisateur;
+use LibertAPI\Tools\Exceptions\UnknownResourceException;
+
 
 /**
  * Contrôleur d'utilisateurs
@@ -57,7 +59,7 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     {
         try {
             $utilisateur = $this->repository->getOne($id);
-        } catch (\DomainException $e) {
+        } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « utilisateurs#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
@@ -108,6 +110,15 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
             'id' => $entite->getId(),
             'login' => $entite->getLogin(),
             'nom' => $entite->getNom(),
+            'prenom' => $entite->getPrenom(),
+            'is_responsable' => $entite->isResponsable(),
+            'is_haut_responsable' => $entite->isHautResponsable(),
+            'is_actif' => $entite->isActif(),
+            'quotite' => $entite->getQuotite(),
+            'mail' => $entite->getMail(),
+            'numero_exercice' => $entite->getNumeroExercice(),
+            'planning_id' => $entite->getPlanningId(),
+            'heure_solde' => $entite->getHeureSolde(),
             'date_inscription' => $entite->getDateInscription(),
             // mettre le lien du planning associé, sous un offset formalisé
         ];

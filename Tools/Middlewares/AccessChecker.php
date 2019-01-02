@@ -64,7 +64,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
 
                 return $next($request, $response);
             default:
-                throw new \RuntimeException('Rights were not configured for this route');
+                throw new \RuntimeException('Rights were not configured for the route ' . $ressourcePath);
         }
     }
 }
