@@ -48,7 +48,7 @@ class LdapAuthentifierService extends \Atoum
 
     public function testIsAuthentificationSucceedTrue()
     {
-        $this->calling($this->guard)->attempt = false; = true;
+        $this->calling($this->guard)->attempt = true;
         $this->newTestedInstance($this->ldap);
         $succeed = $this->testedInstance->isAuthentificationSucceed($this->request);
 
