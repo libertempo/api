@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae988a6f6f95dc5f5161cb7a840bd973",
+    "content-hash": "594ce657770ff784a34e3378638b1f31",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -984,16 +984,16 @@
         },
         {
             "name": "rollbar/rollbar",
-            "version": "v1.7.2",
+            "version": "v1.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "a2292fe25108bb1f9fb73908aeb80fca0af76b21"
+                "reference": "c20bc20b91222f367ce18b3e0bf30863c1c9de57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/a2292fe25108bb1f9fb73908aeb80fca0af76b21",
-                "reference": "a2292fe25108bb1f9fb73908aeb80fca0af76b21",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/c20bc20b91222f367ce18b3e0bf30863c1c9de57",
+                "reference": "c20bc20b91222f367ce18b3e0bf30863c1c9de57",
                 "shasum": ""
             },
             "require": {
@@ -1040,7 +1040,7 @@
                 "logging",
                 "monitoring"
             ],
-            "time": "2018-12-17T03:44:37+00:00"
+            "time": "2019-01-02T16:24:41+00:00"
         },
         {
             "name": "slim/slim",
