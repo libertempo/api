@@ -25,11 +25,10 @@ class LdapAuthentifierService extends \Atoum
         $this->calling($this->ldap)->addProvider = '';
         $this->calling($this->ldap)->connect = $this->provider;
         $this->calling($this->search)->select = null;
-        $this->calling($this->search)->users = $this->users();
         $this->calling($this->provider)->search = $this->search;
         $this->mockGenerator->orphanize('__construct');
         $this->guard = new \mock\Adldap\Auth\Guard();
-        $this->calling($this->provider)->auth = $this->guard; 
+        $this->calling($this->provider)->auth = $this->guard;
         $this->mockGenerator->orphanize('__construct');
         $this->request = new \mock\Slim\Http\Request();
         $configuration = json_decode(json_encode($this->configuration));
@@ -55,17 +54,6 @@ class LdapAuthentifierService extends \Atoum
         $this->boolean($succeed)->isTrue();
     }
 
-    private function users()
-    {
-        return new class($this) {
-            private $outer;
-            public function __construct($outer) {$this->outer = $outer;}
-             public function where() {
-                return $this->outer->first();
-            }
-        };
-    }
- 
     public function first()
     {
         return new class($this) {
@@ -76,7 +64,7 @@ class LdapAuthentifierService extends \Atoum
             }
         };
     }
- 
+
     public function user()
     {
         return new class {
