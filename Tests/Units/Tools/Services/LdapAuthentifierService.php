@@ -25,6 +25,7 @@ class LdapAuthentifierService extends \Atoum
         $this->calling($this->ldap)->addProvider = '';
         $this->calling($this->ldap)->connect = $this->provider;
         $this->calling($this->search)->select = null;
+        $this->calling($this->search)->where = $this->where();
         $this->calling($this->provider)->search = $this->search;
         $this->mockGenerator->orphanize('__construct');
         $this->guard = new \mock\Adldap\Auth\Guard();
@@ -54,7 +55,7 @@ class LdapAuthentifierService extends \Atoum
         $this->boolean($succeed)->isTrue();
     }
 
-    public function first()
+    public function where()
     {
         return new class($this) {
             private $outer;
