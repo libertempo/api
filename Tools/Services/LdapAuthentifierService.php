@@ -43,14 +43,12 @@ class LdapAuthentifierService extends AAuthentifierFactoryService
 
         $this->ldap->addProvider($config);
 
-        $rdn = [
-            $configurationLdap->login . '=' . $this->getLogin(),
-            $configurationLdap->domaine,
-        ];
         $provider = $this->ldap->connect();
-        $connection = $provider->getConnection();
+        $search = $provider->search();
+        $search->select(['dn']);
+        $user = $search->where($configurationLdap->login, $this->getLogin())->firstOrFail();
 
-        return $connection->bind(implode(',', $rdn), $this->getPassword());
+        return $provider->auth()->attempt($user->getDn(), $this->getPassword());
     }
 
     /**
