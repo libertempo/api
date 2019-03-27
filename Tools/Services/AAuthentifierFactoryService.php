@@ -59,7 +59,7 @@ abstract class AAuthentifierFactoryService
         }
 
         $authentification = substr($authentification, strlen($authentificationType) + 1);
-        list($login, $password) = explode(':', base64_decode($authentification),2);
+        list($login, $password) = explode(':', base64_decode($authentification), 2);
         $this->setLogin($login);
         $this->setPassword($password);
     }
