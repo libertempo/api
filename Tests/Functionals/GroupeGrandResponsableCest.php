@@ -7,6 +7,13 @@ class GroupeGrandResponsableCest extends BaseTestCest
     {
         $i->sendGET('/groupe/2/grand_responsable');
 
+        $i->seeDataEquals(1);
+    }
+
+    public function testListeKO(\ApiTester $i)
+    {
+        $i->sendGET('/groupe/1/grand_responsable');
+
         $this->seeResponseNoContent($i);
     }
 }

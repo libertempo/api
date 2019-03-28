@@ -51,7 +51,7 @@ implements Interfaces\IGetable
      *
      * @return array
      */
-    private function buildData(Employe\EmployeEntite $entite)
+    private function buildData(Employe\EmployeEntite $entite) : array
     {
         return [
             'login' => $entite->getLogin(),
