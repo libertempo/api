@@ -31,8 +31,11 @@ class ResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function getParamsConsumer2Storage(array $paramsConsumer) : array
     {
-        unset($paramsConsumer);
-        return [];
+        $results = [];
+        if (array_key_exists('groupeId', $paramsConsumer)) {
+            $results['id'] = (string) $paramsConsumer['groupeId'];
+        }
+        return $results;
     }
 
     /**
@@ -104,7 +107,7 @@ class ResponsableRepository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function setWhere(array $parametres)
     {
         if (array_key_exists('id', $parametres)) {
-            $this->queryBuilder->andWhere('g_gid = :id');
+            $this->queryBuilder->andWhere('gr_gid = :id');
             $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
         }
     }
