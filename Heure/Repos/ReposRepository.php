@@ -1,5 +1,5 @@
 <?php declare(strict_types = 1);
-namespace LibertAPI\Groupe;
+namespace LibertAPI\Heure\Repos;
 
 use LibertAPI\Tools\Libraries\AEntite;
 
@@ -10,12 +10,12 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Wouldsmina
  *
  * @since 0.7
- * @see \LibertAPI\Tests\Units\Groupe\GroupeRepository
+ * @see \LibertAPI\Tests\Units\Heure\Repos\ReposRepository
  *
- * Ne devrait être contacté que par le GroupeController
- * Ne devrait contacter que le GroupeEntite
+ * Ne devrait être contacté que par le HeureReposUtilisateurController
+ * Ne devrait contacter que le ReposEntite
  */
-class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
+class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
     final protected function getEntiteClass() : string
     {
@@ -57,18 +57,6 @@ class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
 
     final protected function setSet(array $parametres)
     {
-        if (!empty($parametres['name'])) {
-            $this->queryBuilder->set('g_groupename', ':name');
-            $this->queryBuilder->setParameter(':name', $parametres['name']);
-        }
-        if (!empty($parametres['comment'])) {
-            $this->queryBuilder->set('g_comment', ':comment');
-            $this->queryBuilder->setParameter(':comment', $parametres['comment']);
-        }
-        if (!empty($parametres['double_validation'])) {
-            $this->queryBuilder->set('g_double_valid', ':double_validation');
-            $this->queryBuilder->setParameter(':double_validation', $parametres['double_validation']);
-        }
     }
 
     /**
@@ -87,11 +75,7 @@ class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function getEntite2Storage(AEntite $entite) : array
     {
-        return [
-            'name' => $entite->getName(),
-            'comment' => $entite->getComment(),
-            'double_validation' => 'Y' === $entite->isDoubleValidated()
-        ];
+        return [];
     }
 
     /**
@@ -99,6 +83,21 @@ class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function getTableName() : string
     {
-        return 'conges_groupe';
+        return 'heure_repos';
     }
+
+//     +---------------+------------------+------+-----+---------+----------------+
+// | Field         | Type             | Null | Key | Default | Extra          |
+// +---------------+------------------+------+-----+---------+----------------+
+// | id_heure      | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+// | login         | varbinary(99)    | NO   |     | NULL    |                |
+// | debut         | int(11)          | NO   |     | NULL    |                |
+// | fin           | int(11)          | NO   |     | NULL    |                |
+// | duree         | int(11)          | NO   |     | NULL    |                |
+// | type_periode  | int(3)           | NO   |     | NULL    |                |
+// | statut        | int(11)          | NO   |     | 0       |                |
+// | comment       | varchar(250)     | NO   |     |         |                |
+// | comment_refus | varchar(250)     | NO   |     |         |                |
+// +---------------+------------------+------+-----+---------+----------------+
+
 }

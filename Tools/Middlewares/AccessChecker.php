@@ -26,6 +26,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
             case 'Authentification':
             case 'HelloWorld':
             case 'Planning|Creneau':
+            case 'Heure|Repos|Utilisateur|Me':
                 return $next($request, $response);
             case 'Groupe':
             case 'Groupe|GrandResponsable':
