@@ -9,7 +9,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
- * @since 0.7
+ * @since 1.8
  * @see \LibertAPI\Tests\Units\Heure\Repos\ReposRepository
  *
  * Ne devrait être contacté que par le HeureReposUtilisateurController
@@ -19,7 +19,7 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
     final protected function getEntiteClass() : string
     {
-        return GroupeEntite::class;
+        return ReposEntite::class;
     }
 
     /**
@@ -37,10 +37,15 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function getStorage2Entite(array $dataStorage)
     {
         return [
-            'id' => $dataStorage['g_gid'],
-            'name' => $dataStorage['g_groupename'],
-            'comment' => $dataStorage['g_comment'],
-            'double_validation' => 'Y' === $dataStorage['g_double_valid']
+            'id' => $dataStorage['id_heure'],
+            'login' => $dataStorage['login'],
+            'debut' => (int) $dataStorage['debut'],
+            'fin' => (int) $dataStorage['fin'],
+            'duree' => (int) $dataStorage['duree'],
+            'type_periode' => (int) $dataStorage['type_periode'],
+            'statut' => $dataStorage['statut'],
+            'commentaire' => $dataStorage['comment'],
+            'commentaire_refus' => $dataStorage['comment_refus'],
         ];
     }
 
@@ -49,14 +54,12 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function setValues(array $values)
     {
-        $this->queryBuilder->setValue('g_groupename', ':name');
-        $this->queryBuilder->setParameter(':name', $values['name']);
-        $this->queryBuilder->setValue('g_comment', $values['comment']);
-        $this->queryBuilder->setValue('g_double_valid', $values['double_validation']);
+        unset($values);
     }
 
     final protected function setSet(array $parametres)
     {
+        unset($parametres);
     }
 
     /**
@@ -75,6 +78,7 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function getEntite2Storage(AEntite $entite) : array
     {
+        unset($entite);
         return [];
     }
 
@@ -85,19 +89,4 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
     {
         return 'heure_repos';
     }
-
-//     +---------------+------------------+------+-----+---------+----------------+
-// | Field         | Type             | Null | Key | Default | Extra          |
-// +---------------+------------------+------+-----+---------+----------------+
-// | id_heure      | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
-// | login         | varbinary(99)    | NO   |     | NULL    |                |
-// | debut         | int(11)          | NO   |     | NULL    |                |
-// | fin           | int(11)          | NO   |     | NULL    |                |
-// | duree         | int(11)          | NO   |     | NULL    |                |
-// | type_periode  | int(3)           | NO   |     | NULL    |                |
-// | statut        | int(11)          | NO   |     | 0       |                |
-// | comment       | varchar(250)     | NO   |     |         |                |
-// | comment_refus | varchar(250)     | NO   |     |         |                |
-// +---------------+------------------+------+-----+---------+----------------+
-
 }

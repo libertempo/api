@@ -18,33 +18,73 @@ use LibertAPI\Tools\Exceptions\MissingArgumentException;
 class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
-     * Retourne la donnée la plus à jour du champ name
+     * Retourne la donnée la plus à jour du champ login
      *
      * @return string
      */
-    public function getName()
+    public function getLogin()
     {
-        return $this->getFreshData('name');
+        return $this->getFreshData('login');
     }
 
     /**
-     * Retourne la donnée la plus à jour du champ comment
+     * Retourne la donnée la plus à jour du champ debut
      *
      * @return string
      */
-    public function getComment()
+    public function getDebut()
     {
-        return $this->getFreshData('comment');
+        return $this->getFreshData('debut');
     }
 
     /**
-     * Retourne la donnée la plus à jour du champ de double validation
+     * Retourne la donnée la plus à jour du champ fin
      *
-     * @return bool
+     * @return string
      */
-    public function isDoubleValidated()
+    public function getFin()
     {
-        return (bool) $this->getFreshData('double_validation');
+        return $this->getFreshData('fin');
+    }
+
+    /**
+     * Retourne la donnée la plus à jour du champ type_periode
+     *
+     * @return string
+     */
+    public function getTypePeriode()
+    {
+        return $this->getFreshData('type_periode');
+    }
+
+    /**
+     * Retourne la donnée la plus à jour du champ statut
+     *
+     * @return string
+     */
+    public function getStatut()
+    {
+        return $this->getFreshData('statut');
+    }
+
+    /**
+     * Retourne la donnée la plus à jour du champ commentaire
+     *
+     * @return string
+     */
+    public function getCommentaire()
+    {
+        return $this->getFreshData('commentaire');
+    }
+
+    /**
+     * Retourne la donnée la plus à jour du champ commentaire_refus
+     *
+     * @return string
+     */
+    public function getCommentaireRefus()
+    {
+        return $this->getFreshData('commentaire_refus');
     }
 
     /**
@@ -52,15 +92,5 @@ class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
      */
     public function populate(array $data)
     {
-    }
-
-    /**
-     * Retourne la liste des champs requis
-     *
-     * @return array
-     */
-    private function getListRequired()
-    {
-        return [];
     }
 }

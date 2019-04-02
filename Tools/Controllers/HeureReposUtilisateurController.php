@@ -5,7 +5,7 @@ use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
-use LibertAPI\Absence\Periode;
+use LibertAPI\Heure\Repos;
 
 /**
  * Contrôleur des heures de repos
@@ -18,12 +18,10 @@ use LibertAPI\Absence\Periode;
 final class HeureReposUtilisateurController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    public function __construct(Periode\PeriodeRepository $repository, IRouter $router)
+    public function __construct(Repos\ReposRepository $repository, IRouter $router)
     {
         parent::__construct($repository, $router);
     }
-
-    
 
     /**
      * {@inheritDoc}
@@ -34,14 +32,10 @@ implements Interfaces\IGetable
     }
 
     /**
-     * Retourne un tableau de période d'absence
+     * Retourne un tableau d'heures de repos
      *
-     * @param IRequest $request Requête Http
-     * @param IResponse $response Réponse Http
-     *
-     * @return IResponse
      */
-    private function getList(IRequest $request, IResponse $response)
+    private function getList(IRequest $request, IResponse $response) : IResponse
     {
         try {
             $responseResources = $this->repository->getList(
@@ -59,12 +53,8 @@ implements Interfaces\IGetable
 
     /**
      * Construit le « data » du json
-     *
-     * @param Periode\PeriodeEntite $entite Période
-     *
-     * @return array
      */
-    private function buildData(Periode\PeriodeEntite $entite)
+    private function buildData(Repos\ReposEntite $entite) : array
     {
         return [
             'id' => $entite->getId(),
