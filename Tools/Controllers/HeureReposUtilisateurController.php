@@ -59,19 +59,13 @@ implements Interfaces\IGetable
         return [
             'id' => $entite->getId(),
             'login' => $entite->getLogin(),
-            'dateDebut' => $entite->getDateDebut(),
-            'demiJourneeDebut' => $entite->getDemiJourneeDebut(),
-            'dateFin' => $entite->getDateFin(),
-            'demiJourneeFin' => $entite->getDemiJourneeFin(),
-            'nombreJours' => $entite->getNombreJours(),
-            'type' => $entite->getType(),
-            'etat' => $entite->getEtat(),
-            'editionId' => $entite->getEditionId(),
-            'motifRefus' => $entite->getMotifRefus(),
-            'dateDemande' => $entite->getDateDemande(),
-            'dateTraitement' => $entite->getDateTraitement(),
-            'fermetureId' => $entite->getFermetureId(),
-            'num' => $entite->getNum(),
+            'debut' => $entite->getDebut(),
+            'fin' => $entite->getFin(),
+            'duree' => $entite->getDuree(),
+            'type_periode' => $entite->getTypePeriode(),
+            'statut' => $entite->getStatut(),
+            'commentaire' => $entite->getCommentaire(),
+            'commentaire_refus' => $entite->getCommentaireRefus(),
         ];
     }
 }

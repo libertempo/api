@@ -48,6 +48,16 @@ class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
     }
 
     /**
+     * Retourne la donnée la plus à jour du champ duree
+     *
+     * @return string
+     */
+    public function getDuree()
+    {
+        return $this->getFreshData('duree');
+    }
+
+    /**
      * Retourne la donnée la plus à jour du champ type_periode
      *
      * @return string

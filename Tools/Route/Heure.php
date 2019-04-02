@@ -15,7 +15,8 @@ $app->group('/heure', function () {
     $this->group('/repos', function () {
         $this->get('/utilisateur/me', function (IRequest $request, IResponse $response, array $args) {
             $args = array_merge($args, ['currentUser' => $this->get('currentUser')]);
-            
+
+            // @TODO: Voir s'il s'agit de la meilleure méthode, vis à vis du métier
             return $this->get(HeureReposUtilisateurController::class)->get($request, $response, $args);
         })->setName('getHeureReposUtilisateurMeListe');
     });

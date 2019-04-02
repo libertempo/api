@@ -43,7 +43,7 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
             'fin' => (int) $dataStorage['fin'],
             'duree' => (int) $dataStorage['duree'],
             'type_periode' => (int) $dataStorage['type_periode'],
-            'statut' => $dataStorage['statut'],
+            'statut' => (int) $dataStorage['statut'],
             'commentaire' => $dataStorage['comment'],
             'commentaire_refus' => $dataStorage['comment_refus'],
         ];

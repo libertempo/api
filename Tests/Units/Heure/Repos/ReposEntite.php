@@ -36,6 +36,7 @@ final class ReposEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEntite
         $this->string($this->testedInstance->getLogin())->isIdenticalTo('Abagnale');
         $this->integer($this->testedInstance->getDebut())->isIdenticalTo(1000);
         $this->integer($this->testedInstance->getFin())->isIdenticalTo(1100);
+        $this->integer($this->testedInstance->getDuree())->isIdenticalTo(10);
         $this->integer($this->testedInstance->getTypePeriode())->isIdenticalTo(7);
         $this->integer($this->testedInstance->getStatut())->isIdenticalTo(10);
         $this->string($this->testedInstance->getCommentaire())->isIdenticalTo($commentaire);
