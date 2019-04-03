@@ -31,6 +31,7 @@ abstract class AAuthentifierFactoryService
             case 'dbconges':
                return new InterneAuthentifierService($repository);
             case 'cas':
+                return new LdapAuthentifierService(new \jasig\Client());
             case 'sso':
                 // Dans l'intervalle où CAS et SSO ne sont pas fait, workaround, même avec un mdp null /!\
                 return new WorkaroundAuthentifierService($repository);
