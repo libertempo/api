@@ -31,11 +31,9 @@ implements Interfaces\IGetable
      */
     public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
-        unset($arguments);
+        $parameters = array_merge($arguments, $request->getQueryParams());
         try {
-            $employes = $this->repository->getList(
-                $request->getQueryParams()
-            );
+            $employes = $this->repository->getList($parameters);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
@@ -53,7 +51,7 @@ implements Interfaces\IGetable
      *
      * @return array
      */
-    private function buildData(GrandResponsable\GrandResponsableEntite $entite)
+    private function buildData(GrandResponsable\GrandResponsableEntite $entite) : array
     {
         return [
             'login' => $entite->getLogin(),
