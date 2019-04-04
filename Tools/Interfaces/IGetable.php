@@ -5,7 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
 /**
- * Interface décrivant la consommation de l'ordre REST GET
+ * Interface décrivant la consommation de l'ordre ReST GET
  */
 interface IGetable
 {

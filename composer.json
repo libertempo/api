@@ -28,17 +28,17 @@
     },
     "require": {
         "php": "^7.1",
-        "slim/slim": "3.11.0",
-        "doctrine/dbal": "2.8.0",
-        "php-di/php-di": "6.0.5",
+        "slim/slim": "3.12.0",
+        "doctrine/dbal": "2.9.2",
+        "php-di/php-di": "6.0.7",
         "adldap2/adldap2": "9.1.4",
-        "rollbar/rollbar": "1.7.2",
+        "rollbar/rollbar": "1.7.5",
         "jasig/phpcas": "1.3.6"
     },
     "require-dev": {
         "atoum/atoum": "3.3.0",
         "codacy/coverage": "1.4.2",
-        "codeception/codeception": "2.5.1",
+        "codeception/codeception": "2.5.5",
         "herloct/codeception-slim-module": "1.1"
     }
 }

@@ -6,4 +6,16 @@ namespace LibertAPI\Tests\Functionals\_support\Helper;
 
 class Api extends \Codeception\Module
 {
+    /**
+     * Check that the data list size is equals to expected
+     */
+    final public function seeDataEquals(int $value)
+    {
+        $rest = $this->getModule('REST');
+        $rest->seeResponseIsJson();
+        $response = json_decode($rest->grabResponse());
+
+        $this->assertEquals($value, count($response->data));
+
+    }
 }
