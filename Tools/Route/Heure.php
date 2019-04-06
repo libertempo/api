@@ -16,11 +16,6 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 /* Routes sur l'heure */
 $app->group('/heure', function () {
     $this->group('/repos', function () {
-        $this->get('/employe/me', function (IRequest $request, IResponse $response, array $args) {
-            $args = array_merge($args, ['currentUser' => $this->get('currentUser')]);
-
-            // @TODO: Voir s'il s'agit de la meilleure méthode, vis à vis du métier
-            return $this->get(HeureReposEmployeController::class)->get($request, $response, $args);
-        })->setName('getHeureReposUtilisateurMeListe');
+        $this->get('/employe/me', [HeureReposEmployeController::class, 'get'])->setName('getHeureReposUtilisateurMeListe');
     });
 });

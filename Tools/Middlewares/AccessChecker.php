@@ -32,7 +32,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
             case 'Groupe|GrandResponsable':
             case 'Groupe|Responsable':
             case 'Groupe|Employe':
-                $user = $container->get('currentUser');
+                $user = $request->getAttribute('currentUser');
                 if (!$user->isAdmin()) {
                     return call_user_func(
                         $container->get('forbiddenHandler'),
@@ -43,7 +43,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
 
                 return $next($request, $response);
             case 'JourFerie':
-                $user = $container->get('currentUser');
+                $user = $request->getAttribute('currentUser');
                 if (!$user->isHautResponsable()) {
                     return call_user_func(
                         $container->get('forbiddenHandler'),
@@ -54,7 +54,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
 
                 return $next($request, $response);
             case 'Planning':
-                $user = $container->get('currentUser');
+                $user = $request->getAttribute('currentUser');
                 if (!$user->isResponsable() && !$user->isHautResponsable() && !$user->isAdmin()) {
                     return call_user_func(
                         $container->get('forbiddenHandler'),
