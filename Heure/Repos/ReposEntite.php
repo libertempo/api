@@ -19,80 +19,64 @@ class ReposEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
      * Retourne la donnée la plus à jour du champ login
-     *
-     * @return string
      */
-    public function getLogin()
+    public function getLogin() : string
     {
         return $this->getFreshData('login');
     }
 
     /**
      * Retourne la donnée la plus à jour du champ debut
-     *
-     * @return string
      */
-    public function getDebut()
+    public function getDebut() : int
     {
         return $this->getFreshData('debut');
     }
 
     /**
      * Retourne la donnée la plus à jour du champ fin
-     *
-     * @return string
      */
-    public function getFin()
+    public function getFin() : int
     {
         return $this->getFreshData('fin');
     }
 
     /**
      * Retourne la donnée la plus à jour du champ duree
-     *
-     * @return string
      */
-    public function getDuree()
+    public function getDuree() : int
     {
         return $this->getFreshData('duree');
     }
 
     /**
      * Retourne la donnée la plus à jour du champ type_periode
-     *
-     * @return string
      */
-    public function getTypePeriode()
+    public function getTypePeriode() : int
     {
         return $this->getFreshData('type_periode');
     }
 
     /**
      * Retourne la donnée la plus à jour du champ statut
-     *
-     * @return string
      */
-    public function getStatut()
+    public function getStatut() : int
     {
         return $this->getFreshData('statut');
     }
 
     /**
      * Retourne la donnée la plus à jour du champ commentaire
-     *
-     * @return string
      */
-    public function getCommentaire()
+    public function getCommentaire() : string
     {
         return $this->getFreshData('commentaire');
     }
 
     /**
      * Retourne la donnée la plus à jour du champ commentaire_refus
-     *
-     * @return string
      */
-    public function getCommentaireRefus()
+    public function getCommentaireRefus() : string
     {
         return $this->getFreshData('commentaire_refus');
     }

@@ -10,14 +10,17 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * La convention de nommage est de mettre les routes au singulier
  */
 
+// Ce sont des routes sur l'heure, oui, mais l'association est à l'envers : je veux les heures qui ME sont associées. C'est donc /employe/me/heure_repos
+// Dans tous les cas, c'est une bonne pratique de transmettre l'utilisateur courant dans le controleur
+
 /* Routes sur l'heure */
 $app->group('/heure', function () {
     $this->group('/repos', function () {
-        $this->get('/utilisateur/me', function (IRequest $request, IResponse $response, array $args) {
+        $this->get('/employe/me', function (IRequest $request, IResponse $response, array $args) {
             $args = array_merge($args, ['currentUser' => $this->get('currentUser')]);
 
             // @TODO: Voir s'il s'agit de la meilleure méthode, vis à vis du métier
-            return $this->get(HeureReposUtilisateurController::class)->get($request, $response, $args);
+            return $this->get(HeureReposEmployeController::class)->get($request, $response, $args);
         })->setName('getHeureReposUtilisateurMeListe');
     });
 });

@@ -33,7 +33,6 @@ implements Interfaces\IGetable
 
     /**
      * Retourne un tableau d'heures de repos
-     *
      */
     private function getList(IRequest $request, IResponse $response) : IResponse
     {
