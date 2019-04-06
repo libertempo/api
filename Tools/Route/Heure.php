@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-use LibertAPI\Tools\Controllers\HeureReposUtilisateurController;
+use LibertAPI\Tools\Controllers\HeureReposEmployeController;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -14,8 +14,4 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 // Dans tous les cas, c'est une bonne pratique de transmettre l'utilisateur courant dans le controleur
 
 /* Routes sur l'heure */
-$app->group('/heure', function () {
-    $this->group('/repos', function () {
-        $this->get('/employe/me', [HeureReposEmployeController::class, 'get'])->setName('getHeureReposUtilisateurMeListe');
-    });
-});
+$app->get('/employe/me/heure/repos', [HeureReposEmployeController::class, 'get'])->setName('getHeureReposEmployeMeListe');

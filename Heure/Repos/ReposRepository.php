@@ -12,7 +12,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @since 1.8
  * @see \LibertAPI\Tests\Units\Heure\Repos\ReposRepository
  *
- * Ne devrait être contacté que par le HeureReposUtilisateurController
+ * Ne devrait être contacté que par le HeureReposEmployeController
  * Ne devrait contacter que le ReposEntite
  */
 class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository

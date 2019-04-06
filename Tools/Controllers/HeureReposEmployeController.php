@@ -8,14 +8,14 @@ use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Heure\Repos;
 
 /**
- * Contrôleur des heures de repos
+ * Contrôleur des heures de repos de l'employé courant
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina
  *
  * @since 1.8
  */
-final class HeureReposUtilisateurController extends \LibertAPI\Tools\Libraries\AController
+final class HeureReposEmployeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
     public function __construct(Repos\ReposRepository $repository, IRouter $router)
@@ -28,6 +28,7 @@ implements Interfaces\IGetable
      */
     public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
+        unset($arguments);
         return $this->getList($request, $response);
     }
 
@@ -36,10 +37,10 @@ implements Interfaces\IGetable
      */
     private function getList(IRequest $request, IResponse $response) : IResponse
     {
+        $user = $request->getAttribute('currentUser');
+        $arguments = array_merge($request->getQueryParams(), ['login' => $user->getLogin()]);
         try {
-            $responseResources = $this->repository->getList(
-                $request->getQueryParams()
-            );
+            $responseResources = $this->repository->getList($arguments);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
