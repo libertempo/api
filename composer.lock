@@ -4,31 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b7f227786f8080f96664ecf2a5f1209",
+    "content-hash": "367d1dbaab9a8ed2d14d14714f7f6b17",
     "packages": [
         {
             "name": "adldap2/adldap2",
-            "version": "v9.1.4",
+            "version": "v10.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Adldap2/Adldap2.git",
-                "reference": "e74bf7e3762b35e828179b11eb100da4a12ff701"
+                "reference": "efbf25c80861e47a5443d176dfa1a640000e8a20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Adldap2/Adldap2/zipball/e74bf7e3762b35e828179b11eb100da4a12ff701",
-                "reference": "e74bf7e3762b35e828179b11eb100da4a12ff701",
+                "url": "https://api.github.com/repos/Adldap2/Adldap2/zipball/efbf25c80861e47a5443d176dfa1a640000e8a20",
+                "reference": "efbf25c80861e47a5443d176dfa1a640000e8a20",
                 "shasum": ""
             },
             "require": {
                 "ext-ldap": "*",
                 "illuminate/contracts": "~5.0",
                 "php": ">=7.0",
+                "psr/log": "~1.1",
                 "tightenco/collect": "~5.0"
             },
             "require-dev": {
                 "mockery/mockery": "~1.0",
                 "phpunit/phpunit": "~6.0"
+            },
+            "suggest": {
+                "ext-fileinfo": "fileinfo is required when retrieving user encoded thumbnails"
             },
             "type": "library",
             "autoload": {
@@ -57,7 +61,7 @@
                 "ldap",
                 "windows"
             ],
-            "time": "2018-12-06T15:03:32+00:00"
+            "time": "2019-03-22T18:25:32+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -323,16 +327,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "5.7.19",
+            "version": "v5.8.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "758927e5e925c1d442a1faaa1356675ceba0194c"
+                "reference": "3e3a9a654adbf798e05491a5dbf90112df1effde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/758927e5e925c1d442a1faaa1356675ceba0194c",
-                "reference": "758927e5e925c1d442a1faaa1356675ceba0194c",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/3e3a9a654adbf798e05491a5dbf90112df1effde",
+                "reference": "3e3a9a654adbf798e05491a5dbf90112df1effde",
                 "shasum": ""
             },
             "require": {
@@ -343,7 +347,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.7-dev"
+                    "dev-master": "5.8-dev"
                 }
             },
             "autoload": {
@@ -363,7 +367,7 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2018-11-15T13:49:08+00:00"
+            "time": "2019-02-18T18:37:54+00:00"
         },
         {
             "name": "jeremeamia/SuperClosure",
@@ -1154,16 +1158,16 @@
         },
         {
             "name": "symfony/polyfill-php72",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "9050816e2ca34a8e916c3a0ae8b9c2fccf68b631"
+                "reference": "ab50dcf166d5f577978419edd37aa2bb8eabce0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/9050816e2ca34a8e916c3a0ae8b9c2fccf68b631",
-                "reference": "9050816e2ca34a8e916c3a0ae8b9c2fccf68b631",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/ab50dcf166d5f577978419edd37aa2bb8eabce0c",
+                "reference": "ab50dcf166d5f577978419edd37aa2bb8eabce0c",
                 "shasum": ""
             },
             "require": {
@@ -1172,7 +1176,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -1205,7 +1209,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21T13:07:52+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "symfony/polyfill-util",
@@ -1261,16 +1265,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.2.1",
+            "version": "v4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "db61258540350725f4beb6b84006e32398acd120"
+                "reference": "9f87189ac10b42edf7fb8edc846f1937c6d157cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/db61258540350725f4beb6b84006e32398acd120",
-                "reference": "db61258540350725f4beb6b84006e32398acd120",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/9f87189ac10b42edf7fb8edc846f1937c6d157cf",
+                "reference": "9f87189ac10b42edf7fb8edc846f1937c6d157cf",
                 "shasum": ""
             },
             "require": {
@@ -1284,6 +1288,7 @@
             },
             "require-dev": {
                 "ext-iconv": "*",
+                "symfony/console": "~3.4|~4.0",
                 "symfony/process": "~3.4|~4.0",
                 "twig/twig": "~1.34|~2.4"
             },
@@ -1332,20 +1337,20 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-11-25T12:50:42+00:00"
+            "time": "2019-02-23T15:17:42+00:00"
         },
         {
             "name": "tightenco/collect",
-            "version": "v5.7.18",
+            "version": "v5.8.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tightenco/collect.git",
-                "reference": "799108d67cdc9843ed3569ae2989888826166381"
+                "reference": "96297c72453eaf311dd0ce448ee48168a994ba97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tightenco/collect/zipball/799108d67cdc9843ed3569ae2989888826166381",
-                "reference": "799108d67cdc9843ed3569ae2989888826166381",
+                "url": "https://api.github.com/repos/tightenco/collect/zipball/96297c72453eaf311dd0ce448ee48168a994ba97",
+                "reference": "96297c72453eaf311dd0ce448ee48168a994ba97",
                 "shasum": ""
             },
             "require": {
@@ -1382,7 +1387,7 @@
                 "collection",
                 "laravel"
             ],
-            "time": "2018-12-17T15:11:32+00:00"
+            "time": "2019-03-20T13:29:24+00:00"
         }
     ],
     "packages-dev": [
