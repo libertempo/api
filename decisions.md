@@ -1,5 +1,6 @@
 # 2019-04-06
 * Il me paraît naturel sémantiquement d'avoir l'utilisateur courant dans la request, je l'y place donc.
+* Nous commençons la création des routes `employe/me/[ressources]` qui fournit des opérations automatiquement filtrées sur l'utilisateur courant. La convention est de décrire ces routes dans le fichier dédié à la ressource (ie. `employe/me/heure/repos` dans `/Tools/Route/Heure.php`).
 
 ~ Prytoegrian
 

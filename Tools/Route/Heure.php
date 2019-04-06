@@ -10,8 +10,5 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  * La convention de nommage est de mettre les routes au singulier
  */
 
-// Ce sont des routes sur l'heure, oui, mais l'association est à l'envers : je veux les heures qui ME sont associées. C'est donc /employe/me/heure_repos
-// Dans tous les cas, c'est une bonne pratique de transmettre l'utilisateur courant dans le controleur
-
 /* Routes sur l'heure */
 $app->get('/employe/me/heure/repos', [HeureReposEmployeController::class, 'get'])->setName('getHeureReposEmployeMeListe');
