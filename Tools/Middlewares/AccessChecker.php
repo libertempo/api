@@ -18,20 +18,19 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
         $container = $this->getContainer();
 
         switch ($ressourcePath) {
-            case 'Absence|Type':
             case 'Absence|Periode':
-            case 'Utilisateur':
-            case 'JourFerie':
-            case 'Journal':
+            case 'Absence|Type':
             case 'Authentification':
-            case 'HelloWorld':
-            case 'Planning|Creneau':
             case 'Employe|Me|Heure|Repos':
+            case 'HelloWorld':
+            case 'Journal':
+            case 'Planning|Creneau':
+            case 'Utilisateur':
                 return $next($request, $response);
             case 'Groupe':
+            case 'Groupe|Employe':
             case 'Groupe|GrandResponsable':
             case 'Groupe|Responsable':
-            case 'Groupe|Employe':
                 $user = $request->getAttribute('currentUser');
                 if (!$user->isAdmin()) {
                     return call_user_func(

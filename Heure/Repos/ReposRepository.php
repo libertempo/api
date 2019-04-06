@@ -27,8 +27,12 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function getParamsConsumer2Storage(array $paramsConsumer) : array
     {
-        unset($paramsConsumer);
-        return [];
+        $results = [];
+        if (array_key_exists('login', $paramsConsumer)) {
+            $results['login'] = (string) $paramsConsumer['login'];
+        }
+
+        return $results;
     }
 
     /**
@@ -67,9 +71,9 @@ class ReposRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function setWhere(array $parametres)
     {
-        if (array_key_exists('id', $parametres)) {
-            $this->queryBuilder->andWhere('g_gid = :id');
-            $this->queryBuilder->setParameter(':id', (int) $parametres['id']);
+        if (array_key_exists('login', $parametres)) {
+            $this->queryBuilder->andWhere('login = :login');
+            $this->queryBuilder->setParameter(':login', (int) $parametres['login']);
         }
     }
 
