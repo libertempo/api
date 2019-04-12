@@ -1,7 +1,6 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tools\Services;
 
-use \jasig\Client;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 
 /**
@@ -14,9 +13,8 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
  */
 class CasAuthentifierService extends AAuthentifierFactoryService
 {
-    public function __construct(Client $cas)
+    public function __construct()
     {
-        $this->cas = $cas;
     }
 
     /**
@@ -30,14 +28,13 @@ class CasAuthentifierService extends AAuthentifierFactoryService
         $configurationCas = $request->getAttribute('configurationFileData')->cas;
 
         $server = $configurationCas->serveur;
+        $uri = $configurationCas->uri;
         $username = $this->getLogin();
         $proxyTicket = $this->getPassword();
+        // pour vérifier le proxyTicket il faut GET vers https://$server/$uri/proxyValidate?ticket=$proxyTicket&service=https://url_api
+        // le retour se fait par code http (200 ou 404). à vérifier.
+
 
         return true;
     }
-
-    /**
-     * @var AdldapInterface Service LDAP
-     */
-    private $cas;
 }
