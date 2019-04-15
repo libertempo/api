@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tools\Services;
 
+use LibertAPI\Tools\Libraries\StorageConfiguration;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 
 /**
@@ -13,8 +14,9 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
  */
 class CasAuthentifierService extends AAuthentifierFactoryService
 {
-    public function __construct()
+    public function __construct(StorageConfiguration $configuration)
     {
+        $this->configuration = $configuration;
     }
 
     /**
@@ -26,15 +28,25 @@ class CasAuthentifierService extends AAuthentifierFactoryService
         $this->storeBasicIdentificants($request);
         assert(isset($request->getAttribute('configurationFileData')->cas));
         $configurationCas = $request->getAttribute('configurationFileData')->cas;
+        $apiUrl = urlencode($this->configuration->getUrlAccueil() . "/api/");
 
-        $server = $configurationCas->serveur;
-        $uri = $configurationCas->uri;
+        $proxyValidateUrl = $configurationCas->serveur . "/" . $configurationCas->uri .
+                        "/proxyValidate?ticket=" . $this->getPassword() .
+                        "&service=" . $apiUrl;
         $username = $this->getLogin();
-        $proxyTicket = $this->getPassword();
-        // pour vérifier le proxyTicket il faut GET vers https://$server/$uri/proxyValidate?ticket=$proxyTicket&service=https://url_api
-        // le retour se fait par code http (200 ou 404). à vérifier.
 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $proxyValidateUrl);
+        $result = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
 
-        return true;
+        d($result);
+        // vérifier le username
+
+        return 200 == $code;
     }
+
+    private $configuration;
 }

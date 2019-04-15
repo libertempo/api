@@ -27,14 +27,12 @@ abstract class AAuthentifierFactoryService
     {
         switch ($configuration->getHowToConnectUser()) {
             case 'ldap':
+            case 'sso':
                 return new LdapAuthentifierService(new \Adldap\Adldap());
             case 'dbconges':
                return new InterneAuthentifierService($repository);
             case 'cas':
-                return new LdapAuthentifierService();
-            case 'sso':
-                // Dans l'intervalle où CAS et SSO ne sont pas fait, workaround, même avec un mdp null /!\
-                return new WorkaroundAuthentifierService($repository);
+                return new CasAuthentifierService($configuration);
             default:
                 throw new \UnexpectedValueException("Unknown Service");
         }
