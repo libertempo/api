@@ -102,8 +102,8 @@ class CreneauRepository extends \LibertAPI\Tools\Libraries\ARepository
      */
     final protected function setValues(array $values)
     {
-        $this->queryBuilder->setValue('planning_id', (int) $values['planning_id']);
-        $this->queryBuilder->setValue('jour_id', (int) $values['jour_id']);
+        $this->queryBuilder->setValue('planning_id', $values['planning_id']);
+        $this->queryBuilder->setValue('jour_id', $values['jour_id']);
         $this->queryBuilder->setValue('type_semaine', $values['type_semaine']);
         $this->queryBuilder->setValue('type_periode', $values['type_periode']);
         $this->queryBuilder->setValue('debut', $values['debut']);

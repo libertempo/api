@@ -41,7 +41,7 @@ abstract class AAuthentifierFactoryService
 
     /**
      * Contrat standard des services d'authentification
-     * @return true si l'authentification s'est bien déroulée
+     * @return bool
      * @throws BadRequestException Si la requête n'est pas bien formée
      */
     abstract public function isAuthentificationSucceed(IRequest $request) : bool;
