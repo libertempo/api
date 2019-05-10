@@ -1,15 +1,23 @@
+# 2019-04-06
+* Il me paraît naturel sémantiquement d'avoir l'utilisateur courant dans la request, je l'y place donc.
+* Nous commençons la création des routes `employe/me/[ressources]` qui fournit des opérations automatiquement filtrées sur l'utilisateur courant. La convention est de décrire ces routes dans le fichier dédié à la ressource (ie. `employe/me/heure/repos` dans `/Tools/Route/Heure.php`).
+
+~ Prytoegrian
+
 # 2018-12-17
-* Afin de mieux coller aux résultats de `__DIR__` et `dirname()`, je supprime toutes les slashes finaux des constantes `*_PATH`
+* Afin de mieux coller aux résultats de `__DIR__` et `dirname()`, je supprime tous les slashes finaux des constantes `*_PATH`
+
+~ Prytoegrian
 
 # 2018-10-20
 * Il y a de multiples méthodes de connexion à l'application « libertempo » et l'API commence à les absorber petit à petit. Naturellement, j'ai souhaité que cette diversité de connecteurs soit transparente pour la plus grande partie de l'appli possible. J'ai donc mis en place une Fabrique pour que cette dernière fasse seule le choix du connecteur à sélectionner, ses consommateurs manipulant un contrat.
-* À cet effet, le contrôleur d'authentification n'est plus testable unitairement (le statiqu l'en empêche). Je souhaiterais ne pas rester sur un échec et tester cette partie d'une autre manière.
-* Pour conserver la séparation stricte entre newable et injectable, j'ai de plus muté la Request serveur pour qu'elle contienne la configuration LDAP ; je ne suis pas trop fan de la solution et aimerait trouver une approche plus élégante et pérenne.
+* À cet effet, le contrôleur d'authentification n'est plus testable unitairement (le static l'en empêche). Je souhaiterais ne pas rester sur un échec et tester cette partie d'une autre manière.
+* Pour conserver la séparation stricte entre newable et injectable, j'ai de plus muté la Request serveur pour qu'elle contienne la configuration LDAP ; je ne suis pas trop fan de la solution et aimerais trouver une approche plus élégante et pérenne.
 
 ~ Prytoegrian
 
 ## 2018-06-07
-* J'ai désormais appliqué le paradigme « package by components » attendu que le « package by feature » soulevait des embûches. En effet, le contrôleur ne fait pas parti d'un composant, il est un moyen d'accès vers lui ; je l'ai donc déplacé dans `Tools`. À l'exception des répertoires d'utilitaires, nous aurons ainsi une vision claire des objectifs du logiciel du premier coup d'œil et une place toute trouvée pour les structures applicatives relatives au différents métiers du soft.
+* J'ai désormais appliqué le paradigme « package by components » attendu que le « package by feature » soulevait des embûches. En effet, le contrôleur ne fait pas partie d'un composant, il est un moyen d'accès vers lui ; je l'ai donc déplacé dans `Tools`. À l'exception des répertoires d'utilitaires, nous aurons ainsi une vision claire des objectifs du logiciel du premier coup d'œil et une place toute trouvée pour les structures applicatives relatives au différents métiers du soft.
 * Un framework d'injection de dépendances a également fait son entrée. Il nous aidera à supprimer tout un pan de verbosité, facilite le test et nous permettra d'exprimer le plus précisément possible les interactions entre les structures applicatives.
 * Le problème des relations N-N n'en est pas encore un. Pour le moment, j'ai créé des entités pour les représentants de ces associations que l'on utilisera côté client. Si besoin il y a, nous créerons des Aggrégats.
 

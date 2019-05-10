@@ -11,28 +11,36 @@ define make_version
 	@git tag -a `semver tag` -m "Releasing `semver tag`"
 endef
 
-default : help
+.DEFAULT_GOAL := help
+
+#
+# Thanks to https://blog.theodo.fr/2018/05/why-you-need-a-makefile-on-your-project/
+#
 
 help:
-	@echo 'help'
+	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
-install:
+
+## Installation
+install: ## Installe les dépendances composer
 	php composer.phar install
 
-major:
+## Administration
+major: ## Monte la version majeure du logiciel
 	$(call make_version,major)
 
-minor:
+minor:  ## Monte la version mineure du logiciel
 	$(call make_version,minor)
 
-patch:
+patch:  ## Monte la version patch du logiciel
 	$(call make_version,patch)
 
-test: test-unit test-functional
+## CI
+test: test-unit test-functional ## Lance tous les tests applicatifs
 
 test-unit: ## Lance les tests unitaires
 	Vendor/Bin/atoum -ulr
 
-test-functional:
+test-functional: ## Lance les tests fonctionnels
 	cp Tests/Functionals/_data/database.sqlite Tests/Functionals/_data/current.sqlite
 	Vendor/Bin/codecept run api -f

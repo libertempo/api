@@ -26,8 +26,8 @@ final class Identificator extends \LibertAPI\Tools\AMiddleware
         } elseif ($this->isIdentificationOK($request, $repoUtilisateur)) {
              // Ping de last_access
             $utilisateur = $repoUtilisateur->updateDateLastAccess($this->utilisateur);
+            $request = $request->withAttribute('currentUser', $utilisateur);
 
-            $container->set('currentUser', $utilisateur);
             return $next($request, $response);
         }
 

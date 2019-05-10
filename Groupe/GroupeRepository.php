@@ -10,7 +10,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  * @author Wouldsmina
  *
  * @since 0.7
- * @see \LibertAPI\Tests\Units\Planning\PlanningRepository
+ * @see \LibertAPI\Tests\Units\Groupe\GroupeRepository
  *
  * Ne devrait être contacté que par le GroupeController
  * Ne devrait contacter que le GroupeEntite

@@ -30,6 +30,5 @@ $app->group('/absence', function () {
         $this->get('/{periodeId:[0-9]+}', [AbsencePeriodeController::class, 'get'])->setName('getAbsencePeriodeDetail');
         /* Collection */
         $this->get('', [AbsencePeriodeController::class, 'get'])->setName('getAbsencePeriodeListe');
-
     });
 });

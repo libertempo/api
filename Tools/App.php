@@ -29,9 +29,10 @@ $app->get('/hello_world', function(IRequest $request, IResponse $response) {
     return $response->withJson('Hi there !');
 });
 
-require_once ROUTE_PATH . DS. 'Absence.php';
+require_once ROUTE_PATH . DS . 'Absence.php';
 require_once ROUTE_PATH . DS . 'Authentification.php';
 require_once ROUTE_PATH . DS . 'Groupe.php';
+require_once ROUTE_PATH . DS . 'Heure.php';
 require_once ROUTE_PATH . DS . 'Journal.php';
 require_once ROUTE_PATH . DS . 'JourFerie.php';
 require_once ROUTE_PATH . DS . 'Planning.php';
