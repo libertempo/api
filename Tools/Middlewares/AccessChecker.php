@@ -22,6 +22,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
             case 'Absence|Type':
             case 'Authentification':
             case 'Employe|Me|Heure|Repos':
+            case 'Employe|Me|Heure|Additionnelle':
             case 'HelloWorld':
             case 'Journal':
             case 'Planning|Creneau':
