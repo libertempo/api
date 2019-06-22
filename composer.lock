@@ -4,27 +4,27 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fca44214a091a799e9fe2968f13749b",
+    "content-hash": "ff2ea5f16e1447d8e11f57190bc8ebe8",
     "packages": [
         {
             "name": "adldap2/adldap2",
-            "version": "v10.0.6",
+            "version": "v10.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Adldap2/Adldap2.git",
-                "reference": "efbf25c80861e47a5443d176dfa1a640000e8a20"
+                "reference": "beb3c9cc28de752d6c3b0221605035659eccc42e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Adldap2/Adldap2/zipball/efbf25c80861e47a5443d176dfa1a640000e8a20",
-                "reference": "efbf25c80861e47a5443d176dfa1a640000e8a20",
+                "url": "https://api.github.com/repos/Adldap2/Adldap2/zipball/beb3c9cc28de752d6c3b0221605035659eccc42e",
+                "reference": "beb3c9cc28de752d6c3b0221605035659eccc42e",
                 "shasum": ""
             },
             "require": {
                 "ext-ldap": "*",
                 "illuminate/contracts": "~5.0",
                 "php": ">=7.0",
-                "psr/log": "~1.1",
+                "psr/log": "~1.0",
                 "tightenco/collect": "~5.0"
             },
             "require-dev": {
@@ -61,7 +61,7 @@
                 "ldap",
                 "windows"
             ],
-            "time": "2019-03-22T18:25:32+00:00"
+            "time": "2019-05-24T14:15:58+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -327,16 +327,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.8.8",
+            "version": "v5.8.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "3e3a9a654adbf798e05491a5dbf90112df1effde"
+                "reference": "33b4e0ffb89eb2216c764235c9e95fed1f3fab82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/3e3a9a654adbf798e05491a5dbf90112df1effde",
-                "reference": "3e3a9a654adbf798e05491a5dbf90112df1effde",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/33b4e0ffb89eb2216c764235c9e95fed1f3fab82",
+                "reference": "33b4e0ffb89eb2216c764235c9e95fed1f3fab82",
                 "shasum": ""
             },
             "require": {
@@ -367,7 +367,7 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2019-02-18T18:37:54+00:00"
+            "time": "2019-06-11T14:00:26+00:00"
         },
         {
             "name": "jeremeamia/superclosure",
@@ -1343,16 +1343,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.2.4",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "9f87189ac10b42edf7fb8edc846f1937c6d157cf"
+                "reference": "f974f448154928d2b5fb7c412bd23b81d063f34b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/9f87189ac10b42edf7fb8edc846f1937c6d157cf",
-                "reference": "9f87189ac10b42edf7fb8edc846f1937c6d157cf",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f974f448154928d2b5fb7c412bd23b81d063f34b",
+                "reference": "f974f448154928d2b5fb7c412bd23b81d063f34b",
                 "shasum": ""
             },
             "require": {
@@ -1381,7 +1381,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
             "autoload": {
@@ -1415,20 +1415,20 @@
                 "debug",
                 "dump"
             ],
-            "time": "2019-02-23T15:17:42+00:00"
+            "time": "2019-06-05T02:08:12+00:00"
         },
         {
             "name": "tightenco/collect",
-            "version": "v5.8.8",
+            "version": "v5.8.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tightenco/collect.git",
-                "reference": "96297c72453eaf311dd0ce448ee48168a994ba97"
+                "reference": "e337c893ab904e383be1dfc2568a185fab20ab43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tightenco/collect/zipball/96297c72453eaf311dd0ce448ee48168a994ba97",
-                "reference": "96297c72453eaf311dd0ce448ee48168a994ba97",
+                "url": "https://api.github.com/repos/tightenco/collect/zipball/e337c893ab904e383be1dfc2568a185fab20ab43",
+                "reference": "e337c893ab904e383be1dfc2568a185fab20ab43",
                 "shasum": ""
             },
             "require": {
@@ -1465,7 +1465,7 @@
                 "collection",
                 "laravel"
             ],
-            "time": "2019-03-20T13:29:24+00:00"
+            "time": "2019-06-21T13:36:56+00:00"
         }
     ],
     "packages-dev": [
