@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 
 use LibertAPI\Tools\Controllers\HeureReposEmployeController;
+use LibertAPI\Tools\Controllers\HeureAdditionnelleEmployeController;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 
@@ -11,4 +12,12 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 
 /* Routes sur l'heure */
-$app->get('/employe/me/heure/repos', [HeureReposEmployeController::class, 'get'])->setName('getHeureReposEmployeMeListe');
+$app->group('/employe/me/heure/', function () {
+    $this->group('/repos', function () {
+        $this->get('', [HeureReposEmployeController::class, 'get'])->setName('getHeureReposEmployeMeListe');
+    });
+
+    $this->group('/additionnelle', function () {
+        $this->get('', [HeureAdditionnelleEmployeController::class, 'get'])->setName('getHeureAdditionnelleEmployeMeListe');
+    });
+});
