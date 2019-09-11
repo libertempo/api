@@ -19,7 +19,7 @@ class SoldeRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
     final protected function getEntiteClass() : string
     {
-        return CongeEntite::class;
+        return SoldeEntite::class;
     }
 
     /**
@@ -41,6 +41,7 @@ class SoldeRepository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function getStorage2Entite(array $dataStorage)
     {
         return [
+            'id' => $dataStorage['su_login'],
             'login' => $dataStorage['su_login'],
             'type_absence' => (int) $dataStorage['su_abs_id'],
             'solde_annuel' => (int) $dataStorage['su_nb_an'],
