@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
  */
 
 /* Routes sur l'heure */
-$app->group('/employe/me/heure/', function () {
+$app->group('/employe/me/heure', function () {
     $this->group('/repos', function () {
         $this->get('', [HeureReposEmployeController::class, 'get'])->setName('getHeureReposEmployeMeListe');
     });

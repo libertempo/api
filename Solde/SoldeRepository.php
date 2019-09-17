@@ -69,7 +69,7 @@ class SoldeRepository extends \LibertAPI\Tools\Libraries\ARepository
     final protected function setWhere(array $parametres)
     {
         if (array_key_exists('login', $parametres)) {
-            $this->queryBuilder->andWhere('login = :login');
+            $this->queryBuilder->andWhere('su_login = :login');
             $this->queryBuilder->setParameter(':login', $parametres['login']);
         }
     }

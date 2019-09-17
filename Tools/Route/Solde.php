@@ -9,4 +9,4 @@ use LibertAPI\Tools\Controllers\SoldeEmployeController;
  */
 
 /* Routes sur le solde */
-$app->get('/employe/me/solde', [SoldeController::class, 'get'])->setName('getSoldeEmployeMeListe');
+$app->get('/employe/me/solde', [SoldeEmployeController::class, 'get'])->setName('getSoldeEmployeMeListe');
