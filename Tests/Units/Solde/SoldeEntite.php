@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Units\Solde;
 
+use \LibertAPI\Solde\SoldeEntite as _Entite;
+
 /**
  * Classe de test de l'entité d'heure de Additionnelle
  *
@@ -16,22 +18,10 @@ final class SoldeEntite extends \LibertAPI\Tests\Units\Tools\Libraries\AEntite
      */
     public function testConstructWithId()
     {
+        $id = 'octavia';
+        $entite = new _Entite(['id' => $id]);
 
-        $this->newTestedInstance([
-            'id' => 'octavia',
-            'login' => 'octavia',
-            'type_absence' => 1,
-            'solde_annuel' => 100,
-            'solde' => 10.5,
-            'reliquat' => 7.5,
-        ]);
-
-        $this->assertConstructWithId($this->testedInstance, 'octavia');
-        $this->string($this->testedInstance->getLogin())->isIdenticalTo('octavia');
-        $this->integer($this->testedInstance->getTypeAbsence())->isIdenticalTo(1);
-        $this->integer($this->testedInstance->getSoldeAn())->isIdenticalTo(100);
-        $this->integer($this->testedInstance->getSolde())->isIdenticalTo(10.5);
-        $this->integer($this->testedInstance->getReliquat())->isIdenticalTo(7.5);
+        $this->string($entite->getId())->isIdenticalTo($id);
     }
 
     /**

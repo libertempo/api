@@ -18,6 +18,14 @@ use LibertAPI\Tools\Exceptions\MissingArgumentException;
 class SoldeEntite extends \LibertAPI\Tools\Libraries\AEntite
 {
     /**
+     * Retourne la donnée la plus à jour du champ id (==login)
+     */
+    final protected function setId($id)
+    {
+        $this->id = (string) $id;
+    }
+
+    /**
      * Retourne la donnée la plus à jour du champ login
      */
     public function getLogin() : string
