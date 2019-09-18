@@ -60,7 +60,7 @@ class SoldeEntite extends \LibertAPI\Tools\Libraries\AEntite
     /**
      * Retourne la donnée la plus à jour du champ su_reliquat
      */
-    public function getReliquat() : string
+    public function getReliquat() : float
     {
         return $this->getFreshData('reliquat');
     }

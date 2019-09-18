@@ -45,8 +45,8 @@ class SoldeRepository extends \LibertAPI\Tools\Libraries\ARepository
             'login' => $dataStorage['su_login'],
             'type_absence' => (int) $dataStorage['su_abs_id'],
             'solde_annuel' => (int) $dataStorage['su_nb_an'],
-            'solde' => $dataStorage['su_solde'],
-            'reliquat' => $dataStorage['su_reliquat'],
+            'solde' => (float) $dataStorage['su_solde'],
+            'reliquat' => (float) $dataStorage['su_reliquat'],
         ];
     }
 
