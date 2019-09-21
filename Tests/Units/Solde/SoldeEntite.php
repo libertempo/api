@@ -4,7 +4,7 @@ namespace LibertAPI\Tests\Units\Solde;
 use \LibertAPI\Solde\SoldeEntite as _Entite;
 
 /**
- * Classe de test de l'entité d'heure de Additionnelle
+ * Classe de test de l'entité de solde
  *
  * @author Prytoegrian <prytoegrian@protonmail.com>
  * @author Wouldsmina <wouldsmina@gmail.com>
