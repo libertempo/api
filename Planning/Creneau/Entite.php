@@ -30,21 +30,33 @@ class Entite
     /**
      * @var bool
      *
+<<<<<<< HEAD
      * @ORM\Column(name="jour_id", type="integer", nullable=false)
+=======
+     * @ORM\Column(name="jour_id", type="boolean", nullable=false)
+>>>>>>> Added journal, creneau and planning entities
      */
     private $jourId;
 
     /**
      * @var bool
      *
+<<<<<<< HEAD
      * @ORM\Column(name="type_semaine", type="integer", nullable=false)
+=======
+     * @ORM\Column(name="type_semaine", type="boolean", nullable=false)
+>>>>>>> Added journal, creneau and planning entities
      */
     private $typeSemaine;
 
     /**
      * @var bool
      *
+<<<<<<< HEAD
      * @ORM\Column(name="type_periode", type="integer", nullable=false)
+=======
+     * @ORM\Column(name="type_periode", type="boolean", nullable=false)
+>>>>>>> Added journal, creneau and planning entities
      */
     private $typePeriode;
 
@@ -62,7 +74,10 @@ class Entite
      */
     private $fin;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Added journal, creneau and planning entities
     /**
      * Get creneauId.
      *
@@ -100,7 +115,11 @@ class Entite
     /**
      * Set jourId.
      *
+<<<<<<< HEAD
      * @param integer $jourId
+=======
+     * @param bool $jourId
+>>>>>>> Added journal, creneau and planning entities
      *
      * @return PlanningCreneau
      */
@@ -114,7 +133,11 @@ class Entite
     /**
      * Get jourId.
      *
+<<<<<<< HEAD
      * @return integer
+=======
+     * @return bool
+>>>>>>> Added journal, creneau and planning entities
      */
     public function getJourId()
     {
@@ -124,7 +147,11 @@ class Entite
     /**
      * Set typeSemaine.
      *
+<<<<<<< HEAD
      * @param integer $typeSemaine
+=======
+     * @param bool $typeSemaine
+>>>>>>> Added journal, creneau and planning entities
      *
      * @return PlanningCreneau
      */
@@ -138,7 +165,11 @@ class Entite
     /**
      * Get typeSemaine.
      *
+<<<<<<< HEAD
      * @return integer
+=======
+     * @return bool
+>>>>>>> Added journal, creneau and planning entities
      */
     public function getTypeSemaine()
     {
@@ -148,7 +179,11 @@ class Entite
     /**
      * Set typePeriode.
      *
+<<<<<<< HEAD
      * @param integer $typePeriode
+=======
+     * @param bool $typePeriode
+>>>>>>> Added journal, creneau and planning entities
      *
      * @return PlanningCreneau
      */
@@ -162,7 +197,11 @@ class Entite
     /**
      * Get typePeriode.
      *
+<<<<<<< HEAD
      * @return integer
+=======
+     * @return bool
+>>>>>>> Added journal, creneau and planning entities
      */
     public function getTypePeriode()
     {
