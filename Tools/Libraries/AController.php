@@ -6,6 +6,7 @@ use LibertAPI\Tools\Libraries\AEntite;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur principal
@@ -30,10 +31,16 @@ abstract class AController
      */
     protected $router;
 
-    public function __construct(ARepository $repository, IRouter $router)
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    public function __construct(ARepository $repository, IRouter $router, EntityManager $entityManager)
     {
         $this->repository = $repository;
         $this->router = $router;
+        $this->entityManager = $entityManager;
     }
 
     /**

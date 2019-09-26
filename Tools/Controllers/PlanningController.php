@@ -3,11 +3,13 @@ namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;
+use LibertAPI\Planning\PlanningEntite;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Planning;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur de planning
@@ -23,9 +25,9 @@ use LibertAPI\Planning;
 final class PlanningController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
-    public function __construct(Planning\PlanningRepository $repository, IRouter $router)
+    public function __construct(Planning\PlanningRepository $repository, IRouter $router, EntityManager $entityManager)
     {
-        parent::__construct($repository, $router);
+        parent::__construct($repository, $router, $entityManager);
     }
 
     /**
@@ -51,7 +53,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getOne(IResponse $response, $id)
     {
         try {
-            $planning = $this->repository->getOne($id);
+            $planning = $this->entityManager->find(PlanningEntite::class, $id);
         } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {

@@ -2,6 +2,7 @@
 
 use Psr\Container\ContainerInterface as C;
 use DI\Container;
+use Doctrine\ORM\EntityManager;
 use Invoker\CallableResolver;
 use Slim\Http\Headers;
 use Slim\Http\Request;
@@ -186,10 +187,18 @@ function configurationLibertempo() : array
         AuthentificationController::class => function (C $c) {
             $repo = $c->get(UtilisateurRepository::class);
             $repo->setApplication($c->get(Application::class));
-            return new AuthentificationController($repo, $c->get(IRouter::class), $c->get(StorageConfiguration::class));
+            return new AuthentificationController(
+                $repo,
+                $c->get(IRouter::class),
+                $c->get(StorageConfiguration::class),
+                EntityManager::create()
+            );
         },
         Doctrine\DBAL\Driver\Connection::class => function (C $c) {
             return $c->get('storageConnector');
         },
+        EntityManager::class => function (C $c) {
+            return EntityManager::create();
+        }
     ];
 }

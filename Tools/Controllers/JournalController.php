@@ -5,6 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Journal;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur de journal
@@ -17,9 +18,9 @@ use LibertAPI\Journal;
  */
 final class JournalController extends \LibertAPI\Tools\Libraries\AController
 {
-    public function __construct(Journal\JournalRepository $repository, IRouter $router)
+    public function __construct(Journal\JournalRepository $repository, IRouter $router, EntityManager $entityManager)
     {
-        parent::__construct($repository, $router);
+        parent::__construct($repository, $router, $entityManager);
     }
 
      /**

@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Absence\Type;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur de type d'absence
@@ -20,9 +21,9 @@ use LibertAPI\Absence\Type;
 final class AbsenceTypeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
-    public function __construct(Type\TypeRepository $repository, IRouter $router)
+    public function __construct(Type\TypeRepository $repository, IRouter $router, EntityManager $entityManager)
     {
-        parent::__construct($repository, $router);
+        parent::__construct($repository, $router, $entityManager);
     }
 
     /**
