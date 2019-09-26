@@ -3,6 +3,7 @@ namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;
+use LibertAPI\Groupe\GroupeEntite;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
@@ -52,7 +53,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getOne(IResponse $response, $id)
     {
         try {
-            $planning = $this->repository->getOne($id);
+            $planning = $this->entityManager->find(GroupeEntite::class, $id);
         } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {

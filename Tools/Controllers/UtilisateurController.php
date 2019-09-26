@@ -5,6 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Utilisateur;
+use LibertAPI\Utilisateur\UtilisateurEntite;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;
 use Doctrine\ORM\EntityManager;
 
@@ -58,7 +59,7 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     private function getOne(IResponse $response, $id)
     {
         try {
-            $utilisateur = $this->repository->getOne($id);
+            $utilisateur = $this->entityManager->find(UtilisateurEntite::class, $id);
         } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « utilisateurs#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {
