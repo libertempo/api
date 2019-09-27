@@ -3,6 +3,7 @@ namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Interfaces;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;
+use LibertAPI\Absence\Periode\PeriodeEntite;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
@@ -47,7 +48,7 @@ implements Interfaces\IGetable
     private function getOne(IResponse $response, int $id) : IResponse
     {
         try {
-            $responseResource = $this->repository->getOne($id);
+            $responseResource = $this->entityManager->find(PeriodeEntite::class, $id);
         } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « periode#' . $id . ' » is not a valid resource');
         } catch (\Exception $e) {

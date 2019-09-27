@@ -3,6 +3,7 @@ namespace LibertAPI\Tools\Controllers;
 
 use LibertAPI\Tools\Exceptions\MissingArgumentException;
 use LibertAPI\Tools\Interfaces;
+use LibertAPI\Planning\Creneau\CreneauEntite;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
@@ -52,7 +53,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     private function getOne(IResponse $response, $id)
     {
         try {
-            $creneau = $this->repository->getOne($id);
+            $creneau = $this->entityManager->find(CreneauEntite::class, $id);
 
         } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
