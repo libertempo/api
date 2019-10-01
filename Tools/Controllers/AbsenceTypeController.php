@@ -48,9 +48,10 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getOne(IResponse $response, int $id) : IResponse
     {
         try {
-            $responseResource = $this->entityManager->find(Type\TypeEntite::class, $id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+            $responseResource = $this->entityManager->find(Type\Entite::class, $id);
+            if (null === $responseResource) {
+                return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -73,9 +74,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $responseResources = $this->repository->getList(
-                $request->getQueryParams()
-            );
+            $repository = $this->entityManager->getRepository(Type\Entite::class);
+            $responseResources = $repository->findAll();
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
@@ -89,18 +89,18 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param Type\TypeEntite $entite Type
+     * @param Type\Entite $entite Type
      *
      * @return array
      */
-    private function buildData(Type\TypeEntite $entite)
+    private function buildData(Type\Entite $entite)
     {
         return [
             'id' => $entite->getId(),
             'type' => $entite->getType(),
             'libelle' => $entite->getLibelle(),
-            'libelleCourt' => $entite->getLibelleCourt(),
-            'typeNatif' => $entite->isTypeNatif(),
+            'libelleCourt' => $entite->getShortLibelle(),
+            'typeNatif' => $entite->getTypeNatif(),
         ];
     }
 

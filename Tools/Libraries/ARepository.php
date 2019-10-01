@@ -44,6 +44,7 @@ abstract class ARepository
      *
      * @return AEntite
      * @throws UnknownResourceException Si $id n'est pas dans le domaine de définition
+     * @deprecated
      */
     public function getOne($id) : AEntite
     {

@@ -53,16 +53,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getOne(IResponse $response, $id)
     {
         try {
-            $planning = $this->entityManager->find(GroupeEntite::class, $id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
+            $groupe = $this->entityManager->find(Groupe\Entite::class, $id);
+            if (null === $groupe) {
+                return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
             $response,
-            $this->buildData($planning),
+            $this->buildData($groupe),
             200
         );
     }
@@ -78,9 +79,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $groupes = $this->repository->getList(
-                $request->getQueryParams()
-            );
+            $repository = $this->entityManager->getRepository(Groupe\Entite::class);
+            $groupes = $repository->findAll();
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
@@ -94,17 +94,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param Groupe\GroupeEntite $entite Groupe
+     * @param Groupe\Entite $entite Groupe
      *
      * @return array
      */
-    private function buildData(Groupe\GroupeEntite $entite)
+    private function buildData(Groupe\Entite $entite)
     {
         return [
             'id' => $entite->getId(),
             'name' => $entite->getName(),
             'comment' => $entite->getComment(),
-            'double_validation' => $entite->isDoubleValidated()
+            'double_validation' => $entite->getDoubleValid()
         ];
     }
 

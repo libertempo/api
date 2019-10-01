@@ -5,6 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use Doctrine\DBAL;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
 
 /**
  * Connexion DB
@@ -20,11 +21,19 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
             : $this->getRealBase();
         $connexion = DBAL\DriverManager::getConnection(['pdo' => $dbh]);
 
-        $configuration = new \Doctrine\ORM\Configuration();
-        $configuration->setMetadataDriverImpl($configuration->newDefaultAnnotationDriver(__DIR__."/data/Entities"));
-        $configuration->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache);
-        $configuration->setProxyDir(__DIR__."/data/Proxies");
-        $configuration->setProxyNamespace('Proxies');
+        // Create a simple "default" Doctrine ORM configuration for Annotations
+        $isDevMode = true;
+        $proxyDir = null;
+        $cache = null;
+        $useSimpleAnnotationReader = false;
+        $paths = array(__DIR__."/");
+        $configuration = Setup::createAnnotationMetadataConfiguration(
+            $paths,
+            $isDevMode,
+            $proxyDir,
+            $cache,
+            $useSimpleAnnotationReader
+        );
 
         $em = EntityManager::create($connexion, $configuration);
         $this->getContainer()->set('storageConnector', $connexion);

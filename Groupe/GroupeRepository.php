@@ -14,6 +14,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  *
  * Ne devrait être contacté que par le GroupeController
  * Ne devrait contacter que le GroupeEntite
+ * @deprecated
  */
 class GroupeRepository extends \LibertAPI\Tools\Libraries\ARepository
 {

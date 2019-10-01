@@ -11,6 +11,7 @@ use LibertAPI\Tools\Libraries\AEntite;
  *
  * @since 0.5
  * @see \Tests\Units\Absence\Type\TypeRepository
+ * @deprecated
  */
 class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
 {
