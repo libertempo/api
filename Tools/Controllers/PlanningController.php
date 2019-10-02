@@ -53,9 +53,10 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getOne(IResponse $response, $id)
     {
         try {
-            $planning = $this->entityManager->find(PlanningEntite::class, $id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
+            $planning = $this->entityManager->find(Planning\Entite::class, $id);
+            if (null === $planning) {
+                return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -78,9 +79,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $plannings = $this->repository->getList(
-                $request->getQueryParams()
-            );
+            $repository = $this->entityManager->getRepository(Planning\Entite::class);
+            $plannings = $repository->findAll();
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {
@@ -94,14 +94,14 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param Planning\PlanningEntite $entite Planning
+     * @param Planning\Entite $entite Planning
      *
      * @return array
      */
-    private function buildData(Planning\PlanningEntite $entite)
+    private function buildData(Planning\Entite $entite)
     {
         return [
-            'id' => $entite->getId(),
+            'id' => $entite->getPlanningId(),
             'name' => $entite->getName(),
             'status' => $entite->getStatus(),
         ];
@@ -138,6 +138,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
     /**
      * {@inheritDoc}
+     * @TODO 2019-10-02 Ensure all data are set
      */
     public function put(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
@@ -149,9 +150,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         $id = (int) $arguments['planningId'];
 
         try {
-            $this->repository->putOne($id, $body);
+            $planning = $this->entityManager->find(Planning\Entite::class, $id);
+            if (null === $planning) {
+                throw new UnknownResourceException('');
+            }
+            $planning->setName($body['name']);
+            $planning->setStatus($body['status']);
+
+            $this->entityManager->persist($planning);
+            $this->entityManager->flush();
         } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

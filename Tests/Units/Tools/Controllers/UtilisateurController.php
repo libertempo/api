@@ -39,24 +39,20 @@ final class UtilisateurController extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     protected function initEntite()
     {
-        $this->entite = new \LibertAPI\Utilisateur\UtilisateurEntite([
-            'id' => 42,
-            'login' => 'I.Gadget',
-            'nom' => 'Gadget',
-            'prenom' => 'Inspecteur',
-            'isResp' => false,
-            'isAdmin' => false,
-            'isHr' => true,
-            'isActif' => true,
-            'password' => 'Sophie',
-            'quotite' => 400,
-            'email' => 'gadget@fino.com',
-            'numeroExercice' => '7',
-            'planningId' => '88',
-            'heureSolde' => 12,
-            'dateInscription' => '2018-12-26',
-            'dateLastAccess' => '2018-12-26',
-        ]);
+        $this->entite = new \LibertAPI\Utilisateur\Entite();
+        $this->entite->setNom('I. Gadget');
+        $this->entite->setPrenom('Inspecteur');
+        $this->entite->setIsResp('N');
+        $this->entite->setIsHr('Y');
+        $this->entite->setIsActive('Y');
+        $this->entite->setPasswd('Sophie');
+        $this->entite->setQuotite(400);
+        $this->entite->setEmail('gadget@fino.com');
+        $this->entite->setNumExercice(7);
+        $this->entite->setPlanningId(88);
+        $this->entite->setHeureSolde(12);
+        $this->entite->setDateInscription('2018-12-26');
+        $this->entite->setDateLastAccess('2018-12-26');
     }
 
     protected function getOne() : IResponse

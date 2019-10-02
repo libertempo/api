@@ -43,6 +43,55 @@ final class PlanningCreneauController extends \LibertAPI\Tests\Units\Tools\Libra
         return $this->testedInstance->get($this->request, $this->response, ['planningId' => 45]);
     }
 
+    /**
+     * Teste la méthode get d'une liste trouvée
+     */
+    public function testGetListFound()
+    {
+        $this->entityRepository->getMockController()->findBy = [$this->entite,];
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
+
+        $response = $this->getList();
+
+        $data = $this->getJsonDecoded($response->getBody());
+        $this->integer($response->getStatusCode())->isIdenticalTo(200);
+        $this->array($data)
+            ->integer['code']->isIdenticalTo(200)
+            ->string['status']->isIdenticalTo('success')
+            //->array['data']->hasSize(1) // TODO: l'asserter atoum en sucre syntaxique est buggé, faire un ticket
+        ;
+        $this->boolean(empty($data['data']))->isFalse();
+    }
+
+    /**
+     * Teste la méthode get d'une liste vide
+     */
+    public function testGetListNoContent()
+    {
+        $this->entityRepository->getMockController()->findBy = function () {
+            throw new \UnexpectedValueException('');
+        };
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
+
+        $response = $this->getList();
+
+        $this->assertSuccessEmpty($response);
+    }
+
+    /**
+     * Teste le fallback de la méthode get d'une liste
+     */
+    public function testGetListFallback()
+    {
+        $this->entityRepository->getMockController()->findBy = function () {
+            throw new \Exception('');
+        };
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
+
+        $response = $this->getList();
+        $this->assertError($response);
+    }
+
     /*************************************************
      * POST
      *************************************************/

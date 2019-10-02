@@ -59,9 +59,10 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     private function getOne(IResponse $response, $id)
     {
         try {
-            $utilisateur = $this->entityManager->find(UtilisateurEntite::class, $id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « utilisateurs#' . $id . ' » is not a valid resource');
+            $utilisateur = $this->entityManager->find(Utilisateur\Entite::class, $id);
+            if (null === $utilisateur) {
+                return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -100,11 +101,11 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     /**
      * Construit le « data » du json
      *
-     * @param Utilisateur\UtilisateurEntite $entite Utilisateur
+     * @param Utilisateur\Entite $entite Utilisateur
      *
      * @return array
      */
-    private function buildData(Utilisateur\UtilisateurEntite $entite)
+    private function buildData(Utilisateur\Entite $entite)
     {
         return [
             'id' => $entite->getId(),

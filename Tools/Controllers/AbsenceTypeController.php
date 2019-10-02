@@ -145,9 +145,19 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         $id = (int) $arguments['typeId'];
         try {
-            $this->repository->putOne($id, $body);
+            $type = $this->entityManager->find(Type\Entite::class, $id);
+            if (null === $type) {
+                throw new UnknownResourceException('');
+            }
+            $type->setType($body['type']);
+            $type->setLibelle($body['libelle']);
+            $type->setShortLibelle($body['libelleCourt']);
+            $type->setTypeNatif($body['typeNatif']);
+
+            $this->entityManager->persist($type);
+            $this->entityManager->flush();
         } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {

@@ -139,6 +139,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
     /**
      * {@inheritDoc}
+     * @TODO 2019-10-02 Ensure all data are set
      */
     public function put(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
@@ -149,7 +150,16 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         $id = (int) $arguments['groupeId'];
         try {
-            $this->repository->putOne($id, $body);
+            $groupe = $this->entityManager->find(Groupe\Entite::class, $id);
+            if (null === $groupe) {
+                throw new UnknownResourceException('');
+            }
+            $groupe->setName($body['name']);
+            $groupe->setComment($body['comment']);
+            $groupe->setDoubleValid($body['double_validation']);
+
+            $this->entityManager->persist($groupe);
+            $this->entityManager->flush();
         } catch (UnknownResourceException $e) {
             return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
         } catch (MissingArgumentException $e) {

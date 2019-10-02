@@ -48,9 +48,10 @@ implements Interfaces\IGetable
     private function getOne(IResponse $response, int $id) : IResponse
     {
         try {
-            $responseResource = $this->entityManager->find(PeriodeEntite::class, $id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « periode#' . $id . ' » is not a valid resource');
+            $periode = $this->entityManager->find(Periode\Entite::class, $id);
+            if (null === $periode) {
+                return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -92,16 +93,17 @@ implements Interfaces\IGetable
      *
      * @return array
      */
-    private function buildData(Periode\PeriodeEntite $entite)
+    private function buildData(Periode\Entite $entite)
     {
         return [
-            'id' => $entite->getId(),
+            'id' => $entite->getNum(),
             'login' => $entite->getLogin(),
-            'dateDebut' => $entite->getDateDebut(),
-            'demiJourneeDebut' => $entite->getDemiJourneeDebut(),
+            'dateDebut' => $entite->getDateDeb(),
+            'demiJourneeDebut' => $entite->getDemiJourDeb(),
             'dateFin' => $entite->getDateFin(),
-            'demiJourneeFin' => $entite->getDemiJourneeFin(),
-            'nombreJours' => $entite->getNombreJours(),
+            'demiJourneeFin' => $entite->getDemiJourFin(),
+            'nombreJours' => $entite->getPNbJours(),
+            'commentaire' => $entite->getCommentaire(),
             'type' => $entite->getType(),
             'etat' => $entite->getEtat(),
             'editionId' => $entite->getEditionId(),

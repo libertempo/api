@@ -54,9 +54,9 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     {
         try {
             $creneau = $this->entityManager->find(CreneauEntite::class, $id);
-
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
+            if (null === $creneau) {
+                return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -79,7 +79,8 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     private function getList(IResponse $response, $planningId)
     {
         try {
-            $creneaux = $this->repository->getList(['planningId' => $planningId]);
+            $repository = $this->entityManager->getRepository(Creneau\Entite::class);
+            $creneaux = $repository->findBy(['planningId' => $planningId]);
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {

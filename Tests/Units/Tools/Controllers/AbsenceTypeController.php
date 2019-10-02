@@ -224,12 +224,14 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = $this->entite;
+        $this->entityManager->getMockController()->find = $this->entite;
+        $this->entityManager->getMockController()->persist = null;
+        $this->entityManager->getMockController()->flush = null;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
+
         $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
 
         $data = $this->getJsonDecoded($response->getBody());
-
         $this->integer($response->getStatusCode())->isIdenticalTo(204);
         $this->array($data)
             ->integer['code']->isIdenticalTo(204)

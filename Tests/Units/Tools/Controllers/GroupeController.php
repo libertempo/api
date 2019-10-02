@@ -156,7 +156,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     {
         $this->request->getMockController()->getParsedBody = [];
 
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -172,7 +172,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     public function testPutBadDomain()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \DomainException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -188,7 +188,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -203,13 +203,14 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = $this->entite;
+        $this->entityManager->getMockController()->find = $this->entite;
+        $this->entityManager->getMockController()->persist = null;
+        $this->entityManager->getMockController()->flush = null;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['groupeId' => 99]);
 
         $data = $this->getJsonDecoded($response->getBody());
-
         $this->integer($response->getStatusCode())->isIdenticalTo(204);
         $this->array($data)
             ->integer['code']->isIdenticalTo(204)

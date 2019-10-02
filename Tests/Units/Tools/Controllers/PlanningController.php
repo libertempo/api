@@ -28,11 +28,9 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     protected function initEntite()
     {
-        $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Planning\PlanningEntite();
-        $this->entite->getMockController()->getId = 42;
-        $this->entite->getMockController()->getName = 12;
-        $this->entite->getMockController()->getStatus = 12;
+        $this->entite = new \LibertAPI\Planning\Entite();
+        $this->entite->setName('Renaud');
+        $this->entite->setStatus(1);
     }
 
     /*************************************************
@@ -208,8 +206,9 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = $this->entite;
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
+        $this->entityManager->getMockController()->find = $this->entite;
+        $this->entityManager->getMockController()->persist = null;
+        $this->entityManager->getMockController()->flush = null;        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
 
