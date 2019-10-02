@@ -39,13 +39,11 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     protected function initEntite()
     {
-        $this->entite = new \LibertAPI\Absence\Type\TypeEntite([
-            'id' => 42,
-            'type' => 'thieft',
-            'libelle' => 'GTA',
-            'libelleCourt' => 'vice',
-            'typeNatif' => true,
-        ]);
+        $this->entite = new \LibertAPI\Absence\Type\Entite();
+        $this->entite->setType('thieft');
+        $this->entite->setLibelle('GTA');
+        $this->entite->setShortLibelle('vice');
+        $this->entite->setTypeNatif(1);
     }
 
     protected function getOne() : IResponse

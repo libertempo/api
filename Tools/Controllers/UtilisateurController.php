@@ -85,9 +85,8 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $utilisateurs = $this->repository->getList(
-                $request->getQueryParams()
-            );
+            $repository = $this->entityManager->getRepository(Utilisateur\Entite::class);
+            $utilisateurs = $repository->findAll();
         } catch (\UnexpectedValueException $e) {
             return $this->getResponseNoContent($response);
         } catch (\Exception $e) {

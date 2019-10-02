@@ -28,13 +28,10 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
      */
     protected function initEntite()
     {
-        $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \LibertAPI\Groupe\GroupeEntite([
-            'id' => 78,
-            'name' => 'Zola',
-            'comment' => 'Baudelaire',
-            'double_validation' => true
-        ]);
+        $this->entite = new \LibertAPI\Groupe\Entite();
+        $this->entite->setName('Zola');
+        $this->entite->setComment('Baudelaire');
+        $this->entite->setDoubleValid('Y');
     }
 
     protected function getOne() : IResponse

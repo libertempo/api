@@ -48,9 +48,7 @@ abstract class ARestController extends AController
      */
     public function testGetOneNotFound()
     {
-        $this->entityManager->getMockController()->find = function () {
-            throw new UnknownResourceException('');
-        };
+        $this->entityManager->getMockController()->find = null;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getOne();
@@ -79,8 +77,7 @@ abstract class ARestController extends AController
      */
     public function testGetListFound()
     {
-        $this->request->getMockController()->getQueryParams = [];
-        $this->repository->getMockController()->getList = [$this->entite,];
+        $this->entityRepository->getMockController()->findAll = [$this->entite,];
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getList();
@@ -100,8 +97,7 @@ abstract class ARestController extends AController
      */
     public function testGetListNoContent()
     {
-        $this->request->getMockController()->getQueryParams = [];
-        $this->repository->getMockController()->getList = function () {
+        $this->entityRepository->getMockController()->findAll = function () {
             throw new \UnexpectedValueException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -116,8 +112,7 @@ abstract class ARestController extends AController
      */
     public function testGetListFallback()
     {
-        $this->request->getMockController()->getQueryParams = [];
-        $this->repository->getMockController()->getList = function () {
+        $this->entityRepository->getMockController()->findAll = function () {
             throw new \Exception('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
