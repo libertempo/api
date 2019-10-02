@@ -108,16 +108,17 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     private function buildData(Utilisateur\Entite $entite)
     {
         return [
-            'id' => $entite->getId(),
+            'id' => $entite->getLogin(),
             'login' => $entite->getLogin(),
             'nom' => $entite->getNom(),
             'prenom' => $entite->getPrenom(),
-            'is_responsable' => $entite->isResponsable(),
-            'is_haut_responsable' => $entite->isHautResponsable(),
-            'is_actif' => $entite->isActif(),
+            'is_responsable' => $entite->getIsResp(),
+            'is_admin' => $entite->getIsAdmin(),
+            'is_haut_responsable' => $entite->getIsHr(),
+            'is_actif' => $entite->getIsActive(),
             'quotite' => $entite->getQuotite(),
-            'mail' => $entite->getMail(),
-            'numero_exercice' => $entite->getNumeroExercice(),
+            'mail' => $entite->getEmail(),
+            'numero_exercice' => $entite->getNumExercice(),
             'planning_id' => $entite->getPlanningId(),
             'heure_solde' => $entite->getHeureSolde(),
             'date_inscription' => $entite->getDateInscription(),

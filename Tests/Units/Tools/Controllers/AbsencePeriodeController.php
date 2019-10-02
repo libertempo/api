@@ -28,25 +28,21 @@ final class AbsencePeriodeController extends \LibertAPI\Tests\Units\Tools\Librar
      */
     protected function initEntite()
     {
-        $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \LibertAPI\Absence\Periode\PeriodeEntite([
-            'id' => 17845,
-            'login' => 'Donatello',
-            'date_deb' => '2018-12-25',
-            'demi_jour_deb' => 'am',
-            'date_fin' => '2018-12-31',
-            'demi_jour_fin' => 'pm',
-            'nb_jours' => '42',
-            'commentaire' => 'Cowabunga',
-            'type' => '1',
-            'etat' => 'ajout',
-            'edition_id' => '88',
-            'motif_refus' => 'Shredder',
-            'date_demande' => '2018-10-12',
-            'date_traitement' => '2018-11-11',
-            'fermeture_id' => 4,
-            'num' => '75',
-        ]);
+        $this->entite = new \LibertAPI\Absence\Periode\Entite();
+        $this->entite->setLogin('Donatello');
+        $this->entite->setDateDeb('2018-12-25');
+        $this->entite->setDemiJourDeb('am');
+        $this->entite->setDateFin('2018-12-31');
+        $this->entite->setDemiJourFin('pm');
+        $this->entite->setPNbJours('42');
+        $this->entite->setCommentaire('Cowabunga');
+        $this->entite->setType('1');
+        $this->entite->setEtat('ajout');
+        $this->entite->setEditionId('88');
+        $this->entite->setMotifRefus('Shredder');
+        $this->entite->setDateDemande('2018-10-12');
+        $this->entite->setDateTraitement('2018-11-11');
+        $this->entite->setFermetureId('4');
     }
 
     protected function getOne() : IResponse

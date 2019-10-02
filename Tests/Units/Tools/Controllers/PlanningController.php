@@ -158,8 +158,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testPutMissingRequiredArg()
     {
         $this->request->getMockController()->getParsedBody = [];
-
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -175,7 +174,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testPutBadDomain()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \DomainException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -191,7 +190,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);

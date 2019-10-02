@@ -33,8 +33,8 @@ abstract class ARestController extends AController
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getOne();
+        
         $data = $this->getJsonDecoded($response->getBody());
-
         $this->integer($response->getStatusCode())->isIdenticalTo(200);
         $this->array($data)
             ->integer['code']->isIdenticalTo(200)

@@ -163,7 +163,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
     public function testPutNotFound()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new UnknownResourceException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -179,7 +179,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
 
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -194,7 +194,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
     public function testPutBadDomain()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \DomainException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -209,7 +209,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);

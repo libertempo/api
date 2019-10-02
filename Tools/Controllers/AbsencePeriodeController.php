@@ -58,7 +58,7 @@ implements Interfaces\IGetable
 
         return $this->getResponseSuccess(
             $response,
-            $this->buildData($responseResource),
+            $this->buildData($periode),
             200
         );
     }

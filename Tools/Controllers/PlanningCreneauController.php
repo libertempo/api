@@ -94,14 +94,14 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     /**
      * Construit le « data » du json
      *
-     * @param Creneau\CreneauEntite $entite Créneau de planning
+     * @param Creneau\Entite $entite Créneau de planning
      *
      * @return array
      */
-    private function buildData(Creneau\CreneauEntite $entite)
+    private function buildData(Creneau\Entite $entite)
     {
         return [
-            'id' => $entite->getId(),
+            'id' => $entite->getCreneauId(),
             'planningId' => $entite->getPlanningId(),
             'jourId' => $entite->getJourId(),
             'typeSemaine' => $entite->getTypeSemaine(),
@@ -162,9 +162,21 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
         $id = (int) $arguments['creneauId'];
 
         try {
-            $this->repository->putOne($id, $body);
+            $creneau = $this->entityManager->find(Creneau\Entite::class, $id);
+            if (null === $creneau) {
+                throw new UnknownResourceException('');
+            }
+            $creneau->setPlanningId($body['planningId']);
+            $creneau->setJourId($body['jourId']);
+            $creneau->setTypeSemaine($body['typeSemaine']);
+            $creneau->setTypePeriode($body['typePeriode']);
+            $creneau->setDebut($body['debut']);
+            $creneau->setFin($body['fin']);
+
+            $this->entityManager->persist($creneau);
+            $this->entityManager->flush();
         } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « creneau#' . $id . ' » is not a valid resource');
+            return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
         } catch (MissingArgumentException $e) {
             return $this->getResponseMissingArgument($response);
         } catch (\DomainException $e) {
