@@ -60,7 +60,7 @@ implements Interfaces\IGetable
     /**
      * Construit le « data » du json
      */
-    private function buildData(JourFerie\JourFerieEntite $entite) : array
+    private function buildData(JourFerie\Entite $entite) : array
     {
         return [
             'date' => $entite->getDate(),

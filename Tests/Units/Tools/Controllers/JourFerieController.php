@@ -27,11 +27,7 @@ final class JourFerieController extends \LibertAPI\Tests\Units\Tools\Libraries\A
      */
     protected function initEntite()
     {
-        $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \LibertAPI\JourFerie\JourFerieEntite([
-            'id' => 78,
-            'date' => '2018-06-12',
-        ]);
+        $this->entite = new \LibertAPI\JourFerie\Entite();
     }
 
     /**

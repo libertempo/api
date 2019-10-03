@@ -7,6 +7,9 @@ class JourFerieCest extends BaseTestCest
     {
         $i->sendGET('/jour_ferie');
 
+        $i->seeResponseEquals('');
+
+
         $this->seeResponseOK($i);
     }
 }
