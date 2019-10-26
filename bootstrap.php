@@ -10,17 +10,17 @@ $isDevMode = true;
 $proxyDir = null;
 $cache = null;
 $useSimpleAnnotationReader = false;
-$paths = array(__DIR__."/");
+$paths = [__DIR__."/"];
 $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
 
 // database configuration parameters
-$dbParams = array(
+$dbParams = [
     'driver'   => 'pdo_mysql',
     'host'     => 'mysql',
     'user'     => 'root',
     'password' => 'root',
     'dbname'   => 'db_conges',
-);
+];
 
 // obtaining the entity manager
 $entityManager = EntityManager::create($dbParams, $config);

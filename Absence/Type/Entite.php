@@ -47,7 +47,7 @@ class Entite
      *
      * @ORM\Column(name="type_natif", type="boolean", nullable=false)
      */
-    private $typeNatif = '0';
+    private $typeNatif;
 
 
     /**
@@ -139,7 +139,7 @@ class Entite
      *
      * @return Entite
      */
-    public function setTypeNatif($typeNatif)
+    public function setTypeNatif(bool $typeNatif)
     {
         $this->typeNatif = $typeNatif;
 
@@ -151,8 +151,8 @@ class Entite
      *
      * @return bool
      */
-    public function getTypeNatif()
+    public function isTypeNatif() : bool
     {
-        return $this->typeNatif;
+        return (bool) $this->typeNatif;
     }
 }

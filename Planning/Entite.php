@@ -18,7 +18,7 @@ class Entite
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $planningId;
+    private $id;
 
     /**
      * @var string
@@ -30,19 +30,19 @@ class Entite
     /**
      * @var bool
      *
-     * @ORM\Column(name="status", type="boolean", nullable=false)
+     * @ORM\Column(name="status", type="integer", nullable=false)
      */
     private $status = '0';
 
 
     /**
-     * Get planningId.
+     * Get id.
      *
      * @return int
      */
-    public function getPlanningId()
+    public function getId()
     {
-        return $this->planningId;
+        return $this->id;
     }
 
     /**
@@ -50,7 +50,7 @@ class Entite
      *
      * @param string $name
      *
-     * @return Planning
+     * @return Entite
      */
     public function setName($name)
     {
@@ -72,9 +72,9 @@ class Entite
     /**
      * Set status.
      *
-     * @param bool $status
+     * @param integer $status
      *
-     * @return Planning
+     * @return Entite
      */
     public function setStatus($status)
     {
@@ -86,7 +86,7 @@ class Entite
     /**
      * Get status.
      *
-     * @return bool
+     * @return integer
      */
     public function getStatus()
     {

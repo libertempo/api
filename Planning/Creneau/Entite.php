@@ -30,21 +30,21 @@ class Entite
     /**
      * @var bool
      *
-     * @ORM\Column(name="jour_id", type="boolean", nullable=false)
+     * @ORM\Column(name="jour_id", type="integer", nullable=false)
      */
     private $jourId;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="type_semaine", type="boolean", nullable=false)
+     * @ORM\Column(name="type_semaine", type="integer", nullable=false)
      */
     private $typeSemaine;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="type_periode", type="boolean", nullable=false)
+     * @ORM\Column(name="type_periode", type="integer", nullable=false)
      */
     private $typePeriode;
 
@@ -100,7 +100,7 @@ class Entite
     /**
      * Set jourId.
      *
-     * @param bool $jourId
+     * @param integer $jourId
      *
      * @return PlanningCreneau
      */
@@ -114,7 +114,7 @@ class Entite
     /**
      * Get jourId.
      *
-     * @return bool
+     * @return integer
      */
     public function getJourId()
     {
@@ -124,7 +124,7 @@ class Entite
     /**
      * Set typeSemaine.
      *
-     * @param bool $typeSemaine
+     * @param integer $typeSemaine
      *
      * @return PlanningCreneau
      */
@@ -138,7 +138,7 @@ class Entite
     /**
      * Get typeSemaine.
      *
-     * @return bool
+     * @return integer
      */
     public function getTypeSemaine()
     {
@@ -148,7 +148,7 @@ class Entite
     /**
      * Set typePeriode.
      *
-     * @param bool $typePeriode
+     * @param integer $typePeriode
      *
      * @return PlanningCreneau
      */
@@ -162,7 +162,7 @@ class Entite
     /**
      * Get typePeriode.
      *
-     * @return bool
+     * @return integer
      */
     public function getTypePeriode()
     {

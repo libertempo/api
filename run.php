@@ -32,7 +32,7 @@ $cmf->setEntityManager($em);
 
 // var_dump($classes);exit();
 $classes = $driver->getAllClassNames();
-$metadata = array();
+$metadata = [];
 foreach ($classes as $class) {
     $metadata[] = $cmf->getMetadataFor($class);
 }
