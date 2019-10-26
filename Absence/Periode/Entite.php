@@ -123,7 +123,7 @@ class Entite
      *
      * @ORM\Column(name="p_num", type="integer", nullable=false, options={"unsigned"=true})
      */
-    private $pNum;
+    private $num;
 
 
     /**

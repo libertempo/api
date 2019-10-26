@@ -18,7 +18,7 @@ class Entite
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $eId;
+    private $id;
 
     /**
      * @var binary
