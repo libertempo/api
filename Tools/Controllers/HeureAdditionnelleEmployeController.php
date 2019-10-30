@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Heure\Additionnelle;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur des heures de additionnelle de l'employé courant
@@ -18,9 +19,9 @@ use LibertAPI\Heure\Additionnelle;
 final class HeureAdditionnelleEmployeController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    public function __construct(Additionnelle\AdditionnelleRepository $repository, IRouter $router)
+    public function __construct(Additionnelle\AdditionnelleRepository $repository, IRouter $router, EntityManager $entityManager)
     {
-        parent::__construct($repository, $router);
+        parent::__construct($repository, $router, $entityManager);
     }
 
     /**

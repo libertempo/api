@@ -38,6 +38,10 @@ abstract class AController extends \Atoum
      */
     protected $entite;
 
+    protected $entityManager;
+
+    protected $entityRepository;
+
     /**
      * Init des tests
      */
@@ -49,6 +53,15 @@ abstract class AController extends \Atoum
         $this->request = new \mock\Slim\Http\Request();
         $this->response = new \mock\Slim\Http\Response();
         $this->router = new \mock\Slim\Router();
+
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->entityManager = new \mock\Doctrine\ORM\EntityManager();
+        $this->mockGenerator->orphanize('__construct');
+        $this->mockGenerator->shuntParentClassCalls();
+        $this->entityRepository = new \mock\Doctrine\ORM\EntityRepository();
+        $this->entityManager->getMockController()->getRepository = $this->entityRepository;
+
         $this->initRepository();
         $this->initEntite();
     }

@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Planning;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur de planning
@@ -23,9 +24,9 @@ use LibertAPI\Planning;
 final class PlanningController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Interfaces\IDeletable
 {
-    public function __construct(Planning\PlanningRepository $repository, IRouter $router)
+    public function __construct(Planning\PlanningRepository $repository, IRouter $router, EntityManager $entityManager)
     {
-        parent::__construct($repository, $router);
+        parent::__construct($repository, $router, $entityManager);
     }
 
     /**

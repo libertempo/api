@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Planning\Creneau;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur des creneaux de plannings
@@ -23,9 +24,9 @@ use LibertAPI\Tools\Exceptions\UnknownResourceException;
 final class PlanningCreneauController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
 {
-    public function __construct(Creneau\CreneauRepository $repository, IRouter $router)
+    public function __construct(Creneau\CreneauRepository $repository, IRouter $router, EntityManager $entityManager)
     {
-        parent::__construct($repository, $router);
+        parent::__construct($repository, $router, $entityManager);
     }
 
     /**

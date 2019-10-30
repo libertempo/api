@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 
 use Psr\Container\ContainerInterface as C;
+use Doctrine\ORM\EntityManager;
 use DI\Container;
 use Invoker\CallableResolver;
 use Slim\Http\Headers;
@@ -191,5 +192,6 @@ function configurationLibertempo() : array
         Doctrine\DBAL\Driver\Connection::class => function (C $c) {
             return $c->get('storageConnector');
         },
+        EntityManager::class => get('entityManager'),
     ];
 }
