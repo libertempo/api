@@ -22,17 +22,14 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
         $connexion = DBAL\DriverManager::getConnection(['pdo' => $dbh]);
 
         // Create a simple "default" Doctrine ORM configuration for Annotations
+        // @TODO: Alter if prod mod
         $isDevMode = true;
-        $proxyDir = null;
-        $cache = null;
-        $useSimpleAnnotationReader = false;
+        $useSimpleAnnotation = false;
         $paths = [__DIR__ . '/'];
         $configuration = Setup::createAnnotationMetadataConfiguration(
             $paths,
             $isDevMode,
-            $proxyDir,
-            $cache,
-            $useSimpleAnnotationReader
+            $useSimpleAnnotation
         );
         $this->getContainer()->set('storageConnector', $connexion);
         $em = EntityManager::create($connexion, $configuration);

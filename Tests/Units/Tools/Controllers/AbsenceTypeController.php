@@ -69,8 +69,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
     {
         // Le framework fait du traitement, un mauvais json est simplement null
         $this->request->getMockController()->getParsedBody = null;
-        $this->newTestedInstance($this->repository, $this->router, 
-        $this->entityManager);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
         $response = $this->testedInstance->post($this->request, $this->response, []);
 
         $this->assertFail($response, 400);
