@@ -47,7 +47,7 @@ final class GroupeGrandResponsableController extends \LibertAPI\Tests\Units\Tool
     {
         $this->calling($this->request)->getQueryParams = [];
         $this->calling($this->repository)->getList = [$this->entite,];
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $data = $this->getJsonDecoded($response->getBody());
 
@@ -70,7 +70,7 @@ final class GroupeGrandResponsableController extends \LibertAPI\Tests\Units\Tool
         $this->calling($this->repository)->getList = function () {
             throw new \UnexpectedValueException('');
         };
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
         $response = $this->testedInstance->get($this->request, $this->response, []);
 
         $this->assertSuccessEmpty($response);
@@ -85,7 +85,7 @@ final class GroupeGrandResponsableController extends \LibertAPI\Tests\Units\Tool
         $this->calling($this->repository)->getList = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $this->assertError($response);

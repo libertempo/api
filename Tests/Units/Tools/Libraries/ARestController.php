@@ -15,21 +15,6 @@ use \LibertAPI\Tools\Exceptions\UnknownResourceException;
  */
 abstract class ARestController extends AController
 {
-    /**
-     * @var UtilisateurEntite Standardisation d'un rôle responsable
-     */
-    protected $currentResponsable;
-
-    /**
-     * @var UtilisateurEntite Standardisation d'un rôle employé
-     */
-    protected $currentEmploye;
-
-    /**
-     * @var UtilisateurEntite Standardisation d'un rôle admin
-     */
-    protected $currentAdmin;
-
     /*************************************************
      * GET
      *************************************************/
@@ -40,7 +25,7 @@ abstract class ARestController extends AController
     public function testGetOneFound()
     {
         $this->repository->getMockController()->getOne = $this->entite;
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getOne();
         $data = $this->getJsonDecoded($response->getBody());
@@ -61,7 +46,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getOne = function () {
             throw new UnknownResourceException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getOne();
 
@@ -76,7 +61,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getOne = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentEmploye);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getOne();
         $response = $this->assertError($response);
@@ -91,7 +76,7 @@ abstract class ARestController extends AController
     {
         $this->request->getMockController()->getQueryParams = [];
         $this->repository->getMockController()->getList = [$this->entite,];
-        $this->newTestedInstance($this->repository, $this->router, $this->currentAdmin);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getList();
         $data = $this->getJsonDecoded($response->getBody());
@@ -114,7 +99,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getList = function () {
             throw new \UnexpectedValueException('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentAdmin);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getList();
 
@@ -130,7 +115,7 @@ abstract class ARestController extends AController
         $this->repository->getMockController()->getList = function () {
             throw new \Exception('');
         };
-        $this->newTestedInstance($this->repository, $this->router, $this->currentAdmin);
+        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getList();
         $this->assertError($response);

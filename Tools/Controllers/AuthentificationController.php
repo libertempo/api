@@ -10,6 +10,7 @@ use Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Tools\Interfaces;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur de l'authentification
@@ -24,9 +25,9 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 final class AuthentificationController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    public function __construct(UtilisateurRepository $repository, IRouter $router, StorageConfiguration $configuration)
+    public function __construct(UtilisateurRepository $repository, IRouter $router, StorageConfiguration $configuration, EntityManager $entityManager)
     {
-        parent::__construct($repository, $router);
+        parent::__construct($repository, $router, $entityManager);
         $this->configuration = $configuration;
     }
 

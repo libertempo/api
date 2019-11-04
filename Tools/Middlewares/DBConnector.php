@@ -4,6 +4,8 @@ namespace LibertAPI\Tools\Middlewares;
 use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use Doctrine\DBAL;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
 
 /**
  * Connexion DB
@@ -18,7 +20,20 @@ final class DBConnector extends \LibertAPI\Tools\AMiddleware
             ? $this->getTestBase()
             : $this->getRealBase();
         $connexion = DBAL\DriverManager::getConnection(['pdo' => $dbh]);
+
+        // Create a simple "default" Doctrine ORM configuration for Annotations
+        // @TODO: Alter if prod mod
+        $isDevMode = true;
+        $useSimpleAnnotation = false;
+        $paths = [__DIR__ . '/'];
+        $configuration = Setup::createAnnotationMetadataConfiguration(
+            $paths,
+            $isDevMode,
+            $useSimpleAnnotation
+        );
         $this->getContainer()->set('storageConnector', $connexion);
+        $em = EntityManager::create($connexion, $configuration);
+        $this->getContainer()->set('entityManager', $em);
 
         return $next($request, $response);
     }

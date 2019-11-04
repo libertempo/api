@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\JourFerie;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur de jour férié
@@ -22,9 +23,9 @@ use LibertAPI\JourFerie;
 final class JourFerieController extends \LibertAPI\Tools\Libraries\AController
 implements Interfaces\IGetable
 {
-    public function __construct(JourFerie\JourFerieRepository $repository, IRouter $router)
+    public function __construct(JourFerie\JourFerieRepository $repository, IRouter $router, EntityManager $entityManager)
     {
-        parent::__construct($repository, $router);
+        parent::__construct($repository, $router, $entityManager);
     }
 
     /**
