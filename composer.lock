@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7ab9580228295f26bc73e1a5952e62a",
+    "content-hash": "9de623c5dceff53f3be2e19dc2e17973",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -1291,16 +1291,16 @@
         },
         {
             "name": "php-di/php-di",
-            "version": "6.0.8",
+            "version": "6.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-DI/PHP-DI.git",
-                "reference": "a634876c69b643b779a89e4b7bec1ed1df803afc"
+                "reference": "a6c813bf6b0d0bdeade3ac5a920e2c2a5b1a6ce3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/a634876c69b643b779a89e4b7bec1ed1df803afc",
-                "reference": "a634876c69b643b779a89e4b7bec1ed1df803afc",
+                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/a6c813bf6b0d0bdeade3ac5a920e2c2a5b1a6ce3",
+                "reference": "a6c813bf6b0d0bdeade3ac5a920e2c2a5b1a6ce3",
                 "shasum": ""
             },
             "require": {
@@ -1350,7 +1350,7 @@
                 "ioc",
                 "psr11"
             ],
-            "time": "2019-04-02T20:25:18+00:00"
+            "time": "2019-10-21T11:58:24+00:00"
         },
         {
             "name": "php-di/phpdoc-reader",
