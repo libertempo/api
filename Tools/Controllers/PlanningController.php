@@ -78,15 +78,15 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $plannings = $this->repository->getList(
-                $request->getQueryParams()
-            );
-        } catch (\UnexpectedValueException $e) {
-            return $this->getResponseNoContent($response);
+            $repository = $this->entityManager->getRepository(Planning\Entite::class);
+            $resources = $repository->findAll();
+            if (empty($resources)) {
+                return $this->getResponseNoContent($response);
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        $entites = array_map([$this, 'buildData'], $plannings);
+        $entites = array_map([$this, 'buildData'], $resources);
 
         return $this->getResponseSuccess($response, $entites, 200);
     }

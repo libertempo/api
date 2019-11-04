@@ -78,13 +78,15 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     private function getList(IResponse $response, $planningId)
     {
         try {
-            $creneaux = $this->repository->getList(['planningId' => $planningId]);
-        } catch (\UnexpectedValueException $e) {
-            return $this->getResponseNoContent($response);
+            $repository = $this->entityManager->getRepository(Creneau\Entite::class);
+            $resources = $repository->findBy(['planningId' => $planningId]);
+            if (empty($resources)) {
+                return $this->getResponseNoContent($response);
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        $entites = array_map([$this, 'buildData'], $creneaux);
+        $entites = array_map([$this, 'buildData'], $resources);
 
         return $this->getResponseSuccess($response, $entites, 200);
     }

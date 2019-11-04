@@ -45,15 +45,15 @@ implements Interfaces\IGetable
     private function getList(IRequest $request, IResponse $response) : IResponse
     {
         try {
-            $jours = $this->repository->getList(
-                $request->getQueryParams()
-            );
-        } catch (\UnexpectedValueException $e) {
-            return $this->getResponseNoContent($response);
+            $repository = $this->entityManager->getRepository(JourFerie\Entite::class);
+            $resources = $repository->findAll();
+            if (empty($resources)) {
+                return $this->getResponseNoContent($response);
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        $entites = array_map([$this, 'buildData'], $jours);
+        $entites = array_map([$this, 'buildData'], $resources);
 
         return $this->getResponseSuccess($response, $entites, 200);
     }

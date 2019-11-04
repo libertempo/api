@@ -73,15 +73,15 @@ implements Interfaces\IGetable
     private function getList(IRequest $request, IResponse $response)
     {
         try {
-            $responseResources = $this->repository->getList(
-                $request->getQueryParams()
-            );
-        } catch (\UnexpectedValueException $e) {
-            return $this->getResponseNoContent($response);
+            $repository = $this->entityManager->getRepository(Periode\Entite::class);
+            $resources = $repository->findAll();
+            if (empty($resources)) {
+                return $this->getResponseNoContent($response);
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        $entites = array_map([$this, 'buildData'], $responseResources);
+        $entites = array_map([$this, 'buildData'], $resources);
 
         return $this->getResponseSuccess($response, $entites, 200);
     }

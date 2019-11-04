@@ -28,7 +28,6 @@ final class AbsencePeriodeController extends \LibertAPI\Tests\Units\Tools\Librar
      */
     protected function initEntite()
     {
-        $this->mockGenerator->orphanize('__construct');
         $this->entite = new \LibertAPI\Absence\Periode\PeriodeEntite([
             'id' => 17845,
             'login' => 'Donatello',

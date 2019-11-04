@@ -45,6 +45,7 @@ final class Identificator extends \LibertAPI\Tools\AMiddleware
             return false;
         }
         try {
+            // @TODO: altérer ça aussi
             $this->utilisateur = $repository->find([
                 'token' => $token,
                 'gt_date_last_access' => $this->getDateLastAccessAuthorized(),
