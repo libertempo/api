@@ -24,7 +24,7 @@ abstract class ARestController extends AController
      */
     public function testGetOneFound()
     {
-        $this->repository->getMockController()->getOne = $this->entite;
+        $this->entityManager->getMockController()->find = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getOne();
@@ -43,9 +43,7 @@ abstract class ARestController extends AController
      */
     public function testGetOneNotFound()
     {
-        $this->repository->getMockController()->getOne = function () {
-            throw new UnknownResourceException('');
-        };
+        $this->entityManager->getMockController()->find = null;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->getOne();
@@ -58,7 +56,7 @@ abstract class ARestController extends AController
      */
     public function testGetOneFallback()
     {
-        $this->repository->getMockController()->getOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \Exception('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);

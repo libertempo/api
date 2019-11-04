@@ -48,16 +48,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getOne(IResponse $response, int $id) : IResponse
     {
         try {
-            $responseResource = $this->repository->getOne($id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+            $resource = $this->entityManager->find(Type\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
             $response,
-            $this->buildData($responseResource),
+            $this->buildData($resource),
             200
         );
     }

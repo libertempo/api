@@ -52,16 +52,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     private function getOne(IResponse $response, $id)
     {
         try {
-            $planning = $this->repository->getOne($id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
+            $resource = $this->entityManager->find(Planning\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
             $response,
-            $this->buildData($planning),
+            $this->buildData($resource),
             200
         );
     }

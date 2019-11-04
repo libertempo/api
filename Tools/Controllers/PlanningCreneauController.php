@@ -52,17 +52,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
     private function getOne(IResponse $response, $id)
     {
         try {
-            $creneau = $this->repository->getOne($id);
-
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « creneaux#' . $id . ' » is not a valid resource');
+            $resource = $this->entityManager->find(Creneau\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
             $response,
-            $this->buildData($creneau),
+            $this->buildData($resource),
             200
         );
     }

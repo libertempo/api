@@ -47,16 +47,17 @@ implements Interfaces\IGetable
     private function getOne(IResponse $response, int $id) : IResponse
     {
         try {
-            $responseResource = $this->repository->getOne($id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « periode#' . $id . ' » is not a valid resource');
+            $resource = $this->entityManager->find(Periode\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
             $response,
-            $this->buildData($responseResource),
+            $this->buildData($resource),
             200
         );
     }

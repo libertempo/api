@@ -59,16 +59,17 @@ final class UtilisateurController extends \LibertAPI\Tools\Libraries\AController
     private function getOne(IResponse $response, $id)
     {
         try {
-            $utilisateur = $this->repository->getOne($id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « utilisateurs#' . $id . ' » is not a valid resource');
+            $resource = $this->entityManager->find(Utilisateur\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
 
         return $this->getResponseSuccess(
             $response,
-            $this->buildData($utilisateur),
+            $this->buildData($resource),
             200
         );
     }
