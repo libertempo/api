@@ -98,10 +98,10 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
      *
      * @return array
      */
-    private function buildData(Creneau\CreneauEntite $entite)
+    private function buildData(Creneau\Entite $entite)
     {
         return [
-            'id' => $entite->getId(),
+            'id' => $entite->getCreneauId(),
             'planningId' => $entite->getPlanningId(),
             'jourId' => $entite->getJourId(),
             'typeSemaine' => $entite->getTypeSemaine(),
@@ -126,18 +126,28 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
         $planningId = (int) $arguments['planningId'];
 
         try {
-            $creneauxIds = $this->repository->postList($body, new Creneau\CreneauEntite([]));
+            $creneaux = [];
+            foreach ($body as $c) {
+                $creneau = new Creneau\Entite();
+                $creneau->setPlanningId($planningId);
+                $creneau->setJourId($c['jourId']);
+                $creneau->setTypeSemaine($c['typeSemaine']);
+                $creneau->setTypePeriode($c['typePeriode']);
+                $creneau->setDebut($c['debut']);
+                $creneau->setFin($c['fin']);
+
+                $this->entityManager->persist($creneau);
+                $creneaux[] = $creneau;
+            }
+            $this->entityManager->flush();
+
             $dataMessage = [];
-            foreach ($creneauxIds as $id) {
+            foreach ($creneaux as $c) {
                 $dataMessage[] = $this->router->pathFor('getPlanningCreneauDetail', [
-                    'creneauId' => $id,
-                    'planningId' => $planningId,
+                    'creneauId' => $c->getCreneauId(),
+                    'planningId' => $c->getPlanningId(),
                 ]);
             }
-        } catch (MissingArgumentException $e) {
-            return $this->getResponseMissingArgument($response);
-        } catch (\DomainException $e) {
-            return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -162,11 +172,18 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable
         $id = (int) $arguments['creneauId'];
 
         try {
-            $this->repository->putOne($id, $body);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « creneau#' . $id . ' » is not a valid resource');
-        } catch (MissingArgumentException $e) {
-            return $this->getResponseMissingArgument($response);
+            $resource = $this->entityManager->find(Creneau\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
+            $resource->setPlanningId($body['planningId']);
+            $resource->setJourId($body['jourId']);
+            $resource->setTypeSemaine($body['typeSemaine']);
+            $resource->setTypePeriode($body['typePeriode']);
+            $resource->setDebut($body['debut']);
+            $resource->setFin($body['fin']);
+
+            $this->entityManager->flush();
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {

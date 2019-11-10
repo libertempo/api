@@ -98,7 +98,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      *
      * @return array
      */
-    private function buildData(Planning\PlanningEntite $entite)
+    private function buildData(Planning\Entite $entite)
     {
         return [
             'id' => $entite->getId(),
@@ -118,11 +118,12 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $planningId = $this->repository->postOne($body);
-        } catch (MissingArgumentException $e) {
-            return $this->getResponseMissingArgument($response);
-        } catch (\DomainException $e) {
-            return $this->getResponseBadDomainArgument($response, $e);
+            $planning = new Planning\Entite();
+            $planning->setName($body['name']);
+            $planning->setStatus($body['status']);
+
+            $this->entityManager->persist($planning);
+            $this->entityManager->flush();
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -130,7 +131,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         return $this->getResponseSuccess(
             $response,
             $this->router->pathFor('getPlanningDetail', [
-                'planningId' => $planningId
+                'planningId' => $planning->getId()
             ]),
             201
         );
@@ -149,11 +150,14 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         $id = (int) $arguments['planningId'];
 
         try {
-            $this->repository->putOne($id, $body);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
-        } catch (MissingArgumentException $e) {
-            return $this->getResponseMissingArgument($response);
+            $resource = $this->entityManager->find(Planning\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
+            $resource->setName($body['name']);
+            $resource->setStatus($body['status']);
+
+            $this->entityManager->flush();
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {

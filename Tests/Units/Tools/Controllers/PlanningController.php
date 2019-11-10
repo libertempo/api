@@ -28,11 +28,9 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     protected function initEntite()
     {
-        $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \mock\LibertAPI\Planning\PlanningEntite();
-        $this->entite->getMockController()->getId = 42;
-        $this->entite->getMockController()->getName = 12;
-        $this->entite->getMockController()->getStatus = 12;
+        $this->entite = new \LibertAPI\Planning\Entite();
+        $this->entite->setName(12);
+        $this->entite->setStatus(12);
     }
 
     /*************************************************
@@ -68,45 +66,15 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     }
 
     /**
-     * Teste la méthode post avec un argument de body manquant
-     */
-    public function testPostMissingRequiredArg()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->postOne = function () {
-            throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-
-        $response = $this->testedInstance->post($this->request, $this->response, []);
-
-        $this->assertFail($response, 412);
-    }
-
-    /**
-     * Teste la méthode post avec un argument de body incohérent
-     */
-    public function testPostBadDomain()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->postOne = function () {
-            throw new \DomainException('Status doit être un int');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-
-        $response = $this->testedInstance->post($this->request, $this->response, []);
-
-        $this->assertFail($response, 412);
-    }
-
-    /**
      * Teste la méthode post Ok
      */
     public function testPostOk()
     {
-        $this->request->getMockController()->getParsedBody = [];
+        $this->request->getMockController()->getParsedBody = [
+            'name' => 'Alter',
+            'status' => 'Ego',
+        ];
         $this->router->getMockController()->pathFor = '';
-        $this->repository->getMockController()->postOne = 42;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->post($this->request, $this->response, []);
@@ -125,8 +93,11 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testPostFallback()
     {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->postOne = function () {
+        $this->request->getMockController()->getParsedBody = [
+            'name' => 'Alter',
+            'status' => 'Ego',
+        ];
+        $this->entityManager->getMockController()->persist = function () {
             throw new \Exception('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -155,29 +126,12 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     }
 
     /**
-     * Teste la méthode put avec un argument de body manquant
-     */
-    public function testPutMissingRequiredArg()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-
-        $this->repository->getMockController()->putOne = function () {
-            throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);
-
-        $this->assertFail($response, 412);
-    }
-
-    /**
      * Teste la méthode put avec un argument de body incohérent
      */
     public function testPutBadDomain()
     {
         $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \DomainException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -193,7 +147,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -208,7 +162,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = $this->entite;
+        $this->entityManager->getMockController()->find = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['planningId' => 99]);

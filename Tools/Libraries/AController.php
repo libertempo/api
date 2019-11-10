@@ -22,11 +22,6 @@ use Doctrine\ORM\EntityManager;
 abstract class AController
 {
     /**
-     * @var ARepository Repository de la ressource
-     */
-    protected $repository;
-
-    /**
      * @var IRouter Routeur de l'application
      */
     protected $router;
@@ -38,7 +33,6 @@ abstract class AController
 
     public function __construct(ARepository $repository, IRouter $router, EntityManager $entityManager)
     {
-        $this->repository = $repository;
         $this->router = $router;
         $this->entityManager = $entityManager;
     }
