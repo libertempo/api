@@ -41,8 +41,11 @@ class UtilisateurRepository extends \LibertAPI\Tools\Libraries\ARepository
 
     public function getOne($id) : AEntite
     {
+        // @TODO: supprimer cette ligne quand on passera à DBAL > 2.6 : https://github.com/doctrine/dbal/commit/e937f37a8acc117047ff4ed9aec493a1e3de2195
+        $this->queryBuilder->resetQueryParts();
         $this->queryBuilder->select('*, u_login AS id');
-        $this->setWhere(['id' => $id]);
+        $this->setWhere(['u_login' => $id]);
+        $this->queryBuilder->from($this->getTableName(), 'current');
         $res = $this->queryBuilder->execute();
 
         $data = $res->fetch(\PDO::FETCH_ASSOC);

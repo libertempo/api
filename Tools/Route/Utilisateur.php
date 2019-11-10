@@ -11,6 +11,15 @@ use LibertAPI\Tools\Controllers\UtilisateurEmployeController;
 
 /* Routes sur l'utilisateur et associés */
 
-$app->get('/utilisateur', [UtilisateurController::class, 'get'])->setName('getUtilisateurListe');
+$app->group('/utilisateur', function () {
+    // DEPRECATED depuis 1.10. Remplacé par /employe/me
+    $this->group('/{utilisateurId:[0-9]+}', function () {
+        /* Detail */
+        $this->get('', [UtilisateurController::class, 'get'])->setName('getUtilisateurDetail');
+    });
 
-$app->get('/employe/me', [UtilisateurEmployeController::class, 'get'])->setName('getUtilisateurListe');
+    /* Collection */
+    $this->get('', [UtilisateurController::class, 'get'])->setName('getUtilisateurListe');
+});
+
+$app->get('/employe/me', [UtilisateurEmployeController::class, 'get'])->setName('getUtilisateurDetail');
