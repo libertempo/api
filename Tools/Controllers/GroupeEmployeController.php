@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface as IRequest;
 use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Groupe\Employe;
+use LibertAPI\Groupe;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -32,15 +33,21 @@ implements Interfaces\IGetable
      */
     public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
-        $parameters = array_merge($arguments, $request->getQueryParams());
         try {
-            $employes = $this->repository->getList($parameters);
-        } catch (\UnexpectedValueException $e) {
-            return $this->getResponseNoContent($response);
+            $repository = $this->entityManager->getRepository(Groupe\Entite::class);
+
+            $group = $repository->find($arguments['groupeId']);
+            if (null === $group) {
+                return $this->getResponseNotFound($response, 'Element « #' . $arguments['groupeId'] . ' » is not a valid resource');
+            }
+            $resources = $group->getEmployesGroupe();
+            if (empty($resources)) {
+                return $this->getResponseNoContent($response);
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        $entites = array_map([$this, 'buildData'], $employes);
+        $entites = array_map([$this, 'buildData'], $resources);
 
         return $this->getResponseSuccess($response, $entites, 200);
     }
@@ -52,7 +59,7 @@ implements Interfaces\IGetable
      *
      * @return array
      */
-    private function buildData(Employe\EmployeEntite $entite) : array
+    private function buildData(\LibertAPI\Utilisateur\Entite $entite) : array
     {
         return [
             'login' => $entite->getLogin(),

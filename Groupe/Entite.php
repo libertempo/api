@@ -2,6 +2,7 @@
 namespace LibertAPI\Groupe;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Entite
@@ -42,6 +43,20 @@ class Entite
      */
     private $doubleValid = 'N';
 
+
+    /**
+     * Unidirectional - Many employees are attached to many groups
+     *
+     * @ManyToMany(targetEntity="LibertAPI\Utilisateur\Entite")
+     * @JoinTable(name="conges_groupe_users")
+     */
+    private $employesGroupe;
+
+
+    public function __construct()
+    {
+        $this->employesGroupe = new ArrayCollection();
+    }
 
     /**
      * Get id.
@@ -123,5 +138,14 @@ class Entite
     public function getDoubleValid()
     {
         return $this->doubleValid;
+    }
+
+    public function getEmployesGroupe() : array
+    {
+        return $this->employesGroupe->toArray();
+    }
+
+    public function addEmployeGroupe(\LibertAPI\Utilisateur\Entite $employe) {
+        $this->employesGroupe[] = $employe;
     }
 }

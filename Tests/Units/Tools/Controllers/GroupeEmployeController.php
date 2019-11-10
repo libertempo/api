@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 namespace LibertAPI\Tests\Units\Tools\Controllers;
 
-use LibertAPI\Groupe\Employe\EmployeEntite;
+use LibertAPI\Groupe\Entite;
 
 /**
  * Classe de test du contrôleur d'un employé de groupe
@@ -28,11 +28,9 @@ final class GroupeEmployeController extends \LibertAPI\Tests\Units\Tools\Librari
      */
     protected function initEntite()
     {
-        $this->entite = new EmployeEntite([
-            'id' => uniqid(),
-            'groupeId' => 97323,
-            'login' => 'Lewis',
-        ]);
+        $this->entite = new Entite();
+        $this->entite->setName(97323);
+        $this->entite->setDoubleValid(false);
     }
 
     /*************************************************
@@ -44,10 +42,13 @@ final class GroupeEmployeController extends \LibertAPI\Tests\Units\Tools\Librari
      */
     public function testGetFound()
     {
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->repository)->getList = [$this->entite,];
+        $repository = $this->entityManager->getRepository('');
+        $employe = new \LibertAPI\Utilisateur\Entite();
+        $employe->setLogin('test');
+        $this->entite->addEmployeGroupe($employe);
+        $this->calling($repository)->find = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-        $response = $this->testedInstance->get($this->request, $this->response, []);
+        $response = $this->testedInstance->get($this->request, $this->response, ['groupeId' => 32]);
         $data = $this->getJsonDecoded($response->getBody());
 
         $this->integer($response->getStatusCode())->isIdenticalTo(200);
@@ -65,12 +66,10 @@ final class GroupeEmployeController extends \LibertAPI\Tests\Units\Tools\Librari
      */
     public function testGetNotFound()
     {
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->repository)->getList = function () {
-            throw new \UnexpectedValueException('');
-        };
+        $repository = $this->entityManager->getRepository('');
+        $this->calling($repository)->find = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-        $response = $this->testedInstance->get($this->request, $this->response, []);
+        $response = $this->testedInstance->get($this->request, $this->response, ['groupeId' => 25]);
 
         $this->assertSuccessEmpty($response);
     }
@@ -80,13 +79,13 @@ final class GroupeEmployeController extends \LibertAPI\Tests\Units\Tools\Librari
      */
     public function testGetFallback()
     {
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->repository)->getList = function () {
+        $repository = $this->entityManager->getRepository('');
+        $this->calling($repository)->find = function () {
             throw new \Exception('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
-        $response = $this->testedInstance->get($this->request, $this->response, []);
+        $response = $this->testedInstance->get($this->request, $this->response, ['groupeId' => 85]);
         $this->assertError($response);
     }
 }
