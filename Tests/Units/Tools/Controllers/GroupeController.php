@@ -29,12 +29,10 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     protected function initEntite()
     {
         $this->mockGenerator->orphanize('__construct');
-        $this->entite = new \LibertAPI\Groupe\GroupeEntite([
-            'id' => 78,
-            'name' => 'Zola',
-            'comment' => 'Baudelaire',
-            'double_validation' => true
-        ]);
+        $this->entite = new \LibertAPI\Groupe\Entite();
+        $this->entite->setName('Zola');
+        $this->entite->setComment('Baudelaire');
+        $this->entite->setDoubleValid(true);
     }
 
     protected function getOne() : IResponse
@@ -66,45 +64,12 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     }
 
     /**
-     * Teste la méthode post avec un argument de body manquant
-     */
-    public function testPostMissingRequiredArg()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->postOne = function () {
-            throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-
-        $response = $this->testedInstance->post($this->request, $this->response, []);
-
-        $this->assertFail($response, 412);
-    }
-
-    /**
-     * Teste la méthode post avec un argument de body incohérent
-     */
-    public function testPostBadDomain()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->postOne = function () {
-            throw new \DomainException('Status doit être un int');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-
-        $response = $this->testedInstance->post($this->request, $this->response, []);
-
-        $this->assertFail($response, 412);
-    }
-
-    /**
      * Teste la méthode post Ok
      */
     public function testPostOk()
     {
-        $this->request->getMockController()->getParsedBody = [];
+        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
         $this->router->getMockController()->pathFor = '';
-        $this->repository->getMockController()->postOne = 42;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->post($this->request, $this->response, []);
@@ -123,8 +88,9 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
      */
     public function testPostFallback()
     {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->postOne = function () {
+        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
+        $this->router->getMockController()->pathFor = '';
+        $this->entityManager->getMockController()->persist = function () {
             throw new \Exception('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -153,45 +119,12 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     }
 
     /**
-     * Teste la méthode put avec un argument de body manquant
-     */
-    public function testPutMissingRequiredArg()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-
-        $this->repository->getMockController()->putOne = function () {
-            throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['groupeId' => 99]);
-
-        $this->assertFail($response, 412);
-    }
-
-    /**
-     * Teste la méthode put avec un argument de body incohérent
-     */
-    public function testPutBadDomain()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->putOne = function () {
-            throw new \DomainException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-
-        $response = $this->testedInstance->put($this->request, $this->response, ['groupeId' => 99]);
-
-        $this->assertFail($response, 412);
-    }
-
-    /**
      * Teste le fallback de la méthode putOne du put
      */
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -206,7 +139,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = $this->entite;
+        $this->entityManager->getMockController()->find = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->put($this->request, $this->response, ['groupeId' => 99]);
@@ -240,9 +173,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
      */
     public function testDeleteNotFound()
     {
-        $this->repository->getMockController()->deleteOne = function () {
-            throw new UnknownResourceException('');
-        };
+        $this->entityManager->getMockController()->find = null;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->delete($this->request, $this->response, ['groupeId' => 99]);
@@ -255,7 +186,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
      */
     public function testDeleteFallback()
     {
-        $this->repository->getMockController()->deleteOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -269,7 +200,7 @@ final class GroupeController extends \LibertAPI\Tests\Units\Tools\Libraries\ARes
      */
     public function testDeleteOk()
     {
-        $this->repository->getMockController()->deleteOne = 123;
+        $this->entityManager->getMockController()->find = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->delete($this->request, $this->response, ['groupeId' => 99]);

@@ -70,10 +70,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testPostOk()
     {
-        $this->request->getMockController()->getParsedBody = [
-            'name' => 'Alter',
-            'status' => 'Ego',
-        ];
+        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
         $this->router->getMockController()->pathFor = '';
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
@@ -93,10 +90,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testPostFallback()
     {
-        $this->request->getMockController()->getParsedBody = [
-            'name' => 'Alter',
-            'status' => 'Ego',
-        ];
+        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
         $this->entityManager->getMockController()->persist = function () {
             throw new \Exception('');
         };

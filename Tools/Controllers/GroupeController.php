@@ -98,13 +98,13 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
      *
      * @return array
      */
-    private function buildData(Groupe\GroupeEntite $entite)
+    private function buildData(Groupe\Entite $entite)
     {
         return [
             'id' => $entite->getId(),
             'name' => $entite->getName(),
             'comment' => $entite->getComment(),
-            'double_validation' => $entite->isDoubleValidated()
+            'double_validation' => $entite->getDoubleValid()
         ];
     }
 
@@ -119,11 +119,13 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $groupeId = $this->repository->postOne($body);
-        } catch (MissingArgumentException $e) {
-            return $this->getResponseMissingArgument($response);
-        } catch (\DomainException $e) {
-            return $this->getResponseBadDomainArgument($response, $e);
+            $groupe = new Groupe\Entite();
+            $groupe->setName($body['name']);
+            $groupe->setComment($body['comment']);
+            $groupe->setDoubleValid($body['double_validation']);
+
+            $this->entityManager->persist($groupe);
+            $this->entityManager->flush();
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -131,7 +133,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         return $this->getResponseSuccess(
             $response,
             $this->router->pathFor('getGroupeDetail', [
-                'groupeId' => $groupeId
+                'groupeId' => $groupe->getId()
             ]),
             201
         );
@@ -149,11 +151,15 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         $id = (int) $arguments['groupeId'];
         try {
-            $this->repository->putOne($id, $body);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
-        } catch (MissingArgumentException $e) {
-            return $this->getResponseMissingArgument($response);
+            $resource = $this->entityManager->find(Groupe\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
+            $resource->setName($body['name']);
+            $resource->setComment($body['comment']);
+            $resource->setDoubleValid($body['double_validation']);
+
+            $this->entityManager->flush();
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
@@ -170,9 +176,13 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         $id = (int) $arguments['groupeId'];
         try {
-            $this->repository->deleteOne($id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, '« #' . $id . ' » is not a valid resource');
+            $resource = $this->entityManager->find(Groupe\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
+
+            $this->entityManager->remove($resource);
+            $this->entityManager->flush();
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
