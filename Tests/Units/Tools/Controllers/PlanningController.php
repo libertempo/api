@@ -195,9 +195,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testDeleteNotFound()
     {
-        $this->repository->getMockController()->deleteOne = function () {
-            throw new UnknownResourceException('');
-        };
+        $this->entityManager->getMockController()->find = null;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->delete($this->request, $this->response, ['planningId' => 99]);
@@ -210,7 +208,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testDeleteFallback()
     {
-        $this->repository->getMockController()->deleteOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -224,7 +222,7 @@ final class PlanningController extends \LibertAPI\Tests\Units\Tools\Libraries\AR
      */
     public function testDeleteOk()
     {
-        $this->repository->getMockController()->deleteOne = 89172;
+        $this->entityManager->getMockController()->find = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
 
         $response = $this->testedInstance->delete($this->request, $this->response, ['planningId' => 99]);

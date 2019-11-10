@@ -174,9 +174,13 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         $id = (int) $arguments['planningId'];
         try {
-            $this->repository->deleteOne($id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « planning#' . $id . ' » is not a valid resource');
+            $resource = $this->entityManager->find(Planning\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
+
+            $this->entityManager->remove($resource);
+            $this->entityManager->flush();
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
