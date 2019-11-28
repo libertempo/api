@@ -187,7 +187,7 @@ function configurationLibertempo() : array
         AuthentificationController::class => function (C $c) {
             $repo = $c->get(UtilisateurRepository::class);
             $repo->setApplication($c->get(Application::class));
-            return new AuthentificationController($repo, $c->get(IRouter::class), $c->get(StorageConfiguration::class));
+            return new AuthentificationController($repo, $c->get(IRouter::class), $c->get(StorageConfiguration::class), $c->get(EntityManager::class));
         },
         Doctrine\DBAL\Driver\Connection::class => function (C $c) {
             return $c->get('storageConnector');
