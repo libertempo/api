@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as IResponse;
 use \Slim\Interfaces\RouterInterface as IRouter;
 use LibertAPI\Utilisateur;
 use LibertAPI\Tools\Exceptions\UnknownResourceException;
-
+use Doctrine\ORM\EntityManager;
 
 /**
  * Contrôleur d'utilisateurs
@@ -22,18 +22,14 @@ use LibertAPI\Tools\Exceptions\UnknownResourceException;
  */
 final class UtilisateurEmployeController extends \LibertAPI\Tools\Libraries\AController
 {
-    public function __construct(Utilisateur\UtilisateurRepository $repository, IRouter $router)
+    public function __construct(Utilisateur\UtilisateurRepository $repository, IRouter $router, EntityManager $entityManager)
     {
-        parent::__construct($repository, $router);
+        parent::__construct($repository, $router, $entityManager);
     }
 
     /*************************************************
      * GET
      *************************************************/
-
-    /* Mettre le niveau de droits autorisés
-        && ce que ces droits permettre de voir (l'utilisateur peut-il voir HR / admin ?)
-     */
 
      /**
       * {@inheritDoc}

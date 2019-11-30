@@ -22,4 +22,4 @@ $app->group('/utilisateur', function () {
     $this->get('', [UtilisateurController::class, 'get'])->setName('getUtilisateurListe');
 });
 
-$app->get('/employe/me', [UtilisateurEmployeController::class, 'get'])->setName('getUtilisateurDetail');
+$app->get('/employe/me', [UtilisateurEmployeController::class, 'get'])->setName('getEmployeMeDetail');
