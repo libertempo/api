@@ -49,6 +49,12 @@ class Entite
      */
     private $typeNatif;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="type_natif", type="boolean", nullable=false)
+     */
+    private $typeActif;
 
     /**
      * Get id.
@@ -154,5 +160,29 @@ class Entite
     public function isTypeNatif() : bool
     {
         return (bool) $this->typeNatif;
+    }
+
+    /**
+     * Set typeActif.
+     *
+     * @param bool $typeActif
+     *
+     * @return Entite
+     */
+    public function setTypeActif(bool $typeActif)
+    {
+        $this->typeActif = $typeActif;
+
+        return $this;
+    }
+
+    /**
+     * Get typeActif.
+     *
+     * @return bool
+     */
+    public function isTypeActif() : bool
+    {
+        return (bool) $this->typeActif;
     }
 }
