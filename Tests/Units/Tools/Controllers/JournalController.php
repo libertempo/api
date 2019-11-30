@@ -48,8 +48,8 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
      */
     public function testGetFound()
     {
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->repository)->getList = [$this->entite,];
+        $repository = $this->entityManager->getRepository('');
+        $repository->getMockController()->findAll = [$this->entite,];
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $data = $this->getJsonDecoded($response->getBody());
@@ -61,18 +61,16 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
             ->string['message']->isIdenticalTo('OK')
             //->array['data']->hasSize(1) // TODO: l'asserter atoum en sucre syntaxique est buggé, faire un ticket
         ;
-        $this->array($data['data'][0])->hasKey('id');
+        $this->boolean(empty($data['data']))->isFalse();
     }
 
     /**
-     * Teste la méthode get d'une liste non trouvée
+     * Teste la méthode get d'une liste vide
      */
-    public function testGetNotFound()
+    public function testGetNoContent()
     {
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->repository)->getList = function () {
-            throw new \UnexpectedValueException('');
-        };
+        $repository = $this->entityManager->getRepository('');
+        $repository->getMockController()->findAll = [];
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
         $response = $this->testedInstance->get($this->request, $this->response, []);
 
@@ -84,8 +82,8 @@ final class JournalController extends \LibertAPI\Tests\Units\Tools\Libraries\ACo
      */
     public function testGetFallback()
     {
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->repository)->getList = function () {
+        $repository = $this->entityManager->getRepository('');
+        $repository->getMockController()->findAll = function () {
             throw new \Exception('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);

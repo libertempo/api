@@ -32,15 +32,16 @@ implements Interfaces\IGetable
      */
     public function get(IRequest $request, IResponse $response, array $arguments) : IResponse
     {
-        $parameters = array_merge($arguments, $request->getQueryParams());
         try {
-            $employes = $this->repository->getList($parameters);
-        } catch (\UnexpectedValueException $e) {
-            return $this->getResponseNoContent($response);
+            $repository = $this->entityManager->getRepository(GrandResponsable\Entite::class);
+            $resources = $repository->findAll();
+            if (empty($resources)) {
+                return $this->getResponseNoContent($response);
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
-        $entites = array_map([$this, 'buildData'], $employes);
+        $entites = array_map([$this, 'buildData'], $resources);
 
         return $this->getResponseSuccess($response, $entites, 200);
     }

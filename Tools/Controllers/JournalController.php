@@ -30,11 +30,11 @@ final class JournalController extends \LibertAPI\Tools\Libraries\AController
     {
         unset($arguments);
         try {
-            $resources = $this->repository->getList(
-                $request->getQueryParams()
-            );
-        } catch (\UnexpectedValueException $e) {
-            return $this->getResponseNoContent($response);
+            $repository = $this->entityManager->getRepository(Journal\Entite::class);
+            $resources = $repository->findAll();
+            if (empty($resources)) {
+                return $this->getResponseNoContent($response);
+            }
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }

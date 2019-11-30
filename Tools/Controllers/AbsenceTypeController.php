@@ -90,17 +90,17 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     /**
      * Construit le « data » du json
      *
-     * @param Type\TypeEntite $entite Type
+     * @param Type\Entite $entite Type
      *
      * @return array
      */
-    private function buildData(Type\TypeEntite $entite)
+    private function buildData(Type\Entite $entite)
     {
         return [
             'id' => $entite->getId(),
             'type' => $entite->getType(),
             'libelle' => $entite->getLibelle(),
-            'libelleCourt' => $entite->getLibelleCourt(),
+            'libelleCourt' => $entite->getShortLibelle(),
             'typeNatif' => $entite->isTypeNatif(),
         ];
     }
@@ -116,11 +116,14 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         }
 
         try {
-            $typeId = $this->repository->postOne($body);
-        } catch (MissingArgumentException $e) {
-            return $this->getResponseMissingArgument($response);
-        } catch (\DomainException $e) {
-            return $this->getResponseBadDomainArgument($response, $e);
+            $type = new Type\Entite();
+            $type->setType($body['type']);
+            $type->setLibelle($body['libelle']);
+            $type->setShortLibelle($body['libelleCourt']);
+            $type->setTypeNatif($body['typeNatif']);
+
+            $this->entityManager->persist($type);
+            $this->entityManager->flush();
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }
@@ -128,7 +131,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
         return $this->getResponseSuccess(
             $response,
             $this->router->pathFor('getAbsenceTypeDetail', [
-                'typeId' => $typeId
+                'typeId' => $type->getId()
             ]),
             201
         );
@@ -146,11 +149,16 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
 
         $id = (int) $arguments['typeId'];
         try {
-            $this->repository->putOne($id, $body);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
-        } catch (MissingArgumentException $e) {
-            return $this->getResponseMissingArgument($response);
+            $resource = $this->entityManager->find(Type\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
+            $resource->setType($body['type']);
+            $resource->setLibelle($body['libelle']);
+            $resource->setShortLibelle($body['libelleCourt']);
+            $resource->setTypeNatif($body['typeNatif']);
+
+            $this->entityManager->flush();
         } catch (\DomainException $e) {
             return $this->getResponseBadDomainArgument($response, $e);
         } catch (\Exception $e) {
@@ -167,9 +175,13 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
     {
         $id = (int) $arguments['typeId'];
         try {
-            $this->repository->deleteOne($id);
-        } catch (UnknownResourceException $e) {
-            return $this->getResponseNotFound($response, 'Element « type#' . $id . ' » is not a valid resource');
+            $resource = $this->entityManager->find(Type\Entite::class, $id);
+            if (null === $resource) {
+                return $this->getResponseNotFound($response, 'Element « #' . $id . ' » is not a valid resource');
+            }
+
+            $this->entityManager->remove($resource);
+            $this->entityManager->flush();
         } catch (\Exception $e) {
             return $this->getResponseError($response, $e);
         }

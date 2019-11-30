@@ -39,13 +39,11 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     protected function initEntite()
     {
-        $this->entite = new \LibertAPI\Absence\Type\TypeEntite([
-            'id' => 42,
-            'type' => 'thieft',
-            'libelle' => 'GTA',
-            'libelleCourt' => 'vice',
-            'typeNatif' => true,
-        ]);
+        $this->entite = new \LibertAPI\Absence\Type\Entite();
+        $this->entite->setType('thieft');
+        $this->entite->setLibelle('GTA');
+        $this->entite->setShortLibelle('vice');
+        $this->entite->setTypeNatif(true);
     }
 
     protected function getOne() : IResponse
@@ -76,41 +74,11 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
     }
 
     /**
-     * Teste la méthode post avec un argument de body manquant
-     */
-    public function testPostMissingRequiredArg()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->postOne = function () {
-            throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-        $response = $this->testedInstance->post($this->request, $this->response, []);
-
-        $this->assertFail($response, 412);
-    }
-
-    /**
-     * Teste la méthode post avec un argument de body incohérent
-     */
-    public function testPostBadDomain()
-    {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->postOne = function () {
-            throw new \DomainException('Status doit être un int');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-        $response = $this->testedInstance->post($this->request, $this->response, []);
-
-        $this->assertFail($response, 412);
-    }
-
-    /**
      * Teste la méthode post Ok
      */
     public function testPostOk()
     {
-        $this->request->getMockController()->getParsedBody = [];
+        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
         $this->router->getMockController()->pathFor = '';
         $this->repository->getMockController()->postOne = 42;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -130,8 +98,8 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     public function testPostFallback()
     {
-        $this->request->getMockController()->getParsedBody = [];
-        $this->repository->getMockController()->postOne = function () {
+        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
+        $this->entityManager->getMockController()->persist = function () {
             throw new \Exception('');
         };
 
@@ -164,7 +132,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     public function testPutNotFound()
     {
-        $this->request->getMockController()->getParsedBody = [];
+        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
         $this->repository->getMockController()->putOne = function () {
             throw new UnknownResourceException('');
         };
@@ -174,29 +142,14 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
         $this->boolean($response->isNotFound())->isTrue();
     }
 
-    /**
-     * Teste la méthode put avec un argument de body manquant
-     */
-    public function testPutMissingRequiredArg()
-    {
-        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-
-        $this->repository->getMockController()->putOne = function () {
-            throw new \LibertAPI\Tools\Exceptions\MissingArgumentException('');
-        };
-        $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
-        $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
-
-        $this->assertFail($response, 412);
-    }
 
     /**
      * Teste la méthode put avec un argument de body incohérent
      */
     public function testPutBadDomain()
     {
-        $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = function () {
+        $this->request->getMockController()->getParsedBody = [];
+        $this->entityManager->getMockController()->find = function () {
             throw new \DomainException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -211,7 +164,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
     public function testPutPutOneFallback()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -226,7 +179,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
     public function testPutOk()
     {
         $this->request->getMockController()->getParsedBody = $this->getEntiteContent();
-        $this->repository->getMockController()->putOne = $this->entite;
+        $this->entityManager->getMockController()->find = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
         $response = $this->testedInstance->put($this->request, $this->response, ['typeId' => 99]);
 
@@ -274,7 +227,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     public function testDeleteFallback()
     {
-        $this->repository->getMockController()->deleteOne = function () {
+        $this->entityManager->getMockController()->find = function () {
             throw new \LogicException('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
@@ -288,7 +241,7 @@ final class AbsenceTypeController extends \LibertAPI\Tests\Units\Tools\Libraries
      */
     public function testDeleteOk()
     {
-        $this->calling($this->repository)->deleteOne = 34;
+        $this->entityManager->getMockController()->find = $this->entite;
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
         $response = $this->testedInstance->delete($this->request, $this->response, ['typeId' => 99]);
         $data = $this->getJsonDecoded($response->getBody());

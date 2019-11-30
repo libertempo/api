@@ -45,8 +45,8 @@ final class GroupeGrandResponsableController extends \LibertAPI\Tests\Units\Tool
      */
     public function testGetFound()
     {
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->repository)->getList = [$this->entite,];
+        $repository = $this->entityManager->getRepository('');
+        $repository->getMockController()->findAll = [$this->entite,];
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
         $response = $this->testedInstance->get($this->request, $this->response, []);
         $data = $this->getJsonDecoded($response->getBody());
@@ -81,8 +81,8 @@ final class GroupeGrandResponsableController extends \LibertAPI\Tests\Units\Tool
      */
     public function testGetFallback()
     {
-        $this->calling($this->request)->getQueryParams = [];
-        $this->calling($this->repository)->getList = function () {
+        $repository = $this->entityManager->getRepository('');
+        $repository->getMockController()->findAll = function () {
             throw new \Exception('');
         };
         $this->newTestedInstance($this->repository, $this->router, $this->entityManager);
