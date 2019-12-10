@@ -21,13 +21,13 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
             case 'Absence|Periode':
             case 'Absence|Type':
             case 'Authentification':
+            case 'Employe|Me':
             case 'Employe|Me|Heure|Repos':
             case 'Employe|Me|Heure|Additionnelle':
             case 'Employe|Me|Solde':
             case 'HelloWorld':
             case 'Journal':
             case 'Planning|Creneau':
-            case 'Utilisateur':
                 return $next($request, $response);
             case 'Groupe':
             case 'Groupe|Employe':
@@ -44,6 +44,7 @@ final class AccessChecker extends \LibertAPI\Tools\AMiddleware
 
                 return $next($request, $response);
             case 'JourFerie':
+            case 'Utilisateur':
                 $user = $request->getAttribute('currentUser');
                 if (!$user->isHautResponsable()) {
                     return call_user_func(
