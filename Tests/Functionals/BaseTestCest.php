@@ -13,7 +13,7 @@ class BaseTestCest
 
     final protected function seeResponseOK(\ApiTester $i)
     {
-        $i->seeResponseEquals('');
+        //$i->seeResponseEquals('');
         $i->seeResponseIsJson();
         $i->seeResponseCodeIs(200);
     }
