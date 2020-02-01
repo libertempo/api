@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0589e900174820a324a9d6c165c25b0",
+    "content-hash": "f3df26fbf5da0180c4005ae6d9c46670",
     "packages": [
         {
             "name": "adldap2/adldap2",
@@ -1081,16 +1081,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.25.1",
+            "version": "1.25.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf"
+                "reference": "fa82921994db851a8becaf3787a9e73c5976b6f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
-                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fa82921994db851a8becaf3787a9e73c5976b6f1",
+                "reference": "fa82921994db851a8becaf3787a9e73c5976b6f1",
                 "shasum": ""
             },
             "require": {
@@ -1155,7 +1155,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2019-09-06T13:49:17+00:00"
+            "time": "2019-12-20T14:15:16+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -1549,16 +1549,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2"
+                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
-                "reference": "bf73deb2b3b896a9d9c75f3f0d88185d2faa27e2",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
+                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
                 "shasum": ""
             },
             "require": {
@@ -1592,7 +1592,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2019-10-25T08:06:51+00:00"
+            "time": "2019-11-01T11:05:21+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -1644,21 +1644,21 @@
         },
         {
             "name": "rollbar/rollbar",
-            "version": "v1.8.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "8a57ad9574d85bd818eaedfc8049fdcb16795f31"
+                "reference": "245670b32d8e6072d6b364eda242f245879cdee9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/8a57ad9574d85bd818eaedfc8049fdcb16795f31",
-                "reference": "8a57ad9574d85bd818eaedfc8049fdcb16795f31",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/245670b32d8e6072d6b364eda242f245879cdee9",
+                "reference": "245670b32d8e6072d6b364eda242f245879cdee9",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "monolog/monolog": "^1",
+                "monolog/monolog": "^1 || ^2",
                 "psr/log": "^1"
             },
             "require-dev": {
@@ -1666,7 +1666,7 @@
                 "mockery/mockery": "0.9.*",
                 "packfire/php5.3-compat": "*",
                 "phpmd/phpmd": "@stable",
-                "phpunit/phpunit": "4.8.*",
+                "phpunit/phpunit": "4.8.* || ^5",
                 "squizlabs/php_codesniffer": "2.*"
             },
             "suggest": {
@@ -1699,7 +1699,7 @@
                 "logging",
                 "monitoring"
             ],
-            "time": "2019-05-06T11:31:11+00:00"
+            "time": "2019-10-02T06:24:31+00:00"
         },
         {
             "name": "slim/slim",
