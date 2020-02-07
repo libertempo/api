@@ -52,7 +52,7 @@ class Entite
     /**
      * @var bool
      *
-     * @ORM\Column(name="type_natif", type="boolean", nullable=false)
+     * @ORM\Column(name="type_actif", type="boolean", nullable=false)
      */
     private $typeActif;
 

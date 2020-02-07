@@ -39,7 +39,7 @@ class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
             'libelle' => $dataStorage['ta_libelle'],
             'libelleCourt' => $dataStorage['ta_short_libelle'],
             'typeNatif' => (bool) $dataStorage['type_natif'],
-            'typeActif' => (bool) $dataStorage['type_actif'],
+            'typeActif' => (bool) $dataStorage['ta_actif'],
         ];
     }
 
