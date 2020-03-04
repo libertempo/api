@@ -85,7 +85,7 @@ class TypeRepository extends \LibertAPI\Tools\Libraries\ARepository
             'libelle' => $entite->getLibelle(),
             'libelleCourt' => $entite->getLibelleCourt(),
             'typeNatif' => $entite->isTypeNatif(),
-            'typeactif' => $entite->isTypeActif(),
+            'typeActif' => $entite->isTypeActif(),
         ];
     }
 
