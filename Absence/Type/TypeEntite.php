@@ -59,7 +59,7 @@ class TypeEntite extends \LibertAPI\Tools\Libraries\AEntite
      */
     public function isTypeActif() : bool
     {
-        return $this->getFreshData('typeActif');
+        return $this->dataUpdated['typeActif'] ?? $this->data['typeAtif'] ?? true;
     }
 
     /**
