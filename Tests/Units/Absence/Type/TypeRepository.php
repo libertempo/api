@@ -19,6 +19,7 @@ final class TypeRepository extends \LibertAPI\Tests\Units\Tools\Libraries\ARepos
             'ta_libelle' => 'libelle',
             'ta_short_libelle' => 'li',
             'type_natif' => 1,
+            'ta_actif' => 1,
         ];
     }
 

@@ -53,6 +53,15 @@ class TypeEntite extends \LibertAPI\Tools\Libraries\AEntite
         return $this->dataUpdated['typeNatif'] ?? $this->data['typeNatif'] ?? false;
     }
 
+
+    /**
+     * Retourne la donnée la plus à jour du champ type actif
+     */
+    public function isTypeActif() : bool
+    {
+        return $this->dataUpdated['typeActif'] ?? $this->data['typeAtif'] ?? true;
+    }
+
     /**
      * @inheritDoc
      */

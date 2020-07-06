@@ -101,6 +101,7 @@ implements Interfaces\IGetable, Interfaces\IPostable, Interfaces\IPutable, Inter
             'libelle' => $entite->getLibelle(),
             'libelleCourt' => $entite->getLibelleCourt(),
             'typeNatif' => $entite->isTypeNatif(),
+            'typeActif' => $entite->isTypeActif(),
         ];
     }
 
