@@ -29,6 +29,29 @@ class StorageConfiguration
         }
     }
 
+
+    /**
+     * Retourne l'url racine du site
+     *
+     * @return string
+     */
+    public function getUrlAccueil()
+    {
+        return $this->getGroupeServeurValeur('URL_ACCUEIL_CONGES');
+    }
+
+    /**
+     * Retourne une valeur du groupe de Libertempo par son nom
+     *
+     * @param string $nom
+     *
+     * @return mixed
+     */
+    private function getGroupeServeurValeur($nom)
+    {
+        return $this->getValeur($nom, '01_Serveur Web');
+    }
+
     public function getHowToConnectUser() : string
     {
         return $this->getGroupeAuthentificationValeur('how_to_connect_user');
